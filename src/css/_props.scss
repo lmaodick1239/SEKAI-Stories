@@ -1,0 +1,41 @@
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.top-left {
+    top: 0;
+    left: 0;
+    // padding: inherit;
+}
+
+.top-right {
+    top: 0;
+    right: 0;
+    padding: inherit;
+}
+
+.bottom-left {
+    bottom: 0;
+    left: 0;
+    padding: inherit;
+}
+
+.flex-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-horizontal {
+    display: flex;
+    flex-direction: row;
+}

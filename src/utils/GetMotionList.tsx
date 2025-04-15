@@ -1,0 +1,34 @@
+interface IMotionList {
+    Expression: Array<object>;
+    Pose: Array<object>;
+}
+
+interface IData {
+    FileReferences: Record<"Motions", IMotionList>;
+    url: string;
+}
+
+const GetMotionList = (filename: string, data: IData) => {
+    const poseMotions = [];
+    const expressions = [];
+    for (const [key, value] of Object.entries(data.FileReferences.Motions)) {
+        const addedValue = [...value];
+        addedValue[0].Name = key;
+        if (key.startsWith("w-")) {
+            poseMotions.push(...addedValue);
+        }
+        if (key.startsWith("face_")) {
+            expressions.push(...addedValue);
+        }
+    }
+    data.FileReferences.Motions = {
+        Pose: poseMotions,
+        Expression: expressions,
+    };
+
+    data.url = `/models/${filename}/`;
+    console.log(data);
+    return data;
+};
+
+export default GetMotionList;

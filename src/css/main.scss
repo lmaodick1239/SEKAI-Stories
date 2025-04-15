@@ -1,0 +1,40 @@
+@import "colors";
+@import "fonts";
+@import "text";
+@import "button";
+@import "checkbox";
+@import "textbox";
+@import "slider";
+@import "selectbox";
+@import "props";
+@import "content";
+@import "sidebar";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+body {
+    min-height: 100dvh;
+}
+
+main {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+}
+
+img {
+    box-shadow: none;
+    border: 0px;
+    object-fit: cover;
+}
+
+canvas {
+    width: 90%;
+    font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
+    border: $dark-miku 2px solid;
+}

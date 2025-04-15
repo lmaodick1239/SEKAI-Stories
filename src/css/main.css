@@ -1,0 +1,379 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap");
+@font-face {
+  font-family: "FOT-RodinNTLGPro-DB";
+  src: url("/fonts/FOT-RodinNTLGPro-DB.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FOT-RodinNTLGPro-EB";
+  src: url("/fonts/FOT-RodinNTLGPro-EB.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+h1,
+h2 {
+  font-weight: 900;
+}
+
+h1,
+h2,
+h3,
+p {
+  color: #444466;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+p {
+  font-size: 16px;
+}
+
+button {
+  font-family: "FOT-RodinNTLGPro-EB";
+  border: none;
+  margin: 10px 0px;
+}
+
+button.btn-regular {
+  padding: 8px 50px;
+  font-size: 20px;
+  border-radius: 25px;
+  box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
+  min-width: 200px;
+}
+
+button.btn-circle {
+  font-size: 20px;
+  border-radius: 30px;
+  box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
+  min-width: 60px;
+  min-height: 60px;
+}
+
+button.btn-extend-width {
+  width: 100%;
+}
+
+button.btn-blue {
+  background-color: #77eedd;
+  color: #444466;
+}
+
+button.btn-white {
+  background-color: #ffffff;
+  color: #444466;
+}
+
+button.btn-pink {
+  background-color: #ff5599;
+  color: #ffffff;
+}
+
+button.btn-orange {
+  background-color: #ffbb00;
+  color: #444466;
+}
+
+button.btn-100 {
+  width: 100%;
+}
+
+input[type=checkbox] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  background: none;
+  border: 0;
+  outline: 0;
+  flex-grow: 0;
+  background-color: #ffffff;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0px 0px 4px 0px rgba(68, 68, 102, 0.5);
+}
+
+input[type=checkbox]::before {
+  content: "";
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background-color: transparent;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 1px #ffffff;
+}
+
+input[type=checkbox]:checked::before {
+  box-shadow: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='24' viewBox='0 0 30 24' fill='none'%3E%3Cline x1='2.82843' y1='9.17157' x2='14.8284' y2='21.1716' stroke='%23FF77AC' stroke-width='8'/%3E%3Cline x1='9.17157' y1='21.1716' x2='27.1716' y2='3.17157' stroke='%23FF77AC' stroke-width='8'/%3E%3C/svg%3E");
+  background-size: 70%;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.checkbox__label {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+input[type=text] {
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
+  font-size: 20px;
+  padding: 8px 50px 8px 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' class='bi bi-pencil' viewBox='0 0 16 16'%3E%3Cpath d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: 50%;
+  color: #444466;
+  width: 100%;
+  margin: 10px 0px;
+}
+
+textarea {
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
+  font-size: 20px;
+  padding: 8px 50px 8px 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' class='bi bi-pencil' viewBox='0 0 16 16'%3E%3Cpath d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: 20px;
+  line-height: 30px;
+  color: #444466;
+  width: 100%;
+  resize: vertical;
+  margin: 10px 0px;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  height: 5px;
+  margin: 15px 0;
+  width: 100%;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  background: #77eedd;
+  height: 5px;
+}
+
+input[type=range]::-moz-range-track {
+  background: #77eedd;
+  height: 5px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  border: 3px #ffffff solid;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
+  height: 20px;
+  width: 20px;
+  margin-top: -7px;
+}
+
+input[type=range]::-moz-range-thumb {
+  border: 3px #ffffff solid;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
+  height: 20px;
+  width: 20px;
+}
+
+select {
+  font-family: "FOT-RodinNTLGPro-EB";
+  border: none;
+  padding: 8px 50px 8px 20px;
+  font-size: 20px;
+  border-radius: 25px;
+  box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
+  min-width: 100%;
+  max-width: 100%;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='50' width='50' viewBox='0 0 25 25' xmlns='http://www.w3.org/2000/svg'><path d='M7 9l5 8 5-8z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  background-position-y: 50%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-overflow: ellipsis;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.top-left {
+  top: 0;
+  left: 0;
+}
+
+.top-right {
+  top: 0;
+  right: 0;
+  padding: inherit;
+}
+
+.bottom-left {
+  bottom: 0;
+  left: 0;
+  padding: inherit;
+}
+
+.flex-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+#content {
+  height: 100dvh;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+#sidebar {
+  min-width: 300px;
+  max-width: 300px;
+  height: 100dvh;
+  padding: 25px;
+  background-color: #ebebf2;
+}
+
+.sidebar__select {
+  font-size: 32px;
+}
+
+.option {
+  margin-top: 15px;
+}
+
+#background-picker {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  height: 180px;
+  width: 100%;
+  border-radius: 10px;
+  border: 2px #ffffff solid;
+  cursor: pointer;
+}
+
+#picker {
+  padding: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7333333333);
+  height: 100dvh;
+  width: 100vw;
+  z-index: 999;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.picker-item {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+  aspect-ratio: 1/1;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.picker-item:hover {
+  z-index: 10;
+  cursor: pointer;
+  transform: scale(1.5);
+}
+
+#picker-close {
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  margin: inherit;
+  filter: drop-shadow(0px 0px 2px #000);
+  z-index: 10000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+main {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+}
+
+img {
+  box-shadow: none;
+  border: 0px;
+  object-fit: cover;
+}
+
+canvas {
+  width: 90%;
+  font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
+  border: #00ccbb 2px solid;
+}
+
+/*# sourceMappingURL=main.css.map */
