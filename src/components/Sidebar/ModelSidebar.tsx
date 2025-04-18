@@ -20,6 +20,7 @@ interface ModelSidebarProps {
 }
 
 const ModelSidebar: React.FC<ModelSidebarProps> = () => {
+    const context = useContext(AppContext);
     const [poseFile, setPoseFile] = useState<IData | undefined>(undefined);
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
         undefined
@@ -81,12 +82,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
         return live2DModel;
     };
-    const context = useContext(AppContext);
 
     useEffect(() => {
         if (!context?.models || currentKey) return;
+        const entries = Object.entries(context.models);
+        if (entries.length === 0) return;
 
-        const [firstKey, firstModel] = Object.entries(context.models)[0];
+        const [firstKey, firstModel] = entries[0];
         setCurrentKey(firstKey);
         setCurrentModel(firstModel);
         setCurrentSelectedCharacter(firstModel.character);
