@@ -7,6 +7,7 @@ import GetMotionList, {
     IData,
     IExpressionPoseList,
 } from "../../utils/GetMotionList";
+import { Live2DModel } from "pixi-live2d-display";
 
 interface CharacterData {
     [key: string]: string[];
@@ -23,19 +24,55 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
         undefined
     );
+    const [currentKey, setCurrentKey] = useState<string>("");
+    const [currentSelectedCharacter, setCurrentSelectedCharacter] =
+        useState<string>("");
 
+    const getPoseFile = async (filename: string) => {
+        const data = await (
+            await axios.get(`/models/${filename}/${filename}.model3.json`)
+        ).data;
+        const poseFile = await GetMotionList(filename, data);
+        setPoseFile(poseFile);
+    };
+
+    const updateModelState = (updates: Partial<IModel>) => {
+        setModels((prevModels) => ({
+            ...prevModels,
+            [currentKey]: {
+                ...currentModel!,
+                ...updates,
+            },
+        }));
+        setCurrentModel((prevModel) => ({
+            ...prevModel!,
+            ...updates,
+        }));
+    };
+
+    const loadModel = async (filename: string): Promise<Live2DModel> => {
+        const getmodel = await axios.get(
+            `/models/${filename}/${filename}.model3.json`
+        );
+        const data = GetMotionList(filename, getmodel.data);
+        const live2DModel = await Live2DModel.from(data, {
+            autoInteract: false,
+        });
+        live2DModel.scale.set(currentModel?.modelScale);
+        live2DModel.position.set(currentModel?.modelX, currentModel?.modelY);
+        currentModel?.model.destroy();
+        modelContainer?.addChildAt(live2DModel, 0);
+
+        return live2DModel
+    }
     const context = useContext(AppContext);
+
     useEffect(() => {
-        const getPoseFile = async (filename: string) => {
-            const data = await (
-                await axios.get(`/models/${filename}/${filename}.model3.json`)
-            ).data;
-            const poseFile = await GetMotionList(filename, data);
-            setPoseFile(poseFile);
-        };
         if (context?.models && Object.keys(context.models).length > 0) {
             const key = Object.keys(context?.models)[0];
+            setCurrentKey(key);
             setCurrentModel(context?.models[key]);
+            setCurrentSelectedCharacter(context?.models[key].character);
             getPoseFile(context.models[key].file);
         }
     }, [context?.models]);
@@ -43,38 +80,96 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     if (!context || !context.models) {
         return "Please wait...";
     }
-    console.log(poseFile);
 
-    const { models, setModels, layers, setLayers } = context;
+    const { models, setModels, modelContainer, layers, setLayers } = context;
+    console.log(models);
 
-    console.log(currentModel);
-
-    const handleCharacterChange = (
+    const handleCharacterChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        setSelectedCharacter(event.target.value);
+        const character = event?.target.value;
+        setCurrentSelectedCharacter(character);
+        const firstfile = characterData[character as keyof typeof characterData][0];
+        const live2DModel = await loadModel(firstfile)
+        updateModelState({
+            character: character,
+            model: live2DModel,
+            pose: 99999,
+            expression: 99999,
+            file: firstfile,
+        });
     };
 
     const handleFileChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        const fileName = event.target.value;
-        setSelectedFile(fileName);
-        const json_file = await (
-            await axios.get(`/models/${fileName}/${fileName}.model3.json`)
-        ).data;
+        const filename = event?.target.value;
+        const live2DModel = await loadModel(filename)
+        updateModelState({
+            character: currentSelectedCharacter,
+            model: live2DModel,
+            pose: 99999,
+            expression: 99999,
+            file: filename,
+        });
+    };
+
+    const handlePoseChange = async (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        const pose = Number(event?.target.value);
+        currentModel?.model.motion("Pose", pose);
+        updateModelState({ pose });
+    };
+
+    const handleExpressionChange = async (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        const expression = Number(event?.target.value);
+        currentModel?.model.motion("Expression", expression);
+        updateModelState({ expression });
+    };
+
+    const handleXTransform = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const x = Number(event?.target.value);
+        currentModel?.model.position.set(x, currentModel.modelY);
+        updateModelState({ modelX: x });
+    };
+
+    const handleYTransform = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const y = Number(event?.target.value);
+        currentModel?.model.position.set(currentModel.modelX, y);
+        updateModelState({ modelY: y });
+    };
+
+    const handleScaleTransform = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const scale = Number(event?.target.value);
+        currentModel?.model.scale.set(currentModel.modelScale, scale);
+        updateModelState({ modelScale: scale });
     };
 
     return (
         <div>
             <h1>Model</h1>
             <div className="option">
-                <h2>Layer</h2>
+                <h2>Selected Layer</h2>
                 <div className="option__content">
                     <select onChange={handleCharacterChange}>
                         {Object.keys(models).map((model, idx) => (
                             <option key={model} value={model}>
-                                Layer {idx}: {models[model].character}
+                                Layer {idx}:{" "}
+                                {models[model].character
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    models[model].character
+                                        .slice(1)
+                                        .toLowerCase()}
                             </option>
                         ))}
                     </select>
@@ -84,12 +179,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 <h2>Character</h2>
                 <div className="option__content">
                     <select
-                        value={currentModel?.character}
+                        value={currentSelectedCharacter}
                         onChange={handleCharacterChange}
                     >
                         {Object.keys(characterData).map((character) => (
                             <option key={character} value={character}>
-                                {character}
+                                {character.charAt(0).toUpperCase() +
+                                    character.slice(1).toLowerCase()}
                             </option>
                         ))}
                     </select>
@@ -103,7 +199,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         onChange={handleFileChange}
                     >
                         {currentModel?.character &&
-                            typedCharacterData[currentModel?.character]?.map(
+                            typedCharacterData[currentSelectedCharacter]?.map(
                                 (file: string) => (
                                     <option key={file} value={file}>
                                         {file}
@@ -117,7 +213,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 <h2>Emotion</h2>
                 <div className="option__content">
                     <h3>Pose</h3>
-                    <select value={currentModel?.pose}>
+                    <select
+                        value={currentModel?.pose}
+                        onChange={handlePoseChange}
+                    >
+                        <option value={99999} disabled>
+                            Select a pose
+                        </option>
                         {poseFile &&
                             poseFile.FileReferences.Motions.Pose.map(
                                 (o: IExpressionPoseList, idx) => (
@@ -130,7 +232,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 </div>
                 <div className="option__content">
                     <h3>Expression</h3>
-                    <select value={currentModel?.expression}>
+                    <select
+                        value={currentModel?.expression}
+                        onChange={handleExpressionChange}
+                    >
+                        <option value={99999} disabled>
+                            Select an expression
+                        </option>
                         {poseFile &&
                             poseFile.FileReferences.Motions.Expression.map(
                                 (o: IExpressionPoseList, idx) => (
@@ -140,6 +248,46 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 )
                             )}
                     </select>
+                </div>
+            </div>
+            <div className="option">
+                <h2>Transform</h2>
+                <div className="option__content">
+                    <h3>X-Position</h3>
+                    <input
+                        type="range"
+                        name="x-value"
+                        id="x-value"
+                        min={-720}
+                        max={1720}
+                        value={currentModel?.modelX}
+                        onChange={handleXTransform}
+                    />
+                </div>
+                <div className="option__content">
+                    <h3>Y-Position</h3>
+                    <input
+                        type="range"
+                        name="x-value"
+                        id="x-value"
+                        min={-1280}
+                        max={1280}
+                        value={currentModel?.modelY}
+                        onChange={handleYTransform}
+                    />
+                </div>
+                <div className="option__content">
+                    <h3>Scale</h3>
+                    <input
+                        type="range"
+                        name="x-value"
+                        id="x-value"
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        value={currentModel?.modelScale}
+                        onChange={handleScaleTransform}
+                    />
                 </div>
             </div>
         </div>

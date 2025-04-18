@@ -50,9 +50,7 @@ const TextSidebar: React.FC = () => {
         });
     };
 
-    const handleRefresh = () => {
-        refreshCanvas(context);
-    };
+   
 
     return (
         <div>
@@ -90,22 +88,7 @@ const TextSidebar: React.FC = () => {
                     />
                 </div>
             </div>
-            <h1>Experimental</h1>
-            <div className="option">
-                <div className="option__content">
-                    <h2>Refresh</h2>
-                    <button
-                        className="btn-regular btn-blue btn-100"
-                        onClick={handleRefresh}
-                    >
-                        Refresh
-                    </button>
-                    <p>
-                        If you don't see any changes, you may try refreshing the
-                        canvas.
-                    </p>
-                </div>
-            </div>
+            
         </div>
     );
 };

@@ -35,17 +35,17 @@ export const refreshCanvas = async (context: IAppContextType) => {
     transparentContainer.addChild(transparentSpriteForDialogue);
     transparentContainer.addChild(transparentSpriteForWhateverReason);
     initApplication.stage.addChildAt(transparentContainer, 0);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     if (background.backgroundContainer) {
         initApplication.stage.addChildAt(background.backgroundContainer, 1);
     }
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     if (modelContainer) {
         initApplication.stage.addChildAt(modelContainer, 2);
     }
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     const textBackgroundTexture = await Assets.load(
         "/img/Dialogue_Background.png"
@@ -54,13 +54,13 @@ export const refreshCanvas = async (context: IAppContextType) => {
     textBackgroundSprite.width = 1920;
     textBackgroundSprite.height = 1080;
     initApplication.stage.addChildAt(textBackgroundSprite, 3);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     initApplication.stage.addChildAt(text.nameTag, 4);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     initApplication.stage.addChildAt(text.dialogue, 5);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
 
     setApp(initApplication);
