@@ -31,7 +31,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     );
     const [text, setText] = useState<IText | undefined>(undefined);
     const [reset, setReset] = useState<number>(0);
-    const [hide, setHide] = useState<boolean>(false)
+    const [hide, setHide] = useState<boolean>(false);
 
     useEffect(() => {
         const runCanvas = async () => {
@@ -50,7 +50,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 height: 1080,
                 backgroundColor: 0x000000,
             });
-
 
             Live2DModel.registerTicker(PIXI.Ticker);
 
@@ -121,7 +120,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             textNameTag.position.set(225, 780);
 
             const textDialogue = new PIXI.Text(
-                "No, I will not do AiScream to you.",
+                "No, I will not do AiScream on you.",
                 {
                     fontFamily: "FOT-RodinNTLGPro-DB",
                     fontSize: 44,
@@ -170,7 +169,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 nameTag: textNameTag,
                 dialogue: textDialogue,
                 nameTagString: "Airi",
-                dialogueString: "No, I will not do AiScream to you.",
+                dialogueString: "No, I will not do AiScream on you.",
                 fontSize: 44,
             });
         };
@@ -199,7 +198,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 reset,
                 setReset,
                 hide,
-                setHide
+                setHide,
             }}
         >
             {children}
