@@ -18,11 +18,31 @@ const Content: React.FC = () => {
         }
     }, [context]);
 
+    if (!context) {
+        throw new Error("Context is not loaded properly.");
+    }
+    const { hide, setHide } = context;
+
     return (
         <div id="content" className="center" style={{ position: "relative" }}>
             <div id="content-background" ref={contentBackground}></div>
-            <SidebarSelect />
+
+            {!hide && <SidebarSelect />}
             <DownloadClearButtons />
+            <div className="absolute bottom-right">
+                <button
+                    className={`btn-circle ${hide ? "btn-pink" : "btn-white"}`}
+                    onClick={() => {
+                        setHide(!hide);
+                    }}
+                >
+                    {hide ? (
+                        <i className="sidebar__select bi bi-chevron-left" />
+                    ) : (
+                        <i className="sidebar__select bi bi-chevron-right" />
+                    )}
+                </button>
+            </div>
             <Canvas />
         </div>
     );

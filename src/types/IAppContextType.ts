@@ -22,4 +22,6 @@ export default interface IAppContextType {
     setText: Dispatch<SetStateAction<IText | undefined>>;
     reset: number;
     setReset: Dispatch<SetStateAction<number>>;
+    hide: boolean;
+    setHide: Dispatch<SetStateAction<boolean>>;
 }

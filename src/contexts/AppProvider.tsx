@@ -31,6 +31,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     );
     const [text, setText] = useState<IText | undefined>(undefined);
     const [reset, setReset] = useState<number>(0);
+    const [hide, setHide] = useState<boolean>(false)
 
     useEffect(() => {
         const runCanvas = async () => {
@@ -197,6 +198,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setText,
                 reset,
                 setReset,
+                hide,
+                setHide
             }}
         >
             {children}
