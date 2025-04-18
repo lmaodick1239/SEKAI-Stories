@@ -43,6 +43,7 @@ button {
   font-family: "FOT-RodinNTLGPro-EB";
   border: none;
   margin: 10px 0px;
+  cursor: pointer;
 }
 
 button.btn-regular {
@@ -233,6 +234,7 @@ select {
   text-overflow: ellipsis;
   margin: 10px 0px;
   color: #444466;
+  cursor: pointer;
 }
 
 .center {

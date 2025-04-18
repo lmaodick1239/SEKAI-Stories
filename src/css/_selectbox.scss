@@ -17,5 +17,6 @@ select {
     appearance: none;
     text-overflow: ellipsis;
     margin: 10px 0px;
-    color: $black
+    color: $black;
+    cursor: pointer;
 }
