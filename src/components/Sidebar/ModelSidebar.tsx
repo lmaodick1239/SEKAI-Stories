@@ -24,7 +24,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
         undefined
     );
-    const [currentKey, setCurrentKey] = useState<string>("");
+    const [currentKey, setCurrentKey] = useState<string >("");
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
 
@@ -63,19 +63,19 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         currentModel?.model.destroy();
         modelContainer?.addChildAt(live2DModel, 0);
 
-        return live2DModel
-    }
+        return live2DModel;
+    };
     const context = useContext(AppContext);
 
     useEffect(() => {
-        if (context?.models && Object.keys(context.models).length > 0) {
-            const key = Object.keys(context?.models)[0];
-            setCurrentKey(key);
-            setCurrentModel(context?.models[key]);
-            setCurrentSelectedCharacter(context?.models[key].character);
-            getPoseFile(context.models[key].file);
-        }
-    }, [context?.models]);
+        if (!context?.models || currentKey) return;
+
+        const [firstKey, firstModel] = Object.entries(context.models)[0];
+        setCurrentKey(firstKey);
+        setCurrentModel(firstModel);
+        setCurrentSelectedCharacter(firstModel.character);
+        getPoseFile(firstModel.file);
+    }, [context?.models, currentKey]);
 
     if (!context || !context.models) {
         return "Please wait...";
@@ -84,13 +84,40 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const { models, setModels, modelContainer, layers, setLayers } = context;
     console.log(models);
 
+    const handleLayerChange = async (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        const key = event?.target.value;
+        setCurrentKey(key);
+        setCurrentModel(models[key]);
+        setCurrentSelectedCharacter(models[key].character);
+        getPoseFile(models[key].file);
+        console.log(event?.target.value);
+    };
+
+    const handleDeleteLayer = async () => {
+        const modelsObjects = Object.entries(context.models);
+        if (modelsObjects.length == 1) {
+            alert("This is the only layer and cannot be deleted.");
+            return;
+        }
+        const firstKey = Object.keys(models)[0];
+        currentModel?.model.destroy()
+        delete models[currentKey];
+        setCurrentKey(firstKey);
+        setCurrentModel(models[firstKey]);
+        setCurrentSelectedCharacter(models[firstKey].character);
+        getPoseFile(models[firstKey].file);
+    };
+
     const handleCharacterChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const character = event?.target.value;
         setCurrentSelectedCharacter(character);
-        const firstfile = characterData[character as keyof typeof characterData][0];
-        const live2DModel = await loadModel(firstfile)
+        const firstfile =
+            characterData[character as keyof typeof characterData][0];
+        const live2DModel = await loadModel(firstfile);
         updateModelState({
             character: character,
             model: live2DModel,
@@ -104,7 +131,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const filename = event?.target.value;
-        const live2DModel = await loadModel(filename)
+        const live2DModel = await loadModel(filename);
         updateModelState({
             character: currentSelectedCharacter,
             model: live2DModel,
@@ -160,7 +187,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             <div className="option">
                 <h2>Selected Layer</h2>
                 <div className="option__content">
-                    <select onChange={handleCharacterChange}>
+                    <select value={currentKey} onChange={handleLayerChange}>
                         {Object.keys(models).map((model, idx) => (
                             <option key={model} value={model}>
                                 Layer {idx}:{" "}
@@ -173,6 +200,14 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             </option>
                         ))}
                     </select>
+                    <div id="layer-buttons">
+                        <button className="btn-circle btn-white">
+                            <i className="bi bi-plus-circle"></i>
+                        </button>
+                        <button className="btn-circle btn-white" onClick={handleDeleteLayer}>
+                            <i className="bi bi-trash3"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div className="option">

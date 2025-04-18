@@ -19,7 +19,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel>>({});
-    const [layers, setLayers] = useState<number>(1);
+    const [layers, setLayers] = useState<number>(2);
     const [modelContainer, setModelContainer] = useState<
         PIXI.Container | undefined
     >(undefined);
@@ -76,22 +76,35 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             // Load Sample Model
             const modelContainer = new PIXI.Container();
 
-            const getmodel = await axios.get(
+            const getmodel1 = await axios.get(
                 "/models/01ichika_cloth001/01ichika_cloth001.model3.json"
             );
 
-            const data = GetMotionList("01ichika_cloth001", getmodel.data);
+            const data1 = GetMotionList("01ichika_cloth001", getmodel1.data);
 
-            const live2DModel = await Live2DModel.from(data, {
+            const live2DModel1 = await Live2DModel.from(data1, {
                 autoInteract: false,
             });
-            live2DModel.scale.set(0.3);
+            live2DModel1.scale.set(0.3);
 
-            modelContainer.addChild(live2DModel);
+            const getmodel2 = await axios.get(
+                "/models/02saki_jc/02saki_jc.model3.json"
+            );
+
+            const data2 = GetMotionList("02saki_jc", getmodel2.data);
+
+            const live2DModel2 = await Live2DModel.from(data2, {
+                autoInteract: false,
+            });
+            live2DModel2.scale.set(0.3);
+            live2DModel2.position.set(300, 300)
+
+            modelContainer.addChildAt(live2DModel1, 0);
+            modelContainer.addChildAt(live2DModel2, 1);
             initApplication.stage.addChildAt(modelContainer, 2);
-            live2DModel.motion("Expression", 42);
+            live2DModel1.motion("Expression", 42);
             await new Promise((resolve) => setTimeout(resolve, 2000));
-            live2DModel.motion("Pose", 47);
+            live2DModel1.motion("Pose", 47);
 
             // Load Text
             const textContainer = new PIXI.Container();
@@ -140,12 +153,22 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 character1: {
                     character: "ichika",
                     file: "01ichika_cloth001",
-                    model: live2DModel,
-                    modelX: live2DModel.x,
-                    modelY: live2DModel.y,
-                    modelScale: live2DModel.scale.x,
+                    model: live2DModel1,
+                    modelX: live2DModel1.x,
+                    modelY: live2DModel1.y,
+                    modelScale: live2DModel1.scale.x,
                     expression: 42,
                     pose: 47,
+                },
+                character2: {
+                    character: "saki",
+                    file: "02saki_jc",
+                    model: live2DModel2,
+                    modelX: live2DModel2.x,
+                    modelY: live2DModel2.y,
+                    modelScale: live2DModel2.scale.x,
+                    expression: 99999,
+                    pose: 99999,
                 },
             });
             setModelContainer(modelContainer);
