@@ -30,12 +30,17 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         undefined
     );
     const [text, setText] = useState<IText | undefined>(undefined);
+    const [reset, setReset] = useState<number>(0);
 
     useEffect(() => {
         const runCanvas = async () => {
             const canvas = document.getElementById(
                 "canvas"
             ) as HTMLCanvasElement;
+
+            if (app) {
+                app?.stop();
+            }
 
             const initApplication = new PIXI.Application({
                 view: canvas,
@@ -45,7 +50,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 backgroundColor: 0x000000,
             });
 
-            // await Assets.load({src: "/font/FOT-RodinNTLGPro-DB.ttf", data: { family: "FOT-RodinNTLGPro-DB" }})
 
             Live2DModel.registerTicker(PIXI.Ticker);
 
@@ -115,16 +119,19 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             });
             textNameTag.position.set(225, 780);
 
-            const textDialogue = new PIXI.Text("No, I will not do AiScream on you.", {
-                fontFamily: "FOT-RodinNTLGPro-DB",
-                fontSize: 44,
-                fill: 0xffffff,
-                stroke: 0x5d5d79,
-                strokeThickness: 8,
-                wordWrap: true,
-                wordWrapWidth: 1450,
-                breakWords: true,
-            });
+            const textDialogue = new PIXI.Text(
+                "No, I will not do AiScream to you.",
+                {
+                    fontFamily: "FOT-RodinNTLGPro-DB",
+                    fontSize: 44,
+                    fill: 0xffffff,
+                    stroke: 0x5d5d79,
+                    strokeThickness: 8,
+                    wordWrap: true,
+                    wordWrapWidth: 1450,
+                    breakWords: true,
+                }
+            );
             textDialogue.position.set(245, 845);
 
             initApplication.stage.addChildAt(textBackgroundSprite, 3);
@@ -162,12 +169,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 nameTag: textNameTag,
                 dialogue: textDialogue,
                 nameTagString: "Airi",
-                dialogueString: "No, I will not do AiScream on you.",
+                dialogueString: "No, I will not do AiScream to you.",
                 fontSize: 44,
             });
         };
         runCanvas();
-    }, []);
+    }, [reset]);
 
     return (
         <AppContext.Provider
@@ -188,6 +195,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setBackground,
                 text,
                 setText,
+                reset,
+                setReset,
             }}
         >
             {children}

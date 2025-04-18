@@ -10,7 +10,7 @@ const DownloadClearButtons: React.FC = () => {
         return;
     }
 
-    const { app } = context;
+    const { app, reset, setReset } = context;
 
     const handleSave = () => {
         // const region = app?.stage.getBounds();
@@ -18,7 +18,7 @@ const DownloadClearButtons: React.FC = () => {
         const texture = app?.renderer.generateTexture(app.stage, { region });
         const dataURL = app?.renderer.plugins.extract.image(texture).src;
 
-        var a = document.createElement("a");
+        const a = document.createElement("a");
         a.href = dataURL;
         a.download = "canvas.png";
         document.body.append(a);
@@ -28,12 +28,19 @@ const DownloadClearButtons: React.FC = () => {
         refreshCanvas(context);
     };
 
+    const handleReset = () => {
+        const confirmation = confirm("This will clear the whole canvas. Any progress will be lost!\nClicking OK will proceed the action")
+        if (!confirmation) return
+        setReset(reset + 1)
+    }
+
+
     return (
         <div className="absolute bottom-left flex-vertical">
             <button className="btn-regular btn-blue" onClick={handleSave}>
                 Save
             </button>
-            <button className="btn-regular btn-white">Clear</button>
+            <button className="btn-regular btn-white" onClick={handleReset}>Clear</button>
         </div>
     );
 };

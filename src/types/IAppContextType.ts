@@ -20,4 +20,6 @@ export default interface IAppContextType {
     setBackground: Dispatch<SetStateAction<IBackground | undefined>>;
     text: IText | undefined;
     setText: Dispatch<SetStateAction<IText | undefined>>;
+    reset: number;
+    setReset: Dispatch<SetStateAction<number>>;
 }
