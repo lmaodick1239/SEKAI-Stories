@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+    - name: Suggestions
+      url: https://github.com/lezzthanthree/Sekai-Stories/discussions/categories/ideas
+      about: Any suggestions or feature requests go here
+    - name: "「Please add model/background」"
+      url: https://github.com/lezzthanthree/Sekai-Stories/discussions/categories/background
+      about: Any new model or background requests go here
