@@ -1,9 +1,13 @@
-interface IMotionList {
-    Expression: Array<object>;
-    Pose: Array<object>;
+export interface IExpressionPoseList {
+    Name: string;
 }
 
-interface IData {
+export interface IMotionList {
+    Expression: Array<IExpressionPoseList>;
+    Pose: Array<IExpressionPoseList>;
+}
+
+export interface IData {
     FileReferences: Record<"Motions", IMotionList>;
     url: string;
 }

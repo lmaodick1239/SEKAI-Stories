@@ -10,6 +10,8 @@ export default interface IAppContextType {
     setApp: Dispatch<SetStateAction<PIXI.Application | undefined>>;
     models: Record<string, IModel>;
     setModels: Dispatch<SetStateAction<Record<string, IModel>>>;
+    layers: number;
+    setLayers: Dispatch<SetStateAction<number>>;
     modelContainer: PIXI.Container | undefined;
     setModelContainer: Dispatch<SetStateAction<PIXI.Container | undefined>>;
     background: IBackground | undefined;

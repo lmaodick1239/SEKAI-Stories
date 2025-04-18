@@ -19,6 +19,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel>>({});
+    const [layers, setLayers] = useState<number>(1);
     const [modelContainer, setModelContainer] = useState<
         PIXI.Container | undefined
     >(undefined);
@@ -41,16 +42,28 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 backgroundColor: 0x000000,
             });
 
+            // await Assets.load({src: "/font/FOT-RodinNTLGPro-DB.ttf", data: { family: "FOT-RodinNTLGPro-DB" }})
+
             Live2DModel.registerTicker(PIXI.Ticker);
 
             // Load Transparent
-            // const transparentContainer = new PIXI.Container()
-            // const transparentSpriteForNameTag = await getBackground( "/background/Background_Transparent.png")
-            // const transparentSpriteForDialogue = await getBackground( "/background/Background_Transparent.png")
-            // transparentContainer.addChild(transparentSpriteForNameTag)
-            // transparentContainer.addChild(transparentSpriteForDialogue)
-            // initApplication.stage.addChildAt(transparentContainer, 0)
-
+            const transparentContainer = new PIXI.Container();
+            const transparentSpriteForNameTag = await getBackground(
+                "/background/Background_Transparent.png"
+            );
+            const transparentSpriteForDialogue = await getBackground(
+                "/background/Background_Transparent.png"
+            );
+            const transparentSpriteForWhateverReason = await getBackground(
+                "/background/Background_Transparent.png"
+            );
+            transparentContainer.addChildAt(transparentSpriteForNameTag, 0);
+            transparentContainer.addChildAt(transparentSpriteForDialogue, 1);
+            transparentContainer.addChildAt(
+                transparentSpriteForWhateverReason,
+                2
+            );
+            initApplication.stage.addChildAt(transparentContainer, 0);
 
             // Load Background
             const backgroundContainer = new PIXI.Container();
@@ -58,7 +71,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 "/background/Background_School_SEKAI_Rooftop.png"
             );
             backgroundContainer.addChild(backgroundSprite);
-            initApplication.stage.addChildAt(backgroundContainer, 0);
+            initApplication.stage.addChildAt(backgroundContainer, 1);
 
             // Load Sample Model
             const modelContainer = new PIXI.Container();
@@ -75,7 +88,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             live2DModel.scale.set(0.3);
 
             modelContainer.addChild(live2DModel);
-            initApplication.stage.addChildAt(modelContainer, 1);
+            initApplication.stage.addChildAt(modelContainer, 2);
             live2DModel.motion("Expression", 42);
             await new Promise((resolve) => setTimeout(resolve, 2000));
             live2DModel.motion("Pose", 47);
@@ -110,9 +123,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             });
             textDialogue.position.set(245, 845);
 
-            initApplication.stage.addChildAt(textBackgroundSprite, 2);
-            initApplication.stage.addChildAt(textNameTag, 3);
-            initApplication.stage.addChildAt(textDialogue, 4);
+            initApplication.stage.addChildAt(textBackgroundSprite, 3);
+            initApplication.stage.addChildAt(textNameTag, 4);
+            initApplication.stage.addChildAt(textDialogue, 5);
 
             setApp(initApplication);
             setText({
@@ -138,7 +151,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             setModelContainer(modelContainer);
             setBackground({
                 backgroundContainer: backgroundContainer,
-                filename: "/background/Background_School_SEKAI_Rooftop.png",
+                filename:
+                    "/background/Background_School_SEKAI_Rooftop.png"
             });
             setText({
                 textContainer: textContainer,
@@ -161,6 +175,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setApp,
                 models,
                 setModels,
+                layers,
+                setLayers,
                 modelContainer,
                 setModelContainer,
                 background,

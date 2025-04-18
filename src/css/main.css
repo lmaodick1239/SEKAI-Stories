@@ -231,6 +231,7 @@ select {
   -moz-appearance: none;
   appearance: none;
   text-overflow: ellipsis;
+  margin: 10px 0px;
 }
 
 .center {

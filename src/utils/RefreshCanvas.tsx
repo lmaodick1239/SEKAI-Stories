@@ -21,24 +21,31 @@ export const refreshCanvas = async (context: IAppContextType) => {
     });
 
     Live2DModel.registerTicker(PIXI.Ticker);
-    // const transparentContainer = new PIXI.Container();
-    // const transparentSpriteForNameTag = await getBackground(
-    //     "/background/Background_Transparent.png"
-    // );
-    // const transparentSpriteForDialogue = await getBackground(
-    //     "/background/Background_Transparent.png"
-    // );
-    // transparentContainer.addChild(transparentSpriteForNameTag);
-    // transparentContainer.addChild(transparentSpriteForDialogue);
-    // initApplication.stage.addChildAt(transparentContainer, 0);
+    const transparentContainer = new PIXI.Container();
+    const transparentSpriteForNameTag = await getBackground(
+        "/background/Background_Transparent.png"
+    );
+    const transparentSpriteForDialogue = await getBackground(
+        "/background/Background_Transparent.png"
+    );
+    const transparentSpriteForWhateverReason = await getBackground(
+        "/background/Background_Transparent.png"
+    );
+    transparentContainer.addChild(transparentSpriteForNameTag);
+    transparentContainer.addChild(transparentSpriteForDialogue);
+    transparentContainer.addChild(transparentSpriteForWhateverReason);
+    initApplication.stage.addChildAt(transparentContainer, 0);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     if (background.backgroundContainer) {
-        initApplication.stage.addChildAt(background.backgroundContainer, 0);
+        initApplication.stage.addChildAt(background.backgroundContainer, 1);
     }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     if (modelContainer) {
-        initApplication.stage.addChildAt(modelContainer, 1);
+        initApplication.stage.addChildAt(modelContainer, 2);
     }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const textBackgroundTexture = await Assets.load(
         "/img/Dialogue_Background.png"
@@ -46,10 +53,15 @@ export const refreshCanvas = async (context: IAppContextType) => {
     const textBackgroundSprite = new PIXI.Sprite(textBackgroundTexture);
     textBackgroundSprite.width = 1920;
     textBackgroundSprite.height = 1080;
-    // initApplication.stage.addChildAt(textBackgroundSprite, 2);
+    initApplication.stage.addChildAt(textBackgroundSprite, 3);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // initApplication.stage.addChildAt(text.nameTag, 3);
-    // initApplication.stage.addChildAt(text.dialogue, 4);
+    initApplication.stage.addChildAt(text.nameTag, 4);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    initApplication.stage.addChildAt(text.dialogue, 5);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
 
     setApp(initApplication);
 };

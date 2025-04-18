@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 import data from "../background.json";
-import * as PIXI from "pixi.js";
-import { Assets } from "@pixi/assets";
 import { getBackground } from "../utils/GetBackground";
 
 const BackgroundPicker: React.FC = () => {
@@ -19,7 +17,6 @@ const BackgroundPicker: React.FC = () => {
 
         background?.backgroundContainer.removeChildAt(0);
         background?.backgroundContainer.addChildAt(backgroundSprite, 0);
-
         if (background?.backgroundContainer) {
             setBackground({
                 ...background,
