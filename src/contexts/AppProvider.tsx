@@ -18,7 +18,9 @@ interface AppProviderProps {
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
-    const [models, setModels] = useState<Record<string, IModel>>({});
+    const [models, setModels] = useState<Record<string, IModel> | undefined>(
+        undefined
+    );
     const [layers, setLayers] = useState<number>(1);
     const [nextLayer, setNextLayer] = useState<number>(1);
     const [modelContainer, setModelContainer] = useState<

@@ -8,8 +8,8 @@ export default interface IAppContextType {
     setOpenedSidebar: Dispatch<SetStateAction<string>>;
     app: PIXI.Application | undefined;
     setApp: Dispatch<SetStateAction<PIXI.Application | undefined>>;
-    models: Record<string, IModel>;
-    setModels: Dispatch<SetStateAction<Record<string, IModel>>>;
+    models: Record<string, IModel> | undefined;
+    setModels: Dispatch<SetStateAction<Record<string, IModel> | undefined>>;
     layers: number;
     setLayers: Dispatch<SetStateAction<number>>;
     nextLayer: number;
