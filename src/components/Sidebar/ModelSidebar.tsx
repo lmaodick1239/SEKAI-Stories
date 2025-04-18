@@ -24,9 +24,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
         undefined
     );
-    const [currentKey, setCurrentKey] = useState<string >("");
+    const [currentKey, setCurrentKey] = useState<string>("");
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
+    const [layerIndex, setLayerIndex] = useState<number>(0);
 
     const getPoseFile = async (filename: string) => {
         const data = await (
@@ -49,8 +50,23 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             ...updates,
         }));
     };
+    const newModel = async (filename: string, layerIndex: number) => {
+        const getmodel = await axios.get(
+            `/models/${filename}/${filename}.model3.json`
+        );
+        const data = GetMotionList(filename, getmodel.data);
+        const live2DModel = await Live2DModel.from(data, {
+            autoInteract: false,
+        });
+        live2DModel.scale.set(0.3);
+        modelContainer?.addChildAt(live2DModel, layerIndex);
+        return live2DModel;
+    };
 
-    const loadModel = async (filename: string): Promise<Live2DModel> => {
+    const loadModel = async (
+        filename: string,
+        layerIndex: number
+    ): Promise<Live2DModel> => {
         const getmodel = await axios.get(
             `/models/${filename}/${filename}.model3.json`
         );
@@ -61,7 +77,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         live2DModel.scale.set(currentModel?.modelScale);
         live2DModel.position.set(currentModel?.modelX, currentModel?.modelY);
         currentModel?.model.destroy();
-        modelContainer?.addChildAt(live2DModel, 0);
+        modelContainer?.addChildAt(live2DModel, layerIndex);
 
         return live2DModel;
     };
@@ -81,32 +97,70 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         return "Please wait...";
     }
 
-    const { models, setModels, modelContainer, layers, setLayers } = context;
-    console.log(models);
+    const {
+        models,
+        setModels,
+        modelContainer,
+        nextLayer,
+        setNextLayer,
+        layers,
+        setLayers,
+    } = context;
 
     const handleLayerChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const key = event?.target.value;
+        const selectedIndex = event.target.selectedIndex;
         setCurrentKey(key);
         setCurrentModel(models[key]);
         setCurrentSelectedCharacter(models[key].character);
+        setLayerIndex(selectedIndex);
         getPoseFile(models[key].file);
-        console.log(event?.target.value);
     };
 
+    const handleAddLayer = async () => {
+        const filename = "01ichika_cloth001";
+        const live2DModel = await newModel(filename, layers);
+        const newLayer = {
+            [`character${nextLayer + 1}`]: {
+                character: "ichika",
+                file: filename,
+                model: live2DModel,
+                modelX: live2DModel.x,
+                modelY: live2DModel.y,
+                modelScale: live2DModel.scale.x,
+                expression: 99999,
+                pose: 99999,
+            },
+        };
+        setModels((prevModels) => ({
+            ...prevModels,
+            ...newLayer,
+        }));
+        setCurrentKey(`character${nextLayer + 1}`);
+        setCurrentModel(newLayer[`character${nextLayer + 1}`]);
+        setCurrentSelectedCharacter("ichika");
+        setLayerIndex(layers);
+        getPoseFile(filename);
+        setNextLayer(nextLayer + 1);
+        setLayers(layers + 1);
+    };
+    console.log(currentModel)
     const handleDeleteLayer = async () => {
         const modelsObjects = Object.entries(context.models);
         if (modelsObjects.length == 1) {
             alert("This is the only layer and cannot be deleted.");
             return;
         }
-        const firstKey = Object.keys(models)[0];
-        currentModel?.model.destroy()
+        currentModel?.model.destroy();
         delete models[currentKey];
+        const firstKey = Object.keys(models)[0];
         setCurrentKey(firstKey);
         setCurrentModel(models[firstKey]);
         setCurrentSelectedCharacter(models[firstKey].character);
+        setLayerIndex(0);
+        setLayers(layers - 1);
         getPoseFile(models[firstKey].file);
     };
 
@@ -117,7 +171,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentSelectedCharacter(character);
         const firstfile =
             characterData[character as keyof typeof characterData][0];
-        const live2DModel = await loadModel(firstfile);
+        const live2DModel = await loadModel(firstfile, layerIndex);
         updateModelState({
             character: character,
             model: live2DModel,
@@ -125,13 +179,14 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             expression: 99999,
             file: firstfile,
         });
+        getPoseFile(firstfile);
     };
 
     const handleFileChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const filename = event?.target.value;
-        const live2DModel = await loadModel(filename);
+        const live2DModel = await loadModel(filename, layerIndex);
         updateModelState({
             character: currentSelectedCharacter,
             model: live2DModel,
@@ -190,21 +245,21 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     <select value={currentKey} onChange={handleLayerChange}>
                         {Object.keys(models).map((model, idx) => (
                             <option key={model} value={model}>
-                                Layer {idx}:{" "}
-                                {models[model].character
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    models[model].character
-                                        .slice(1)
-                                        .toLowerCase()}
+                                Layer {idx + 1}: {models[model].character.charAt(0).toUpperCase() + models[model].character.slice(1)}
                             </option>
                         ))}
                     </select>
                     <div id="layer-buttons">
-                        <button className="btn-circle btn-white">
+                        <button
+                            className="btn-circle btn-white"
+                            onClick={handleAddLayer}
+                        >
                             <i className="bi bi-plus-circle"></i>
                         </button>
-                        <button className="btn-circle btn-white" onClick={handleDeleteLayer}>
+                        <button
+                            className="btn-circle btn-white"
+                            onClick={handleDeleteLayer}
+                        >
                             <i className="bi bi-trash3"></i>
                         </button>
                     </div>
@@ -219,8 +274,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     >
                         {Object.keys(characterData).map((character) => (
                             <option key={character} value={character}>
-                                {character.charAt(0).toUpperCase() +
-                                    character.slice(1).toLowerCase()}
+                                {character.charAt(0).toUpperCase() + character.slice(1)}
                             </option>
                         ))}
                     </select>
@@ -233,7 +287,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         value={currentModel?.file}
                         onChange={handleFileChange}
                     >
-                        {currentModel?.character &&
+                        {currentSelectedCharacter &&
                             typedCharacterData[currentSelectedCharacter]?.map(
                                 (file: string) => (
                                     <option key={file} value={file}>

@@ -12,6 +12,8 @@ export default interface IAppContextType {
     setModels: Dispatch<SetStateAction<Record<string, IModel>>>;
     layers: number;
     setLayers: Dispatch<SetStateAction<number>>;
+    nextLayer: number;
+    setNextLayer: Dispatch<SetStateAction<number>>;
     modelContainer: PIXI.Container | undefined;
     setModelContainer: Dispatch<SetStateAction<PIXI.Container | undefined>>;
     background: IBackground | undefined;
