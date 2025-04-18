@@ -282,6 +282,18 @@ select {
   box-sizing: border-box;
 }
 
+#content-background {
+  position: absolute;
+  filter: blur(25px);
+  -webkit-filter: blur(25px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  width: 100%;
+  height: 100dvh;
+}
+
 #sidebar {
   min-width: 300px;
   max-width: 300px;
@@ -366,6 +378,7 @@ select {
   padding: 0;
   box-sizing: border-box;
   font-family: "Noto Sans JP", sans-serif;
+  transition: all 0.2s;
 }
 
 body {
