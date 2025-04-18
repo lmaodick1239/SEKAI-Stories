@@ -120,6 +120,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     };
 
     const handleAddLayer = async () => {
+        if (layers >= 3) {
+            const confirmation = confirm(
+                "Adding more than three layers may prevent other models from rendering properly and could cause lag. Do you want to continue?\n\nClicking OK will proceed the action."
+            );
+            if (!confirmation) return;
+        }
         const filename = "01ichika_cloth001";
         const live2DModel = await newModel(filename, layers);
         const newLayer = {
