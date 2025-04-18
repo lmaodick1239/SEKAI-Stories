@@ -1,10 +1,17 @@
 #sidebar {
-    min-width: 300px;
-    max-width: 300px;
-    height: 100dvh;
     padding: 25px;
     background-color: $light-gray;
-    overflow: scroll;
+    @media (width > 768px) {
+        height: 100dvh;
+        min-width: 300px;
+        max-width: 300px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    @media (width <= 768px) {
+        min-height: 100dvh;
+        min-width: 100dvw;
+    }
 }
 
 .sidebar__select {
@@ -42,19 +49,28 @@
 }
 
 .picker-item {
-    width: 200px;
     height: 200px;
     border-radius: 10px;
     border: 2px solid $white;
     aspect-ratio: 1/1;
     margin: 10px;
     cursor: pointer;
+
+    @media (width <= 768px) {
+        min-width: 80dvw;
+    }
+    @media (width > 768px) {
+        width: 200px;
+        margin: 10px;
+    }
 }
 
 .picker-item:hover {
-    z-index: 10;
-    cursor: pointer;
-    transform: scale(1.5);
+    @media (width > 768px) {
+        z-index: 10;
+        cursor: pointer;
+        transform: scale(1.5);
+    }
 }
 
 #picker-close {
@@ -75,4 +91,29 @@
 
 #layer-buttons > button > i {
     font-size: 32px;
+}
+
+#hide-sidebar {
+    @media (width <= 768px) {
+        display: none;
+    }
+}
+
+#sidebar-select {
+    padding: inherit;
+    @media (width <= 768px) {
+        bottom: 0;
+        right: 0;
+        z-index: 999;
+    }
+    @media (width > 768px) {
+        top: 0;
+        right: 0;
+    }
+}
+
+#download-clear-buttons {
+    @media (width <= 768px) {
+        z-index: 999;
+    }
 }

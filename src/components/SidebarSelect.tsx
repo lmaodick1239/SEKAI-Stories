@@ -9,7 +9,7 @@ const SidebarSelect: React.FC = () => {
     const { openedSidebar, setOpenedSidebar } = context;
 
     return (
-        <div className="absolute top-right flex-vertical">
+        <div className="absolute flex-vertical" id="sidebar-select">
             <button
                 onClick={() => {
                     setOpenedSidebar("background");

@@ -25,7 +25,12 @@ body {
 main {
     display: flex;
     height: 100%;
-    flex-direction: row;
+    @media (width > 768px) {
+        flex-direction: row;
+    }
+    @media (width <= 768px) {
+        flex-direction: column;
+    }
 }
 
 img {
@@ -38,4 +43,11 @@ canvas {
     width: 90%;
     font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
     border: $dark-miku 2px solid;
+    @media (width > 768px) {
+    }
+    @media (width <= 768px) {
+        position: fixed;
+        z-index: 1;
+        top: 20px;
+    }
 }

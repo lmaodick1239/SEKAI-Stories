@@ -235,6 +235,7 @@ select {
   margin: 10px 0px;
   color: #444466;
   cursor: pointer;
+  min-height: 55px;
 }
 
 .center {
@@ -285,9 +286,18 @@ select {
 }
 
 #content {
-  height: 100dvh;
   padding: 25px;
   box-sizing: border-box;
+}
+@media (width > 768px) {
+  #content {
+    height: 100dvh;
+  }
+}
+@media (width <= 768px) {
+  #content {
+    height: 500px;
+  }
 }
 
 #content-background {
@@ -303,12 +313,23 @@ select {
 }
 
 #sidebar {
-  min-width: 300px;
-  max-width: 300px;
-  height: 100dvh;
   padding: 25px;
   background-color: #ebebf2;
-  overflow: scroll;
+}
+@media (width > 768px) {
+  #sidebar {
+    height: 100dvh;
+    min-width: 300px;
+    max-width: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}
+@media (width <= 768px) {
+  #sidebar {
+    min-height: 100dvh;
+    min-width: 100dvw;
+  }
 }
 
 .sidebar__select {
@@ -346,7 +367,6 @@ select {
 }
 
 .picker-item {
-  width: 200px;
   height: 200px;
   border-radius: 10px;
   border: 2px solid #ffffff;
@@ -354,11 +374,24 @@ select {
   margin: 10px;
   cursor: pointer;
 }
+@media (width <= 768px) {
+  .picker-item {
+    min-width: 80dvw;
+  }
+}
+@media (width > 768px) {
+  .picker-item {
+    width: 200px;
+    margin: 10px;
+  }
+}
 
-.picker-item:hover {
-  z-index: 10;
-  cursor: pointer;
-  transform: scale(1.5);
+@media (width > 768px) {
+  .picker-item:hover {
+    z-index: 10;
+    cursor: pointer;
+    transform: scale(1.5);
+  }
 }
 
 #picker-close {
@@ -381,6 +414,35 @@ select {
   font-size: 32px;
 }
 
+@media (width <= 768px) {
+  #hide-sidebar {
+    display: none;
+  }
+}
+
+#sidebar-select {
+  padding: inherit;
+}
+@media (width <= 768px) {
+  #sidebar-select {
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+  }
+}
+@media (width > 768px) {
+  #sidebar-select {
+    top: 0;
+    right: 0;
+  }
+}
+
+@media (width <= 768px) {
+  #download-clear-buttons {
+    z-index: 999;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -396,7 +458,16 @@ body {
 main {
   display: flex;
   height: 100%;
-  flex-direction: row;
+}
+@media (width > 768px) {
+  main {
+    flex-direction: row;
+  }
+}
+@media (width <= 768px) {
+  main {
+    flex-direction: column;
+  }
 }
 
 img {
@@ -409,6 +480,13 @@ canvas {
   width: 90%;
   font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
   border: #00ccbb 2px solid;
+}
+@media (width <= 768px) {
+  canvas {
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

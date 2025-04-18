@@ -36,7 +36,7 @@ const DownloadClearButtons: React.FC = () => {
 
 
     return (
-        <div className="absolute bottom-left flex-vertical">
+        <div className="absolute bottom-left flex-vertical" id="download-clear-buttons">
             <button className="btn-regular btn-blue" onClick={handleSave}>
                 Save
             </button>

@@ -18,6 +18,21 @@ const Content: React.FC = () => {
         }
     }, [context]);
 
+    window.addEventListener("scroll", function () {
+        const scrollPosition = window.scrollY;
+        const tabs = document.getElementById("sidebar-select");
+        const save = document.getElementById("download-clear-buttons");
+        const hideAtPosition = 100;
+
+        if (scrollPosition > hideAtPosition) {
+            if (tabs) tabs.style.opacity = "0";
+            if (save) save.style.opacity = "0";
+        } else {
+            if (tabs) tabs.style.opacity = "1.0";
+            if (save) save.style.opacity = "1.0";
+        }
+    });
+
     if (!context) {
         throw new Error("Context is not loaded properly.");
     }
@@ -29,7 +44,7 @@ const Content: React.FC = () => {
 
             {!hide && <SidebarSelect />}
             <DownloadClearButtons />
-            <div className="absolute bottom-right">
+            <div className="absolute bottom-right" id="hide-sidebar">
                 <button
                     className={`btn-circle ${hide ? "btn-pink" : "btn-white"}`}
                     onClick={() => {
