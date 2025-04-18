@@ -22,8 +22,6 @@ const Sidebar: React.FC = () => {
             {openedSidebar == "model" && <ModelSidebar />}
             <h1>Experimental</h1>
             <div className="option">
-                <div className="option__content">
-                    <h2>Refresh</h2>
                     <button
                         className="btn-regular btn-blue btn-100"
                         onClick={handleRefresh}
@@ -34,7 +32,6 @@ const Sidebar: React.FC = () => {
                         If you don't see any changes, you may try refreshing the
                         canvas.
                     </p>
-                </div>
             </div>
         </div>
     );

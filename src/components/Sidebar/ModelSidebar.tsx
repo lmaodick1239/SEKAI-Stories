@@ -21,6 +21,7 @@ interface ModelSidebarProps {
 
 const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const context = useContext(AppContext);
+
     const [poseFile, setPoseFile] = useState<IData | undefined>(undefined);
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
         undefined
@@ -154,9 +155,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
     };
-    console.log(currentModel)
     const handleDeleteLayer = async () => {
-        const modelsObjects = Object.entries(context.models);
+        const modelsObjects = Object.entries(context.models ?? {});
         if (modelsObjects.length == 1) {
             alert("This is the only layer and cannot be deleted.");
             return;
@@ -253,7 +253,11 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     <select value={currentKey} onChange={handleLayerChange}>
                         {Object.keys(models).map((model, idx) => (
                             <option key={model} value={model}>
-                                Layer {idx + 1}: {models[model].character.charAt(0).toUpperCase() + models[model].character.slice(1)}
+                                Layer {idx + 1}:{" "}
+                                {models[model].character
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    models[model].character.slice(1)}
                             </option>
                         ))}
                     </select>
@@ -282,10 +286,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     >
                         {Object.keys(characterData).map((character) => (
                             <option key={character} value={character}>
-                                {character.charAt(0).toUpperCase() + character.slice(1)}
+                                {character.charAt(0).toUpperCase() +
+                                    character.slice(1)}
                             </option>
                         ))}
                     </select>
+
                 </div>
             </div>
             <div className="option">

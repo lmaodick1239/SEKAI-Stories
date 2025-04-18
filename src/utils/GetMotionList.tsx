@@ -31,7 +31,6 @@ const GetMotionList = (filename: string, data: IData) => {
     };
 
     data.url = `/models/${filename}/`;
-    console.log(data);
     return data;
 };
 

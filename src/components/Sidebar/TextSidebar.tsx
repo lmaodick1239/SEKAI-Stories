@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { AppContext } from "../../contexts/AppContext";
-import { refreshCanvas } from "../../utils/RefreshCanvas";
 
 const TextSidebar: React.FC = () => {
     const context = useContext(AppContext);
