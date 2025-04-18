@@ -69,7 +69,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             // Load Background
             const backgroundContainer = new PIXI.Container();
             const backgroundSprite = await getBackground(
-                "/background/Background_School_SEKAI_Rooftop.png"
+                "/background_special/Background_Uranohoshi.png"
             );
             backgroundContainer.addChild(backgroundSprite);
             initApplication.stage.addChildAt(backgroundContainer, 1);
@@ -78,21 +78,22 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             const modelContainer = new PIXI.Container();
 
             const getmodel = await axios.get(
-                "/models/01ichika_cloth001/01ichika_cloth001.model3.json"
+                "/models/07airi_normal/07airi_normal.model3.json"
             );
 
-            const data = GetMotionList("01ichika_cloth001", getmodel.data);
+            const data = GetMotionList("07airi_normal", getmodel.data);
 
             const live2DModel = await Live2DModel.from(data, {
                 autoInteract: false,
             });
-            live2DModel.scale.set(0.3);
+            live2DModel.scale.set(0.5);
+            live2DModel.position.set(190, -280);
 
             modelContainer.addChildAt(live2DModel, 0);
             initApplication.stage.addChildAt(modelContainer, 2);
-            live2DModel.motion("Expression", 42);
+            live2DModel.motion("Expression", 38);
             await new Promise((resolve) => setTimeout(resolve, 2000));
-            live2DModel.motion("Pose", 47);
+            live2DModel.motion("Pose", 102);
 
             // Load Text
             const textContainer = new PIXI.Container();
@@ -103,7 +104,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             textBackgroundSprite.width = 1920;
             textBackgroundSprite.height = 1080;
 
-            const textNameTag = new PIXI.Text("Ichika", {
+            const textNameTag = new PIXI.Text("Airi", {
                 fontFamily: "FOT-RodinNTLGPro-EB",
                 fontSize: 44,
                 fill: 0xebebef,
@@ -112,7 +113,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             });
             textNameTag.position.set(225, 780);
 
-            const textDialogue = new PIXI.Text("Chicken Jockey.", {
+            const textDialogue = new PIXI.Text("No, I will not do AiScream on you.", {
                 fontFamily: "FOT-RodinNTLGPro-DB",
                 fontSize: 44,
                 fill: 0xffffff,
@@ -139,27 +140,27 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             });
             setModels({
                 character1: {
-                    character: "ichika",
-                    file: "01ichika_cloth001",
+                    character: "airi",
+                    file: "07airi_normal",
                     model: live2DModel,
                     modelX: live2DModel.x,
                     modelY: live2DModel.y,
                     modelScale: live2DModel.scale.x,
-                    expression: 42,
-                    pose: 47,
+                    expression: 38,
+                    pose: 102,
                 },
             });
             setModelContainer(modelContainer);
             setBackground({
                 backgroundContainer: backgroundContainer,
-                filename: "/background/Background_School_SEKAI_Rooftop.png",
+                filename: "/background_special/Background_Uranohoshi.png",
             });
             setText({
                 textContainer: textContainer,
                 nameTag: textNameTag,
                 dialogue: textDialogue,
-                nameTagString: "Ichika",
-                dialogueString: "Chicken Jockey.",
+                nameTagString: "Airi",
+                dialogueString: "No, I will not do AiScream on you.",
                 fontSize: 44,
             });
         };
