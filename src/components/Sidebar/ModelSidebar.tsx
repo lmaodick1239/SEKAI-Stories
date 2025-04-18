@@ -326,6 +326,16 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 )
                             )}
                     </select>
+                    <button
+                        className="btn-regular btn-blue btn-extend-width"
+                        onClick={async () => {
+                            if (currentModel && currentModel.pose !== 99999) {
+                                currentModel.model.motion("Pose", currentModel.pose);
+                            }
+                        }}
+                    >
+                        Re-apply
+                    </button>
                 </div>
                 <div className="option__content">
                     <h3>Expression</h3>
@@ -345,6 +355,16 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 )
                             )}
                     </select>
+                    <button
+                        className="btn-regular btn-blue btn-extend-width"
+                        onClick={async () => {
+                            if (currentModel && currentModel.expression !== 99999) {
+                                currentModel.model.motion("Expression", currentModel.expression);
+                            }
+                        }}
+                    >
+                        Re-apply
+                    </button>
                 </div>
             </div>
             <div className="option">
