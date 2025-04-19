@@ -33,6 +33,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [reset, setReset] = useState<number>(0);
     const [hide, setHide] = useState<boolean>(false);
 
+    const initialScene = {
+        background: "/background_special/Background_Uranohoshi.png",
+        model: "07airi_normal",
+        text: "No, I will not do AiScream on you.",
+        nameTag: "Airi",
+        character: "airi"
+    };
+
     useEffect(() => {
         const runCanvas = async () => {
             const canvas = document.getElementById(
@@ -74,9 +82,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
             // Load Background
             const backgroundContainer = new PIXI.Container();
-            const backgroundSprite = await getBackground(
-                "/background_special/Background_Uranohoshi.png"
-            );
+            const backgroundSprite = await getBackground(initialScene["background"]);
             backgroundContainer.addChild(backgroundSprite);
             initApplication.stage.addChildAt(backgroundContainer, 1);
 
@@ -84,10 +90,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             const modelContainer = new PIXI.Container();
 
             const getmodel = await axios.get(
-                "/models/07airi_normal/07airi_normal.model3.json"
+                `/models/${initialScene["model"]}/${initialScene["model"]}.model3.json`
             );
 
-            const data = GetMotionList("07airi_normal", getmodel.data);
+            const data = GetMotionList(initialScene["model"], getmodel.data);
 
             const live2DModel = await Live2DModel.from(data, {
                 autoInteract: false,
@@ -110,7 +116,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             textBackgroundSprite.width = 1920;
             textBackgroundSprite.height = 1080;
 
-            const textNameTag = new PIXI.Text("Airi", {
+            const textNameTag = new PIXI.Text(initialScene["nameTag"], {
                 fontFamily: "FOT-RodinNTLGPro-EB",
                 fontSize: 44,
                 fill: 0xebebef,
@@ -119,19 +125,16 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             });
             textNameTag.position.set(225, 780);
 
-            const textDialogue = new PIXI.Text(
-                "No, I will not do AiScream on you.",
-                {
-                    fontFamily: "FOT-RodinNTLGPro-DB",
-                    fontSize: 44,
-                    fill: 0xffffff,
-                    stroke: 0x5d5d79,
-                    strokeThickness: 8,
-                    wordWrap: true,
-                    wordWrapWidth: 1450,
-                    breakWords: true,
-                }
-            );
+            const textDialogue = new PIXI.Text(initialScene["text"], {
+                fontFamily: "FOT-RodinNTLGPro-DB",
+                fontSize: 44,
+                fill: 0xffffff,
+                stroke: 0x5d5d79,
+                strokeThickness: 8,
+                wordWrap: true,
+                wordWrapWidth: 1450,
+                breakWords: true,
+            });
             textDialogue.position.set(245, 845);
 
             initApplication.stage.addChildAt(textBackgroundSprite, 3);
@@ -139,18 +142,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             initApplication.stage.addChildAt(textDialogue, 5);
 
             setApp(initApplication);
-            setText({
-                textContainer: textContainer,
-                nameTag: textNameTag,
-                dialogue: textDialogue,
-                nameTagString: "Ichika",
-                dialogueString: "Chicken Jockey.",
-                fontSize: 44,
-            });
             setModels({
                 character1: {
-                    character: "airi",
-                    file: "07airi_normal",
+                    character: initialScene["character"],
+                    file: initialScene["model"],
                     model: live2DModel,
                     modelX: live2DModel.x,
                     modelY: live2DModel.y,
@@ -162,14 +157,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             setModelContainer(modelContainer);
             setBackground({
                 backgroundContainer: backgroundContainer,
-                filename: "/background_special/Background_Uranohoshi.png",
+                filename: initialScene["background"],
             });
             setText({
                 textContainer: textContainer,
                 nameTag: textNameTag,
                 dialogue: textDialogue,
-                nameTagString: "Airi",
-                dialogueString: "No, I will not do AiScream on you.",
+                nameTagString: initialScene["nameTag"],
+                dialogueString: initialScene["text"],
                 fontSize: 44,
             });
         };
