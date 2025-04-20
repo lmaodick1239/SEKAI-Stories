@@ -2,30 +2,34 @@
 
 A Dialogue Generator for making fan-made stories from the game [Project SEKAI COLORFUL STAGE!](https://colorfulstage.com/) (also known as Hatsune Miku: COLORFUL STAGE!).
 
+![](./public/img/Screenshot-2.png)
+
 ## Try the Story Generator!
 [![](./public/img/vercel.png)](https://sekai-stories.vercel.app/) [![](./public/img/netlify.png)](https://sekai-stories.netlify.app/)
-
-
-![](./public/img/Screenshot-1.png)
 
 ## Features
 ### Choose your background
 Just like my previous [dialogue sandbox](https://github.com/lezzthanthree/SIFAS-Dialogue-Sandbox), you can choose a background found from Project Sekai!
+
 ![](./public/img/Preview-1.png)
 
 You can also upload your own background to match your story perfectly.
+
 ![](./public/img/Preview-2.png)
 
 ### Customize the dialogue
 Type the dialogues of who's speaking and adjust their font size to match their tone!
+
 ![](./public/img/Preview-3.png)
 
 ### Live2D Models as your sprites!
 
 With their Live2D Models, you can use them as your sprite and choose your perfect poses and emotions to the character of your choosing!
+
 ![](./public/img/Preview-4.png)
 
 Or, you could upload your own normal PNG Sprite! It's your own choice!
+
 ![](./public/img/Preview-5.png)
 
 ## Developing
@@ -53,4 +57,5 @@ If you think there's a problem on using the dialogue generator, please [submit a
 
 ----
 mizuki is a programmer
+
 [<img src="./public/img/sp.png" alt="smilie pop" width="150"/>](https://www.youtube.com/c/SmiliePop)[<img src="./public/img/lezzthanthree.png" alt="lezzthanthree" width="150"/>](https://reddit.com/user/lezzthanthree)
