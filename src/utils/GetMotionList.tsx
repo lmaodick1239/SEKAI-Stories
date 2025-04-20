@@ -13,12 +13,18 @@ export interface IData {
 }
 
 const GetMotionList = (filename: string, data: IData) => {
+    console.log(data);
     const poseMotions = [];
     const expressions = [];
     for (const [key, value] of Object.entries(data.FileReferences.Motions)) {
         const addedValue = [...value];
         addedValue[0].Name = key;
-        if (key.startsWith("w-")) {
+        if (
+            key.startsWith("w-") ||
+            key.startsWith("m-") ||
+            key.startsWith("l-") ||
+            key.startsWith("n-")
+        ) {
             poseMotions.push(...addedValue);
         }
         if (key.startsWith("face_")) {
@@ -31,6 +37,7 @@ const GetMotionList = (filename: string, data: IData) => {
     };
 
     data.url = `/models/${filename}/`;
+    console.log(data);
     return data;
 };
 
