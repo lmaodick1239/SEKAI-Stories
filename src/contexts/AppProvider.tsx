@@ -43,7 +43,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        const cookie = localStorage.getItem("linkAnnouncement");
+        const cookie = localStorage.getItem("vercelAnnouncement");
         if (Number(cookie) >= 3) {
             setHideAnnouncements(true);
         }
@@ -145,9 +145,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             });
             textDialogue.position.set(245, 845);
 
-            textContainer.addChildAt(textBackgroundSprite, 0)
-            textContainer.addChildAt(textNameTag, 1)
-            textContainer.addChildAt(textDialogue, 2)
+            textContainer.addChildAt(textBackgroundSprite, 0);
+            textContainer.addChildAt(textNameTag, 1);
+            textContainer.addChildAt(textDialogue, 2);
 
             initApplication.stage.addChildAt(textContainer, 3);
 

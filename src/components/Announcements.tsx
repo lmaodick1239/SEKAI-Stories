@@ -10,19 +10,24 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("linkAnnouncement");
+        const cookie = localStorage.getItem("vercelAnnouncement");
         if (!cookie) {
-            localStorage.setItem("linkAnnouncement", "0");
+            localStorage.setItem("vercelAnnouncement", "0");
             return;
         }
-        localStorage.setItem("linkAnnouncement", `${Number(cookie) + 1}`);
+        localStorage.setItem("vercelAnnouncement", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>SEKAI Stories has two available links.</p>
+            <p>Vercel Deployment is back!</p>
             <p>
+                Please use Netlify App as well, so bandwidth and traffic can be
+                split between the two!
+            </p>
+            <p>
+                Here are the links:{" "}
                 <a
                     href="https://sekai-stories.vercel.app/"
                     className="text-orange"
@@ -38,7 +43,6 @@ const Announcements: React.FC = () => {
                 </a>
                 .
             </p>
-            <p>You can always switch to another if the other fails.</p>
             <p>Tap this section to close.</p>
         </div>
     );
