@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@pixi/assets": "^6.5.10",
+        "@vercel/analytics": "^1.5.0",
         "axios": "^1.8.4",
         "pixi-live2d-display": "^0.4.0",
         "pixi.js": "^6.5.2",
