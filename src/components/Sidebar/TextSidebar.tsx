@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 
 const TextSidebar: React.FC = () => {
     const context = useContext(AppContext);
+    const [bell, setBell] = useState<boolean>(false)
 
     if (!context || !context.text) {
         return "Please wait...";
@@ -29,6 +30,12 @@ const TextSidebar: React.FC = () => {
         text.dialogue.text = changedDialogue;
         text.dialogue.updateText(true);
 
+        if (/bell/gim.test(changedDialogue) && /mizuki/gim.test(text.nameTagString) && !bell) {
+            window.open("https://ominous-bells.vercel.app/");
+            alert("Let Mizuki rest.")
+            setBell(true)
+        }
+
         setText({
             ...text,
             dialogueString: changedDialogue,
@@ -49,7 +56,6 @@ const TextSidebar: React.FC = () => {
         });
     };
 
-   
 
     return (
         <div>
