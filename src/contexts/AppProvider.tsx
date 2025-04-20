@@ -43,9 +43,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        const cookie = localStorage.getItem('linkAnnouncement')
+        const cookie = localStorage.getItem("linkAnnouncement");
         if (Number(cookie) >= 3) {
-            setHideAnnouncements(true)
+            setHideAnnouncements(true);
         }
 
         const runCanvas = async () => {
@@ -160,6 +160,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                     modelScale: live2DModel.scale.x,
                     expression: 38,
                     pose: 102,
+                    visible: true,
                 },
             });
             setModelContainer(modelContainer);

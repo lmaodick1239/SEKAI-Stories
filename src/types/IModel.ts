@@ -10,4 +10,5 @@ export default interface IModel {
     modelScale: number;
     expression: number | undefined;
     pose: number | undefined;
+    visible: boolean;
 }

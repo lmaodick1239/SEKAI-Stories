@@ -10,6 +10,7 @@ import GetMotionList, {
 import { Live2DModel } from "pixi-live2d-display";
 import UploadImageButton from "../UploadButton";
 import * as PIXI from "pixi.js";
+import { Checkbox } from "../Checkbox";
 
 interface CharacterData {
     [key: string]: string[];
@@ -143,6 +144,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 modelScale: live2DModel.scale.x,
                 expression: 99999,
                 pose: 99999,
+                visible: true,
             },
         };
         setModels((prevModels) => ({
@@ -174,6 +176,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 modelScale: sprite.scale.x,
                 expression: 99999,
                 pose: 99999,
+                visible: true,
             },
         };
         setModels((prevModels) => ({
@@ -280,6 +283,17 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         const scale = Number(event?.target.value);
         currentModel?.model.scale.set(scale, scale);
         updateModelState({ modelScale: scale });
+    };
+
+    const handleVisible = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const visible = Boolean(event?.target.checked);
+        console.log()
+        if (currentModel?.model) {
+            currentModel.model.visible = visible;
+        }
+        updateModelState({ visible: visible });
     };
 
     const handleTransformChange = async (type: string) => {
@@ -520,6 +534,14 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         step={0.01}
                         value={currentModel?.modelScale}
                         onChange={handleScaleTransform}
+                    />
+                </div>
+                <div className="option__content">
+                    <Checkbox
+                        id="visible"
+                        label="Visible"
+                        checked={currentModel?.visible}
+                        onChange={handleVisible}
                     />
                 </div>
             </div>

@@ -3,8 +3,8 @@ import React from "react";
 interface CheckboxProps {
     id: string;
     label: string;
-    checked: boolean;
-    onChange: () => void;
+    checked: boolean | undefined;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
