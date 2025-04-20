@@ -135,6 +135,7 @@ input[type=checkbox]:checked::before {
 .checkbox__label {
   font-size: 20px;
   margin-left: 20px;
+  color: #444466;
 }
 
 input[type=text] {
@@ -276,6 +277,11 @@ select {
   padding: inherit;
 }
 
+.bottom {
+  bottom: 0;
+  padding: inherit;
+}
+
 .flex-vertical {
   display: flex;
   flex-direction: column;
@@ -289,6 +295,7 @@ select {
 #content {
   padding: 25px;
   box-sizing: border-box;
+  width: 100%;
 }
 @media (width > 768px) {
   #content {
@@ -313,6 +320,29 @@ select {
   height: 100dvh;
 }
 
+#flavor-text {
+  color: #ffffff;
+  animation: fade-out 10s ease-in-out forwards;
+  text-shadow: 0px 0px 4px rgb(0, 0, 0);
+}
+@media (width <= 768px) {
+  #flavor-text {
+    display: none;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
 #sidebar {
   padding: 25px;
   background-color: #ebebf2;
