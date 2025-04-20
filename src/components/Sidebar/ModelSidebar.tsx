@@ -278,10 +278,33 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         const scale = Number(event?.target.value);
-        currentModel?.model.scale.set(currentModel.modelScale, scale);
+        currentModel?.model.scale.set(scale, scale);
         updateModelState({ modelScale: scale });
     };
 
+    const handleTransformChange = async (type: string) => {
+        const inputChange = prompt("Enter a value");
+        if (inputChange == null || isNaN(Number(inputChange))) return;
+        const toChange = Number(inputChange);
+
+        switch (type) {
+            case "x": {
+                currentModel?.model.position.set(toChange, currentModel.modelY);
+                updateModelState({ modelX: toChange });
+                break;
+            }
+            case "y": {
+                currentModel?.model.position.set(currentModel.modelX, toChange);
+                updateModelState({ modelY: toChange });
+                break;
+            }
+            case "scale": {
+                currentModel?.model.scale.set(toChange, toChange);
+                updateModelState({ modelScale: toChange });
+                break;
+            }
+        }
+    };
     return (
         <div>
             <h1>Model</h1>
@@ -439,7 +462,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             <div className="option">
                 <h2>Transform</h2>
                 <div className="option__content">
-                    <h3>X-Position</h3>
+                    <div className="transform-icons">
+                        <h3>X-Position ({currentModel?.modelX}px)</h3>
+                        <div>
+                            <i
+                                className="bi bi-pencil-fill"
+                                onClick={() => handleTransformChange("x")}
+                            ></i>
+                        </div>
+                    </div>
                     <input
                         type="range"
                         name="x-value"
@@ -451,7 +482,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     />
                 </div>
                 <div className="option__content">
-                    <h3>Y-Position</h3>
+                    <div className="transform-icons">
+                        <h3>Y-Position ({currentModel?.modelY}px)</h3>
+                        <div>
+                            <i
+                                className="bi bi-pencil-fill"
+                                onClick={() => handleTransformChange("y")}
+                            ></i>
+                        </div>
+                    </div>
                     <input
                         type="range"
                         name="x-value"
@@ -463,7 +502,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     />
                 </div>
                 <div className="option__content">
-                    <h3>Scale</h3>
+                    <div className="transform-icons">
+                        <h3>Scale ({currentModel?.modelScale})</h3>
+                        <div>
+                            <i
+                                className="bi bi-pencil-fill"
+                                onClick={() => handleTransformChange("scale")}
+                            ></i>
+                        </div>
+                    </div>
                     <input
                         type="range"
                         name="x-value"

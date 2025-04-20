@@ -117,3 +117,15 @@
         z-index: 999;
     }
 }
+
+.transform-icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.transform-icons > div > i {
+    font-size: 20px;
+    margin-left: 10px;
+}
