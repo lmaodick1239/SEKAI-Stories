@@ -24,4 +24,6 @@ export default interface IAppContextType {
     setReset: Dispatch<SetStateAction<number>>;
     hide: boolean;
     setHide: Dispatch<SetStateAction<boolean>>;
+    hideAnnouncements: boolean;
+    setHideAnnouncements: Dispatch<SetStateAction<boolean>>;
 }

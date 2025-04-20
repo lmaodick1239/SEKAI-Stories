@@ -32,16 +32,22 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [text, setText] = useState<IText | undefined>(undefined);
     const [reset, setReset] = useState<number>(0);
     const [hide, setHide] = useState<boolean>(false);
+    const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(false);
 
     const initialScene = {
         background: "/background_special/Background_Uranohoshi.png",
         model: "07airi_normal",
         text: "No, I will not do AiScream on you.",
         nameTag: "Airi",
-        character: "airi"
+        character: "airi",
     };
 
     useEffect(() => {
+        const cookie = localStorage.getItem('linkAnnouncement')
+        if (Number(cookie) >= 3) {
+            setHideAnnouncements(true)
+        }
+
         const runCanvas = async () => {
             const canvas = document.getElementById(
                 "canvas"
@@ -82,7 +88,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
             // Load Background
             const backgroundContainer = new PIXI.Container();
-            const backgroundSprite = await getBackground(initialScene["background"]);
+            const backgroundSprite = await getBackground(
+                initialScene["background"]
+            );
             backgroundContainer.addChild(backgroundSprite);
             initApplication.stage.addChildAt(backgroundContainer, 1);
 
@@ -194,6 +202,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setReset,
                 hide,
                 setHide,
+                hideAnnouncements,
+                setHideAnnouncements,
             }}
         >
             {children}

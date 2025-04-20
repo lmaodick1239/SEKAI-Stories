@@ -9,6 +9,7 @@
 @import "props";
 @import "content";
 @import "sidebar";
+@import "announcements";
 
 * {
     margin: 0;
@@ -43,8 +44,6 @@ canvas {
     width: 90%;
     font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
     border: $dark-miku 2px solid;
-    @media (width > 768px) {
-    }
     @media (width <= 768px) {
         position: fixed;
         z-index: 1;

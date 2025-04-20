@@ -455,6 +455,29 @@ select {
   margin-left: 10px;
 }
 
+#announcements {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100dvw;
+  padding: 16px;
+}
+@media (width <= 768px) {
+  #announcements {
+    position: sticky;
+  }
+}
+
+#announcements > p, #announcements > h2 {
+  color: #ffffff;
+}
+
+#announcements > p > a {
+  color: #77eedd;
+  font-weight: 800;
+}
+
 * {
   margin: 0;
   padding: 0;

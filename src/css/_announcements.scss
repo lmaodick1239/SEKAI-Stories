@@ -1,0 +1,21 @@
+#announcements {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #000000cc;
+    width: 100dvw;
+    padding: 16px;
+
+    @media (width <= 768px) {
+        position: sticky;
+    }
+}
+
+#announcements > p, #announcements >h2 {
+    color: $white;
+}
+
+#announcements > p > a {
+    color: $light-miku;
+    font-weight: 800;
+}
