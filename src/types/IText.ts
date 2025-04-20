@@ -7,5 +7,6 @@ export default interface IText {
 
     nameTagString: string;
     dialogueString: string;
-    fontSize: number
+    fontSize: number;
+    visible: boolean;
 }

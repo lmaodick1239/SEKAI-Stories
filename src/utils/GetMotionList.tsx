@@ -13,7 +13,6 @@ export interface IData {
 }
 
 const GetMotionList = (filename: string, data: IData) => {
-    console.log(data);
     const poseMotions = [];
     const expressions = [];
     for (const [key, value] of Object.entries(data.FileReferences.Motions)) {
@@ -37,7 +36,6 @@ const GetMotionList = (filename: string, data: IData) => {
     };
 
     data.url = `/models/${filename}/`;
-    console.log(data);
     return data;
 };
 

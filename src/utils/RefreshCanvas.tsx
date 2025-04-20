@@ -1,5 +1,4 @@
 import * as PIXI from "pixi.js";
-import { Assets } from "@pixi/assets";
 import { Live2DModel } from "pixi-live2d-display";
 import IAppContextType from "../types/IAppContextType";
 import { getBackground } from "./GetBackground";
@@ -47,21 +46,9 @@ export const refreshCanvas = async (context: IAppContextType) => {
     }
     await new Promise((resolve) => setTimeout(resolve, 200));
 
-    const textBackgroundTexture = await Assets.load(
-        "/img/Dialogue_Background.png"
-    );
-    const textBackgroundSprite = new PIXI.Sprite(textBackgroundTexture);
-    textBackgroundSprite.width = 1920;
-    textBackgroundSprite.height = 1080;
-    initApplication.stage.addChildAt(textBackgroundSprite, 3);
-    await new Promise((resolve) => setTimeout(resolve, 200));
-
-    initApplication.stage.addChildAt(text.nameTag, 4);
-    await new Promise((resolve) => setTimeout(resolve, 200));
-
-    initApplication.stage.addChildAt(text.dialogue, 5);
-    await new Promise((resolve) => setTimeout(resolve, 200));
-
+    if (text.textContainer) {
+        initApplication.stage.addChildAt(text.textContainer, 3);
+    }
 
     setApp(initApplication);
 };

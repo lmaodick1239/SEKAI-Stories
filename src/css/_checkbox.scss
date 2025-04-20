@@ -37,6 +37,7 @@ input[type="checkbox"]:checked::before {
     display: flex;
     align-items: center;
     flex-direction: row;
+    padding: 5px 0
 }
 
 .checkbox__label {

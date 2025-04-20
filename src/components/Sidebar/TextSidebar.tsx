@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
+import { Checkbox } from "../Checkbox";
 
 const TextSidebar: React.FC = () => {
     const context = useContext(AppContext);
-    const [bell, setBell] = useState<boolean>(false)
+    const [bell, setBell] = useState<boolean>(false);
 
     if (!context || !context.text) {
         return "Please wait...";
@@ -23,6 +24,17 @@ const TextSidebar: React.FC = () => {
         });
     };
 
+    const handleVisible = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const visible = Boolean(event?.target.checked);
+        if (text?.textContainer) {
+            text.textContainer.visible = visible;
+        }
+        setText ({
+            ...text,
+            visible: visible
+        })
+    };
+
     const handleDialogueChange = (
         event: React.ChangeEvent<HTMLTextAreaElement>
     ) => {
@@ -30,10 +42,14 @@ const TextSidebar: React.FC = () => {
         text.dialogue.text = changedDialogue;
         text.dialogue.updateText(true);
 
-        if (/bell/gim.test(changedDialogue) && /mizuki/gim.test(text.nameTagString) && !bell) {
+        if (
+            /bell/gim.test(changedDialogue) &&
+            /mizuki/gim.test(text.nameTagString) &&
+            !bell
+        ) {
             window.open("https://ominous-bells.vercel.app/");
-            alert("Let Mizuki rest.")
-            setBell(true)
+            alert("Let Mizuki rest.");
+            setBell(true);
         }
 
         setText({
@@ -55,7 +71,6 @@ const TextSidebar: React.FC = () => {
             fontSize: changedFontSize,
         });
     };
-
 
     return (
         <div>
@@ -91,9 +106,14 @@ const TextSidebar: React.FC = () => {
                         max={120}
                         onChange={handleFontSizeChange}
                     />
+                    <Checkbox
+                        id="visible"
+                        label="Visible"
+                        checked={text.visible}
+                        onChange={handleVisible}
+                    />
                 </div>
             </div>
-            
         </div>
     );
 };

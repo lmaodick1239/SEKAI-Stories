@@ -289,7 +289,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         const visible = Boolean(event?.target.checked);
-        console.log()
         if (currentModel?.model) {
             currentModel.model.visible = visible;
         }

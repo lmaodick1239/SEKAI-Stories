@@ -145,9 +145,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             });
             textDialogue.position.set(245, 845);
 
-            initApplication.stage.addChildAt(textBackgroundSprite, 3);
-            initApplication.stage.addChildAt(textNameTag, 4);
-            initApplication.stage.addChildAt(textDialogue, 5);
+            textContainer.addChildAt(textBackgroundSprite, 0)
+            textContainer.addChildAt(textNameTag, 1)
+            textContainer.addChildAt(textDialogue, 2)
+
+            initApplication.stage.addChildAt(textContainer, 3);
 
             setApp(initApplication);
             setModels({
@@ -175,6 +177,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 nameTagString: initialScene["nameTag"],
                 dialogueString: initialScene["text"],
                 fontSize: 44,
+                visible: true,
             });
         };
         runCanvas();
