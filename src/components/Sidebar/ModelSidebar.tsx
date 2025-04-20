@@ -8,6 +8,8 @@ import GetMotionList, {
     IExpressionPoseList,
 } from "../../utils/GetMotionList";
 import { Live2DModel } from "pixi-live2d-display";
+import UploadImageButton from "../UploadButton";
+import * as PIXI from "pixi.js";
 
 interface CharacterData {
     [key: string]: string[];
@@ -155,6 +157,38 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
     };
+
+    const handleUploadImage = async (file: File) => {
+        const imgSrc = URL.createObjectURL(file);
+        const filename = imgSrc;
+        const texture = await PIXI.Texture.fromURL(filename);
+        const sprite = new PIXI.Sprite(texture);
+        modelContainer?.addChildAt(sprite, layerIndex);
+        const newLayer = {
+            [`character${nextLayer + 1}`]: {
+                character: "Custom",
+                file: filename,
+                model: sprite,
+                modelX: sprite.x,
+                modelY: sprite.y,
+                modelScale: sprite.scale.x,
+                expression: 99999,
+                pose: 99999,
+            },
+        };
+        setModels((prevModels) => ({
+            ...prevModels,
+            ...newLayer,
+        }));
+        setCurrentKey(`character${nextLayer + 1}`);
+        setCurrentModel(newLayer[`character${nextLayer + 1}`]);
+        setCurrentSelectedCharacter("ichika");
+        setLayerIndex(layers);
+        getPoseFile(filename);
+        setNextLayer(nextLayer + 1);
+        setLayers(layers + 1);
+    };
+
     const handleDeleteLayer = async () => {
         const modelsObjects = Object.entries(context.models ?? {});
         if (modelsObjects.length == 1) {
@@ -207,17 +241,21 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const handlePoseChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        const pose = Number(event?.target.value);
-        currentModel?.model.motion("Pose", pose);
-        updateModelState({ pose });
+        if (currentModel?.model instanceof Live2DModel) {
+            const pose = Number(event?.target.value);
+            currentModel?.model.motion("Pose", pose);
+            updateModelState({ pose });
+        }
     };
 
     const handleExpressionChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        const expression = Number(event?.target.value);
-        currentModel?.model.motion("Expression", expression);
-        updateModelState({ expression });
+        if (currentModel?.model instanceof Live2DModel) {
+            const expression = Number(event?.target.value);
+            currentModel?.model.motion("Expression", expression);
+            updateModelState({ expression });
+        }
     };
 
     const handleXTransform = async (
@@ -268,6 +306,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         >
                             <i className="bi bi-plus-circle"></i>
                         </button>
+                        <UploadImageButton
+                            id="background-upload"
+                            uploadFunction={handleUploadImage}
+                            text={<i className="bi bi-upload"></i>}
+                            type="round"
+                        />
                         <button
                             className="btn-circle btn-white"
                             onClick={handleDeleteLayer}
@@ -277,102 +321,121 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     </div>
                 </div>
             </div>
-            <div className="option">
-                <h2>Character</h2>
-                <div className="option__content">
-                    <select
-                        value={currentSelectedCharacter}
-                        onChange={handleCharacterChange}
-                    >
-                        {Object.keys(characterData).map((character) => (
-                            <option key={character} value={character}>
-                                {character.charAt(0).toUpperCase() +
-                                    character.slice(1)}
-                            </option>
-                        ))}
-                    </select>
-
-                </div>
-            </div>
-            <div className="option">
-                <h2>Costume</h2>
-                <div className="option__content">
-                    <select
-                        value={currentModel?.file}
-                        onChange={handleFileChange}
-                    >
-                        {currentSelectedCharacter &&
-                            typedCharacterData[currentSelectedCharacter]?.map(
-                                (file: string) => (
-                                    <option key={file} value={file}>
-                                        {file}
+            {currentModel?.model instanceof Live2DModel && (
+                <>
+                    <div className="option">
+                        <h2>Character</h2>
+                        <div className="option__content">
+                            <select
+                                value={currentSelectedCharacter}
+                                onChange={handleCharacterChange}
+                            >
+                                {Object.keys(characterData).map((character) => (
+                                    <option key={character} value={character}>
+                                        {character.charAt(0).toUpperCase() +
+                                            character.slice(1)}
                                     </option>
-                                )
-                            )}
-                    </select>
-                </div>
-            </div>
-            <div className="option">
-                <h2>Emotion</h2>
-                <div className="option__content">
-                    <h3>Pose</h3>
-                    <select
-                        value={currentModel?.pose}
-                        onChange={handlePoseChange}
-                    >
-                        <option value={99999} disabled>
-                            Select a pose
-                        </option>
-                        {poseFile &&
-                            poseFile.FileReferences.Motions.Pose.map(
-                                (o: IExpressionPoseList, idx) => (
-                                    <option key={idx} value={idx}>
-                                        {o.Name}
-                                    </option>
-                                )
-                            )}
-                    </select>
-                    <button
-                        className="btn-regular btn-blue btn-extend-width"
-                        onClick={async () => {
-                            if (currentModel && currentModel.pose !== 99999) {
-                                currentModel.model.motion("Pose", currentModel.pose);
-                            }
-                        }}
-                    >
-                        Re-apply
-                    </button>
-                </div>
-                <div className="option__content">
-                    <h3>Expression</h3>
-                    <select
-                        value={currentModel?.expression}
-                        onChange={handleExpressionChange}
-                    >
-                        <option value={99999} disabled>
-                            Select an expression
-                        </option>
-                        {poseFile &&
-                            poseFile.FileReferences.Motions.Expression.map(
-                                (o: IExpressionPoseList, idx) => (
-                                    <option key={idx} value={idx}>
-                                        {o.Name}
-                                    </option>
-                                )
-                            )}
-                    </select>
-                    <button
-                        className="btn-regular btn-blue btn-extend-width"
-                        onClick={async () => {
-                            if (currentModel && currentModel.expression !== 99999) {
-                                currentModel.model.motion("Expression", currentModel.expression);
-                            }
-                        }}
-                    >
-                        Re-apply
-                    </button>
-                </div>
-            </div>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="option">
+                        <h2>Costume</h2>
+                        <div className="option__content">
+                            <select
+                                value={currentModel?.file}
+                                onChange={handleFileChange}
+                            >
+                                {currentSelectedCharacter &&
+                                    typedCharacterData[
+                                        currentSelectedCharacter
+                                    ]?.map((file: string) => (
+                                        <option key={file} value={file}>
+                                            {file}
+                                        </option>
+                                    ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="option">
+                        <h2>Emotion</h2>
+                        <div className="option__content">
+                            <h3>Pose</h3>
+                            <select
+                                value={currentModel?.pose}
+                                onChange={handlePoseChange}
+                            >
+                                <option value={99999} disabled>
+                                    Select a pose
+                                </option>
+                                {poseFile &&
+                                    poseFile.FileReferences.Motions.Pose.map(
+                                        (o: IExpressionPoseList, idx) => (
+                                            <option key={idx} value={idx}>
+                                                {o.Name}
+                                            </option>
+                                        )
+                                    )}
+                            </select>
+                            <button
+                                className="btn-regular btn-blue btn-extend-width"
+                                onClick={async () => {
+                                    if (
+                                        currentModel &&
+                                        currentModel.model instanceof
+                                            Live2DModel &&
+                                        currentModel.pose !== 99999
+                                    ) {
+                                        currentModel.model.motion(
+                                            "Pose",
+                                            currentModel.pose
+                                        );
+                                    }
+                                }}
+                            >
+                                Re-apply
+                            </button>
+                        </div>
+                        <div className="option__content">
+                            <h3>Expression</h3>
+                            <select
+                                value={currentModel?.expression}
+                                onChange={handleExpressionChange}
+                            >
+                                <option value={99999} disabled>
+                                    Select an expression
+                                </option>
+                                {poseFile &&
+                                    poseFile.FileReferences.Motions.Expression.map(
+                                        (o: IExpressionPoseList, idx) => (
+                                            <option key={idx} value={idx}>
+                                                {o.Name}
+                                            </option>
+                                        )
+                                    )}
+                            </select>
+                            <button
+                                className="btn-regular btn-blue btn-extend-width"
+                                onClick={async () => {
+                                    if (
+                                        currentModel &&
+                                        currentModel.model instanceof
+                                            Live2DModel &&
+                                        currentModel.expression !== 99999
+                                    ) {
+                                        currentModel.model.motion(
+                                            "Expression",
+                                            currentModel.expression
+                                        );
+                                    }
+                                }}
+                            >
+                                Re-apply
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
             <div className="option">
                 <h2>Transform</h2>
                 <div className="option__content">

@@ -1,8 +1,7 @@
-import { Assets } from "@pixi/assets";
 import * as PIXI from "pixi.js";
 
 export const getBackground = async (file: string): Promise<PIXI.Sprite> => {
-    const backgroundTexture = await Assets.load(file);
+    const backgroundTexture = await PIXI.Texture.fromURL(file);
     const backgroundSprite = new PIXI.Sprite(backgroundTexture);
     const imageWidth = backgroundTexture.width;
     const imageHeight = backgroundTexture.height;
