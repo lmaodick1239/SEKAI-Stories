@@ -63,7 +63,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         const live2DModel = await Live2DModel.from(data, {
             autoInteract: false,
         });
-        live2DModel.scale.set(0.3);
+        live2DModel.scale.set(0.5);
+        live2DModel.position.set(-200, -280);
         modelContainer?.addChildAt(live2DModel, layerIndex);
         return live2DModel;
     };
@@ -285,9 +286,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         updateModelState({ modelScale: scale });
     };
 
-    const handleVisible = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleVisible = (event: React.ChangeEvent<HTMLInputElement>) => {
         const visible = Boolean(event?.target.checked);
         if (currentModel?.model) {
             currentModel.model.visible = visible;
