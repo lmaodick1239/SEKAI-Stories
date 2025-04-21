@@ -10,25 +10,18 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("netlifyHaltAnnouncement");
+        const cookie = localStorage.getItem("pngSprite");
         if (!cookie) {
-            localStorage.setItem("netlifyHaltAnnouncement", "0");
+            localStorage.setItem("pngSprite", "0");
             return;
         }
-        localStorage.setItem(
-            "netlifyHaltAnnouncement",
-            `${Number(cookie) + 1}`
-        );
+        localStorage.setItem("pngSprite", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>
-                Netlify deployment has been halted due to reaching the bandwidth
-                limit.
-            </p>
-            <p>It'll be fine, guys! The website will be back next month~</p>
+            <p>Initial model of Airi is changed to a PNG to save bandwidth.</p>
             <p>Tap this section to close.</p>
         </div>
     );
