@@ -47,7 +47,7 @@ const BackgroundPicker: React.FC = () => {
                             >
                                 <img
                                     className="picker-item background-picker-item"
-                                    src={`/background_low/${bg}.png`}
+                                    src={`/background_low_jpg/${bg}.jpg`}
                                     onClick={async () => {
                                         handleChangeBackground(bg);
                                         setShow(false);
