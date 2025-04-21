@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import { fuzzy } from "fast-fuzzy";
+import React, { ChangeEvent, useCallback, useContext, useDeferredValue, useEffect, useMemo, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 import data from "../background.json";
 import { getBackground } from "../utils/GetBackground";
@@ -11,6 +12,20 @@ const BackgroundPicker: React.FC = () => {
     if (!context) return;
 
     const { background, setBackground } = context;
+
+    const [searchValue, setSearchValue] = useState('');
+    const handleSearchValueChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
+    }, []);
+    const deferredSearchValue = useDeferredValue(searchValue);
+    const filteredBackgrounds = useMemo(() => {
+        if (!deferredSearchValue) {
+            return data.background;
+        }
+        return data.background.filter((bg) => {
+            return fuzzy(deferredSearchValue, bg.replace(/[^a-z0-9]/gi, "")) > 0.5;
+        });
+    }, [deferredSearchValue])
 
     const handleChangeBackground = async (bg: string) => {
         const backgroundSprite = await getBackground(
@@ -27,19 +42,49 @@ const BackgroundPicker: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+        const onKeyDown = (keyDownEvent: KeyboardEvent) => {
+            if (keyDownEvent.key === "Escape") {
+                if (searchValue) {
+                    setSearchValue("");
+                } else {
+                    setShow(false);
+                }
+            }
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => {
+            window.removeEventListener("keydown", onKeyDown);
+        };
+    }, [searchValue]);
+
     return (
         <>
             {show && (
                 <div
                     id="picker"
-                    onClick={() => {
-                        setShow(false);
-                    }}
                 >
-                    <button id="picker-close" className="btn-circle btn-pink">
+                    <button
+                        id="picker-close"
+                        className="btn-circle btn-pink"
+                        onClick={() => {
+                            setShow(false);
+                        }}
+                    >
                         <i className="bi bi-x-lg"></i>
                     </button>
-                    {data["background"].map((bg) => {
+                    <input
+                        type="text"
+                        value={searchValue}
+                        onChange={handleSearchValueChange}
+                        placeholder="Search background"
+                        style={{
+                            position: "fixed",
+                            top: 10,
+                            width: '80%',
+                        }}
+                    />
+                    {filteredBackgrounds.map((bg) => {
                         return (
                             <div
                                 key={bg}
