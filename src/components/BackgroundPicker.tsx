@@ -22,7 +22,9 @@ const BackgroundPicker: React.FC = () => {
         if (!deferredSearchValue) {
             return data.background;
         }
-        return data.background.filter((bg) => fuzzy(deferredSearchValue, bg) > 0.65);
+        return data.background.filter((bg) => {
+            return fuzzy(deferredSearchValue, bg.replace(/[^a-z0-9]/gi, "")) > 0.5;
+        });
     }, [deferredSearchValue])
 
     const handleChangeBackground = async (bg: string) => {
