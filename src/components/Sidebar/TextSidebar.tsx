@@ -29,17 +29,20 @@ const TextSidebar: React.FC = () => {
         if (text?.textContainer) {
             text.textContainer.visible = visible;
         }
-        setText ({
+        setText({
             ...text,
-            visible: visible
-        })
+            visible: visible,
+        });
     };
 
     const handleDialogueChange = (
         event: React.ChangeEvent<HTMLTextAreaElement>
     ) => {
-        const changedDialogue = event.target.value;
+        const changedDialogue = event.target.value
+            .replace(/“|”/g, '"')
+            .replace(/‘|’/g, "'");
         text.dialogue.text = changedDialogue;
+
         text.dialogue.updateText(true);
 
         if (
