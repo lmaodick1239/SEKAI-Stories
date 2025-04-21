@@ -35,7 +35,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(false);
 
     const initialScene = {
-        background: "/background_special/Background_Uranohoshi.png",
+        background: "/background_special/Background_Uranohoshi.jpg",
         model: "07airi_normal",
         text: "No, I will not do AiScream on you.",
         nameTag: "Airi",
