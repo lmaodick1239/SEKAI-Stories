@@ -7,8 +7,8 @@ import { useEffect } from "react";
 import IModel from "../types/IModel";
 import IBackground from "../types/IBackground";
 import IText from "../types/IText";
-import axios from "axios";
-import GetMotionList from "../utils/GetMotionList";
+// import axios from "axios";
+// import GetMotionList from "../utils/GetMotionList";
 import { getBackground } from "../utils/GetBackground";
 
 interface AppProviderProps {
@@ -97,23 +97,30 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             // Load Sample Model
             const modelContainer = new PIXI.Container();
 
-            const getmodel = await axios.get(
-                `/models/${initialScene["model"]}/${initialScene["model"]}.model3.json`
-            );
+            // const getmodel = await axios.get(
+            //     `/models/${initialScene["model"]}/${initialScene["model"]}.model3.json`
+            // );
 
-            const data = GetMotionList(initialScene["model"], getmodel.data);
+            // const data = GetMotionList(initialScene["model"], getmodel.data);
 
-            const live2DModel = await Live2DModel.from(data, {
-                autoInteract: false,
-            });
-            live2DModel.scale.set(0.5);
-            live2DModel.position.set(190, -280);
+            // const live2DModel = await Live2DModel.from(data, {
+            //     autoInteract: false,
+            // });
+            // live2DModel.scale.set(0.5);
+            // live2DModel.position.set(190, -280);
 
-            modelContainer.addChildAt(live2DModel, 0);
+            // modelContainer.addChildAt(live2DModel, 0);
+            // initApplication.stage.addChildAt(modelContainer, 2);
+            // live2DModel.motion("Expression", 38);
+            // await new Promise((resolve) => setTimeout(resolve, 2000));
+            // live2DModel.motion("Pose", 102);
+
+            // Load Sample PNG Sprite
+            const texture = await PIXI.Texture.fromURL("/img/airi.png");
+            const sprite = new PIXI.Sprite(texture);
+            modelContainer.addChildAt(sprite, 0);
+            sprite.position.set(620, 170);
             initApplication.stage.addChildAt(modelContainer, 2);
-            live2DModel.motion("Expression", 38);
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            live2DModel.motion("Pose", 102);
 
             // Load Text
             const textContainer = new PIXI.Container();
@@ -156,12 +163,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 character1: {
                     character: initialScene["character"],
                     file: initialScene["model"],
-                    model: live2DModel,
-                    modelX: live2DModel.x,
-                    modelY: live2DModel.y,
-                    modelScale: live2DModel.scale.x,
-                    expression: 38,
-                    pose: 102,
+                    model: sprite,
+                    modelX: sprite.x,
+                    modelY: sprite.y,
+                    modelScale: sprite.scale.x,
+                    expression: 99999,
+                    pose: 99999,
                     visible: true,
                 },
             });
