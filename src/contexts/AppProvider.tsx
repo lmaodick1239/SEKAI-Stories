@@ -43,8 +43,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        const cookie = localStorage.getItem("supportAnnouncement");
-        if (Number(cookie) >= 3) {
+        const cookie = localStorage.getItem("importantAnnouncement");
+        if (Number(cookie) >= 20) {
             setHideAnnouncements(true);
         }
 
