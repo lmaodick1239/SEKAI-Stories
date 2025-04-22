@@ -35,6 +35,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [layerIndex, setLayerIndex] = useState<number>(0);
 
     const getPoseFile = async (filename: string) => {
+        if (filename == "none") return;
         const data = await (
             await axios.get(`/models/${filename}/${filename}.model3.json`)
         ).data;
@@ -55,19 +56,19 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             ...updates,
         }));
     };
-    const newModel = async (filename: string, layerIndex: number) => {
-        const getmodel = await axios.get(
-            `/models/${filename}/${filename}.model3.json`
-        );
-        const data = GetMotionList(filename, getmodel.data);
-        const live2DModel = await Live2DModel.from(data, {
-            autoInteract: false,
-        });
-        live2DModel.scale.set(0.5);
-        live2DModel.position.set(-200, -280);
-        modelContainer?.addChildAt(live2DModel, layerIndex);
-        return live2DModel;
-    };
+    // const newModel = async (filename: string, layerIndex: number) => {
+    //     const getmodel = await axios.get(
+    //         `/models/${filename}/${filename}.model3.json`
+    //     );
+    //     const data = GetMotionList(filename, getmodel.data);
+    //     const live2DModel = await Live2DModel.from(data, {
+    //         autoInteract: false,
+    //     });
+    //     live2DModel.scale.set(0.5);
+    //     live2DModel.position.set(-200, -280);
+    //     modelContainer?.addChildAt(live2DModel, layerIndex);
+    //     return live2DModel;
+    // };
 
     const loadModel = async (
         filename: string,
@@ -133,16 +134,22 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             );
             if (!confirmation) return;
         }
-        const filename = "01ichika_cloth001";
-        const live2DModel = await newModel(filename, layers);
+        // const live2DModel = await newModel(filename, layers);
+        const filename = "none";
+        const texture = await PIXI.Texture.fromURL(
+            "/background/Background_New_Layer.png"
+        );
+        const sprite = new PIXI.Sprite(texture);
+        console.log(layerIndex);
+        modelContainer?.addChildAt(sprite, layers);
         const newLayer = {
             [`character${nextLayer + 1}`]: {
-                character: "ichika",
+                character: "none",
                 file: filename,
-                model: live2DModel,
-                modelX: live2DModel.x,
-                modelY: live2DModel.y,
-                modelScale: live2DModel.scale.x,
+                model: sprite,
+                modelX: -200,
+                modelY: -280,
+                modelScale: 0.5,
                 expression: 99999,
                 pose: 99999,
                 visible: true,
@@ -154,9 +161,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         }));
         setCurrentKey(`character${nextLayer + 1}`);
         setCurrentModel(newLayer[`character${nextLayer + 1}`]);
-        setCurrentSelectedCharacter("ichika");
+        setCurrentSelectedCharacter("none");
         setLayerIndex(layers);
-        getPoseFile(filename);
+        getPoseFile("none");
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
     };
@@ -356,7 +363,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     </div>
                 </div>
             </div>
-            {currentModel?.model instanceof Live2DModel && (
+            {(currentModel?.model instanceof Live2DModel ||
+                currentModel?.character == "none") && (
                 <>
                     <div className="option">
                         <h2>Character</h2>
@@ -365,6 +373,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 value={currentSelectedCharacter}
                                 onChange={handleCharacterChange}
                             >
+                                <option value="none" disabled>
+                                    Select a character
+                                </option>
                                 {Object.keys(characterData).map((character) => (
                                     <option key={character} value={character}>
                                         {character.charAt(0).toUpperCase() +
