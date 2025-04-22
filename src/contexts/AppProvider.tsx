@@ -43,7 +43,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        const cookie = localStorage.getItem("pngSprite");
+        const cookie = localStorage.getItem("supportAnnouncement");
         if (Number(cookie) >= 3) {
             setHideAnnouncements(true);
         }

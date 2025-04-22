@@ -4,6 +4,7 @@ import SidebarSelect from "./SidebarSelect";
 import DownloadClearButtons from "./DownloadClearButtons";
 import { AppContext } from "../contexts/AppContext";
 import FlavorText from "./FlavorText";
+import SupportButton from "./SupportButton";
 
 const Content: React.FC = () => {
     const contentBackground = useRef<HTMLDivElement | null>(null);
@@ -59,6 +60,8 @@ const Content: React.FC = () => {
                     )}
                 </button>
             </div>
+            <SupportButton />
+
             <Canvas />
             <FlavorText />
         </div>

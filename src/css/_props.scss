@@ -15,7 +15,7 @@
 .top-left {
     top: 0;
     left: 0;
-    // padding: inherit;
+    padding: inherit;
 }
 
 .top-right {
@@ -51,3 +51,6 @@
     flex-direction: row;
 }
 
+.extend-width {
+    min-width: 100%;
+}

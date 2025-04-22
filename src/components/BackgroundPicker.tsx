@@ -9,7 +9,7 @@ const BackgroundPicker: React.FC = () => {
 
     const context = useContext(AppContext);
 
-    if (!context) return;
+    if (!context) throw new Error("Context not found");
 
     const { background, setBackground } = context;
 

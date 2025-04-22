@@ -10,19 +10,24 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("pngSprite");
+        const cookie = localStorage.getItem("supportAnnouncement");
         if (!cookie) {
-            localStorage.setItem("pngSprite", "0");
+            localStorage.setItem("supportAnnouncement", "0");
             return;
         }
-        localStorage.setItem("pngSprite", `${Number(cookie) + 1}`);
+        localStorage.setItem("supportAnnouncement", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>Initial model of Airi is changed to a PNG to save bandwidth.</p>
+            <p>
+                If you enjoy using SEKAI Stories, you can support the website by
+                donation or contributing!
+            </p>
+            <p>Please click the support button for more information.</p>
             <p>Tap this section to close.</p>
+            
         </div>
     );
 };
