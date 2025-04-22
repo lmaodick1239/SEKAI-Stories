@@ -7,6 +7,9 @@ A Dialogue Generator for making fan-made stories from the game [Project SEKAI CO
 ## Try the Story Generator!
 [![](./public/img/vercel.png)](https://sekai-stories.vercel.app/) [![](./public/img/netlify.png)](https://sekai-stories.netlify.app/)
 
+## Self-hosting
+[You can see the tutorial for self-hosting here.](/README-selfhosting.md)
+
 ## Features
 ### Choose your background
 Just like my previous [dialogue sandbox](https://github.com/lezzthanthree/SIFAS-Dialogue-Sandbox), you can choose a background found from Project Sekai!
