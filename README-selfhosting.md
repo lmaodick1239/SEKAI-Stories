@@ -53,5 +53,9 @@ Once you have the files and Node.js ready:
    ```bash
    npm install
    ```
+4. Run the project!
+   ```bash
+   npm run dev
+   ```
 
 ![](/public/img/step-3.png)
