@@ -10,22 +10,28 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("importantAnnouncement");
+        const cookie = localStorage.getItem("importantAnnouncement2");
         if (!cookie) {
-            localStorage.setItem("importantAnnouncement", "0");
+            localStorage.setItem("importantAnnouncement2", "0");
             return;
         }
-        localStorage.setItem("importantAnnouncement", `${Number(cookie) + 1}`);
+        localStorage.setItem("importantAnnouncement2", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Important Announcement</h2>
-            <p>SEKAI Stories is nearing its bandwidth limit.</p>
-            <p>In approximately 25 hours, the website may pause for a while.</p>
+            <p>SEKAI Stories has reached bandwidth limit.</p>
+            <p>From this point on, Ko-fi funds are being used.</p>
+            <p>By a few hours, this site may pause for a while.</p>
             <p>See more information here.</p>
             <button
-                onClick={() => window.open("https://ko-fi.com/post/SEKAI-Stories-Nearing-Bandwidth-Limit-F1F71DWA1M", "_blank")}
+                onClick={() =>
+                    window.open(
+                        "https://ko-fi.com/post/SEKAI-Stories-Important-Announcement-A0A01DXJW5",
+                        "_blank"
+                    )
+                }
                 className="btn-blue btn-regular"
             >
                 Ko-fi Announcement
