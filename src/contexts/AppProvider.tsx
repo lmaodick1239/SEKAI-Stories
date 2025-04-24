@@ -10,6 +10,11 @@ import IText from "../types/IText";
 // import axios from "axios";
 // import GetMotionList from "../utils/GetMotionList";
 import { getBackground } from "../utils/GetBackground";
+import axios from "axios";
+import { url } from "../utils/URL";
+import { GetModelData } from "../utils/GetModelData";
+import { ILive2DModelList } from "../types/ILive2DModelList";
+import { GetMotionData } from "../utils/GetMotionUrl";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -94,32 +99,52 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             backgroundContainer.addChild(backgroundSprite);
             initApplication.stage.addChildAt(backgroundContainer, 1);
 
-            // Load Sample Model
             const modelContainer = new PIXI.Container();
 
-            // const getmodel = await axios.get(
-            //     `/models/${initialScene["model"]}/${initialScene["model"]}.model3.json`
-            // );
+            // Load Sample Model
+            const airiModel: ILive2DModelList = {
+                modelName: "07airi_normal_3.0_f_t03",
+                modelBase: "07airi_normal",
+                modelPath: "v1/main/07_airi/07airi_normal",
+                modelFile: "07airi_normal_3.0_f_t03.model3.json",
+            };
 
-            // const data = GetMotionList(initialScene["model"], getmodel.data);
+            const getModel = await axios.get(
+                `${url}/model/${airiModel.modelPath}/${airiModel.modelFile}`
+            );
+            const [motionBaseName, motionData] = await GetMotionData(airiModel);
 
-            // const live2DModel = await Live2DModel.from(data, {
-            //     autoInteract: false,
-            // });
-            // live2DModel.scale.set(0.5);
-            // live2DModel.position.set(190, -280);
+            const modelData = await GetModelData(
+                airiModel,
+                getModel.data,
+                motionData,
+                motionBaseName
+            );
+            
+            await axios.get(
+                modelData.url + modelData.FileReferences.Textures[0]
+            );
+            await axios.get(modelData.url + modelData.FileReferences.Moc);
+            await axios.get(modelData.url + modelData.FileReferences.Physics);
 
-            // modelContainer.addChildAt(live2DModel, 0);
-            // initApplication.stage.addChildAt(modelContainer, 2);
-            // live2DModel.motion("Expression", 38);
-            // await new Promise((resolve) => setTimeout(resolve, 2000));
-            // live2DModel.motion("Pose", 102);
+            const live2DModel = await Live2DModel.from(modelData, {
+                autoInteract: false,
+            });
+            live2DModel.scale.set(0.5);
+            live2DModel.position.set(190, -280);
+
+            modelContainer.addChildAt(live2DModel, 0);
+            initApplication.stage.addChildAt(modelContainer, 2);
+            live2DModel.motion("Expression", 38);
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            live2DModel.motion("Motion", 102);
 
             // Load Sample PNG Sprite
-            const texture = await PIXI.Texture.fromURL("/img/airi.png");
-            const sprite = new PIXI.Sprite(texture);
-            modelContainer.addChildAt(sprite, 0);
-            sprite.position.set(620, 170);
+            // const texture = await PIXI.Texture.fromURL("/img/airi.png");
+            // const sprite = new PIXI.Sprite(texture);
+            // modelContainer.addChildAt(sprite, 0);
+            // sprite.position.set(620, 170);
+
             initApplication.stage.addChildAt(modelContainer, 2);
 
             // Load Text
@@ -163,12 +188,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 character1: {
                     character: initialScene["character"],
                     file: initialScene["model"],
-                    model: sprite,
-                    modelX: sprite.x,
-                    modelY: sprite.y,
-                    modelScale: sprite.scale.x,
-                    expression: 99999,
-                    pose: 99999,
+                    model: live2DModel,
+                    modelX: live2DModel.x,
+                    modelY: live2DModel.y,
+                    modelScale: live2DModel.scale.x,
+                    expression: 38,
+                    pose: 102,
                     visible: true,
                 },
             });
