@@ -247,17 +247,22 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const character = event?.target.value;
-        const firstfile =
-            characterData[character as keyof typeof characterData][0];
-        const [live2DModel, modelData] = await loadModel(firstfile, layerIndex);
-        updateModelState({
-            character: character,
-            model: live2DModel,
-            pose: 99999,
-            expression: 99999,
-            modelName: firstfile.modelBase,
-            modelData: modelData,
-        });
+        try {
+            const firstfile =
+                characterData[character as keyof typeof characterData][0];
+            const [live2DModel, modelData] = await loadModel(firstfile, layerIndex);
+            updateModelState({
+                character: character,
+                model: live2DModel,
+                pose: 99999,
+                expression: 99999,
+                modelName: firstfile.modelBase,
+                modelData: modelData,
+            });
+        }
+        catch {
+            setLoadingMsg("Fail to load model!")   
+        }
         setCurrentSelectedCharacter(character);
     };
 
