@@ -13,12 +13,12 @@ import { getBackground } from "../utils/GetBackground";
 import axios from "axios";
 import { url } from "../utils/URL";
 import { GetModelData } from "../utils/GetModelData";
-import { ILive2DModelList } from "../types/ILive2DModelList";
 import { GetMotionData } from "../utils/GetMotionUrl";
 
 interface AppProviderProps {
     children: React.ReactNode;
 }
+
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
@@ -41,7 +41,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     const initialScene = {
         background: "/background_special/Background_Uranohoshi.jpg",
-        model: "07airi_normal",
+        model: {
+            modelName: "07airi_normal_3.0_f_t03",
+            modelBase: "07airi_normal",
+            modelPath: "v1/main/07_airi/07airi_normal",
+            modelFile: "07airi_normal_3.0_f_t03.model3.json",
+        },
         text: "No, I will not do AiScream on you.",
         nameTag: "Airi",
         character: "airi",
@@ -102,25 +107,20 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             const modelContainer = new PIXI.Container();
 
             // Load Sample Model
-            const airiModel: ILive2DModelList = {
-                modelName: "07airi_normal_3.0_f_t03",
-                modelBase: "07airi_normal",
-                modelPath: "v1/main/07_airi/07airi_normal",
-                modelFile: "07airi_normal_3.0_f_t03.model3.json",
-            };
-
             const getModel = await axios.get(
-                `${url}/model/${airiModel.modelPath}/${airiModel.modelFile}`
+                `${url}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
             );
-            const [motionBaseName, motionData] = await GetMotionData(airiModel);
+            const [motionBaseName, motionData] = await GetMotionData(
+                initialScene["model"]
+            );
 
             const modelData = await GetModelData(
-                airiModel,
+                initialScene["model"],
                 getModel.data,
                 motionData,
                 motionBaseName
             );
-            
+
             await axios.get(
                 modelData.url + modelData.FileReferences.Textures[0]
             );
@@ -187,11 +187,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             setModels({
                 character1: {
                     character: initialScene["character"],
-                    file: initialScene["model"],
                     model: live2DModel,
+                    modelName: initialScene["model"].modelBase,
                     modelX: live2DModel.x,
                     modelY: live2DModel.y,
                     modelScale: live2DModel.scale.x,
+                    modelData: modelData,
                     expression: 38,
                     pose: 102,
                     visible: true,

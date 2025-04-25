@@ -3,17 +3,18 @@ import characterData from "../../character.json";
 import axios from "axios";
 import { AppContext } from "../../contexts/AppContext";
 import IModel from "../../types/IModel";
-import GetMotionList, {
-    IData,
-    IExpressionPoseList,
-} from "../../utils/GetMotionList";
 import { Live2DModel } from "pixi-live2d-display";
 import UploadImageButton from "../UploadButton";
 import * as PIXI from "pixi.js";
 import { Checkbox } from "../Checkbox";
+import { ILive2DModelList } from "../../types/ILive2DModelList";
+import { url } from "../../utils/URL";
+import { GetMotionData } from "../../utils/GetMotionUrl";
+import { GetModelData } from "../../utils/GetModelData";
+import { ILive2DModelData } from "../../types/ILive2DModelData";
 
 interface CharacterData {
-    [key: string]: string[];
+    [key: string]: ILive2DModelList[];
 }
 
 const typedCharacterData: CharacterData = characterData;
@@ -22,11 +23,9 @@ interface ModelSidebarProps {
     message?: string;
 }
 
-
 const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const context = useContext(AppContext);
 
-    const [poseFile, setPoseFile] = useState<IData | undefined>(undefined);
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
         undefined
     );
@@ -34,15 +33,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
     const [layerIndex, setLayerIndex] = useState<number>(0);
-
-    const getPoseFile = async (filename: string) => {
-        if (filename == "none") return;
-        const data = await (
-            await axios.get(`/models/${filename}/${filename}.model3.json`)
-        ).data;
-        const poseFile = await GetMotionList(filename, data);
-        setPoseFile(poseFile);
-    };
 
     const updateModelState = (updates: Partial<IModel>) => {
         setModels((prevModels) => ({
@@ -72,14 +62,26 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     // };
 
     const loadModel = async (
-        filename: string,
+        model: ILive2DModelList,
         layerIndex: number
-    ): Promise<Live2DModel> => {
-        const getmodel = await axios.get(
-            `/models/${filename}/${filename}.model3.json`
+    ): Promise<[Live2DModel, ILive2DModelData]> => {
+        const getModel = await axios.get(
+            `${url}/model/${model.modelPath}/${model.modelFile}`
         );
-        const data = GetMotionList(filename, getmodel.data);
-        const live2DModel = await Live2DModel.from(data, {
+        const [motionBaseName, motionData] = await GetMotionData(model);
+
+        const modelData = await GetModelData(
+            model,
+            getModel.data,
+            motionData,
+            motionBaseName
+        );
+
+        await axios.get(modelData.url + modelData.FileReferences.Textures[0]);
+        await axios.get(modelData.url + modelData.FileReferences.Moc);
+        await axios.get(modelData.url + modelData.FileReferences.Physics);
+
+        const live2DModel = await Live2DModel.from(modelData, {
             autoInteract: false,
         });
         live2DModel.scale.set(currentModel?.modelScale);
@@ -87,7 +89,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         currentModel?.model.destroy();
         modelContainer?.addChildAt(live2DModel, layerIndex);
 
-        return live2DModel;
+        return [live2DModel, modelData];
     };
 
     useEffect(() => {
@@ -99,7 +101,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentKey(firstKey);
         setCurrentModel(firstModel);
         setCurrentSelectedCharacter(firstModel.character);
-        getPoseFile(firstModel.file);
     }, [context?.models, currentKey]);
 
     if (!context || !context.models) {
@@ -125,7 +126,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentModel(models[key]);
         setCurrentSelectedCharacter(models[key].character);
         setLayerIndex(selectedIndex);
-        getPoseFile(models[key].file);
     };
 
     const handleAddLayer = async () => {
@@ -136,7 +136,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             if (!confirmation) return;
         }
         // const live2DModel = await newModel(filename, layers);
-        const filename = "none";
+        const modelName = "none";
         const texture = await PIXI.Texture.fromURL(
             "/background/Background_New_Layer.png"
         );
@@ -146,7 +146,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         const newLayer = {
             [`character${nextLayer + 1}`]: {
                 character: "none",
-                file: filename,
+                modelName: modelName,
                 model: sprite,
                 modelX: -200,
                 modelY: -280,
@@ -154,6 +154,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 expression: 99999,
                 pose: 99999,
                 visible: true,
+                modelData: undefined,
             },
         };
         setModels((prevModels) => ({
@@ -164,21 +165,20 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentModel(newLayer[`character${nextLayer + 1}`]);
         setCurrentSelectedCharacter("none");
         setLayerIndex(layers);
-        getPoseFile("none");
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
     };
 
     const handleUploadImage = async (file: File) => {
         const imgSrc = URL.createObjectURL(file);
-        const filename = imgSrc;
-        const texture = await PIXI.Texture.fromURL(filename);
+        const modelName = imgSrc;
+        const texture = await PIXI.Texture.fromURL(modelName);
         const sprite = new PIXI.Sprite(texture);
         modelContainer?.addChildAt(sprite, layerIndex);
         const newLayer = {
             [`character${nextLayer + 1}`]: {
                 character: "Custom",
-                file: filename,
+                modelName: modelName,
                 model: sprite,
                 modelX: sprite.x,
                 modelY: sprite.y,
@@ -186,6 +186,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 expression: 99999,
                 pose: 99999,
                 visible: true,
+                modelData: undefined,
             },
         };
         setModels((prevModels) => ({
@@ -196,7 +197,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentModel(newLayer[`character${nextLayer + 1}`]);
         setCurrentSelectedCharacter("ichika");
         setLayerIndex(layers);
-        getPoseFile(filename);
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
     };
@@ -215,7 +215,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentSelectedCharacter(models[firstKey].character);
         setLayerIndex(0);
         setLayers(layers - 1);
-        getPoseFile(models[firstKey].file);
     };
 
     const handleCharacterChange = async (
@@ -225,28 +224,38 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentSelectedCharacter(character);
         const firstfile =
             characterData[character as keyof typeof characterData][0];
-        const live2DModel = await loadModel(firstfile, layerIndex);
+        const [live2DModel, modelData] = await loadModel(firstfile, layerIndex);
         updateModelState({
             character: character,
             model: live2DModel,
             pose: 99999,
             expression: 99999,
-            file: firstfile,
+            modelName: firstfile.modelBase,
+            modelData: modelData,
         });
-        getPoseFile(firstfile);
+        // getPoseFile(firstfile);
     };
 
     const handleFileChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
-        const filename = event?.target.value;
-        const live2DModel = await loadModel(filename, layerIndex);
+        const modelBase = event?.target.value;
+        const model = typedCharacterData[currentSelectedCharacter]?.find(
+            (item) => item.modelBase === modelBase
+        );
+        if (!model) {
+            throw new Error(
+                `An error has occured: No model found in ${modelBase}`
+            );
+        }
+        const [live2DModel, modelData] = await loadModel(model, layerIndex);
         updateModelState({
             character: currentSelectedCharacter,
             model: live2DModel,
             pose: 99999,
             expression: 99999,
-            file: filename,
+            modelName: modelBase,
+            modelData: modelData,
         });
     };
 
@@ -255,7 +264,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     ) => {
         if (currentModel?.model instanceof Live2DModel) {
             const pose = Number(event?.target.value);
-            currentModel?.model.motion("Pose", pose);
+            currentModel?.model.motion("Motion", pose);
             updateModelState({ pose });
         }
     };
@@ -328,6 +337,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     return (
         <div>
             <h1>Model</h1>
+            
             <div className="option">
                 <h2>Selected Layer</h2>
                 <div className="option__content">
@@ -390,15 +400,18 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         <h2>Costume</h2>
                         <div className="option__content">
                             <select
-                                value={currentModel?.file}
+                                value={currentModel?.modelName}
                                 onChange={handleFileChange}
                             >
                                 {currentSelectedCharacter &&
                                     typedCharacterData[
                                         currentSelectedCharacter
-                                    ]?.map((file: string) => (
-                                        <option key={file} value={file}>
-                                            {file}
+                                    ]?.map((model: ILive2DModelList) => (
+                                        <option
+                                            key={model.modelBase}
+                                            value={model.modelBase}
+                                        >
+                                            {model.modelBase}
                                         </option>
                                     ))}
                             </select>
@@ -415,9 +428,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 <option value={99999} disabled>
                                     Select a pose
                                 </option>
-                                {poseFile &&
-                                    poseFile.FileReferences.Motions.Pose.map(
-                                        (o: IExpressionPoseList, idx) => (
+                                {currentModel &&
+                                    currentModel.modelData?.FileReferences.Motions.Motion.map(
+                                        (o, idx) => (
                                             <option key={idx} value={idx}>
                                                 {o.Name}
                                             </option>
@@ -434,7 +447,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                         currentModel.pose !== 99999
                                     ) {
                                         currentModel.model.motion(
-                                            "Pose",
+                                            "Motion",
                                             currentModel.pose
                                         );
                                     }
@@ -452,9 +465,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 <option value={99999} disabled>
                                     Select an expression
                                 </option>
-                                {poseFile &&
-                                    poseFile.FileReferences.Motions.Expression.map(
-                                        (o: IExpressionPoseList, idx) => (
+                                {currentModel &&
+                                    currentModel.modelData?.FileReferences.Motions.Expression.map(
+                                        (o, idx) => (
                                             <option key={idx} value={idx}>
                                                 {o.Name}
                                             </option>
