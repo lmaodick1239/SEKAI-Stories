@@ -7,13 +7,13 @@ import { useEffect } from "react";
 import IModel from "../types/IModel";
 import IBackground from "../types/IBackground";
 import IText from "../types/IText";
+import { getBackground } from "../utils/GetBackground";
 // import axios from "axios";
 // import GetMotionList from "../utils/GetMotionList";
-import { getBackground } from "../utils/GetBackground";
-import axios from "axios";
-import { url } from "../utils/URL";
-import { GetModelData } from "../utils/GetModelData";
-import { GetMotionData } from "../utils/GetMotionUrl";
+// import axios from "axios";
+// import { url } from "../utils/URL";
+// import { GetModelData } from "../utils/GetModelData";
+// import { GetMotionData } from "../utils/GetMotionUrl";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -107,43 +107,43 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             const modelContainer = new PIXI.Container();
 
             // Load Sample Model
-            const getModel = await axios.get(
-                `${url}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
-            );
-            const [motionBaseName, motionData] = await GetMotionData(
-                initialScene["model"]
-            );
+            // const getModel = await axios.get(
+            //     `${url}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
+            // );
+            // const [motionBaseName, motionData] = await GetMotionData(
+            //     initialScene["model"]
+            // );
 
-            const modelData = await GetModelData(
-                initialScene["model"],
-                getModel.data,
-                motionData,
-                motionBaseName
-            );
+            // const modelData = await GetModelData(
+            //     initialScene["model"],
+            //     getModel.data,
+            //     motionData,
+            //     motionBaseName
+            // );
 
-            await axios.get(
-                modelData.url + modelData.FileReferences.Textures[0]
-            );
-            await axios.get(modelData.url + modelData.FileReferences.Moc);
-            await axios.get(modelData.url + modelData.FileReferences.Physics);
+            // await axios.get(
+            //     modelData.url + modelData.FileReferences.Textures[0]
+            // );
+            // await axios.get(modelData.url + modelData.FileReferences.Moc);
+            // await axios.get(modelData.url + modelData.FileReferences.Physics);
 
-            const live2DModel = await Live2DModel.from(modelData, {
-                autoInteract: false,
-            });
-            live2DModel.scale.set(0.5);
-            live2DModel.position.set(190, -280);
+            // const live2DModel = await Live2DModel.from(modelData, {
+            //     autoInteract: false,
+            // });
+            // live2DModel.scale.set(0.5);
+            // live2DModel.position.set(190, -280);
 
-            modelContainer.addChildAt(live2DModel, 0);
-            initApplication.stage.addChildAt(modelContainer, 2);
-            live2DModel.motion("Expression", 38);
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            live2DModel.motion("Motion", 102);
+            // modelContainer.addChildAt(live2DModel, 0);
+            // initApplication.stage.addChildAt(modelContainer, 2);
+            // live2DModel.motion("Expression", 38);
+            // await new Promise((resolve) => setTimeout(resolve, 2000));
+            // live2DModel.motion("Motion", 102);
 
             // Load Sample PNG Sprite
-            // const texture = await PIXI.Texture.fromURL("/img/airi.png");
-            // const sprite = new PIXI.Sprite(texture);
-            // modelContainer.addChildAt(sprite, 0);
-            // sprite.position.set(620, 170);
+            const texture = await PIXI.Texture.fromURL("/img/airi.png");
+            const sprite = new PIXI.Sprite(texture);
+            modelContainer.addChildAt(sprite, 0);
+            sprite.position.set(620, 170);
 
             initApplication.stage.addChildAt(modelContainer, 2);
 
@@ -187,12 +187,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             setModels({
                 character1: {
                     character: initialScene["character"],
-                    model: live2DModel,
+                    model: sprite,
                     modelName: initialScene["model"].modelBase,
-                    modelX: live2DModel.x,
-                    modelY: live2DModel.y,
-                    modelScale: live2DModel.scale.x,
-                    modelData: modelData,
+                    modelX: sprite.x,
+                    modelY: sprite.y,
+                    modelScale: sprite.scale.x,
+                    modelData: undefined,
                     expression: 38,
                     pose: 102,
                     visible: true,
