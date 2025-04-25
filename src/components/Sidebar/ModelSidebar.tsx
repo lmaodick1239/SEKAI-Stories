@@ -33,6 +33,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
     const [layerIndex, setLayerIndex] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [loadingMsg, setLoadingMsg] = useState<string>(
+        "We are Project Sekai"
+    );
 
     const updateModelState = (updates: Partial<IModel>) => {
         setModels((prevModels) => ({
@@ -65,31 +69,53 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         model: ILive2DModelList,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
-        const getModel = await axios.get(
-            `${url}/model/${model.modelPath}/${model.modelFile}`
-        );
-        const [motionBaseName, motionData] = await GetMotionData(model);
+        setLoading(true);
+        try {
+            const getModel = await axios.get(
+                `${url}/model/${model.modelPath}/${model.modelFile}`
+            );
+            setLoadingMsg(`Fetching ${model.modelBase} model file...`);
+            const [motionBaseName, motionData] = await GetMotionData(model);
+            setLoadingMsg(`Fetching ${model.modelBase} motion file...`);
 
-        const modelData = await GetModelData(
-            model,
-            getModel.data,
-            motionData,
-            motionBaseName
-        );
+            const modelData = await GetModelData(
+                model,
+                getModel.data,
+                motionData,
+                motionBaseName
+            );
+            setLoadingMsg(`Fixing ${model.modelBase} model file...`);
 
-        await axios.get(modelData.url + modelData.FileReferences.Textures[0]);
-        await axios.get(modelData.url + modelData.FileReferences.Moc);
-        await axios.get(modelData.url + modelData.FileReferences.Physics);
+            await axios.get(
+                modelData.url + modelData.FileReferences.Textures[0]
+            );
+            setLoadingMsg(`Loading ${model.modelBase} texture...`);
+            await axios.get(modelData.url + modelData.FileReferences.Moc);
+            setLoadingMsg(`Loading ${model.modelBase} moc3 file...`);
+            await axios.get(modelData.url + modelData.FileReferences.Physics);
+            setLoadingMsg(`Loading ${model.modelBase} physics file...`);
 
-        const live2DModel = await Live2DModel.from(modelData, {
-            autoInteract: false,
-        });
-        live2DModel.scale.set(currentModel?.modelScale);
-        live2DModel.position.set(currentModel?.modelX, currentModel?.modelY);
-        currentModel?.model.destroy();
-        modelContainer?.addChildAt(live2DModel, layerIndex);
+            const live2DModel = await Live2DModel.from(modelData, {
+                autoInteract: false,
+            });
+            setLoadingMsg(`Putting new model...`);
+            live2DModel.scale.set(currentModel?.modelScale);
+            live2DModel.position.set(
+                currentModel?.modelX,
+                currentModel?.modelY
+            );
+            currentModel?.model.destroy();
+            modelContainer?.addChildAt(live2DModel, layerIndex);
 
-        return [live2DModel, modelData];
+            setLoadingMsg(``);
+            setLoading(false);
+
+            return [live2DModel, modelData];
+        } catch (error) {
+            console.error("Error loading model:", error);
+            setLoadingMsg(`Fail to load model!`);
+            return Promise.reject(error);
+        }
     };
 
     useEffect(() => {
@@ -221,7 +247,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const character = event?.target.value;
-        setCurrentSelectedCharacter(character);
         const firstfile =
             characterData[character as keyof typeof characterData][0];
         const [live2DModel, modelData] = await loadModel(firstfile, layerIndex);
@@ -233,7 +258,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             modelName: firstfile.modelBase,
             modelData: modelData,
         });
-        // getPoseFile(firstfile);
+        setCurrentSelectedCharacter(character);
     };
 
     const handleFileChange = async (
@@ -264,8 +289,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     ) => {
         if (currentModel?.model instanceof Live2DModel) {
             const pose = Number(event?.target.value);
-            currentModel?.model.motion("Motion", pose);
-            updateModelState({ pose });
+            const selectedOption =
+                event.target.options[event.target.selectedIndex].text;
+            try {
+                currentModel?.model.motion("Motion", pose);
+                updateModelState({ pose });
+            } catch {
+                setLoadingMsg(`Fail to load ${selectedOption}!`);
+                setLoading(true);
+            }
         }
     };
 
@@ -274,8 +306,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     ) => {
         if (currentModel?.model instanceof Live2DModel) {
             const expression = Number(event?.target.value);
-            currentModel?.model.motion("Expression", expression);
-            updateModelState({ expression });
+            const selectedOption =
+                event.target.options[event.target.selectedIndex].text;
+            try {
+                currentModel?.model.motion("Expression", expression);
+                updateModelState({ expression });
+            } catch {
+                setLoadingMsg(`Fail to load ${selectedOption}!`);
+                setLoading(true);
+            }
         }
     };
 
@@ -337,7 +376,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     return (
         <div>
             <h1>Model</h1>
-            
+
             <div className="option">
                 <h2>Selected Layer</h2>
                 <div className="option__content">
@@ -417,6 +456,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             </select>
                         </div>
                     </div>
+                    {loading && <div className="option">{loadingMsg}</div>}
                     <div className="option">
                         <h2>Emotion</h2>
                         <div className="option__content">
