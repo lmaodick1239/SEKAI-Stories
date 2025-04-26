@@ -256,7 +256,6 @@
         "16rui_unit",
         "16rui_vest",
         "16rui_yukata",
-        "v2_16rui_casual(1)",
         "v2_16rui_casual",
         "v2_16rui_culture",
         "v2_16rui_school01",
@@ -284,7 +283,6 @@
         "18mafuyu_darkcloth001",
         "18mafuyu_darkunit",
         "18mafuyu_jc",
-        "18mafuyu_normal(1)",
         "18mafuyu_normal",
         "18mafuyu_sanisani",
         "18mafuyu_sports",
@@ -391,7 +389,6 @@
         "24luka_wonder",
         "v2_24luka_band",
         "v2_24luka_idol",
-        "v2_24luka_night(1)",
         "v2_24luka_night",
         "v2_24luka_normal",
         "v2_24luka_street",
@@ -428,7 +425,6 @@
         "v2_26kaito_night",
         "v2_26kaito_normal",
         "v2_26kaito_normalblack",
-        "v2_26kaito_street(1)",
         "v2_26kaito_street",
         "v2_26kaito_wonder"
     ]
