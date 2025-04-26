@@ -70,10 +70,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     ): Promise<[Live2DModel, ILive2DModelData]> => {
         setLoading(true);
         try {
-            
-            const [characterFolder] = await GetCharacterFolder(
-                modelName
-            );
+            const [characterFolder] = await GetCharacterFolder(modelName);
 
             const model = await axios.get(
                 `${url}/model/${characterFolder}/${modelName}/${modelName}.model3.json`
@@ -96,7 +93,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 modelData.url + modelData.FileReferences.Textures[0]
             );
             setLoadingMsg(`Loading ${modelName} texture...`);
-            await axios.get(modelData.url + modelData.FileReferences.Moc);
+            await axios.get(modelData.url + modelData.FileReferences.Moc, {
+                responseType: "arraybuffer",
+            });
             setLoadingMsg(`Loading ${modelName} moc3 file...`);
             await axios.get(modelData.url + modelData.FileReferences.Physics);
             setLoadingMsg(`Loading ${modelName} physics file...`);
