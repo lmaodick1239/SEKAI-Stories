@@ -89,21 +89,21 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             );
             setLoadingMsg(`Fixing ${modelName} model file...`);
 
+            setLoadingMsg(`Loading ${modelName} texture...`);
             await axios.get(
                 modelData.url + modelData.FileReferences.Textures[0]
             );
-            setLoadingMsg(`Loading ${modelName} texture...`);
+            setLoadingMsg(`Loading ${modelName} moc3 file...`);
             await axios.get(modelData.url + modelData.FileReferences.Moc, {
                 responseType: "arraybuffer",
             });
-            setLoadingMsg(`Loading ${modelName} moc3 file...`);
-            await axios.get(modelData.url + modelData.FileReferences.Physics);
             setLoadingMsg(`Loading ${modelName} physics file...`);
+            await axios.get(modelData.url + modelData.FileReferences.Physics);
 
+            setLoadingMsg(`Putting new model...`);
             const live2DModel = await Live2DModel.from(modelData, {
                 autoInteract: false,
             });
-            setLoadingMsg(`Putting new model...`);
             live2DModel.scale.set(currentModel?.modelScale);
             live2DModel.position.set(
                 currentModel?.modelX,
