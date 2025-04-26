@@ -30,7 +30,7 @@ const SupportButton: React.FC = () => {
                         </p>
                         <h2>Ko-fi</h2>
                         <p>
-                            Donations go directly toward funding the website! I
+                            Donations are optional! I
                             will also be posting the website updates there as
                             well.
                         </p>

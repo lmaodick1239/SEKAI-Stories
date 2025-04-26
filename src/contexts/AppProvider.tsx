@@ -50,8 +50,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        const cookie = localStorage.getItem("importantAnnouncement2");
-        if (Number(cookie) >= 20) {
+        const cookie = localStorage.getItem("thankYouAnnouncement");
+        if (Number(cookie) >= 2) {
             setHideAnnouncements(true);
         }
 
@@ -109,7 +109,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             const model = await axios.get(
                 `${url}/model/${characterFolder}/${initialScene["model"]}/${initialScene["model"]}.model3.json`
             );
-            console.log(model.data)
+            console.log(model.data);
             const motion = await axios.get(
                 `${url}/motion/${characterFolder}/BuildMotionData.json`
             );
