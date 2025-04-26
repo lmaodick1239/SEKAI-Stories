@@ -10,6 +10,7 @@ import { Checkbox } from "../Checkbox";
 import { url } from "../../utils/URL";
 import { GetModelData } from "../../utils/GetModelData";
 import { ILive2DModelData } from "../../types/ILive2DModelData";
+import { GetCharacterFolder } from "../../utils/GetCharacterFolder";
 
 interface CharacterData {
     [key: string]: string[];
@@ -69,7 +70,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     ): Promise<[Live2DModel, ILive2DModelData]> => {
         setLoading(true);
         try {
-            const characterFolder = modelName.split("_")[0];
+            
+            const [characterFolder] = await GetCharacterFolder(
+                modelName
+            );
 
             const model = await axios.get(
                 `${url}/model/${characterFolder}/${modelName}/${modelName}.model3.json`

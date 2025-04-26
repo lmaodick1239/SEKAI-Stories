@@ -11,6 +11,7 @@ import { getBackground } from "../utils/GetBackground";
 import axios from "axios";
 import { GetModelData } from "../utils/GetModelData";
 import { url } from "../utils/URL";
+import { GetCharacterFolder } from "../utils/GetCharacterFolder";
 // import axios from "axios";
 // import GetMotionList from "../utils/GetMotionList";
 // import axios from "axios";
@@ -104,14 +105,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             const modelContainer = new PIXI.Container();
 
             // Load Sample Model
-            const characterFolder = initialScene["model"].split("_")[0];
+            const [characterFolder, motionFolder] = await GetCharacterFolder(initialScene["model"]);
 
             const model = await axios.get(
                 `${url}/model/${characterFolder}/${initialScene["model"]}/${initialScene["model"]}.model3.json`
             );
             console.log(model.data);
             const motion = await axios.get(
-                `${url}/motion/${characterFolder}/BuildMotionData.json`
+                `${url}/motion/${motionFolder}/BuildMotionData.json`
             );
             console.log(motion.data);
 
