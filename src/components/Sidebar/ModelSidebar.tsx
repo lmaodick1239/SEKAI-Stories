@@ -7,14 +7,12 @@ import { Live2DModel } from "pixi-live2d-display";
 import UploadImageButton from "../UploadButton";
 import * as PIXI from "pixi.js";
 import { Checkbox } from "../Checkbox";
-import { ILive2DModelList } from "../../types/ILive2DModelList";
 import { url } from "../../utils/URL";
-import { GetMotionData } from "../../utils/GetMotionUrl";
 import { GetModelData } from "../../utils/GetModelData";
 import { ILive2DModelData } from "../../types/ILive2DModelData";
 
 interface CharacterData {
-    [key: string]: ILive2DModelList[];
+    [key: string]: string[];
 }
 
 const typedCharacterData: CharacterData = characterData;
@@ -66,34 +64,38 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     // };
 
     const loadModel = async (
-        model: ILive2DModelList,
+        modelName: string,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
         setLoading(true);
         try {
-            const getModel = await axios.get(
-                `${url}/model/${model.modelPath}/${model.modelFile}`
+            const characterFolder = modelName.split("_")[0];
+
+            const model = await axios.get(
+                `${url}/model/${characterFolder}/${modelName}/${modelName}.model3.json`
             );
-            setLoadingMsg(`Fetching ${model.modelBase} model file...`);
-            const [motionBaseName, motionData] = await GetMotionData(model);
-            setLoadingMsg(`Fetching ${model.modelBase} motion file...`);
+            setLoadingMsg(`Fetching ${modelName} model file...`);
+            const motion = await axios.get(
+                `${url}/motion/${characterFolder}/BuildMotionData.json`
+            );
+            setLoadingMsg(`Fetching ${modelName} motion file...`);
 
             const modelData = await GetModelData(
-                model,
-                getModel.data,
-                motionData,
-                motionBaseName
+                characterFolder,
+                modelName,
+                model.data,
+                motion.data
             );
-            setLoadingMsg(`Fixing ${model.modelBase} model file...`);
+            setLoadingMsg(`Fixing ${modelName} model file...`);
 
             await axios.get(
                 modelData.url + modelData.FileReferences.Textures[0]
             );
-            setLoadingMsg(`Loading ${model.modelBase} texture...`);
+            setLoadingMsg(`Loading ${modelName} texture...`);
             await axios.get(modelData.url + modelData.FileReferences.Moc);
-            setLoadingMsg(`Loading ${model.modelBase} moc3 file...`);
+            setLoadingMsg(`Loading ${modelName} moc3 file...`);
             await axios.get(modelData.url + modelData.FileReferences.Physics);
-            setLoadingMsg(`Loading ${model.modelBase} physics file...`);
+            setLoadingMsg(`Loading ${modelName} physics file...`);
 
             const live2DModel = await Live2DModel.from(modelData, {
                 autoInteract: false,
@@ -250,18 +252,20 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         try {
             const firstfile =
                 characterData[character as keyof typeof characterData][0];
-            const [live2DModel, modelData] = await loadModel(firstfile, layerIndex);
+            const [live2DModel, modelData] = await loadModel(
+                firstfile,
+                layerIndex
+            );
             updateModelState({
                 character: character,
                 model: live2DModel,
                 pose: 99999,
                 expression: 99999,
-                modelName: firstfile.modelBase,
+                modelName: firstfile,
                 modelData: modelData,
             });
-        }
-        catch {
-            setLoadingMsg("Fail to load model!")   
+        } catch {
+            setLoadingMsg("Fail to load model!");
         }
         setCurrentSelectedCharacter(character);
     };
@@ -270,15 +274,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const modelBase = event?.target.value;
-        const model = typedCharacterData[currentSelectedCharacter]?.find(
-            (item) => item.modelBase === modelBase
-        );
-        if (!model) {
-            throw new Error(
-                `An error has occured: No model found in ${modelBase}`
-            );
-        }
-        const [live2DModel, modelData] = await loadModel(model, layerIndex);
+        const [live2DModel, modelData] = await loadModel(modelBase, layerIndex);
         updateModelState({
             character: currentSelectedCharacter,
             model: live2DModel,
@@ -450,12 +446,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 {currentSelectedCharacter &&
                                     typedCharacterData[
                                         currentSelectedCharacter
-                                    ]?.map((model: ILive2DModelList) => (
-                                        <option
-                                            key={model.modelBase}
-                                            value={model.modelBase}
-                                        >
-                                            {model.modelBase}
+                                    ]?.map((model: string) => (
+                                        <option key={model} value={model}>
+                                            {model}
                                         </option>
                                     ))}
                             </select>
