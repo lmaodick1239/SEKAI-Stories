@@ -21,7 +21,6 @@ const Announcements: React.FC = () => {
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>Some models may be missing, but will be added sooner.</p>
             <p>Thank you for your patience, and I sincerely apologize for the temporary pausing of the project.</p>
             <p>Tap this section to close.</p>
         </div>
