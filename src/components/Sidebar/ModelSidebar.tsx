@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import characterData from "../../character.json";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import staticCharacterData from "../../character.json";
+import sekaiCharacterData from "../../character_sekai.json";
 import axios from "axios";
 import { AppContext } from "../../contexts/AppContext";
 import IModel from "../../types/IModel";
@@ -7,16 +8,27 @@ import { Live2DModel } from "pixi-live2d-display";
 import UploadImageButton from "../UploadButton";
 import * as PIXI from "pixi.js";
 import { Checkbox } from "../Checkbox";
-import { staticUrl } from "../../utils/URL";
-import { GetModelDataFromStatic } from "../../utils/GetModelData";
+import { sekaiUrl, staticUrl } from "../../utils/URL";
+import {
+    GetModelDataFromSekai,
+    GetModelDataFromStatic,
+} from "../../utils/GetModelData";
 import { ILive2DModelData } from "../../types/ILive2DModelData";
 import { GetCharacterFolder } from "../../utils/GetCharacterFolder";
+import { ILive2DModelList } from "../../types/ILive2DModelList";
+import AddModelSelect from "../AddModelSelect";
+import { GetMotionData } from "../../utils/GetMotionUrl";
 
-interface CharacterData {
+interface StaticCharacterData {
     [key: string]: string[];
 }
 
-const typedCharacterData: CharacterData = characterData;
+const typedStaticCharacterData: StaticCharacterData = staticCharacterData;
+interface SekaiCharacterData {
+    [key: string]: ILive2DModelList[];
+}
+
+const typedSekaiCharacterData: SekaiCharacterData = sekaiCharacterData;
 
 interface ModelSidebarProps {
     message?: string;
@@ -36,6 +48,11 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>(
         "We are Project Sekai"
     );
+    const [showAddModelScreen, setShowAddModelScreen] =
+        useState<boolean>(false);
+
+    const characterSelect = useRef<null | HTMLSelectElement>(null);
+    const modelSelect = useRef<null | HTMLSelectElement>(null);
 
     const updateModelState = (updates: Partial<IModel>) => {
         setModels((prevModels) => ({
@@ -64,7 +81,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     //     return live2DModel;
     // };
 
-    const loadModel = async (
+    const loadStaticModel = async (
         modelName: string,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
@@ -98,6 +115,59 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 responseType: "arraybuffer",
             });
             setLoadingMsg(`Loading ${modelName} physics file...`);
+            await axios.get(modelData.url + modelData.FileReferences.Physics);
+
+            setLoadingMsg(`Putting new model...`);
+            const live2DModel = await Live2DModel.from(modelData, {
+                autoInteract: false,
+            });
+            live2DModel.scale.set(currentModel?.modelScale);
+            live2DModel.position.set(
+                currentModel?.modelX,
+                currentModel?.modelY
+            );
+            currentModel?.model.destroy();
+            modelContainer?.addChildAt(live2DModel, layerIndex);
+
+            setLoadingMsg(``);
+            setLoading(false);
+
+            return [live2DModel, modelData];
+        } catch (error) {
+            console.error("Error loading model:", error);
+            setLoadingMsg(`Fail to load model!`);
+            return Promise.reject(error);
+        }
+    };
+
+    const loadSekaiModel = async (
+        model: ILive2DModelList,
+        layerIndex: number
+    ): Promise<[Live2DModel, ILive2DModelData]> => {
+        setLoading(true);
+        try {
+            setLoadingMsg(`Fetching ${model.modelBase} model file...`);
+            const getModel = await axios.get(
+                `${sekaiUrl}/model/${model.modelPath}/${model.modelFile}`
+            );
+            setLoadingMsg(`Fetching ${model.modelBase} motion file...`);
+            const [motionBaseName, motionData] = await GetMotionData(model);
+
+            setLoadingMsg(`Fixing ${model.modelBase} model file...`);
+            const modelData = await GetModelDataFromSekai(
+                model,
+                getModel.data,
+                motionData,
+                motionBaseName
+            );
+
+            setLoadingMsg(`Loading ${model.modelBase} texture...`);
+            await axios.get(
+                modelData.url + modelData.FileReferences.Textures[0]
+            );
+            setLoadingMsg(`Loading ${model.modelBase} moc3 file...`);
+            await axios.get(modelData.url + modelData.FileReferences.Moc);
+            setLoadingMsg(`Loading ${model.modelBase} physics file...`);
             await axios.get(modelData.url + modelData.FileReferences.Physics);
 
             setLoadingMsg(`Putting new model...`);
@@ -159,7 +229,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setLayerIndex(selectedIndex);
     };
 
-    const handleAddLayer = async () => {
+    const handleAddLayer = async (from: string) => {
         if (layers >= 3) {
             const confirmation = confirm(
                 "Adding more than three layers may prevent other models from rendering properly and could cause lag. Do you want to continue?\n\nClicking OK will proceed the action."
@@ -186,6 +256,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 pose: 99999,
                 visible: true,
                 modelData: undefined,
+                from: from,
             },
         };
         setModels((prevModels) => ({
@@ -218,6 +289,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 pose: 99999,
                 visible: true,
                 modelData: undefined,
+                from: "upload",
             },
         };
         setModels((prevModels) => ({
@@ -252,40 +324,112 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const character = event?.target.value;
+        setCurrentSelectedCharacter(character);
+        if (characterSelect.current && modelSelect.current) {
+            characterSelect.current.disabled = true;
+            modelSelect.current.disabled = true;
+        }
         try {
-            const firstfile =
-                characterData[character as keyof typeof characterData][0];
-            const [live2DModel, modelData] = await loadModel(
-                firstfile,
-                layerIndex
-            );
+            if (!currentModel) return;
+
+            const isStatic = currentModel.from === "static";
+            const characterData = isStatic
+                ? staticCharacterData[
+                      character as keyof typeof staticCharacterData
+                  ]
+                : sekaiCharacterData[
+                      character as keyof typeof sekaiCharacterData
+                  ];
+
+            if (!characterData || characterData.length === 0) {
+                throw new Error("No models found for the selected character.");
+            }
+
+            const firstFile = isStatic
+                ? characterData[0]
+                : (characterData[0] as ILive2DModelList);
+
+            const [live2DModel, modelData] = isStatic
+                ? await loadStaticModel(firstFile as string, layerIndex)
+                : await loadSekaiModel(
+                      firstFile as ILive2DModelList,
+                      layerIndex
+                  );
+
             updateModelState({
-                character: character,
+                character,
                 model: live2DModel,
                 pose: 99999,
                 expression: 99999,
-                modelName: firstfile,
-                modelData: modelData,
+                modelName: isStatic
+                    ? (firstFile as string)
+                    : (firstFile as ILive2DModelList).modelBase,
+                modelData,
             });
         } catch {
-            setLoadingMsg("Fail to load model!");
+            setLoadingMsg("Failed to load model!");
+        } finally {
+            if (characterSelect.current && modelSelect.current) {
+                characterSelect.current.disabled = false;
+                modelSelect.current.disabled = false;
+            }
         }
-        setCurrentSelectedCharacter(character);
     };
 
     const handleFileChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const modelBase = event?.target.value;
-        const [live2DModel, modelData] = await loadModel(modelBase, layerIndex);
-        updateModelState({
-            character: currentSelectedCharacter,
-            model: live2DModel,
-            pose: 99999,
-            expression: 99999,
-            modelName: modelBase,
-            modelData: modelData,
-        });
+
+        if (!currentModel) return;
+        if (characterSelect.current && modelSelect.current) {
+            characterSelect.current.disabled = true;
+            modelSelect.current.disabled = true;
+        }
+        try {
+            let live2DModel: Live2DModel;
+            let modelData: ILive2DModelData;
+
+            if (currentModel.from === "static") {
+                [live2DModel, modelData] = await loadStaticModel(
+                    modelBase,
+                    layerIndex
+                );
+            } else if (currentModel.from === "sekai") {
+                const model = typedSekaiCharacterData[
+                    currentSelectedCharacter
+                ]?.find((item) => item.modelBase === modelBase);
+
+                if (!model) {
+                    throw new Error(
+                        `No model found for ${modelBase} in sekai data`
+                    );
+                }
+
+                [live2DModel, modelData] = await loadSekaiModel(
+                    model,
+                    layerIndex
+                );
+            } else {
+                throw new Error("Invalid model source");
+            }
+
+            updateModelState({
+                character: currentSelectedCharacter,
+                model: live2DModel,
+                pose: 99999,
+                expression: 99999,
+                modelName: modelBase,
+                modelData: modelData,
+            });
+        } catch {
+            setLoadingMsg("Failed to load model!");
+        } finally {
+            if (characterSelect.current && modelSelect.current) {
+                characterSelect.current.disabled = false;
+                modelSelect.current.disabled = false;
+            }
+        }
     };
 
     const handlePoseChange = async (
@@ -398,10 +542,18 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     <div id="layer-buttons">
                         <button
                             className="btn-circle btn-white"
-                            onClick={handleAddLayer}
+                            onClick={() => {
+                                setShowAddModelScreen(!showAddModelScreen);
+                            }}
                         >
                             <i className="bi bi-plus-circle"></i>
                         </button>
+                        {showAddModelScreen && (
+                            <AddModelSelect
+                                addModel={handleAddLayer}
+                                setShow={setShowAddModelScreen}
+                            />
+                        )}
                         <UploadImageButton
                             id="background-upload"
                             uploadFunction={handleUploadImage}
@@ -426,11 +578,16 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             <select
                                 value={currentSelectedCharacter}
                                 onChange={handleCharacterChange}
+                                ref={characterSelect}
                             >
                                 <option value="none" disabled>
                                     Select a character
                                 </option>
-                                {Object.keys(characterData).map((character) => (
+                                {Object.keys(
+                                    currentModel.from === "static"
+                                        ? staticCharacterData
+                                        : sekaiCharacterData
+                                ).map((character) => (
                                     <option key={character} value={character}>
                                         {character.charAt(0).toUpperCase() +
                                             character.slice(1)}
@@ -445,18 +602,31 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             <select
                                 value={currentModel?.modelName}
                                 onChange={handleFileChange}
+                                ref={modelSelect}
                             >
-                                {currentSelectedCharacter &&
-                                    typedCharacterData[
-                                        currentSelectedCharacter
-                                    ]?.map((model: string) => (
-                                        <option key={model} value={model}>
-                                            {model}
+                                {(currentModel.from === "static"
+                                    ? typedStaticCharacterData[
+                                          currentSelectedCharacter
+                                      ]
+                                    : typedSekaiCharacterData[
+                                          currentSelectedCharacter
+                                      ]
+                                )?.map((model) => {
+                                    const value =
+                                        currentModel.from === "static"
+                                            ? (model as string)
+                                            : (model as ILive2DModelList)
+                                                  .modelBase;
+                                    return (
+                                        <option key={value} value={value}>
+                                            {value}
                                         </option>
-                                    ))}
+                                    );
+                                })}
                             </select>
                         </div>
                     </div>
+
                     {loading && <div className="option">{loadingMsg}</div>}
                     <div className="option">
                         <h2>Emotion</h2>

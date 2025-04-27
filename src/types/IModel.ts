@@ -13,4 +13,5 @@ export default interface IModel {
     expression: number | undefined;
     pose: number | undefined;
     visible: boolean;
+    from: string;
 }

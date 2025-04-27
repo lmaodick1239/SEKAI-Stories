@@ -240,6 +240,11 @@ select {
   min-height: 55px;
 }
 
+select:disabled {
+  background-color: #ebebf2;
+  cursor: progress;
+}
+
 .center {
   display: flex;
   align-items: center;
@@ -520,7 +525,7 @@ select {
   }
 }
 
-#support-screen {
+#support-screen, #add-model-select-screen {
   padding: 10px;
   position: fixed;
   top: 0;
@@ -536,10 +541,10 @@ select {
   box-sizing: border-box;
   overflow: auto;
 }
-#support-screen h2 {
+#support-screen h2, #add-model-select-screen h2 {
   padding-top: 10px;
 }
-#support-screen p {
+#support-screen p, #add-model-select-screen p {
   padding-bottom: 5px;
 }
 
@@ -554,6 +559,13 @@ select {
   .window img {
     width: 50%;
   }
+}
+
+.window-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 * {

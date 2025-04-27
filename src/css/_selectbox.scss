@@ -21,3 +21,8 @@ select {
     cursor: pointer;
     min-height: 55px;
 }
+
+select:disabled {
+    background-color: $light-gray;
+    cursor: progress;
+}

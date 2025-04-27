@@ -2681,12 +2681,6 @@
     ],
     "others": [
         {
-            "modelName": "sub_airichildblack_t01",
-            "modelBase": "sub_airichildblack",
-            "modelPath": "v1/sub/sub_airichildblack",
-            "modelFile": "sub_airichildblack_t01.model3.json"
-        },
-        {
             "modelName": "sub_akitochild_t01",
             "modelBase": "sub_akitochild",
             "modelPath": "v1/sub/sub_akitochild",

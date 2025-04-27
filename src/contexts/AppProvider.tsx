@@ -227,6 +227,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                     expression: 38,
                     pose: 102,
                     visible: true,
+                    from: "sekai",
                 },
             });
             setModelContainer(modelContainer);
