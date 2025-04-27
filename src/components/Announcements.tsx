@@ -10,12 +10,12 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("thankYouAnnouncement");
+        const cookie = localStorage.getItem("testingSekaiViewerAnnouncement");
         if (!cookie) {
-            localStorage.setItem("thankYouAnnouncement", "0");
+            localStorage.setItem("testingSekaiViewerAnnouncement", "0");
             return;
         }
-        localStorage.setItem("thankYouAnnouncement", `${Number(cookie) + 1}`);
+        localStorage.setItem("testingSekaiViewerAnnouncement", `${Number(cookie) + 1}`);
     };
 
     return (
