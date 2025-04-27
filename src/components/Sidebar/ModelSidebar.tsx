@@ -7,8 +7,8 @@ import { Live2DModel } from "pixi-live2d-display";
 import UploadImageButton from "../UploadButton";
 import * as PIXI from "pixi.js";
 import { Checkbox } from "../Checkbox";
-import { url } from "../../utils/URL";
-import { GetModelData } from "../../utils/GetModelData";
+import { staticUrl } from "../../utils/URL";
+import { GetModelDataFromStatic } from "../../utils/GetModelData";
 import { ILive2DModelData } from "../../types/ILive2DModelData";
 import { GetCharacterFolder } from "../../utils/GetCharacterFolder";
 
@@ -73,15 +73,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             const [characterFolder] = await GetCharacterFolder(modelName);
 
             const model = await axios.get(
-                `${url}/model/${characterFolder}/${modelName}/${modelName}.model3.json`
+                `${staticUrl}/model/${characterFolder}/${modelName}/${modelName}.model3.json`
             );
             setLoadingMsg(`Fetching ${modelName} model file...`);
             const motion = await axios.get(
-                `${url}/motion/${characterFolder}/BuildMotionData.json`
+                `${staticUrl}/motion/${characterFolder}/BuildMotionData.json`
             );
             setLoadingMsg(`Fetching ${modelName} motion file...`);
 
-            const modelData = await GetModelData(
+            const modelData = await GetModelDataFromStatic(
                 characterFolder,
                 modelName,
                 model.data,

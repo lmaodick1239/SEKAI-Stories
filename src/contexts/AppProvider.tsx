@@ -8,10 +8,10 @@ import IModel from "../types/IModel";
 import IBackground from "../types/IBackground";
 import IText from "../types/IText";
 import { getBackground } from "../utils/GetBackground";
-// import axios from "axios";
-// import { GetModelData } from "../utils/GetModelData";
-// import { url } from "../utils/URL";
-// import { GetCharacterFolder } from "../utils/GetCharacterFolder";
+import axios from "axios";
+import { GetModelDataFromSekai } from "../utils/GetModelData";
+import { sekaiUrl } from "../utils/URL";
+import { GetMotionData } from "../utils/GetMotionUrl";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -34,11 +34,17 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [text, setText] = useState<IText | undefined>(undefined);
     const [reset, setReset] = useState<number>(0);
     const [hide, setHide] = useState<boolean>(false);
-    const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(false);
+    const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
+    const [startingMessage, setStartingMessage] = useState<string>("");
 
     const initialScene = {
         background: "/background_special/Background_Uranohoshi.jpg",
-        model: "07airi_normal",
+        model: {
+            modelName: "07airi_normal_3.0_f_t03",
+            modelBase: "07airi_normal",
+            modelPath: "v1/main/07_airi/07airi_normal",
+            modelFile: "07airi_normal_3.0_f_t03.model3.json",
+        },
         text: "No, I will not do AiScream on you.",
         nameTag: "Airi",
         character: "airi",
@@ -46,8 +52,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     useEffect(() => {
         const cookie = localStorage.getItem("thankYouAnnouncement");
-        if (Number(cookie) >= 2) {
-            setHideAnnouncements(true);
+        if (Number(cookie) < 2) {
+            setHideAnnouncements(false);
         }
 
         const runCanvas = async () => {
@@ -89,6 +95,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             initApplication.stage.addChildAt(transparentContainer, 0);
 
             // Load Background
+            setStartingMessage("Adding background...");
             const backgroundContainer = new PIXI.Container();
             const backgroundSprite = await getBackground(
                 initialScene["background"]
@@ -98,54 +105,80 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
             const modelContainer = new PIXI.Container();
 
-            // Load Sample Model
+            // Load Sample Model from Static
             // const [characterFolder, motionFolder] = await GetCharacterFolder(
             //     initialScene["model"]
             // );
 
             // const model = await axios.get(
-            //     `${url}/model/${characterFolder}/${initialScene["model"]}/${initialScene["model"]}.model3.json`
+            //     `${staticUrl}/model/${characterFolder}/${initialScene["model"]}/${initialScene["model"]}.model3.json`
             // );
             // const motion = await axios.get(
-            //     `${url}/motion/${motionFolder}/BuildMotionData.json`
+            //     `${staticUrl}/motion/${motionFolder}/BuildMotionData.json`
             // );
 
-            // const modelData = await GetModelData(
+            // const modelData = await GetModelDataFromStatic(
             //     characterFolder,
             //     initialScene["model"],
             //     model.data,
             //     motion.data
             // );
 
-            // await axios.get(
-            //     modelData.url + modelData.FileReferences.Textures[0]
-            // );
-            // await axios.get(modelData.url + modelData.FileReferences.Moc, {
-            //     responseType: "arraybuffer",
-            // });
-            // await axios.get(modelData.url + modelData.FileReferences.Physics);
+            setStartingMessage("Fetching initial model from sekai-viewer...");
+            // Load Sample Model from sekai-viewer
+            const getModel = await axios.get(
+                `${sekaiUrl}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
+            );
+            setStartingMessage(
+                "Fetching initial motion data from sekai-viewer..."
+            );
+            const [motionBaseName, motionData] = await GetMotionData(
+                initialScene["model"]
+            );
 
-            // const live2DModel = await Live2DModel.from(modelData, {
-            //     autoInteract: false,
-            // });
-            // live2DModel.scale.set(0.5);
-            // live2DModel.position.set(190, -280);
+            setStartingMessage("Fixing model data...");
+            const modelData = await GetModelDataFromSekai(
+                initialScene["model"],
+                getModel.data,
+                motionData,
+                motionBaseName
+            );
 
-            // modelContainer.addChildAt(live2DModel, 0);
-            // initApplication.stage.addChildAt(modelContainer, 2);
-            // live2DModel.motion("Expression", 38);
-            // await new Promise((resolve) => setTimeout(resolve, 2000));
-            // live2DModel.motion("Motion", 102);
+            setStartingMessage("Loading model texture...");
+            await axios.get(
+                modelData.url + modelData.FileReferences.Textures[0]
+            );
+            setStartingMessage("Loading model moc3 file...");
+            await axios.get(modelData.url + modelData.FileReferences.Moc, {
+                responseType: "arraybuffer",
+            });
+            setStartingMessage("Loading model physics file...");
+            await axios.get(modelData.url + modelData.FileReferences.Physics);
+
+            setStartingMessage("Putting new model...");
+            const live2DModel = await Live2DModel.from(modelData, {
+                autoInteract: false,
+            });
+            live2DModel.scale.set(0.5);
+            live2DModel.position.set(190, -280);
+
+            modelContainer.addChildAt(live2DModel, 0);
+            initApplication.stage.addChildAt(modelContainer, 2);
+            setStartingMessage("Adding pose and emotion...");
+            live2DModel.motion("Expression", 38);
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            live2DModel.motion("Motion", 102);
 
             // Load Sample PNG Sprite
-            const texture = await PIXI.Texture.fromURL("/img/airi.png");
-            const sprite = new PIXI.Sprite(texture);
-            modelContainer.addChildAt(sprite, 0);
-            sprite.position.set(620, 170);
+            // const texture = await PIXI.Texture.fromURL("/img/airi.png");
+            // const sprite = new PIXI.Sprite(texture);
+            // modelContainer.addChildAt(sprite, 0);
+            // sprite.position.set(620, 170);
 
             initApplication.stage.addChildAt(modelContainer, 2);
 
             // Load Text
+            setStartingMessage("Adding text...");
             const textContainer = new PIXI.Container();
             const textBackgroundTexture = await Assets.load(
                 "/img/Dialogue_Background.png"
@@ -185,12 +218,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             setModels({
                 character1: {
                     character: initialScene["character"],
-                    model: sprite,
-                    modelName: initialScene["model"],
-                    modelX: sprite.x,
-                    modelY: sprite.y,
-                    modelScale: sprite.scale.x,
-                    modelData: undefined,
+                    model: live2DModel,
+                    modelName: initialScene["model"].modelBase,
+                    modelX: live2DModel.x,
+                    modelY: live2DModel.y,
+                    modelScale: live2DModel.scale.x,
+                    modelData: modelData,
                     expression: 38,
                     pose: 102,
                     visible: true,
@@ -210,6 +243,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 fontSize: 44,
                 visible: true,
             });
+            setStartingMessage("");
         };
         runCanvas();
     }, [reset]);
@@ -239,6 +273,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setHide,
                 hideAnnouncements,
                 setHideAnnouncements,
+                startingMessage,
+                setStartingMessage,
             }}
         >
             {children}

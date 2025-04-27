@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ILive2DModelList } from "../types/ILive2DModelList";
-import { url } from "./URL";
+import { sekaiUrl } from "./URL";
 import { IMotionsExpressions } from "../types/IMotionExpression";
 
 // This code is mostly copied from SEKAI Viewer's Live2dLoader.
@@ -51,7 +51,7 @@ async function GetMotionUrl(
 
     // case 1: get directly from model path + motion_base
     let modelUrl = await getUrl(
-        `${url}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
+        `${sekaiUrl}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
     );
 
     // case 2: check if the motion name is in the map
@@ -65,7 +65,7 @@ async function GetMotionUrl(
 
                 // try to get url
                 modelUrl = await getUrl(
-                    `${url}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
+                    `${sekaiUrl}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
                 );
                 break;
             }
@@ -76,7 +76,7 @@ async function GetMotionUrl(
     while (!modelUrl && modelBaseName.split("_").length > 1) {
         modelBaseName = modelBaseName.split("_").slice(0, -1).join("_");
         modelUrl = await getUrl(
-            `${url}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
+            `${sekaiUrl}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
         );
     }
 

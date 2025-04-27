@@ -10,7 +10,7 @@ const Sidebar: React.FC = () => {
 
     if (!context) return;
 
-    const { openedSidebar } = context;
+    const { openedSidebar, startingMessage } = context;
 
     const handleRefresh = () => {
         refreshCanvas(context);
@@ -20,18 +20,19 @@ const Sidebar: React.FC = () => {
             {openedSidebar == "background" && <BackgroundSidebar />}
             {openedSidebar == "text" && <TextSidebar />}
             {openedSidebar == "model" && <ModelSidebar />}
+            {startingMessage && <p>{startingMessage}</p>}
             <h1>Experimental</h1>
             <div className="option">
-                    <button
-                        className="btn-regular btn-blue btn-100"
-                        onClick={handleRefresh}
-                    >
-                        Refresh
-                    </button>
-                    <p>
-                        If you don't see any changes, you may try refreshing the
-                        canvas.
-                    </p>
+                <button
+                    className="btn-regular btn-blue btn-100"
+                    onClick={handleRefresh}
+                >
+                    Refresh
+                </button>
+                <p>
+                    If you don't see any changes, you may try refreshing the
+                    canvas.
+                </p>
             </div>
         </div>
     );
