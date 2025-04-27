@@ -82,6 +82,7 @@ const BackgroundPicker: React.FC = () => {
                             position: "fixed",
                             top: 10,
                             width: '80%',
+                            zIndex: 9999
                         }}
                     />
                     {filteredBackgrounds.map((bg) => {

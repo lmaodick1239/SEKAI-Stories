@@ -39,7 +39,7 @@
     left: 0;
     background-color: #000000bb;
     height: 100dvh;
-    width: 100vw;
+    max-width: 100dvw;
     z-index: 999;
     display: flex;
     flex-wrap: wrap;
@@ -53,7 +53,7 @@
     border-radius: 10px;
     border: 2px solid $white;
     aspect-ratio: 1/1;
-    margin: 10px;
+    margin: 10px 0;
     cursor: pointer;
 
     @media (width <= 768px) {
@@ -75,9 +75,9 @@
 
 #picker-close {
     position: fixed;
-    top: 25px;
-    left: 25px;
-    margin: inherit;
+    right: 25px;
+    bottom: 25px;
+    // margin: inherit;
     filter: drop-shadow(0px 0px 2px #000);
     z-index: 10000;
 }
