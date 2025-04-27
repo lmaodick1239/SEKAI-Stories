@@ -46,7 +46,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        const cookie = localStorage.getItem("testingSekaiViewerAnnouncement2");
+        const cookie = localStorage.getItem("sekaiViewerAnnouncement2");
         if (Number(cookie) < 2) {
             setHideAnnouncements(false);
         }

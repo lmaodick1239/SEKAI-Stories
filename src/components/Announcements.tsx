@@ -10,13 +10,13 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("testingSekaiViewerAnnouncement2");
+        const cookie = localStorage.getItem("sekaiViewerAnnouncement2");
         if (!cookie) {
-            localStorage.setItem("testingSekaiViewerAnnouncement2", "0");
+            localStorage.setItem("sekaiViewerAnnouncement2", "0");
             return;
         }
         localStorage.setItem(
-            "testingSekaiViewerAnnouncement2",
+            "sekaiViewerAnnouncement2",
             `${Number(cookie) + 1}`
         );
     };
@@ -31,8 +31,14 @@ const Announcements: React.FC = () => {
             </p>
             <p>
                 I would like to thank the owner of Sekai Viewer for allowing me
-                to access their models through this site!
+                to connect their server through this site!
             </p>
+            <button
+                className="btn-blue btn-regular"
+                onClick={() => window.open("https://ko-fi.com/post/Sekai-Viewer-has-responded-F1F31E58CH", "_blank")}
+            >
+                Ko-fi Announcement
+            </button>
             <p>Tap this section to close.</p>
         </div>
     );
