@@ -10,6 +10,10 @@ A Dialogue Generator for making fan-made stories from the game [Project SEKAI CO
 ## Self-hosting
 [You can see the tutorial for self-hosting here.](/README-selfhosting.md)
 
+## Special Thanks
+I would like to thank the developers of [Sekai Viewer](https://github.com/Sekai-World/sekai-viewer/) for allowing me to connect their server through this application!
+[<img src="./public/img/sekai-viewer.png" alt="smilie pop" width="300"/>](https://sekai.best)
+
 ## Features
 ### Choose your background
 Just like my previous [dialogue sandbox](https://github.com/lezzthanthree/SIFAS-Dialogue-Sandbox), you can choose a background found from Project Sekai!
