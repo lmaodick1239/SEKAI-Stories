@@ -5,7 +5,7 @@ A Dialogue Generator for making fan-made stories from the game [Project SEKAI CO
 ![](./public/img/Screenshot-2.png)
 
 ## Try the Story Generator!
-[![](./public/img/vercel.png)](https://sekai-stories.vercel.app/) [![](./public/img/netlify.png)](https://sekai-stories.netlify.app/)
+[![](./public/img/cloudflare.png)](https://sekai-stories.pages.dev/) 
 
 ## Self-hosting
 [You can see the tutorial for self-hosting here.](/README-selfhosting.md)
