@@ -398,7 +398,7 @@ select:disabled {
   left: 0;
   background-color: rgba(0, 0, 0, 0.7333333333);
   height: 100dvh;
-  max-width: 100dvw;
+  width: 100dvw;
   z-index: 999;
   display: flex;
   flex-wrap: wrap;
