@@ -10,18 +10,29 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("testingSekaiViewerAnnouncement");
+        const cookie = localStorage.getItem("testingSekaiViewerAnnouncement2");
         if (!cookie) {
-            localStorage.setItem("testingSekaiViewerAnnouncement", "0");
+            localStorage.setItem("testingSekaiViewerAnnouncement2", "0");
             return;
         }
-        localStorage.setItem("testingSekaiViewerAnnouncement", `${Number(cookie) + 1}`);
+        localStorage.setItem(
+            "testingSekaiViewerAnnouncement2",
+            `${Number(cookie) + 1}`
+        );
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>There will be some few testings on this site. Expect some refreshes!</p>
+            <p>
+                This site can now use{" "}
+                <a href="https://sekai.best">Sekai Viewer's (sekai.best)</a>{" "}
+                Live2D models! Give it a test by adding a new model.
+            </p>
+            <p>
+                I would like to thank the owner of Sekai Viewer for allowing me
+                to access their models through this site!
+            </p>
             <p>Tap this section to close.</p>
         </div>
     );
