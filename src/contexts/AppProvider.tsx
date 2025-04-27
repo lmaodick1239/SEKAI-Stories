@@ -8,10 +8,10 @@ import IModel from "../types/IModel";
 import IBackground from "../types/IBackground";
 import IText from "../types/IText";
 import { getBackground } from "../utils/GetBackground";
-import axios from "axios";
-import { GetModelDataFromSekai } from "../utils/GetModelData";
-import { sekaiUrl } from "../utils/URL";
-import { GetMotionData } from "../utils/GetMotionUrl";
+// import axios from "axios";
+// import { GetModelDataFromSekai } from "../utils/GetModelData";
+// import { sekaiUrl } from "../utils/URL";
+// import { GetMotionData } from "../utils/GetMotionUrl";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -39,12 +39,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     const initialScene = {
         background: "/background_special/Background_Uranohoshi.jpg",
-        model: {
-            modelName: "07airi_normal_3.0_f_t03",
-            modelBase: "07airi_normal",
-            modelPath: "v1/main/07_airi/07airi_normal",
-            modelFile: "07airi_normal_3.0_f_t03.model3.json",
-        },
+        model: "07airi_normal",
         text: "No, I will not do AiScream on you.",
         nameTag: "Airi",
         character: "airi",
@@ -126,54 +121,54 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
             setStartingMessage("Fetching initial model from sekai-viewer...");
             // Load Sample Model from sekai-viewer
-            const getModel = await axios.get(
-                `${sekaiUrl}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
-            );
-            setStartingMessage(
-                "Fetching initial motion data from sekai-viewer..."
-            );
-            const [motionBaseName, motionData] = await GetMotionData(
-                initialScene["model"]
-            );
+            // const getModel = await axios.get(
+            //     `${sekaiUrl}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
+            // );
+            // setStartingMessage(
+            //     "Fetching initial motion data from sekai-viewer..."
+            // );
+            // const [motionBaseName, motionData] = await GetMotionData(
+            //     initialScene["model"]
+            // );
 
-            setStartingMessage("Fixing model data...");
-            const modelData = await GetModelDataFromSekai(
-                initialScene["model"],
-                getModel.data,
-                motionData,
-                motionBaseName
-            );
+            // setStartingMessage("Fixing model data...");
+            // const modelData = await GetModelDataFromSekai(
+            //     initialScene["model"],
+            //     getModel.data,
+            //     motionData,
+            //     motionBaseName
+            // );
 
-            setStartingMessage("Loading model texture...");
-            await axios.get(
-                modelData.url + modelData.FileReferences.Textures[0]
-            );
-            setStartingMessage("Loading model moc3 file...");
-            await axios.get(modelData.url + modelData.FileReferences.Moc, {
-                responseType: "arraybuffer",
-            });
-            setStartingMessage("Loading model physics file...");
-            await axios.get(modelData.url + modelData.FileReferences.Physics);
+            // setStartingMessage("Loading model texture...");
+            // await axios.get(
+            //     modelData.url + modelData.FileReferences.Textures[0]
+            // );
+            // setStartingMessage("Loading model moc3 file...");
+            // await axios.get(modelData.url + modelData.FileReferences.Moc, {
+            //     responseType: "arraybuffer",
+            // });
+            // setStartingMessage("Loading model physics file...");
+            // await axios.get(modelData.url + modelData.FileReferences.Physics);
 
-            setStartingMessage("Putting new model...");
-            const live2DModel = await Live2DModel.from(modelData, {
-                autoInteract: false,
-            });
-            live2DModel.scale.set(0.5);
-            live2DModel.position.set(190, -280);
+            // setStartingMessage("Putting new model...");
+            // const live2DModel = await Live2DModel.from(modelData, {
+            //     autoInteract: false,
+            // });
+            // live2DModel.scale.set(0.5);
+            // live2DModel.position.set(190, -280);
 
-            modelContainer.addChildAt(live2DModel, 0);
-            initApplication.stage.addChildAt(modelContainer, 2);
-            setStartingMessage("Adding pose and emotion...");
-            live2DModel.motion("Expression", 38);
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            live2DModel.motion("Motion", 102);
+            // modelContainer.addChildAt(live2DModel, 0);
+            // initApplication.stage.addChildAt(modelContainer, 2);
+            // setStartingMessage("Adding pose and emotion...");
+            // live2DModel.motion("Expression", 38);
+            // await new Promise((resolve) => setTimeout(resolve, 2000));
+            // live2DModel.motion("Motion", 102);
 
             // Load Sample PNG Sprite
-            // const texture = await PIXI.Texture.fromURL("/img/airi.png");
-            // const sprite = new PIXI.Sprite(texture);
-            // modelContainer.addChildAt(sprite, 0);
-            // sprite.position.set(620, 170);
+            const texture = await PIXI.Texture.fromURL("/img/airi.png");
+            const sprite = new PIXI.Sprite(texture);
+            modelContainer.addChildAt(sprite, 0);
+            sprite.position.set(620, 170);
 
             initApplication.stage.addChildAt(modelContainer, 2);
 
@@ -218,12 +213,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             setModels({
                 character1: {
                     character: initialScene["character"],
-                    model: live2DModel,
-                    modelName: initialScene["model"].modelBase,
-                    modelX: live2DModel.x,
-                    modelY: live2DModel.y,
-                    modelScale: live2DModel.scale.x,
-                    modelData: modelData,
+                    model: sprite,
+                    modelName: initialScene["model"],
+                    modelX: sprite.x,
+                    modelY: sprite.y,
+                    modelScale: sprite.scale.x,
+                    modelData: undefined,
                     expression: 38,
                     pose: 102,
                     visible: true,
