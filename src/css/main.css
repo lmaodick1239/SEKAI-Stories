@@ -549,16 +549,27 @@ select:disabled {
 }
 
 .window {
+  display: flex;
+  flex-direction: column;
   background-color: #ebebf2;
   padding: 20px;
   border-radius: 20px;
   padding: 20px;
   max-width: 768px;
+  max-height: 60dvh;
 }
 @media (width <= 768px) {
   .window img {
     width: 50%;
   }
+}
+
+.window__content {
+  overflow: auto;
+  height: 100%;
+}
+.window__content img {
+  max-width: 50%;
 }
 
 .window-center {
