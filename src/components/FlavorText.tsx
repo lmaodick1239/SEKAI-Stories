@@ -4,7 +4,7 @@ const randomText = [
     "Nene is playing maimai. The map is Tsunagite.",
     "Rui with his ThinkPad laptop.",
     "Tsukasa is laughing in the hallway like a kid again.",
-    "Emu breaks the fourth wall, staring at you and says \"Wonderhoy!\"",
+    'Emu breaks the fourth wall, staring at you and says "Wonderhoy!"',
     "Ichika is fangirling over Miku. Again.",
     "Saki. Saki on fire?",
     "Honami and her thousand apple pies.",
@@ -19,7 +19,7 @@ const randomText = [
     "Ena threw a large basin at Akito.",
     "Toya is enjoying Tsukasa's loud laugh.",
     "Kohane has been bitten by her pet snake.",
-    "An woke up and started speaking in English.", 
+    "An woke up and started speaking in English.",
     "ABSOLUTE CINEMA",
     "The Disapperance of Hatsune Miku",
     "Can you hear the ominous bells tolling?",
@@ -44,11 +44,7 @@ const FlavorText: React.FC = () => {
     useEffect(() => {
         setText(randomText[Math.floor(Math.random() * randomText.length)]);
     }, []);
-    return (
-        <div className="absolute bottom" id="flavor-text">
-            {text}
-        </div>
-    );
+    return <div id="flavor-text">{text}</div>;
 };
 
 export default FlavorText;
