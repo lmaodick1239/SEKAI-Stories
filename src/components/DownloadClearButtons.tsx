@@ -29,18 +29,24 @@ const DownloadClearButtons: React.FC = () => {
     };
 
     const handleReset = () => {
-        const confirmation = confirm("This will clear the whole canvas. Any progress will be lost!\nClicking OK will proceed the action")
-        if (!confirmation) return
-        setReset(reset + 1)
-    }
-
+        const confirmation = confirm(
+            "This will clear the whole canvas. Any progress will be lost!\nClicking OK will proceed the action"
+        );
+        if (!confirmation) return;
+        setReset(reset + 1);
+    };
 
     return (
-        <div className="absolute bottom-left flex-vertical" id="download-clear-buttons">
-            <button className="btn-regular btn-blue" onClick={handleSave}>
-                Save
+        <div
+            className="absolute bottom-left flex-vertical"
+            id="download-clear-buttons"
+        >
+            <button className="btn-circle btn-blue" onClick={handleSave}>
+                <i className="bi bi-floppy2-fill sidebar__select"></i>
             </button>
-            <button className="btn-regular btn-white" onClick={handleReset}>Clear</button>
+            <button className="btn-circle btn-white" onClick={handleReset}>
+            <i className="bi bi-trash-fill sidebar__select"></i>
+            </button>
         </div>
     );
 };

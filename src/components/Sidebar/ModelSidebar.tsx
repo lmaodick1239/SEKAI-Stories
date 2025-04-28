@@ -564,7 +564,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             className="btn-circle btn-white"
                             onClick={handleDeleteLayer}
                         >
-                            <i className="bi bi-trash3"></i>
+                            <i className="bi bi-x-circle"></i>
                         </button>
                     </div>
                 </div>
