@@ -1,10 +1,16 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { Checkbox } from "../Checkbox";
+import RadioButton from "../RadioButton";
 
 const TextSidebar: React.FC = () => {
     const context = useContext(AppContext);
     const [bell, setBell] = useState<boolean>(false);
+    const [easySwitch, setEasySwitch] = useState<boolean>(false);
+    const [nameTags, setNameTags] = useState<Record<string, string>>({
+        nameTag1: "",
+        nameTag2: "",
+    });
 
     if (!context || !context.text) {
         return "Please wait...";
@@ -75,18 +81,96 @@ const TextSidebar: React.FC = () => {
         });
     };
 
+    const handleEasyNameTagChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        nameTag: string
+    ) => {
+        const name = event.target.value;
+        if (nameTag == "nameTag1") {
+            setNameTags({
+                ...nameTags,
+                nameTag1: name,
+            });
+        }
+        if (nameTag == "nameTag2") {
+            setNameTags({
+                ...nameTags,
+                nameTag2: name,
+            });
+        }
+    };
+
+    const handleEasyNameTagSelect = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = event.target.value;
+        let changedNameTag = "";
+        changedNameTag = nameTags[value];
+        text.nameTag.text = changedNameTag;
+        text.nameTag.updateText(true);
+        setText({
+            ...text,
+            nameTagString: changedNameTag,
+        });
+    };
+
     return (
         <div>
             <h1>Text</h1>
             <div className="option">
                 <h2>Name Tag</h2>
                 <div className="option__content">
-                    <input
-                        type="text"
-                        name="name-tag"
-                        id="name-tag"
-                        value={text?.nameTagString}
-                        onChange={handleNameTagChange}
+                    {!easySwitch ? (
+                        <input
+                            type="text"
+                            name="name-tag"
+                            id="name-tag"
+                            value={text?.nameTagString}
+                            onChange={handleNameTagChange}
+                        />
+                    ) : (
+                        <>
+                            <div className="flex-horizontal center">
+                                <RadioButton
+                                    name="name-tag"
+                                    value="nameTag1"
+                                    onChange={handleEasyNameTagSelect}
+                                />
+
+                                <input
+                                    type="text"
+                                    name="name-tag"
+                                    value={nameTags["nameTag1"]}
+                                    onChange={(e) => {
+                                        handleEasyNameTagChange(e, "nameTag1");
+                                    }}
+                                />
+                            </div>
+                            <div className="flex-horizontal center">
+                            <RadioButton
+                                    name="name-tag"
+                                    value="nameTag2"
+                                    onChange={handleEasyNameTagSelect}
+                                />
+                                <input
+                                    type="text"
+                                    name="name-tag"
+                                    value={nameTags["nameTag2"]}
+                                    onChange={(e) => {
+                                        handleEasyNameTagChange(e, "nameTag2");
+                                    }}
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    <Checkbox
+                        id="easy-switch"
+                        label="Use easy switch"
+                        checked={easySwitch}
+                        onChange={() => {
+                            setEasySwitch(!easySwitch);
+                        }}
                     />
                 </div>
             </div>

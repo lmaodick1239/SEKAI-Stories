@@ -35,6 +35,7 @@ const randomText = [
     "Won won!?",
     "WONDERHOY!",
     "Lovely, Fairy, Momoi Airi!",
+    "ユ！",
     "Untitled.",
 ];
 

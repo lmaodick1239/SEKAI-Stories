@@ -1,0 +1,27 @@
+.custom-radio-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 35px;
+    min-height: 35px;
+    background-color: $white;
+    border-radius: 50%;
+    box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
+    margin-right: 20px;
+}
+
+.custom-radio-button .checkmark {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: $light-miku;
+    display: none;
+}
+
+.custom-radio-button input[type="radio"]:checked + .checkmark {
+    display: inline-block;
+}
+
+.custom-radio-button input[type="radio"] {
+    display: none;
+}

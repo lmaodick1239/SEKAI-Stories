@@ -3,6 +3,7 @@
 @import "text";
 @import "button";
 @import "checkbox";
+@import "radio";
 @import "textbox";
 @import "slider";
 @import "selectbox";
@@ -23,7 +24,7 @@
 body {
     min-height: 100dvh;
 }
-    
+
 main {
     display: flex;
     height: 100%;
