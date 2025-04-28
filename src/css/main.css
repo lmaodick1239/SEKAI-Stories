@@ -392,13 +392,13 @@ select:disabled {
 }
 
 #picker {
-  padding: 70px;
+  padding: 70px 10px;
   position: fixed;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.7333333333);
   height: 100dvh;
-  width: 100dvw;
+  min-width: 100dvw;
   z-index: 999;
   display: flex;
   flex-wrap: wrap;
@@ -412,7 +412,7 @@ select:disabled {
   border-radius: 10px;
   border: 2px solid #ffffff;
   aspect-ratio: 1/1;
-  margin: 10px 0;
+  margin: 10px 0px;
   cursor: pointer;
 }
 @media (width <= 768px) {
