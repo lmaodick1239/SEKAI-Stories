@@ -17,6 +17,16 @@ interface AppProviderProps {
     children: React.ReactNode;
 }
 
+interface InitialScene {
+    background: string;
+    model: string;
+    text: string;
+    nameTag: string;
+    character: string;
+    modelX: number;
+    modelY: number;
+}
+
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
@@ -37,13 +47,35 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
     const [startingMessage, setStartingMessage] = useState<string>("");
 
-    const initialScene = {
-        background: "/background_special/Background_Uranohoshi.jpg",
-        model: "07airi_normal",
-        text: "No, I will not do AiScream on you.",
-        nameTag: "Airi",
-        character: "airi",
+    const getInitialScene = (): InitialScene => {
+        const date = new Date();
+        const month = date.getMonth() + 1;
+
+        if (month == 10) {
+            return {
+                background:
+                    "/background_special/Background_Cheat_to_Happiness.jpg",
+                model: "18mafuyu_cloth001",
+                text: "→↓↑→→↓→→↑↑↓↓←→←→",
+                nameTag: "Mafuyu",
+                character: "mafuyu",
+                modelX: 650,
+                modelY: 0,
+            };
+        }
+
+        return {
+            background: "/background_special/Background_Uranohoshi.jpg",
+            model: "07airi_normal",
+            text: "No, I will not do AiScream on you.",
+            nameTag: "Airi",
+            character: "airi",
+            modelX: 650,
+            modelY: 170,
+        };
     };
+
+    const initialScene: InitialScene = getInitialScene();
 
     useEffect(() => {
         const cookie = localStorage.getItem("sekaiViewerAnnouncement2");
@@ -165,10 +197,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             // live2DModel.motion("Motion", 102);
 
             // Load Sample PNG Sprite
-            const texture = await PIXI.Texture.fromURL("/img/airi.png");
+            const texture = await PIXI.Texture.fromURL(
+                `/img/${initialScene.character}.png`
+            );
             const sprite = new PIXI.Sprite(texture);
             modelContainer.addChildAt(sprite, 0);
-            sprite.position.set(620, 170);
+            sprite.position.set(initialScene["modelX"], initialScene["modelY"]);
 
             initApplication.stage.addChildAt(modelContainer, 2);
 
