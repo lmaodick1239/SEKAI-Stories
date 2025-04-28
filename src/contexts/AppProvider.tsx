@@ -119,7 +119,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             //     motion.data
             // );
 
-            setStartingMessage("Fetching initial model from sekai-viewer...");
+            // setStartingMessage("Fetching initial model from sekai-viewer...");
             // Load Sample Model from sekai-viewer
             // const getModel = await axios.get(
             //     `${sekaiUrl}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
@@ -198,7 +198,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 stroke: 0x5d5d79,
                 strokeThickness: 8,
                 wordWrap: true,
-                wordWrapWidth: 1450,
+                wordWrapWidth: 1300,
                 breakWords: true,
             });
             textDialogue.position.set(245, 845);
