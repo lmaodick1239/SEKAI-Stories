@@ -1,5 +1,13 @@
 import { fuzzy } from "fast-fuzzy";
-import React, { ChangeEvent, useCallback, useContext, useDeferredValue, useEffect, useMemo, useState } from "react";
+import React, {
+    ChangeEvent,
+    useCallback,
+    useContext,
+    useDeferredValue,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import { AppContext } from "../contexts/AppContext";
 import data from "../background.json";
 import { getBackground } from "../utils/GetBackground";
@@ -13,19 +21,24 @@ const BackgroundPicker: React.FC = () => {
 
     const { background, setBackground } = context;
 
-    const [searchValue, setSearchValue] = useState('');
-    const handleSearchValueChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.target.value);
-    }, []);
+    const [searchValue, setSearchValue] = useState("");
+    const handleSearchValueChange = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            setSearchValue(e.target.value);
+        },
+        []
+    );
     const deferredSearchValue = useDeferredValue(searchValue);
     const filteredBackgrounds = useMemo(() => {
         if (!deferredSearchValue) {
             return data.background;
         }
         return data.background.filter((bg) => {
-            return fuzzy(deferredSearchValue, bg.replace(/[^a-z0-9]/gi, "")) > 0.5;
+            return (
+                fuzzy(deferredSearchValue, bg.replace(/[^a-z0-9]/gi, "")) > 0.5
+            );
         });
-    }, [deferredSearchValue])
+    }, [deferredSearchValue]);
 
     const handleChangeBackground = async (bg: string) => {
         const backgroundSprite = await getBackground(
@@ -61,9 +74,7 @@ const BackgroundPicker: React.FC = () => {
     return (
         <>
             {show && (
-                <div
-                    id="picker"
-                >
+                <div id="picker">
                     <button
                         id="picker-close"
                         className="btn-circle btn-pink"
@@ -81,8 +92,8 @@ const BackgroundPicker: React.FC = () => {
                         style={{
                             position: "fixed",
                             top: 10,
-                            width: '80%',
-                            zIndex: 9999
+                            width: "80%",
+                            zIndex: 9999,
                         }}
                     />
                     {filteredBackgrounds.map((bg) => {
@@ -113,6 +124,15 @@ const BackgroundPicker: React.FC = () => {
                         setShow(!show);
                     }}
                 />
+                <button
+                    className="btn-regular btn-extend-width btn-blue"
+                    onClick={() => {
+                        setShow(!show);
+                    }}
+                >
+                    {" "}
+                    Select
+                </button>
             </div>
         </>
     );
