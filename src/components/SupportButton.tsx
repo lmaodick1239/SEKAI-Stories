@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const SupportButton: React.FC = () => {
+    const { t } = useTranslation();
+
     const [show, setShow] = useState<boolean>(false);
 
     return (
-        <div className="absolute top-left" id="support-button">
+        <div className="absolute top-right" id="support-button">
             <button
                 className="btn-circle btn-orange"
                 onClick={() => setShow(true)}
@@ -24,16 +27,10 @@ const SupportButton: React.FC = () => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="window__content">
-                            <h1>Support</h1>
-                            <p>
-                                If you enjoy using SEKAI Stories, you can
-                                support me through one of the following ways:
-                            </p>
+                            <h1>{t("support-header")}</h1>
+                            <p>{t("support-details")}</p>
                             <h2>Ko-fi</h2>
-                            <p>
-                                Donations are optional! I will also be posting
-                                the website updates there as well.
-                            </p>
+                            <p>{t("ko-fi-details")}</p>
                             <a
                                 href="https://ko-fi.com/smiliepop"
                                 target="_blank"
@@ -41,11 +38,7 @@ const SupportButton: React.FC = () => {
                                 <img src="/img/kofi.jpg" alt="ko-fi" />
                             </a>
                             <h2>GitHub</h2>
-                            <p>
-                                This project is completely open-source! You can
-                                report issues or open a pull request to
-                                contribute!
-                            </p>
+                            <p>{t("github-details")}</p>
                             <a
                                 href="https://github.com/lezzthanthree/SEKAI-Stories"
                                 target="_blank"
@@ -54,17 +47,13 @@ const SupportButton: React.FC = () => {
                             </a>
                             <p></p>
                             <p></p>
-                            <h1>Special Thanks</h1>
-                            <p>
-                                I would like to thank the owner of Sekai Viewer
-                                for allowing me to access their models through
-                                this site!
-                            </p>
-                            <a
-                                href="https://sekai.best"
-                                target="_blank"
-                            >
-                                <img src="/img/sekai-viewer.png" alt="sekai-viewer" />
+                            <h1>{t("special-thanks-header")}</h1>
+                            <p>{t("special-thanks-description")}</p>
+                            <a href="https://sekai.best" target="_blank">
+                                <img
+                                    src="/img/sekai-viewer.png"
+                                    alt="sekai-viewer"
+                                />
                             </a>
                         </div>
                         <div className="extend-width center">
@@ -72,7 +61,7 @@ const SupportButton: React.FC = () => {
                                 className="btn-regular btn-white center"
                                 onClick={() => setShow(false)}
                             >
-                                Close
+                                {t("close")}
                             </button>
                         </div>
                     </div>

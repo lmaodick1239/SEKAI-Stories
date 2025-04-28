@@ -2,8 +2,11 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { Checkbox } from "../Checkbox";
 import RadioButton from "../RadioButton";
+import { useTranslation } from "react-i18next";
 
 const TextSidebar: React.FC = () => {
+    const { t } = useTranslation();
+
     const context = useContext(AppContext);
     const [bell, setBell] = useState<boolean>(false);
     const [easySwitch, setEasySwitch] = useState<boolean>(false);
@@ -13,7 +16,7 @@ const TextSidebar: React.FC = () => {
     });
 
     if (!context || !context.text) {
-        return "Please wait...";
+        return t("please-wait");
     }
 
     const { text, setText } = context;
@@ -116,9 +119,9 @@ const TextSidebar: React.FC = () => {
 
     return (
         <div>
-            <h1>Text</h1>
+            <h1>{t("text-header")}</h1>
             <div className="option">
-                <h2>Name Tag</h2>
+                <h2>{t("name-tag")}</h2>
                 <div className="option__content">
                     {!easySwitch ? (
                         <input
@@ -147,7 +150,7 @@ const TextSidebar: React.FC = () => {
                                 />
                             </div>
                             <div className="flex-horizontal center">
-                            <RadioButton
+                                <RadioButton
                                     name="name-tag"
                                     value="nameTag2"
                                     onChange={handleEasyNameTagSelect}
@@ -166,7 +169,7 @@ const TextSidebar: React.FC = () => {
 
                     <Checkbox
                         id="easy-switch"
-                        label="Use easy switch"
+                        label={t("easy-switch")}
                         checked={easySwitch}
                         onChange={() => {
                             setEasySwitch(!easySwitch);
@@ -175,7 +178,7 @@ const TextSidebar: React.FC = () => {
                 </div>
             </div>
             <div className="option">
-                <h2>Dialogue</h2>
+                <h2>{t("dialogue")}</h2>
                 <div className="option__content">
                     <textarea
                         name="dialogue"
@@ -183,7 +186,7 @@ const TextSidebar: React.FC = () => {
                         value={text?.dialogueString}
                         onChange={handleDialogueChange}
                     ></textarea>
-                    <h3>Font Size ({text.fontSize} px)</h3>
+                    <h3>{t("font-size")} ({text.fontSize} px)</h3>
                     <input
                         type="range"
                         name="font-size"
@@ -195,7 +198,7 @@ const TextSidebar: React.FC = () => {
                     />
                     <Checkbox
                         id="visible"
-                        label="Visible"
+                        label={t("visible")}
                         checked={text.visible}
                         onChange={handleVisible}
                     />

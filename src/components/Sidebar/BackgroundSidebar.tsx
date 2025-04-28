@@ -3,8 +3,10 @@ import BackgroundPicker from "../BackgroundPicker";
 import { AppContext } from "../../contexts/AppContext";
 import UploadImageButton from "../UploadButton";
 import { getBackground } from "../../utils/GetBackground";
+import { useTranslation } from "react-i18next";
 
 const BackgroundSidebar: React.FC = () => {
+    const { t } = useTranslation();
     const context = useContext(AppContext);
 
     if (
@@ -12,7 +14,7 @@ const BackgroundSidebar: React.FC = () => {
         !context.background ||
         !context.background.backgroundContainer
     )
-        return "Please wait...";
+        return t("please-wait");
 
     const { background, setBackground } = context;
 
@@ -31,15 +33,15 @@ const BackgroundSidebar: React.FC = () => {
 
     return (
         <div>
-            <h1>Background</h1>
+            <h1>{t("background-header")}</h1>
             <div className="option">
                 <div className="option__content">
                     <BackgroundPicker />
                     <UploadImageButton
                         id="background-upload"
                         uploadFunction={handleUploadImage}
-                        text="Upload"
-                        alertMsg="To make sure the image looks right and doesn't get stretched or cut downed, please use an image with a 16:9 ratio."
+                        text={t("upload")}
+                        alertMsg={t("upload-info")}
                     />
                 </div>
             </div>

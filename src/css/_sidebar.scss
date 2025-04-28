@@ -112,7 +112,7 @@
     }
 }
 
-#download-clear-buttons {
+#download-clear-buttons, #locale-and-support {
     @media (width <= 768px) {
         z-index: 999;
     }
@@ -129,3 +129,4 @@
     font-size: 20px;
     margin-left: 10px;
 }
+

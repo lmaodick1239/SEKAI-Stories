@@ -4,8 +4,10 @@ import { AppContext } from "../contexts/AppContext";
 import BackgroundSidebar from "./Sidebar/BackgroundSidebar";
 import ModelSidebar from "./Sidebar/ModelSidebar";
 import { refreshCanvas } from "../utils/RefreshCanvas";
+import { useTranslation } from "react-i18next";
 
 const Sidebar: React.FC = () => {
+    const { t } = useTranslation();
     const context = useContext(AppContext);
 
     if (!context) return;
@@ -21,17 +23,16 @@ const Sidebar: React.FC = () => {
             {openedSidebar == "text" && <TextSidebar />}
             {openedSidebar == "model" && <ModelSidebar />}
             {startingMessage && <p>{startingMessage}</p>}
-            <h1>Experimental</h1>
+            <h1>{t("experimental")}</h1>
             <div className="option">
                 <button
                     className="btn-regular btn-blue btn-100"
                     onClick={handleRefresh}
                 >
-                    Refresh
+                    {t("refresh")}
                 </button>
                 <p>
-                    If you don't see any changes, you may try refreshing the
-                    canvas.
+                    {t("experimental-details")}
                 </p>
             </div>
         </div>

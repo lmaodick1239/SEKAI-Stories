@@ -18,6 +18,7 @@ import { GetCharacterFolder } from "../../utils/GetCharacterFolder";
 import { ILive2DModelList } from "../../types/ILive2DModelList";
 import AddModelSelect from "../AddModelSelect";
 import { GetMotionData } from "../../utils/GetMotionUrl";
+import { useTranslation } from "react-i18next";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -35,6 +36,8 @@ interface ModelSidebarProps {
 }
 
 const ModelSidebar: React.FC<ModelSidebarProps> = () => {
+    const { t } = useTranslation();
+
     const context = useContext(AppContext);
 
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
@@ -89,35 +92,36 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         try {
             const [characterFolder] = await GetCharacterFolder(modelName);
 
+            setLoadingMsg(`${t("loading-1")} ${modelName}...`);
             const model = await axios.get(
                 `${staticUrl}/model/${characterFolder}/${modelName}/${modelName}.model3.json`
             );
-            setLoadingMsg(`Fetching ${modelName} model file...`);
+
+            setLoadingMsg(`${t("loading-2")} ${modelName}...`);
             const motion = await axios.get(
                 `${staticUrl}/motion/${characterFolder}/BuildMotionData.json`
             );
-            setLoadingMsg(`Fetching ${modelName} motion file...`);
 
+            setLoadingMsg(`${t("loading-3")} ${modelName}...`);
             const modelData = await GetModelDataFromStatic(
                 characterFolder,
                 modelName,
                 model.data,
                 motion.data
             );
-            setLoadingMsg(`Fixing ${modelName} model file...`);
 
-            setLoadingMsg(`Loading ${modelName} texture...`);
+            setLoadingMsg(`${t("loading-4")} ${modelName}...`);
             await axios.get(
                 modelData.url + modelData.FileReferences.Textures[0]
             );
-            setLoadingMsg(`Loading ${modelName} moc3 file...`);
+            setLoadingMsg(`${t("loading-5")} ${modelName}...`);
             await axios.get(modelData.url + modelData.FileReferences.Moc, {
                 responseType: "arraybuffer",
             });
-            setLoadingMsg(`Loading ${modelName} physics file...`);
+            setLoadingMsg(`${t("loading-6")} ${modelName}...`);
             await axios.get(modelData.url + modelData.FileReferences.Physics);
 
-            setLoadingMsg(`Putting new model...`);
+            setLoadingMsg(`${t("loading-7")}...`);
             const live2DModel = await Live2DModel.from(modelData, {
                 autoInteract: false,
             });
@@ -146,14 +150,14 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     ): Promise<[Live2DModel, ILive2DModelData]> => {
         setLoading(true);
         try {
-            setLoadingMsg(`Fetching ${model.modelBase} model file...`);
+            setLoadingMsg(`${t("loading-1")} ${model.modelBase}...`);
             const getModel = await axios.get(
                 `${sekaiUrl}/model/${model.modelPath}/${model.modelFile}`
             );
-            setLoadingMsg(`Fetching ${model.modelBase} motion file...`);
+            setLoadingMsg(`${t("loading-2")} ${model.modelBase}...`);
             const [motionBaseName, motionData] = await GetMotionData(model);
 
-            setLoadingMsg(`Fixing ${model.modelBase} model file...`);
+            setLoadingMsg(`${t("loading-3")} ${model.modelBase}...`);
             const modelData = await GetModelDataFromSekai(
                 model,
                 getModel.data,
@@ -161,16 +165,16 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 motionBaseName
             );
 
-            setLoadingMsg(`Loading ${model.modelBase} texture...`);
+            setLoadingMsg(`${t("loading-4")} ${model.modelBase}...`);
             await axios.get(
                 modelData.url + modelData.FileReferences.Textures[0]
             );
-            setLoadingMsg(`Loading ${model.modelBase} moc3 file...`);
+            setLoadingMsg(`${t("loading-5")} ${model.modelBase}...`);
             await axios.get(modelData.url + modelData.FileReferences.Moc);
-            setLoadingMsg(`Loading ${model.modelBase} physics file...`);
+            setLoadingMsg(`${t("loading-6")} ${model.modelBase}...`);
             await axios.get(modelData.url + modelData.FileReferences.Physics);
 
-            setLoadingMsg(`Putting new model...`);
+            setLoadingMsg(`${t("loading-7")}...`);
             const live2DModel = await Live2DModel.from(modelData, {
                 autoInteract: false,
             });
@@ -188,7 +192,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             return [live2DModel, modelData];
         } catch (error) {
             console.error("Error loading model:", error);
-            setLoadingMsg(`Fail to load model!`);
+            setLoadingMsg(t("failed-load"));
             return Promise.reject(error);
         }
     };
@@ -205,7 +209,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     }, [context?.models, currentKey]);
 
     if (!context || !context.models) {
-        return "Please wait...";
+        return t("please-wait");
     }
 
     const {
@@ -307,7 +311,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const handleDeleteLayer = async () => {
         const modelsObjects = Object.entries(context.models ?? {});
         if (modelsObjects.length == 1) {
-            alert("This is the only layer and cannot be deleted.");
+            alert(t("delete-model-warn"));
             return;
         }
         currentModel?.model.destroy();
@@ -523,19 +527,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     };
     return (
         <div>
-            <h1>Model</h1>
-
+            <h1>{t("model-header")}</h1>
             <div className="option">
-                <h2>Selected Layer</h2>
+                <h2>{t("selected-layer")}</h2>
                 <div className="option__content">
                     <select value={currentKey} onChange={handleLayerChange}>
                         {Object.keys(models).map((model, idx) => (
                             <option key={model} value={model}>
-                                Layer {idx + 1}:{" "}
-                                {models[model].character
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    models[model].character.slice(1)}
+                                {t("layer")} {idx + 1}:{" "}
+                                {t(models[model].character)}
                             </option>
                         ))}
                     </select>
@@ -573,7 +573,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 currentModel?.character == "none") && (
                 <>
                     <div className="option">
-                        <h2>Character</h2>
+                        <h2>{t("character")}</h2>
                         <div className="option__content">
                             <select
                                 value={currentSelectedCharacter}
@@ -581,7 +581,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 ref={characterSelect}
                             >
                                 <option value="none" disabled>
-                                    Select a character
+                                    {t("select-character")}
                                 </option>
                                 {Object.keys(
                                     currentModel.from === "static"
@@ -589,8 +589,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                         : sekaiCharacterData
                                 ).map((character) => (
                                     <option key={character} value={character}>
-                                        {character.charAt(0).toUpperCase() +
-                                            character.slice(1)}
+                                        {t(character)}
                                     </option>
                                 ))}
                             </select>
@@ -629,15 +628,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
                     {loading && <div className="option">{loadingMsg}</div>}
                     <div className="option">
-                        <h2>Emotion</h2>
+                        <h2>{t("emotion")}</h2>
                         <div className="option__content">
-                            <h3>Pose</h3>
+                            <h3>{t("pose")}</h3>
                             <select
                                 value={currentModel?.pose}
                                 onChange={handlePoseChange}
                             >
                                 <option value={99999} disabled>
-                                    Select a pose
+                                    {t("select-pose")}
                                 </option>
                                 {currentModel &&
                                     currentModel.modelData?.FileReferences.Motions.Motion.map(
@@ -664,17 +663,17 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     }
                                 }}
                             >
-                                Re-apply
+                                {t("re-apply")}
                             </button>
                         </div>
                         <div className="option__content">
-                            <h3>Expression</h3>
+                            <h3>{t("expression")}</h3>
                             <select
                                 value={currentModel?.expression}
                                 onChange={handleExpressionChange}
                             >
                                 <option value={99999} disabled>
-                                    Select an expression
+                                    {t("select-expression")}
                                 </option>
                                 {currentModel &&
                                     currentModel.modelData?.FileReferences.Motions.Expression.map(
@@ -701,7 +700,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     }
                                 }}
                             >
-                                Re-apply
+                                {t("re-apply")}
                             </button>
                         </div>
                     </div>
@@ -711,7 +710,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 <h2>Transform</h2>
                 <div className="option__content">
                     <div className="transform-icons">
-                        <h3>X-Position ({currentModel?.modelX}px)</h3>
+                        <h3>
+                            {t("x-position")} ({currentModel?.modelX}px)
+                        </h3>
                         <div>
                             <i
                                 className="bi bi-pencil-fill"
@@ -731,7 +732,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 </div>
                 <div className="option__content">
                     <div className="transform-icons">
-                        <h3>Y-Position ({currentModel?.modelY}px)</h3>
+                        <h3>
+                            {t("y-position")} ({currentModel?.modelY}px)
+                        </h3>
                         <div>
                             <i
                                 className="bi bi-pencil-fill"
@@ -751,7 +754,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 </div>
                 <div className="option__content">
                     <div className="transform-icons">
-                        <h3>Scale ({currentModel?.modelScale})</h3>
+                        <h3>
+                            {t("scale")} ({currentModel?.modelScale})
+                        </h3>
                         <div>
                             <i
                                 className="bi bi-pencil-fill"
@@ -773,7 +778,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 <div className="option__content">
                     <Checkbox
                         id="visible"
-                        label="Visible"
+                        label={t("visible")}
                         checked={currentModel?.visible}
                         onChange={handleVisible}
                     />

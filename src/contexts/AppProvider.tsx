@@ -78,7 +78,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const initialScene: InitialScene = getInitialScene();
 
     useEffect(() => {
-        const cookie = localStorage.getItem("sekaiViewerAnnouncement2");
+        const cookie = localStorage.getItem("localizationAnnouncement");
         if (Number(cookie) < 2) {
             setHideAnnouncements(false);
         }

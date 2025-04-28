@@ -506,7 +506,7 @@ select:disabled {
 }
 
 @media (width <= 768px) {
-  #download-clear-buttons {
+  #download-clear-buttons, #locale-and-support {
     z-index: 999;
   }
 }
@@ -552,7 +552,9 @@ select:disabled {
   }
 }
 
-#support-screen, #add-model-select-screen {
+#support-screen,
+#add-model-select-screen,
+#settings-screen {
   padding: 10px;
   position: fixed;
   top: 0;
@@ -568,11 +570,20 @@ select:disabled {
   box-sizing: border-box;
   overflow: auto;
 }
-#support-screen h2, #add-model-select-screen h2 {
+#support-screen h2,
+#add-model-select-screen h2,
+#settings-screen h2 {
   padding-top: 10px;
 }
-#support-screen p, #add-model-select-screen p {
+#support-screen p,
+#add-model-select-screen p,
+#settings-screen p {
   padding-bottom: 5px;
+}
+
+#settings-screen .window {
+  width: 70dvw;
+  max-width: 768px;
 }
 
 .window {
@@ -581,9 +592,9 @@ select:disabled {
   background-color: #ebebf2;
   padding: 20px;
   border-radius: 20px;
-  padding: 20px;
   max-width: 768px;
   max-height: 60dvh;
+  overflow: visible;
 }
 @media (width <= 768px) {
   .window img {
@@ -592,11 +603,17 @@ select:disabled {
 }
 
 .window__content {
-  overflow: auto;
+  padding: 10px;
+  position: relative;
+  overflow-y: visible;
+  overflow-x: scroll;
   height: 100%;
 }
 .window__content img {
   max-width: 50%;
+}
+.window__content select {
+  box-sizing: border-box;
 }
 
 .window-center {

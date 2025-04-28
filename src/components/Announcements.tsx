@@ -10,13 +10,13 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("sekaiViewerAnnouncement2");
+        const cookie = localStorage.getItem("localizationAnnouncement");
         if (!cookie) {
-            localStorage.setItem("sekaiViewerAnnouncement2", "0");
+            localStorage.setItem("localizationAnnouncement", "0");
             return;
         }
         localStorage.setItem(
-            "sekaiViewerAnnouncement2",
+            "localizationAnnouncement",
             `${Number(cookie) + 1}`
         );
     };
@@ -24,21 +24,18 @@ const Announcements: React.FC = () => {
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
+            <p>Contributions for localization are now available!</p>
             <p>
-                This site can now use{" "}
-                <a href="https://sekai.best">Sekai Viewer's (sekai.best)</a>{" "}
-                Live2D models! Give it a test by adding a new model.
+                If you wish to contribute, you can check this information on{" "}
+                <a
+                    href="https://github.com/lezzthanthree/SEKAI-Stories/README-localization.md"
+                    className="text-orange"
+                    target="_blank"
+                >
+                    GitHub
+                </a>
+                .
             </p>
-            <p>
-                I would like to thank the owner of Sekai Viewer for allowing me
-                to connect their server through this site!
-            </p>
-            <button
-                className="btn-blue btn-regular"
-                onClick={() => window.open("https://ko-fi.com/post/Sekai-Viewer-has-responded-F1F31E58CH", "_blank")}
-            >
-                Ko-fi Announcement
-            </button>
             <p>Tap this section to close.</p>
         </div>
     );

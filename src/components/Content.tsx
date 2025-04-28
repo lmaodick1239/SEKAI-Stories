@@ -4,7 +4,7 @@ import SidebarSelect from "./SidebarSelect";
 import DownloadClearButtons from "./DownloadClearButtons";
 import { AppContext } from "../contexts/AppContext";
 import FlavorText from "./FlavorText";
-import SupportButton from "./SupportButton";
+import SettingsButton from "./SettingsButton";
 
 const Content: React.FC = () => {
     const contentBackground = useRef<HTMLDivElement | null>(null);
@@ -24,14 +24,17 @@ const Content: React.FC = () => {
         const scrollPosition = window.scrollY;
         const tabs = document.getElementById("sidebar-select");
         const save = document.getElementById("download-clear-buttons");
+        const locale = document.getElementById("locale-and-support");
         const hideAtPosition = 100;
 
         if (scrollPosition > hideAtPosition) {
             if (tabs) tabs.style.opacity = "0";
             if (save) save.style.opacity = "0";
+            if (locale) locale.style.opacity = "0";
         } else {
             if (tabs) tabs.style.opacity = "1.0";
             if (save) save.style.opacity = "1.0";
+            if (locale) locale.style.opacity = "1.0";
         }
     });
 
@@ -60,7 +63,9 @@ const Content: React.FC = () => {
                     )}
                 </button>
             </div>
-            <SupportButton />
+            <div className="absolute top-left" id="locale-and-support">
+                <SettingsButton />
+            </div>
 
             <Canvas />
             <FlavorText />

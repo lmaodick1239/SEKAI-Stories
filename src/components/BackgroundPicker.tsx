@@ -11,8 +11,11 @@ import React, {
 import { AppContext } from "../contexts/AppContext";
 import data from "../background.json";
 import { getBackground } from "../utils/GetBackground";
+import { useTranslation } from "react-i18next";
 
 const BackgroundPicker: React.FC = () => {
+    const { t } = useTranslation();
+
     const [show, setShow] = useState<boolean>(false);
 
     const context = useContext(AppContext);
@@ -130,8 +133,7 @@ const BackgroundPicker: React.FC = () => {
                         setShow(!show);
                     }}
                 >
-                    {" "}
-                    Select
+                    {t("select")}
                 </button>
             </div>
         </>

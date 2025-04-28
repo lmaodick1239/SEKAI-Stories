@@ -3,7 +3,6 @@ import Content from "./components/Content";
 import Sidebar from "./components/Sidebar";
 import { AppContext } from "./contexts/AppContext";
 import Announcements from "./components/Announcements";
-
 function App() {
     const context = useContext(AppContext);
     if (!context) {

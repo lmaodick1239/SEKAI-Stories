@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface AddModelSelectProps {
     addModel: (from: string) => void;
@@ -9,6 +10,8 @@ const AddModelSelect: React.FC<AddModelSelectProps> = ({
     addModel,
     setShow,
 }) => {
+    const { t } = useTranslation();
+
     return (
         <div
             id="add-model-select-screen"
@@ -30,8 +33,8 @@ const AddModelSelect: React.FC<AddModelSelectProps> = ({
                         setShow(false);
                     }}
                 >
-                    Add model from sekai.best
-                    <p>Get access to models provided by Sekai Viewer!</p>
+                    {t("add-model-sekai")}
+                    <p>{t("add-model-sekai-description")}</p>
                 </button>
                 <button
                     className="btn-blue btn-regular btn-extend-width"
@@ -40,8 +43,8 @@ const AddModelSelect: React.FC<AddModelSelectProps> = ({
                         setShow(false);
                     }}
                 >
-                    Add model from SEKAI Stories
-                    <p>Fallback option when Sekai Viewer is down.</p>
+                    {t("add-model-static")}
+                    <p>{t("add-model-static-description")}</p>
                 </button>
                 <button
                     className="btn-white btn-regular"
@@ -49,7 +52,7 @@ const AddModelSelect: React.FC<AddModelSelectProps> = ({
                         setShow(false);
                     }}
                 >
-                    Close
+                    {t("close")}
                 </button>
             </div>
         </div>

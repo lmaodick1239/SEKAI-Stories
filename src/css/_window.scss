@@ -4,7 +4,9 @@
     }
 }
 
-#support-screen, #add-model-select-screen {
+#support-screen,
+#add-model-select-screen,
+#settings-screen {
     padding: 10px;
     position: fixed;
     top: 0;
@@ -26,7 +28,13 @@
     p {
         padding-bottom: 5px;
     }
-   
+}
+
+#settings-screen {
+    .window {
+        width: 70dvw;
+        max-width: 768px;
+    }
 }
 
 .window {
@@ -35,24 +43,32 @@
     background-color: $light-gray;
     padding: 20px;
     border-radius: 20px;
-    padding: 20px;
     max-width: 768px;
     max-height: 60dvh;
+    overflow: visible;
     img {
         @media (width <= 768px) {
             width: 50%;
         }
     }
 }
-
 .window__content {
-    overflow: auto;
+    padding: 10px;
+    position: relative;
+    overflow-y: visible;
+    overflow-x: scroll;
     height: 100%;
 
     img {
         max-width: 50%;
     }
+
+    select {
+        box-sizing: border-box;
+        
+    }
 }
+
 
 .window-center {
     display: flex;
