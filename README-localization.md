@@ -1,5 +1,9 @@
 # Contributing for Localization
 
+## Simple
+If you wish to contribute but do not know how to code or use GitHub, you can download the [`en-US.json`](./src/locale/en-US.json) file, translate it into your desired language, and send it to me Discord (@lezzthanthree).
+
+## Advanced
 To contribute to the localization of the project, please follow these steps:
 1. Fork the repository and clone it to your local machine.
 2. Translate the [`en-US.json`](./src/locale/en-US.json) file into your desired language. This is located at [`src/locale`](./src/locale) folder. Save this file with the appropriate locale code (eg: `ja-JP.json`).
