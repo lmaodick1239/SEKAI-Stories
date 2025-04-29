@@ -28,7 +28,7 @@ const Announcements: React.FC = () => {
             <p>
                 If you wish to contribute, you can check this information on{" "}
                 <a
-                    href="https://github.com/lezzthanthree/SEKAI-Stories/README-localization.md"
+                    href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
                     className="text-orange"
                     target="_blank"
                 >
