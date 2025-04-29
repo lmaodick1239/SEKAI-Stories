@@ -610,14 +610,17 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     : typedSekaiCharacterData[
                                           currentSelectedCharacter
                                       ]
-                                )?.map((model) => {
+                                )?.map((model, idx) => {
                                     const value =
                                         currentModel.from === "static"
                                             ? (model as string)
                                             : (model as ILive2DModelList)
                                                   .modelBase;
                                     return (
-                                        <option key={value} value={value}>
+                                        <option
+                                            key={`${value}${idx}`}
+                                            value={value}
+                                        >
                                             {value}
                                         </option>
                                     );
