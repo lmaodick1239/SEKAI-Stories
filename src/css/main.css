@@ -200,6 +200,7 @@ input[type=text] {
   color: #444466;
   width: 100%;
   margin: 10px 0px;
+  word-wrap: break-word;
 }
 
 textarea {
@@ -219,6 +220,7 @@ textarea {
   width: 100%;
   resize: vertical;
   margin: 10px 0px;
+  word-wrap: break-word;
 }
 
 input[type=range] {
@@ -405,7 +407,6 @@ select:disabled {
 #sidebar {
   padding: 25px;
   background-color: #ebebf2;
-  word-break: break-all;
 }
 @media (width > 768px) {
   #sidebar {
@@ -421,6 +422,10 @@ select:disabled {
     min-height: 100dvh;
     min-width: 100dvw;
   }
+}
+#sidebar h1,
+#sidebar p {
+  word-break: break-all;
 }
 
 .sidebar__select {
@@ -528,7 +533,8 @@ select:disabled {
 }
 
 @media (width <= 768px) {
-  #download-clear-buttons, #locale-and-support {
+  #download-clear-buttons,
+  #locale-and-support {
     z-index: 999;
   }
 }

@@ -13,6 +13,7 @@ input[type="text"] {
     color: $black;
     width: 100%;
     margin: 10px 0px;
+    word-wrap: break-word;
 }
 
 textarea {
@@ -32,4 +33,5 @@ textarea {
     width: 100%;
     resize: vertical;
     margin: 10px 0px;
+    word-wrap: break-word;
 }
