@@ -4,7 +4,6 @@ import { Checkbox } from "../Checkbox";
 import RadioButton from "../RadioButton";
 import { useTranslation } from "react-i18next";
 
-
 const symbols = {
     star: "☆",
     "star-filled": "★",
@@ -21,13 +20,16 @@ const symbols = {
 
 const TextSidebar: React.FC = () => {
     const { t } = useTranslation();
-    
+
     const nameTag1Cookie = localStorage.getItem("nameTag1");
     const nameTag2Cookie = localStorage.getItem("nameTag2");
-    
+    const easySwitchEnabled = localStorage.getItem("easySwitchEnabled");
+
     const context = useContext(AppContext);
     const [bell, setBell] = useState<boolean>(false);
-    const [easySwitch, setEasySwitch] = useState<boolean>(false);
+    const [easySwitch, setEasySwitch] = useState<boolean>(
+        easySwitchEnabled === "true" ? true : false
+    );
     const [nameTags, setNameTags] = useState<Record<string, string>>({
         nameTag1: nameTag1Cookie ? nameTag1Cookie : "",
         nameTag2: nameTag2Cookie ? nameTag2Cookie : "",
@@ -206,6 +208,10 @@ const TextSidebar: React.FC = () => {
                         checked={easySwitch}
                         onChange={() => {
                             setEasySwitch(!easySwitch);
+                            localStorage.setItem(
+                                "easySwitchEnabled",
+                                String(!easySwitch)
+                            );
                         }}
                     />
                 </div>
