@@ -405,6 +405,7 @@ select:disabled {
 #sidebar {
   padding: 25px;
   background-color: #ebebf2;
+  word-break: break-all;
 }
 @media (width > 768px) {
   #sidebar {
