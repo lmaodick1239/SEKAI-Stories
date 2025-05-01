@@ -49,7 +49,7 @@ const SettingsButton: React.FC = () => {
                             <div className="flex-horizontal space-between">
                                 <h1>{t("settings")}</h1>
                             </div>
-                            <h2>{t("Language")}</h2>
+                            <h2>{t("language")}</h2>
                             <select
                                 name="language"
                                 id="language"
