@@ -19,6 +19,7 @@
     "delete-model-warn": "This is the only layer and cannot be deleted.",
     "character": "Character",
     "select-character": "Select a character",
+    "costume": "Costume",
     "emotion": "Emotion",
     "pose": "Pose",
     "select-pose": "Select a pose",
