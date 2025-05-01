@@ -710,7 +710,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 </>
             )}
             <div className="option">
-                <h2>Transform</h2>
+                <h2>{t("transform")}</h2>
                 <div className="option__content">
                     <div className="transform-icons">
                         <h3>
