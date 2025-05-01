@@ -4,6 +4,9 @@ import { Checkbox } from "../Checkbox";
 import RadioButton from "../RadioButton";
 import { useTranslation } from "react-i18next";
 
+const nameTag1Cookie = localStorage.getItem("nameTag1");
+const nameTag2Cookie = localStorage.getItem("nameTag2");
+
 const TextSidebar: React.FC = () => {
     const { t } = useTranslation();
 
@@ -11,8 +14,8 @@ const TextSidebar: React.FC = () => {
     const [bell, setBell] = useState<boolean>(false);
     const [easySwitch, setEasySwitch] = useState<boolean>(false);
     const [nameTags, setNameTags] = useState<Record<string, string>>({
-        nameTag1: "",
-        nameTag2: "",
+        nameTag1: nameTag1Cookie ? nameTag1Cookie : "",
+        nameTag2: nameTag2Cookie ? nameTag2Cookie : "",
     });
 
     if (!context || !context.text) {
@@ -21,10 +24,7 @@ const TextSidebar: React.FC = () => {
 
     const { text, setText } = context;
 
-    const handleNameTagChange = async (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const changedNameTag = event.target.value;
+    const handleNameTagChange = async (changedNameTag: string) => {
         text.nameTag.text = changedNameTag;
         text.nameTag.updateText(true);
         setText({
@@ -89,17 +89,25 @@ const TextSidebar: React.FC = () => {
         nameTag: string
     ) => {
         const name = event.target.value;
+        const radio = document.querySelector(
+            `input[name="name-tag"][value="${nameTag}"]`
+        ) as HTMLInputElement;
         if (nameTag == "nameTag1") {
             setNameTags({
                 ...nameTags,
                 nameTag1: name,
             });
+            localStorage.setItem("nameTag1", name);
         }
         if (nameTag == "nameTag2") {
             setNameTags({
                 ...nameTags,
                 nameTag2: name,
             });
+            localStorage.setItem("nameTag2", name);
+        }
+        if (radio.checked) {
+            handleNameTagChange(name);
         }
     };
 
@@ -129,7 +137,12 @@ const TextSidebar: React.FC = () => {
                             name="name-tag"
                             id="name-tag"
                             value={text?.nameTagString}
-                            onChange={handleNameTagChange}
+                            onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                                const changedNameTag = event.target.value;
+                                handleNameTagChange(changedNameTag);
+                            }}
                         />
                     ) : (
                         <>
@@ -147,6 +160,7 @@ const TextSidebar: React.FC = () => {
                                     onChange={(e) => {
                                         handleEasyNameTagChange(e, "nameTag1");
                                     }}
+                                    placeholder="Student A"
                                 />
                             </div>
                             <div className="flex-horizontal center">
@@ -162,6 +176,7 @@ const TextSidebar: React.FC = () => {
                                     onChange={(e) => {
                                         handleEasyNameTagChange(e, "nameTag2");
                                     }}
+                                    placeholder="Student B"
                                 />
                             </div>
                         </>
@@ -186,7 +201,9 @@ const TextSidebar: React.FC = () => {
                         value={text?.dialogueString}
                         onChange={handleDialogueChange}
                     ></textarea>
-                    <h3>{t("font-size")} ({text.fontSize} px)</h3>
+                    <h3>
+                        {t("font-size")} ({text.fontSize} px)
+                    </h3>
                     <input
                         type="range"
                         name="font-size"
