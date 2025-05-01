@@ -234,9 +234,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     };
 
     const handleAddLayer = async (from: string) => {
-        if (layers >= 3) {
+        if (layers >= 5) {
             const confirmation = confirm(
-                "Adding more than three layers may prevent other models from rendering properly and could cause lag. Do you want to continue?\n\nClicking OK will proceed the action."
+                "Adding more than five layers may prevent other models from rendering properly and could cause lag. Do you want to continue?\n\nClicking OK will proceed the action."
             );
             if (!confirmation) return;
         }
