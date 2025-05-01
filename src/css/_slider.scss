@@ -7,11 +7,17 @@ input[type="range"] {
     height: 5px;
     margin: 15px 0;
     width: 100%;
+    touch-action: none;
+}
+
+input[type="range"]:disabled {
+    cursor: not-allowed;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
     background: $light-miku;
     height: 5px;
+    
 }
 
 input[type="range"]::-moz-range-track {
@@ -19,6 +25,15 @@ input[type="range"]::-moz-range-track {
     height: 5px;
 }
 
+input[type="range"]:disabled:-webkit-slider-runnable-track {
+    background: #149f8a55;
+    height: 5px;
+}
+
+input[type="range"]:disabled::-moz-range-track {
+    background: #149f8a55;
+    height: 5px;
+}
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none; /* Override default look */

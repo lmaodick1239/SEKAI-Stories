@@ -23,6 +23,7 @@ const TextSidebar: React.FC = () => {
 
     const nameTag1Cookie = localStorage.getItem("nameTag1");
     const nameTag2Cookie = localStorage.getItem("nameTag2");
+    const lockFontSize = localStorage.getItem("lockFontSize");
     const easySwitchEnabled = localStorage.getItem("easySwitchEnabled");
 
     const context = useContext(AppContext);
@@ -34,6 +35,9 @@ const TextSidebar: React.FC = () => {
         nameTag1: nameTag1Cookie ? nameTag1Cookie : "",
         nameTag2: nameTag2Cookie ? nameTag2Cookie : "",
     });
+    const [lockFontSizeState, setLockFontSizeState] = useState<boolean>(
+        lockFontSize === "true" ? true : false
+    );
 
     if (!context || !context.text) {
         return t("please-wait");
@@ -103,6 +107,20 @@ const TextSidebar: React.FC = () => {
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         const changedFontSize = Number(event.target.value);
+        text.dialogue.style.fontSize = changedFontSize;
+        text.dialogue.style.strokeThickness =
+            8 + (changedFontSize / 44 - 1) * 2;
+        text.dialogue.updateText(true);
+        setText({
+            ...text,
+            fontSize: changedFontSize,
+        });
+    };
+
+    const handleInputFontSizeChange = async () => {
+        const inputChange = prompt("Enter a value");
+        if (inputChange == null || isNaN(Number(inputChange))) return;
+        const changedFontSize = Number(inputChange);
         text.dialogue.style.fontSize = changedFontSize;
         text.dialogue.style.strokeThickness =
             8 + (changedFontSize / 44 - 1) * 2;
@@ -240,9 +258,28 @@ const TextSidebar: React.FC = () => {
                             </option>
                         ))}
                     </select>
-                    <h3>
-                        {t("font-size")} ({text.fontSize} px)
-                    </h3>
+                    <div className="transform-icons">
+                        <h3>
+                            {t("font-size")} ({text.fontSize} px)
+                        </h3>
+                        <div>
+                            <i className="bi bi-pencil-fill" onClick={handleInputFontSizeChange}></i>
+                            <i
+                                className={
+                                    lockFontSizeState
+                                        ? "bi bi-unlock-fill"
+                                        : "bi bi-lock-fill"
+                                }
+                                onClick={() => {
+                                    setLockFontSizeState(!lockFontSizeState);
+                                    localStorage.setItem(
+                                        "lockFontSize",
+                                        String(!lockFontSizeState)
+                                    );
+                                }}
+                            ></i>
+                        </div>
+                    </div>
                     <input
                         type="range"
                         name="font-size"
@@ -251,6 +288,7 @@ const TextSidebar: React.FC = () => {
                         min={10}
                         max={120}
                         onChange={handleFontSizeChange}
+                        {...(lockFontSizeState ? { disabled: true } : {})}
                     />
                     <Checkbox
                         id="visible"
