@@ -10,13 +10,13 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("localizationAnnouncement");
+        const cookie = localStorage.getItem("polishLocalizationAnnouncement");
         if (!cookie) {
-            localStorage.setItem("localizationAnnouncement", "0");
+            localStorage.setItem("polishLocalizationAnnouncement", "0");
             return;
         }
         localStorage.setItem(
-            "localizationAnnouncement",
+            "polishLocalizationAnnouncement",
             `${Number(cookie) + 1}`
         );
     };
@@ -24,9 +24,14 @@ const Announcements: React.FC = () => {
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>Contributions for localization are now available!</p>
             <p>
-                If you wish to contribute, you can check this information on{" "}
+                Polish localization is now available! Thanks to{" "}
+                <a href="https://github.com/counter185">@counter185</a> for
+                their contribution!
+            </p>
+            <p>
+                If you also wish to contribute, you can check this information
+                on{" "}
                 <a
                     href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
                     className="text-orange"
