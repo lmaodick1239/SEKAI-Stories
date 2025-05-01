@@ -3,6 +3,7 @@ import Content from "./components/Content";
 import Sidebar from "./components/Sidebar";
 import { AppContext } from "./contexts/AppContext";
 import Announcements from "./components/Announcements";
+import { useTranslation } from "react-i18next";
 function App() {
     const context = useContext(AppContext);
     if (!context) {
@@ -10,8 +11,11 @@ function App() {
     }
     const { hide, hideAnnouncements } = context;
 
+    const { i18n } = useTranslation();
+    const lang = i18n.language;
+
     return (
-        <main>
+        <main className={`app-${lang}`} id="app">
             <Content />
             {!hide && <Sidebar />}
             {!hideAnnouncements && <Announcements />}
