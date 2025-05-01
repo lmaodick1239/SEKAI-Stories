@@ -4,12 +4,27 @@ import { Checkbox } from "../Checkbox";
 import RadioButton from "../RadioButton";
 import { useTranslation } from "react-i18next";
 
-const nameTag1Cookie = localStorage.getItem("nameTag1");
-const nameTag2Cookie = localStorage.getItem("nameTag2");
+
+const symbols = {
+    star: "☆",
+    "star-filled": "★",
+    squiggly: "～",
+    "em-dash": "—",
+    heart: "♡",
+    "heart-filled": "❤︎",
+    "quarter-note": "♩",
+    "eighth-note": "♪",
+    "beamed-eight-note": "♫",
+    "beamed-sixteenth-note": "♬",
+    "japanese-ellipsis": "…",
+};
 
 const TextSidebar: React.FC = () => {
     const { t } = useTranslation();
-
+    
+    const nameTag1Cookie = localStorage.getItem("nameTag1");
+    const nameTag2Cookie = localStorage.getItem("nameTag2");
+    
     const context = useContext(AppContext);
     const [bell, setBell] = useState<boolean>(false);
     const [easySwitch, setEasySwitch] = useState<boolean>(false);
@@ -70,6 +85,18 @@ const TextSidebar: React.FC = () => {
         });
     };
 
+    const handleAddSymbol = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const symbol = event.target.value;
+        if (symbol !== "none") {
+            text.dialogue.text += symbol;
+            text.dialogue.updateText(true);
+            setText({
+                ...text,
+                dialogueString: text.dialogue.text,
+            });
+        }
+    };
+
     const handleFontSizeChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -92,23 +119,14 @@ const TextSidebar: React.FC = () => {
         const radio = document.querySelector(
             `input[name="name-tag"][value="${nameTag}"]`
         ) as HTMLInputElement;
-        if (nameTag == "nameTag1") {
-            setNameTags({
-                ...nameTags,
-                nameTag1: name,
-            });
-            localStorage.setItem("nameTag1", name);
-        }
-        if (nameTag == "nameTag2") {
-            setNameTags({
-                ...nameTags,
-                nameTag2: name,
-            });
-            localStorage.setItem("nameTag2", name);
-        }
+        setNameTags({
+            ...nameTags,
+            [nameTag]: name,
+        });
         if (radio.checked) {
             handleNameTagChange(name);
         }
+        localStorage.setItem(nameTag, name);
     };
 
     const handleEasyNameTagSelect = (
@@ -201,6 +219,21 @@ const TextSidebar: React.FC = () => {
                         value={text?.dialogueString}
                         onChange={handleDialogueChange}
                     ></textarea>
+                    <select
+                        name="add-symbol"
+                        id="add-symbol"
+                        value="none"
+                        onChange={handleAddSymbol}
+                    >
+                        <option value="none" disabled>
+                            {t("add-symbol")}
+                        </option>
+                        {Object.entries(symbols).map(([key, value]) => (
+                            <option key={key} value={value}>
+                                {`${value} (${key})`}
+                            </option>
+                        ))}
+                    </select>
                     <h3>
                         {t("font-size")} ({text.fontSize} px)
                     </h3>
