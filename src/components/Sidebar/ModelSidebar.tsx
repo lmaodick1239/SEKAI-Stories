@@ -596,7 +596,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         </div>
                     </div>
                     <div className="option">
-                        <h2>Costume</h2>
+                        <h2>{t("costume")}</h2>
                         <div className="option__content">
                             <select
                                 value={currentModel?.modelName}

@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import en from "../locale/en-US.json";
+import pl from "../locale/pl-PL.json";
 
 const i18nInit = () => {
     i18n.init({
@@ -7,6 +8,7 @@ const i18nInit = () => {
         lng: "en",
         resources: {
             en: { translation: en },
+            pl: { translation: pl },
         },
     });
 

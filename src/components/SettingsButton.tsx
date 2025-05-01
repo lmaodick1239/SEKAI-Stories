@@ -17,7 +17,10 @@ const SettingsButton: React.FC = () => {
         i18n.changeLanguage(languangeToChange);
         localStorage.setItem("language", languangeToChange);
     };
-    const languages = [{ code: "en", name: "English" }];
+    const languages = [
+        { code: "en", name: "English" },
+        { code: "pl", name: "Polski" },
+    ];
 
     return (
         <div id="support-button">
