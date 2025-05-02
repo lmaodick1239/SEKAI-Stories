@@ -440,7 +440,7 @@ select:disabled {
 }
 #sidebar h1,
 #sidebar p {
-  word-break: break-all;
+  word-wrap: break-all;
 }
 
 .sidebar__select {
@@ -649,7 +649,7 @@ select:disabled {
   padding: 10px;
   position: relative;
   overflow-y: visible;
-  overflow-x: scroll;
+  overflow-x: hidden;
   height: 100%;
 }
 .window__content img {
