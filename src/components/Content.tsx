@@ -15,9 +15,10 @@ const Content: React.FC = () => {
         if (contentBackground.current) {
             contentBackground.current.style.backgroundImage = context
                 ?.background.filename
-                ? `url(${context.background.filename})`
+                ? `url("${context.background.filename}")`
                 : "";
         }
+        console.log("Background set to:", context.background.filename);
     }, [context]);
 
     window.addEventListener("scroll", function () {
