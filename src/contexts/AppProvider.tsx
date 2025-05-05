@@ -47,6 +47,37 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
     const [startingMessage, setStartingMessage] = useState<string>("");
 
+    const randomInitialScene: InitialScene[] = [
+        {
+            background: "/background_special/Background_Uranohoshi.jpg",
+            model: "07airi_normal",
+            text: "No, I will not do AiScream on you.",
+            nameTag: "Airi",
+            character: "airi",
+            modelX: 650,
+            modelY: 170,
+        },
+        {
+            background: "/background_compressed/Background_Diner.jpg",
+            model: "v2_19ena_casual",
+            text: "Mizuki, that's not how you break a KitKat!",
+            nameTag: "Ena",
+            character: "ena",
+            modelX: 690,
+            modelY: 135,
+        },
+        {
+            background:
+                "background_compressed/Background_Kanade's_Room_(Night).jpg",
+            model: "v2_17kanade_casual",
+            text: "Hashiridashita...?",
+            nameTag: "Kanade",
+            character: "kanade",
+            modelX: 650,
+            modelY: 170,
+        },
+    ];
+
     const getInitialScene = (): InitialScene => {
         const date = new Date();
         const month = date.getMonth() + 1;
@@ -64,15 +95,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             };
         }
 
-        return {
-            background: "/background_special/Background_Uranohoshi.jpg",
-            model: "07airi_normal",
-            text: "No, I will not do AiScream on you.",
-            nameTag: "Airi",
-            character: "airi",
-            modelX: 650,
-            modelY: 170,
-        };
+        return randomInitialScene[
+            Math.floor(Math.random() * randomInitialScene.length)
+        ];
     };
 
     const initialScene: InitialScene = getInitialScene();
