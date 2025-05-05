@@ -57,7 +57,33 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const characterSelect = useRef<null | HTMLSelectElement>(null);
     const modelSelect = useRef<null | HTMLSelectElement>(null);
 
+    useEffect(() => {
+        if (!context?.models || currentKey) return;
+        const entries = Object.entries(context.models);
+        if (entries.length === 0) return;
+
+        const [firstKey, firstModel] = entries[0];
+        setCurrentKey(firstKey);
+        setCurrentModel(firstModel);
+        setCurrentSelectedCharacter(firstModel.character);
+    }, [context?.models, currentKey]);
+
+    if (!context || !context.models) {
+        return t("please-wait");
+    }
+
+    const {
+        models,
+        setModels,
+        modelContainer,
+        nextLayer,
+        setNextLayer,
+        layers,
+        setLayers,
+    } = context;
+
     const updateModelState = (updates: Partial<IModel>) => {
+        console.log(updates);
         setModels((prevModels) => ({
             ...prevModels,
             [currentKey]: {
@@ -70,20 +96,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             ...updates,
         }));
     };
-    // const newModel = async (filename: string, layerIndex: number) => {
-    //     const getmodel = await axios.get(
-    //         `/models/${filename}/${filename}.model3.json`
-    //     );
-    //     const data = GetMotionList(filename, getmodel.data);
-    //     const live2DModel = await Live2DModel.from(data, {
-    //         autoInteract: false,
-    //     });
-    //     live2DModel.scale.set(0.5);
-    //     live2DModel.position.set(-200, -280);
-    //     modelContainer?.addChildAt(live2DModel, layerIndex);
-    //     return live2DModel;
-    // };
-
+    
     const loadStaticModel = async (
         modelName: string,
         layerIndex: number
@@ -196,31 +209,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             return Promise.reject(error);
         }
     };
-
-    useEffect(() => {
-        if (!context?.models || currentKey) return;
-        const entries = Object.entries(context.models);
-        if (entries.length === 0) return;
-
-        const [firstKey, firstModel] = entries[0];
-        setCurrentKey(firstKey);
-        setCurrentModel(firstModel);
-        setCurrentSelectedCharacter(firstModel.character);
-    }, [context?.models, currentKey]);
-
-    if (!context || !context.models) {
-        return t("please-wait");
-    }
-
-    const {
-        models,
-        setModels,
-        modelContainer,
-        nextLayer,
-        setNextLayer,
-        layers,
-        setLayers,
-    } = context;
 
     const handleLayerChange = async (
         event: React.ChangeEvent<HTMLSelectElement>

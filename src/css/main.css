@@ -354,6 +354,10 @@ select:disabled {
   padding: inherit;
 }
 
+.flex {
+  display: flex;
+}
+
 .flex-vertical {
   display: flex;
   flex-direction: column;
@@ -366,6 +370,10 @@ select:disabled {
 
 .extend-width {
   min-width: 100%;
+}
+
+.space-between {
+  justify-content: space-around;
 }
 
 #content {
@@ -597,7 +605,8 @@ select:disabled {
 
 #support-screen,
 #add-model-select-screen,
-#settings-screen {
+#settings-screen,
+#export-screen {
   padding: 10px;
   position: fixed;
   top: 0;
@@ -605,7 +614,7 @@ select:disabled {
   background-color: rgba(0, 0, 0, 0.7333333333);
   height: 100dvh;
   width: 100vw;
-  z-index: 999;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -615,17 +624,25 @@ select:disabled {
 }
 #support-screen h2,
 #add-model-select-screen h2,
-#settings-screen h2 {
+#settings-screen h2,
+#export-screen h2 {
   padding-top: 10px;
 }
 #support-screen p,
 #add-model-select-screen p,
-#settings-screen p {
+#settings-screen p,
+#export-screen p {
   padding-bottom: 5px;
 }
 
 #settings-screen .window {
   width: 70dvw;
+  max-width: 768px;
+}
+
+#export-screen .window {
+  width: 70dvw;
+  height: 60dvh;
   max-width: 768px;
 }
 
@@ -658,12 +675,34 @@ select:disabled {
 .window__content select {
   box-sizing: border-box;
 }
+.window__content textarea {
+  height: 80%;
+  font-size: 1em;
+  font-family: monospace;
+}
 
 .window-center {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.window__buttons {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+@media (width <= 768px) {
+  .window__buttons {
+    flex-direction: column;
+  }
+}
+@media (width > 768px) {
+  .window__buttons {
+    flex-direction: row;
+  }
 }
 
 * {

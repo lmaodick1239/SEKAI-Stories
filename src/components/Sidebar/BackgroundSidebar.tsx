@@ -27,6 +27,7 @@ const BackgroundSidebar: React.FC = () => {
             setBackground({
                 ...background,
                 filename: imgSrc,
+                upload: true,
             });
         }
     };

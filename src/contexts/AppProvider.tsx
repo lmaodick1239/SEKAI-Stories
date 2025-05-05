@@ -263,6 +263,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             setBackground({
                 backgroundContainer: backgroundContainer,
                 filename: initialScene["background"],
+                upload: false,
             });
             setText({
                 textContainer: textContainer,

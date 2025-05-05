@@ -72,7 +72,6 @@ const TextSidebar: React.FC = () => {
             .replace(/“|”/g, '"')
             .replace(/‘|’/g, "'");
         text.dialogue.text = changedDialogue;
-
         text.dialogue.updateText(true);
 
         if (
