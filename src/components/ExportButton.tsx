@@ -4,7 +4,6 @@ import { AppContext } from "../contexts/AppContext";
 import { IJsonSave } from "../types/IJsonSave";
 import { ValidateJsonSave } from "../utils/ValidateJsonSave";
 import { getBackground } from "../utils/GetBackground";
-import { sekaiUrl, staticUrl } from "../utils/URL";
 import { GetCharacterFolder } from "../utils/GetCharacterFolder";
 import {
     GetModelDataFromSekai,
@@ -15,7 +14,6 @@ import { Live2DModel } from "pixi-live2d-display";
 import IModel from "../types/IModel";
 import { ILive2DModelData } from "../types/ILive2DModelData";
 import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
-import { GetMotionData } from "../utils/GetMotionUrl";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
@@ -115,27 +113,10 @@ const ExportButton: React.FC = () => {
                 const [characterFolder] = await GetCharacterFolder(
                     model.modelName
                 );
-                const model3 = await axios.get(
-                    `${staticUrl}/model/${characterFolder}/${model.modelName}/${model.modelName}.model3.json`
-                );
-                setLoadingMsg(
-                    `Loading model ${idx + 1} of ${
-                        modelJson.length
-                    }: Fetching ${model.modelName} motion data`
-                );
-                const motionData = await axios.get(
-                    `${staticUrl}/motion/${characterFolder}/BuildMotionData.json`
-                );
-                setLoadingMsg(
-                    `Loading model ${idx + 1} of ${modelJson.length}: Fixing ${
-                        model.modelName
-                    } model data`
-                );
+
                 modelData = await GetModelDataFromStatic(
                     characterFolder,
-                    model.modelName,
-                    model3.data,
-                    motionData.data
+                    model.modelName
                 );
             }
             if (model.from === "sekai") {
@@ -148,28 +129,7 @@ const ExportButton: React.FC = () => {
                     model.character,
                     model.modelName
                 );
-                const model3 = await axios.get(
-                    `${sekaiUrl}/model/${characterData.modelPath}/${characterData.modelFile}`
-                );
-                setLoadingMsg(
-                    `Loading model ${idx + 1} of ${
-                        modelJson.length
-                    }: Fetching ${model.modelName} motion data`
-                );
-                const [motionBaseName, motionData] = await GetMotionData(
-                    characterData
-                );
-                setLoadingMsg(
-                    `Loading model ${idx + 1} of ${modelJson.length}: Fixing ${
-                        model.modelName
-                    } model data`
-                );
-                modelData = await GetModelDataFromSekai(
-                    characterData,
-                    model3.data,
-                    motionData,
-                    motionBaseName
-                );
+                modelData = await GetModelDataFromSekai(characterData);
             }
 
             if (!modelData) {

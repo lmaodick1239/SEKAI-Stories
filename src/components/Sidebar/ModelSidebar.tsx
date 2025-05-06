@@ -8,7 +8,6 @@ import { Live2DModel } from "pixi-live2d-display";
 import UploadImageButton from "../UploadButton";
 import * as PIXI from "pixi.js";
 import { Checkbox } from "../Checkbox";
-import { sekaiUrl, staticUrl } from "../../utils/URL";
 import {
     GetModelDataFromSekai,
     GetModelDataFromStatic,
@@ -17,8 +16,8 @@ import { ILive2DModelData } from "../../types/ILive2DModelData";
 import { GetCharacterFolder } from "../../utils/GetCharacterFolder";
 import { ILive2DModelList } from "../../types/ILive2DModelList";
 import AddModelSelect from "../AddModelSelect";
-import { GetMotionData } from "../../utils/GetMotionUrl";
 import { useTranslation } from "react-i18next";
+import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -96,118 +95,55 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             ...updates,
         }));
     };
-    
-    const loadStaticModel = async (
-        modelName: string,
+
+    const loadModel = async (
+        model: string | ILive2DModelList,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
         setLoading(true);
-        try {
-            const [characterFolder] = await GetCharacterFolder(modelName);
-
-            setLoadingMsg(`${t("loading-1")} ${modelName}...`);
-            const model = await axios.get(
-                `${staticUrl}/model/${characterFolder}/${modelName}/${modelName}.model3.json`
-            );
-
-            setLoadingMsg(`${t("loading-2")} ${modelName}...`);
-            const motion = await axios.get(
-                `${staticUrl}/motion/${characterFolder}/BuildMotionData.json`
-            );
-
-            setLoadingMsg(`${t("loading-3")} ${modelName}...`);
-            const modelData = await GetModelDataFromStatic(
-                characterFolder,
-                modelName,
-                model.data,
-                motion.data
-            );
-
-            setLoadingMsg(`${t("loading-4")} ${modelName}...`);
-            await axios.get(
-                modelData.url + modelData.FileReferences.Textures[0]
-            );
-            setLoadingMsg(`${t("loading-5")} ${modelName}...`);
-            await axios.get(modelData.url + modelData.FileReferences.Moc, {
-                responseType: "arraybuffer",
-            });
-            setLoadingMsg(`${t("loading-6")} ${modelName}...`);
-            await axios.get(modelData.url + modelData.FileReferences.Physics);
-
-            setLoadingMsg(`${t("loading-7")}...`);
-            const live2DModel = await Live2DModel.from(modelData, {
-                autoInteract: false,
-            });
-            live2DModel.scale.set(currentModel?.modelScale);
-            live2DModel.position.set(
-                currentModel?.modelX,
-                currentModel?.modelY
-            );
-            currentModel?.model.destroy();
-            modelContainer?.addChildAt(live2DModel, layerIndex);
-
-            setLoadingMsg(``);
-            setLoading(false);
-
-            return [live2DModel, modelData];
-        } catch (error) {
-            console.error("Error loading model:", error);
-            setLoadingMsg(`Fail to load model!`);
-            return Promise.reject(error);
+        let modelData: ILive2DModelData | undefined = undefined;
+        let modelName: string | undefined = undefined;
+        if (typeof model === "string") {
+            const [characterFolder] = await GetCharacterFolder(model);
+            
+            setLoadingMsg(`${t("loading-1")} ${model}...`);
+            modelData = await GetModelDataFromStatic(characterFolder, model);
+            modelName = model;
         }
-    };
-
-    const loadSekaiModel = async (
-        model: ILive2DModelList,
-        layerIndex: number
-    ): Promise<[Live2DModel, ILive2DModelData]> => {
-        setLoading(true);
-        try {
+        if (
+            typeof model === "object" &&
+            "modelBase" in model &&
+            "modelPath" in model &&
+            "modelFile" in model
+        ) {
             setLoadingMsg(`${t("loading-1")} ${model.modelBase}...`);
-            const getModel = await axios.get(
-                `${sekaiUrl}/model/${model.modelPath}/${model.modelFile}`
-            );
-            setLoadingMsg(`${t("loading-2")} ${model.modelBase}...`);
-            const [motionBaseName, motionData] = await GetMotionData(model);
-
-            setLoadingMsg(`${t("loading-3")} ${model.modelBase}...`);
-            const modelData = await GetModelDataFromSekai(
-                model,
-                getModel.data,
-                motionData,
-                motionBaseName
-            );
-
-            setLoadingMsg(`${t("loading-4")} ${model.modelBase}...`);
-            await axios.get(
-                modelData.url + modelData.FileReferences.Textures[0]
-            );
-            setLoadingMsg(`${t("loading-5")} ${model.modelBase}...`);
-            await axios.get(modelData.url + modelData.FileReferences.Moc);
-            setLoadingMsg(`${t("loading-6")} ${model.modelBase}...`);
-            await axios.get(modelData.url + modelData.FileReferences.Physics);
-
-            setLoadingMsg(`${t("loading-7")}...`);
-            const live2DModel = await Live2DModel.from(modelData, {
-                autoInteract: false,
-            });
-            live2DModel.scale.set(currentModel?.modelScale);
-            live2DModel.position.set(
-                currentModel?.modelX,
-                currentModel?.modelY
-            );
-            currentModel?.model.destroy();
-            modelContainer?.addChildAt(live2DModel, layerIndex);
-
-            setLoadingMsg(``);
-            setLoading(false);
-
-            return [live2DModel, modelData];
-        } catch (error) {
-            console.error("Error loading model:", error);
-            setLoadingMsg(t("failed-load"));
-            return Promise.reject(error);
+            modelData = await GetModelDataFromSekai(model);
+            modelName = model.modelBase;
         }
+
+        if (!modelData) {
+            throw new Error("Model data is undefined");
+        }
+
+        await axios.get(modelData.url + modelData.FileReferences.Textures[0]);
+        setLoadingMsg(`${t("loading-5")} ${modelName}...`);
+        await axios.get(modelData.url + modelData.FileReferences.Moc);
+        setLoadingMsg(`${t("loading-6")} ${modelName}...`);
+        await axios.get(modelData.url + modelData.FileReferences.Physics);
+
+        setLoadingMsg(`${t("loading-7")}...`);
+        const live2DModel = await Live2DModel.from(modelData, {
+            autoInteract: false,
+        });
+        live2DModel.scale.set(currentModel?.modelScale);
+        live2DModel.position.set(currentModel?.modelX, currentModel?.modelY);
+        currentModel?.model.destroy();
+        modelContainer?.addChildAt(live2DModel, layerIndex);
+
+        setLoadingMsg(``);
+        setLoading(false);
+
+        return [live2DModel, modelData];
     };
 
     const handleLayerChange = async (
@@ -341,12 +277,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 ? characterData[0]
                 : (characterData[0] as ILive2DModelList);
 
-            const [live2DModel, modelData] = isStatic
-                ? await loadStaticModel(firstFile as string, layerIndex)
-                : await loadSekaiModel(
-                      firstFile as ILive2DModelList,
-                      layerIndex
-                  );
+            const [live2DModel, modelData] = await loadModel(
+                firstFile,
+                layerIndex
+            );
 
             updateModelState({
                 character,
@@ -382,28 +316,33 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             let live2DModel: Live2DModel;
             let modelData: ILive2DModelData;
 
-            if (currentModel.from === "static") {
-                [live2DModel, modelData] = await loadStaticModel(
-                    modelBase,
-                    layerIndex
-                );
-            } else if (currentModel.from === "sekai") {
-                const model = typedSekaiCharacterData[
-                    currentSelectedCharacter
-                ]?.find((item) => item.modelBase === modelBase);
-
-                if (!model) {
-                    throw new Error(
-                        `No model found for ${modelBase} in sekai data`
+            switch (currentModel.from) {
+                case "static":
+                    [live2DModel, modelData] = await loadModel(
+                        modelBase,
+                        layerIndex
                     );
-                }
+                    break;
+                case "sekai": {
+                    const model = await GetCharacterDataFromSekai(
+                        currentSelectedCharacter,
+                        modelBase
+                    );
 
-                [live2DModel, modelData] = await loadSekaiModel(
-                    model,
-                    layerIndex
-                );
-            } else {
-                throw new Error("Invalid model source");
+                    if (!model) {
+                        throw new Error(
+                            `No model found for ${modelBase} in sekai data`
+                        );
+                    }
+
+                    [live2DModel, modelData] = await loadModel(
+                        model,
+                        layerIndex
+                    );
+                    break;
+                }
+                default:
+                    throw new Error("Invalid model source");
             }
 
             updateModelState({
