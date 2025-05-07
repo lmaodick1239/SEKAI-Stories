@@ -25,6 +25,7 @@ interface InitialScene {
     character: string;
     modelX: number;
     modelY: number;
+    pngName: string;
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
@@ -56,6 +57,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             character: "airi",
             modelX: 650,
             modelY: 170,
+            pngName: "airi",
         },
         {
             background: "/background_compressed/Background_Diner.jpg",
@@ -65,6 +67,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             character: "ena",
             modelX: 690,
             modelY: 135,
+            pngName: "ena",
         },
         {
             background:
@@ -75,10 +78,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             character: "kanade",
             modelX: 650,
             modelY: 170,
+            pngName: "kanade",
         },
     ];
 
-    const getInitialScene = (): InitialScene => {
+    const getInitialScene = (scene?: string): InitialScene => {
         const date = new Date();
         const month = date.getMonth() + 1;
 
@@ -92,6 +96,21 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 character: "mafuyu",
                 modelX: 650,
                 modelY: 0,
+                pngName: "mafuyu",
+            };
+        }
+
+        if (scene === "bad_apple") {
+            return {
+                background:
+                    "/background_compressed/Background_White_Screen.jpg",
+                model: "17kanade_black",
+                text: "Mizuki, what do you mean by ⑨?",
+                nameTag: "Kanade",
+                character: "kanade",
+                modelX: 650,
+                modelY: 170,
+                pngName: "kanade_black",
             };
         }
 
@@ -100,7 +119,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         ];
     };
 
-    const initialScene: InitialScene = getInitialScene();
+    const initialScene: InitialScene = getInitialScene("bad_apple");
 
     useEffect(() => {
         const cookie = localStorage.getItem("polishLocalizationAnnouncement");
@@ -223,7 +242,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
             // Load Sample PNG Sprite
             const texture = await PIXI.Texture.fromURL(
-                `/img/${initialScene.character}.png`
+                `/img/${initialScene.pngName}.png`
             );
             const sprite = new PIXI.Sprite(texture);
             modelContainer.addChildAt(sprite, 0);
