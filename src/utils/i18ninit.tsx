@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import en from "../locale/en-US.json";
 import pl from "../locale/pl-PL.json";
-import cn from "../locale/zh-CN.json"
+import cn from "../locale/zh-CN.json";
 
 const i18nInit = () => {
     i18n.init({
