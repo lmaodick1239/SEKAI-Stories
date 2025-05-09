@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SceneContext } from "../contexts/SceneContext";
 import { IJsonSave } from "../types/IJsonSave";
@@ -38,6 +38,7 @@ const ExportButton: React.FC = () => {
         setReset,
     } = context;
     const [json, setJson] = useState<IJsonSave | undefined>(undefined);
+    const jsonRef = useRef<IJsonSave | undefined>(json);
 
     useEffect(() => {
         if (
@@ -46,6 +47,7 @@ const ExportButton: React.FC = () => {
             models === undefined
         )
             return;
+        const modifiedDateStamp = new Date().toISOString();
         const currentBackground = !background?.upload
             ? background?.filename
             : "/background_compressed/Background_Between_Worlds.jpg";
@@ -56,6 +58,7 @@ const ExportButton: React.FC = () => {
         const currentModels = Object.values(models)
             .map((model) => {
                 if (model.from === "upload") return undefined;
+                if (model.character === "none") return undefined;
                 return {
                     from: model.from,
                     character: model.character,
@@ -72,15 +75,25 @@ const ExportButton: React.FC = () => {
             .filter((model) => model !== undefined);
 
         setJson({
+            lastModified: modifiedDateStamp,
             background: currentBackground,
             text: currentText,
             models: currentModels,
         });
     }, [background, text, models]);
 
-    const loadScene = async (data: IJsonSave) => {
-        console.log(modelContainer);
+    useEffect(() => {
+        jsonRef.current = json;
+    }, [json]);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            localStorage.setItem("autoSave", JSON.stringify(jsonRef.current));
+        }, 1000 * 60 * 3); 
 
+        return () => clearInterval(interval);
+    }, []);
+
+    const loadScene = async (data: IJsonSave) => {
         const backgroundData = data.background;
         const backgroundSprite = await getBackground(backgroundData);
 
@@ -230,7 +243,6 @@ const ExportButton: React.FC = () => {
         setModels(modelTextures);
         setLayers(Object.keys(modelTextures).length);
         setNextLayer(Object.keys(modelTextures).length);
-        console.log(modelTextures);
         setLoadingMsg("");
     };
 
@@ -244,7 +256,6 @@ const ExportButton: React.FC = () => {
         a.href = url;
         a.download = "export.json";
         a.click();
-        URL.revokeObjectURL(url);
         a.remove();
         alert("Exported JSON file");
     };
@@ -261,7 +272,6 @@ const ExportButton: React.FC = () => {
                 const jsonString = event.target?.result;
                 if (typeof jsonString === "string") {
                     const data = JSON.parse(jsonString);
-                    console.log("Parsed JSON:", data);
                     if (ValidateJsonSave(data)) {
                         try {
                             await loadScene(data);

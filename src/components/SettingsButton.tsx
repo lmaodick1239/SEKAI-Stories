@@ -23,6 +23,23 @@ const SettingsButton: React.FC = () => {
         { code: "cn", name: "简体中文" },
     ];
 
+    const handleGetAutoSaveData = () => {
+        const data = localStorage.getItem("autoSave");
+        if (!data) {
+            alert("No auto-save data found.");
+            return;
+        }
+        const jsonParsed = JSON.parse(data);
+        const jsonString = JSON.stringify(jsonParsed, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "autoSave.json";
+        a.click();
+        a.remove();
+    };
+
     return (
         <div id="support-button">
             <button
@@ -31,7 +48,7 @@ const SettingsButton: React.FC = () => {
                     setShow(true);
                 }}
             >
-                <i className="bi bi-translate sidebar__select"></i>
+                <i className="bi bi-gear-fill sidebar__select"></i>
             </button>
             {show && (
                 <div
@@ -47,7 +64,7 @@ const SettingsButton: React.FC = () => {
                     >
                         <div className="window__content">
                             <SupportButton />
-                               <h1>{t("settings")}</h1>
+                            <h1>{t("settings")}</h1>
                             <h2>{t("language")}</h2>
                             <select
                                 name="language"
@@ -64,6 +81,18 @@ const SettingsButton: React.FC = () => {
                                     </option>
                                 ))}
                             </select>
+                            <h2>Auto-save</h2>
+                            <p>
+                                Your work is automatically saved every 3
+                                minutes. If something goes wrong, you can
+                                download the latest backup as a JSON file.
+                            </p>
+                            <button
+                                className="btn-blue btn-extend-width btn-regular"
+                                onClick={handleGetAutoSaveData}
+                            >
+                                Get last save
+                            </button>
                         </div>
                         <div className="extend-width center">
                             <button

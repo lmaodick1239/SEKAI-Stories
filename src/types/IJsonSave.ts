@@ -1,4 +1,5 @@
 export interface IJsonSave {
+    lastModified: string;
     background: string;
     text: {
         nameTag: string;

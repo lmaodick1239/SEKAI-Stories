@@ -82,7 +82,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     } = context;
 
     const updateModelState = (updates: Partial<IModel>) => {
-        console.log(updates);
         setModels((prevModels) => ({
             ...prevModels,
             [currentKey]: {
@@ -170,7 +169,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             "/background/Background_New_Layer.png"
         );
         const sprite = new PIXI.Sprite(texture);
-        console.log(layerIndex);
         modelContainer?.addChildAt(sprite, layers);
         const newLayer = {
             [`character${nextLayer + 1}`]: {

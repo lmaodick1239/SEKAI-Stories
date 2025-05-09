@@ -14,21 +14,28 @@
 .app-en {
   font-family: "Noto Sans JP", sans-serif;
 }
-.app-en button, .app-en select {
+.app-en button,
+.app-en select {
   font-family: "FOT-RodinNTLGPro-EB";
+}
+.app-en button p,
+.app-en select p {
+  font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
 }
 
 .app-pl,
 .app-cn {
   font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
 }
-.app-pl button, .app-pl select,
+.app-pl button,
+.app-pl select,
 .app-cn button,
 .app-cn select {
   font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
   font-weight: 800;
 }
-.app-pl button p, .app-pl select p,
+.app-pl button p,
+.app-pl select p,
 .app-cn button p,
 .app-cn select p {
   font-weight: 400;
@@ -640,12 +647,12 @@ select:disabled {
 }
 
 #settings-screen .window {
-  width: 70dvw;
+  width: 90dvw;
   max-width: 768px;
 }
 
 #export-screen .window {
-  width: 70dvw;
+  width: 90dvw;
   height: 60dvh;
   max-width: 768px;
 }
