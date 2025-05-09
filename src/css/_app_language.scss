@@ -1,11 +1,17 @@
 .app-en {
     font-family: "Noto Sans JP", sans-serif;
+    button, select {
+        font-family: "FOT-RodinNTLGPro-EB";
+    }
 }
 
-.app-pl {
-    font-family: "Noto Sans JP", "Noto Sans", sans-serif;
-    button {
-        font-family: "Noto Sans JP", "Noto Sans", sans-serif;
+.app-pl,
+.app-cn {
+    font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK",
+        "Noto Sans KR", "Noto Sans", sans-serif;
+    button, select {
+        font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC",
+            "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
         font-weight: 800;
         p {
             font-weight: 400;

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+KR:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 @font-face {
   font-family: "FOT-RodinNTLGPro-DB";
   src: url("https://lezzthanthree.github.io/fonts/FOT-RodinNTLGPro-DB.otf") format("opentype"), url("/fonts/FOT-RodinNTLGPro-DB.otf") format("opentype");
@@ -14,15 +14,23 @@
 .app-en {
   font-family: "Noto Sans JP", sans-serif;
 }
-
-.app-pl {
-  font-family: "Noto Sans JP", "Noto Sans", sans-serif;
+.app-en button, .app-en select {
+  font-family: "FOT-RodinNTLGPro-EB";
 }
-.app-pl button {
-  font-family: "Noto Sans JP", "Noto Sans", sans-serif;
+
+.app-pl,
+.app-cn {
+  font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
+}
+.app-pl button, .app-pl select,
+.app-cn button,
+.app-cn select {
+  font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
   font-weight: 800;
 }
-.app-pl button p {
+.app-pl button p, .app-pl select p,
+.app-cn button p,
+.app-cn select p {
   font-weight: 400;
 }
 
@@ -55,7 +63,6 @@ p {
 }
 
 button {
-  font-family: "FOT-RodinNTLGPro-EB", "Noto Sans";
   border: none;
   margin: 10px 0px;
   cursor: pointer;
