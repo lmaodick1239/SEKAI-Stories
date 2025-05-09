@@ -67,9 +67,6 @@ button {
   margin: 10px 0px;
   cursor: pointer;
 }
-button p {
-  font-family: "Noto Sans";
-}
 
 button.btn-regular {
   padding: 8px 50px;
@@ -700,6 +697,7 @@ select:disabled {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 @media (width <= 768px) {
   .window__buttons {
