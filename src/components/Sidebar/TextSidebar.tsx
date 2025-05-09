@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { AppContext } from "../../contexts/AppContext";
+import { SceneContext } from "../../contexts/SceneContext";
 import { Checkbox } from "../Checkbox";
 import RadioButton from "../RadioButton";
 import { useTranslation } from "react-i18next";
@@ -26,7 +26,7 @@ const TextSidebar: React.FC = () => {
     const lockFontSize = localStorage.getItem("lockFontSize");
     const easySwitchEnabled = localStorage.getItem("easySwitchEnabled");
 
-    const context = useContext(AppContext);
+    const context = useContext(SceneContext);
     const [bell, setBell] = useState<boolean>(false);
     const [easySwitch, setEasySwitch] = useState<boolean>(
         easySwitchEnabled === "true" ? true : false
@@ -262,7 +262,10 @@ const TextSidebar: React.FC = () => {
                             {t("font-size")} ({text.fontSize} px)
                         </h3>
                         <div>
-                            <i className="bi bi-pencil-fill" onClick={handleInputFontSizeChange}></i>
+                            <i
+                                className="bi bi-pencil-fill"
+                                onClick={handleInputFontSizeChange}
+                            ></i>
                             <i
                                 className={
                                     lockFontSizeState

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import staticCharacterData from "../../character.json";
 import sekaiCharacterData from "../../character_sekai.json";
 import axios from "axios";
-import { AppContext } from "../../contexts/AppContext";
+import { SceneContext } from "../../contexts/SceneContext";
 import IModel from "../../types/IModel";
 import { Live2DModel } from "pixi-live2d-display";
 import UploadImageButton from "../UploadButton";
@@ -37,7 +37,7 @@ interface ModelSidebarProps {
 const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const { t } = useTranslation();
 
-    const context = useContext(AppContext);
+    const context = useContext(SceneContext);
 
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
         undefined
@@ -105,7 +105,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         let modelName: string | undefined = undefined;
         if (typeof model === "string") {
             const [characterFolder] = await GetCharacterFolder(model);
-            
+
             setLoadingMsg(`${t("loading-1")} ${model}...`);
             modelData = await GetModelDataFromStatic(characterFolder, model);
             modelName = model;

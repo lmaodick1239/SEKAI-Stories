@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppContext } from "../contexts/AppContext";
+import { SceneContext } from "../contexts/SceneContext";
 import { IJsonSave } from "../types/IJsonSave";
 import { ValidateJsonSave } from "../utils/ValidateJsonSave";
 import { getBackground } from "../utils/GetBackground";
@@ -17,7 +17,7 @@ import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
-    const context = useContext(AppContext);
+    const context = useContext(SceneContext);
 
     const { t } = useTranslation();
 

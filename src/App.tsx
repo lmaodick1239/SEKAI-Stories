@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import Content from "./components/Content";
 import Sidebar from "./components/Sidebar";
-import { AppContext } from "./contexts/AppContext";
+import { SceneContext } from "./contexts/SceneContext";
 import Announcements from "./components/Announcements";
 import { useTranslation } from "react-i18next";
 function App() {
-    const context = useContext(AppContext);
+    const context = useContext(SceneContext);
     if (!context) {
         throw new Error("Context is not loaded properly.");
     }

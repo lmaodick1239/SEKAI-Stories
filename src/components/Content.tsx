@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useRef } from "react";
 import Canvas from "./Canvas";
 import SidebarSelect from "./SidebarSelect";
 import DownloadClearButtons from "./DownloadClearButtons";
-import { AppContext } from "../contexts/AppContext";
+import { SceneContext } from "../contexts/SceneContext";
 import FlavorText from "./FlavorText";
 import SettingsButton from "./SettingsButton";
 
 const Content: React.FC = () => {
     const contentBackground = useRef<HTMLDivElement | null>(null);
-    const context = useContext(AppContext);
+    const context = useContext(SceneContext);
 
     useEffect(() => {
         if (!context || !context.background) return;

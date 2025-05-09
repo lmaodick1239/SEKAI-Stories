@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppContext } from "./AppContext";
+import { SceneContext } from "./SceneContext";
 import * as PIXI from "pixi.js";
 import { Assets } from "@pixi/assets";
 import { Live2DModel } from "pixi-live2d-display";
@@ -27,7 +27,39 @@ interface InitialScene {
     modelY: number;
 }
 
-export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+const randomInitialScene: InitialScene[] = [
+    {
+        background: "/background_special/Background_Uranohoshi.jpg",
+        model: "07airi_normal",
+        text: "No, I will not do AiScream on you.",
+        nameTag: "Airi",
+        character: "airi",
+        modelX: 650,
+        modelY: 170,
+    },
+    {
+        background: "/background_compressed/Background_Diner.jpg",
+        model: "v2_19ena_casual",
+        text: "Mizuki, that's not how you break a KitKat!",
+        nameTag: "Ena",
+        character: "ena",
+        modelX: 690,
+        modelY: 135,
+    },
+    {
+        background:
+            "background_compressed/Background_Kanade's_Room_(Night).jpg",
+        model: "v2_17kanade_casual",
+        text: "Hashiridashita...?",
+        nameTag: "Kanade",
+        character: "kanade",
+        modelX: 650,
+        modelY: 170,
+    },
+];
+
+
+export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel> | undefined>(
@@ -46,37 +78,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
     const [startingMessage, setStartingMessage] = useState<string>("");
-
-    const randomInitialScene: InitialScene[] = [
-        {
-            background: "/background_special/Background_Uranohoshi.jpg",
-            model: "07airi_normal",
-            text: "No, I will not do AiScream on you.",
-            nameTag: "Airi",
-            character: "airi",
-            modelX: 650,
-            modelY: 170,
-        },
-        {
-            background: "/background_compressed/Background_Diner.jpg",
-            model: "v2_19ena_casual",
-            text: "Mizuki, that's not how you break a KitKat!",
-            nameTag: "Ena",
-            character: "ena",
-            modelX: 690,
-            modelY: 135,
-        },
-        {
-            background:
-                "background_compressed/Background_Kanade's_Room_(Night).jpg",
-            model: "v2_17kanade_casual",
-            text: "Hashiridashita...?",
-            nameTag: "Kanade",
-            character: "kanade",
-            modelX: 650,
-            modelY: 170,
-        },
-    ];
 
     const getInitialScene = (): InitialScene => {
         const date = new Date();
@@ -127,7 +128,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
             Live2DModel.registerTicker(PIXI.Ticker);
 
-            // Load Transparent
+            // Load Transparent (for development. idk why it causes issues before production)
             const transparentContainer = new PIXI.Container();
             const transparentSpriteForNameTag = await getBackground(
                 "/background/Background_Transparent.png"
@@ -156,70 +157,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             initApplication.stage.addChildAt(backgroundContainer, 1);
 
             const modelContainer = new PIXI.Container();
-
-            // Load Sample Model from Static
-            // const [characterFolder, motionFolder] = await GetCharacterFolder(
-            //     initialScene["model"]
-            // );
-
-            // const model = await axios.get(
-            //     `${staticUrl}/model/${characterFolder}/${initialScene["model"]}/${initialScene["model"]}.model3.json`
-            // );
-            // const motion = await axios.get(
-            //     `${staticUrl}/motion/${motionFolder}/BuildMotionData.json`
-            // );
-
-            // const modelData = await GetModelDataFromStatic(
-            //     characterFolder,
-            //     initialScene["model"],
-            //     model.data,
-            //     motion.data
-            // );
-
-            // setStartingMessage("Fetching initial model from sekai-viewer...");
-            // Load Sample Model from sekai-viewer
-            // const getModel = await axios.get(
-            //     `${sekaiUrl}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
-            // );
-            // setStartingMessage(
-            //     "Fetching initial motion data from sekai-viewer..."
-            // );
-            // const [motionBaseName, motionData] = await GetMotionData(
-            //     initialScene["model"]
-            // );
-
-            // setStartingMessage("Fixing model data...");
-            // const modelData = await GetModelDataFromSekai(
-            //     initialScene["model"],
-            //     getModel.data,
-            //     motionData,
-            //     motionBaseName
-            // );
-
-            // setStartingMessage("Loading model texture...");
-            // await axios.get(
-            //     modelData.url + modelData.FileReferences.Textures[0]
-            // );
-            // setStartingMessage("Loading model moc3 file...");
-            // await axios.get(modelData.url + modelData.FileReferences.Moc, {
-            //     responseType: "arraybuffer",
-            // });
-            // setStartingMessage("Loading model physics file...");
-            // await axios.get(modelData.url + modelData.FileReferences.Physics);
-
-            // setStartingMessage("Putting new model...");
-            // const live2DModel = await Live2DModel.from(modelData, {
-            //     autoInteract: false,
-            // });
-            // live2DModel.scale.set(0.5);
-            // live2DModel.position.set(190, -280);
-
-            // modelContainer.addChildAt(live2DModel, 0);
-            // initApplication.stage.addChildAt(modelContainer, 2);
-            // setStartingMessage("Adding pose and emotion...");
-            // live2DModel.motion("Expression", 38);
-            // await new Promise((resolve) => setTimeout(resolve, 2000));
-            // live2DModel.motion("Motion", 102);
 
             // Load Sample PNG Sprite
             const texture = await PIXI.Texture.fromURL(
@@ -305,7 +242,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }, [reset]);
 
     return (
-        <AppContext.Provider
+        <SceneContext.Provider
             value={{
                 openedSidebar,
                 setOpenedSidebar,
@@ -334,6 +271,71 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             }}
         >
             {children}
-        </AppContext.Provider>
+        </SceneContext.Provider>
     );
 };
+
+            // Load Sample Model from Static
+            // const [characterFolder, motionFolder] = await GetCharacterFolder(
+            //     initialScene["model"]
+            // );
+
+            // const model = await axios.get(
+            //     `${staticUrl}/model/${characterFolder}/${initialScene["model"]}/${initialScene["model"]}.model3.json`
+            // );
+            // const motion = await axios.get(
+            //     `${staticUrl}/motion/${motionFolder}/BuildMotionData.json`
+            // );
+
+            // const modelData = await GetModelDataFromStatic(
+            //     characterFolder,
+            //     initialScene["model"],
+            //     model.data,
+            //     motion.data
+            // );
+
+            // setStartingMessage("Fetching initial model from sekai-viewer...");
+            
+            // Load Sample Model from sekai-viewer
+            // const getModel = await axios.get(
+            //     `${sekaiUrl}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
+            // );
+            // setStartingMessage(
+            //     "Fetching initial motion data from sekai-viewer..."
+            // );
+            // const [motionBaseName, motionData] = await GetMotionData(
+            //     initialScene["model"]
+            // );
+
+            // setStartingMessage("Fixing model data...");
+            // const modelData = await GetModelDataFromSekai(
+            //     initialScene["model"],
+            //     getModel.data,
+            //     motionData,
+            //     motionBaseName
+            // );
+
+            // setStartingMessage("Loading model texture...");
+            // await axios.get(
+            //     modelData.url + modelData.FileReferences.Textures[0]
+            // );
+            // setStartingMessage("Loading model moc3 file...");
+            // await axios.get(modelData.url + modelData.FileReferences.Moc, {
+            //     responseType: "arraybuffer",
+            // });
+            // setStartingMessage("Loading model physics file...");
+            // await axios.get(modelData.url + modelData.FileReferences.Physics);
+
+            // setStartingMessage("Putting new model...");
+            // const live2DModel = await Live2DModel.from(modelData, {
+            //     autoInteract: false,
+            // });
+            // live2DModel.scale.set(0.5);
+            // live2DModel.position.set(190, -280);
+
+            // modelContainer.addChildAt(live2DModel, 0);
+            // initApplication.stage.addChildAt(modelContainer, 2);
+            // setStartingMessage("Adding pose and emotion...");
+            // live2DModel.motion("Expression", 38);
+            // await new Promise((resolve) => setTimeout(resolve, 2000));
+            // live2DModel.motion("Motion", 102);

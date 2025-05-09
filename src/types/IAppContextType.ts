@@ -3,7 +3,7 @@ import * as PIXI from "pixi.js";
 import IModel from "./IModel";
 import IBackground from "./IBackground";
 import IText from "./IText";
-export default interface IAppContextType {
+export default interface ISceneContextType {
     openedSidebar: string;
     setOpenedSidebar: Dispatch<SetStateAction<string>>;
     app: PIXI.Application | undefined;

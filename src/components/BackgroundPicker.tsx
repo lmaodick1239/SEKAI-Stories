@@ -8,7 +8,7 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { AppContext } from "../contexts/AppContext";
+import { SceneContext } from "../contexts/SceneContext";
 import data from "../background.json";
 import { getBackground } from "../utils/GetBackground";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,7 @@ const BackgroundPicker: React.FC = () => {
 
     const [show, setShow] = useState<boolean>(false);
 
-    const context = useContext(AppContext);
+    const context = useContext(SceneContext);
 
     if (!context) throw new Error("Context not found");
 
