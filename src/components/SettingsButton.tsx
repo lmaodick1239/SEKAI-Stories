@@ -20,6 +20,7 @@ const SettingsButton: React.FC = () => {
     const languages = [
         { code: "en", name: "English" },
         { code: "pl", name: "Polski" },
+        { code: "cn", name: "简体中文" },
     ];
 
     return (
