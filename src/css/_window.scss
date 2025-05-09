@@ -6,7 +6,8 @@
 
 #support-screen,
 #add-model-select-screen,
-#settings-screen {
+#settings-screen,
+#export-screen {
     padding: 10px;
     position: fixed;
     top: 0;
@@ -14,7 +15,7 @@
     background-color: #000000bb;
     height: 100dvh;
     width: 100vw;
-    z-index: 999;
+    z-index: 9999;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,6 +34,14 @@
 #settings-screen {
     .window {
         width: 70dvw;
+        max-width: 768px;
+    }
+}
+
+#export-screen {
+    .window {
+        width: 70dvw;
+        height: 60dvh;
         max-width: 768px;
     }
 }
@@ -65,14 +74,31 @@
 
     select {
         box-sizing: border-box;
-        
+    }
+    textarea {
+        height: 80%;
+        font-size: 1em;
+        font-family: monospace;
     }
 }
-
 
 .window-center {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.window__buttons {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    @media (width <= 768px) {
+        flex-direction: column;
+    }
+    @media (width > 768px) {
+        flex-direction: row;
+    }
+    
 }

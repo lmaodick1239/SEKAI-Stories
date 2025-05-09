@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
-import { AppContext } from "../contexts/AppContext";
+import { SceneContext } from "../contexts/SceneContext";
 import * as PIXI from "pixi.js";
 import { refreshCanvas } from "../utils/RefreshCanvas";
 import { useTranslation } from "react-i18next";
+import ExportButton from "./ExportButton";
 
 const DownloadClearButtons: React.FC = () => {
     const { t } = useTranslation();
 
-    const context = useContext(AppContext);
+    const context = useContext(SceneContext);
 
     if (!context) {
         return;
@@ -45,6 +46,7 @@ const DownloadClearButtons: React.FC = () => {
             <button className="btn-circle btn-blue" onClick={handleSave}>
                 <i className="bi bi-floppy2-fill sidebar__select"></i>
             </button>
+            <ExportButton />
             <button className="btn-circle btn-white" onClick={handleReset}>
                 <i className="bi bi-trash-fill sidebar__select"></i>
             </button>

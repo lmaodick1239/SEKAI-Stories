@@ -1,9 +1,9 @@
 import * as PIXI from "pixi.js";
 import { Live2DModel } from "pixi-live2d-display";
-import IAppContextType from "../types/IAppContextType";
+import ISceneContextType from "../types/IAppContextType";
 import { getBackground } from "./GetBackground";
 
-export const refreshCanvas = async (context: IAppContextType) => {
+export const refreshCanvas = async (context: ISceneContextType) => {
     if (!context?.app || !context.text || !context.background) return;
 
     const { app, setApp, text, background, modelContainer } = context;

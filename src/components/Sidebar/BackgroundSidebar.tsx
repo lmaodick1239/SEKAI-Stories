@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import BackgroundPicker from "../BackgroundPicker";
-import { AppContext } from "../../contexts/AppContext";
+import { SceneContext } from "../../contexts/SceneContext";
 import UploadImageButton from "../UploadButton";
 import { getBackground } from "../../utils/GetBackground";
 import { useTranslation } from "react-i18next";
 
 const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();
-    const context = useContext(AppContext);
+    const context = useContext(SceneContext);
 
     if (
         !context ||
@@ -27,6 +27,7 @@ const BackgroundSidebar: React.FC = () => {
             setBackground({
                 ...background,
                 filename: imgSrc,
+                upload: true,
             });
         }
     };
