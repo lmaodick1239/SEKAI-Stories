@@ -11,8 +11,15 @@ A Dialogue Generator for making fan-made stories from the game [Project SEKAI CO
 [You can see the tutorial for self-hosting here.](/README-selfhosting.md)
 
 ## Special Thanks
+### SEKAI Viewer
 I would like to thank the developers of [Sekai Viewer](https://github.com/Sekai-World/sekai-viewer/) for allowing me to connect their server through this application!
 [<img src="./public/img/sekai-viewer.png" alt="smilie pop" width="300"/>](https://sekai.best)
+### The Localization Contributors
+A huge thanks to our translators!
+
+[<img src="https://avatars.githubusercontent.com/u/33550839?v=4" width="50">](https://github.com/counter185)
+[<img src="https://avatars.githubusercontent.com/u/98752512?v=4" width="50">](https://github.com/MiddleRed)
+
 
 ## Features
 ### Choose your background
