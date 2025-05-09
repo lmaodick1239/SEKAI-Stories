@@ -118,7 +118,9 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const initialScene: InitialScene = getInitialScene("bad_apple");
 
     useEffect(() => {
-        const cookie = localStorage.getItem("polishLocalizationAnnouncement");
+        const cookie = localStorage.getItem(
+            "simplifiedChineseLocalizationAnnouncement"
+        );
         if (Number(cookie) < 2) {
             setHideAnnouncements(false);
         }
