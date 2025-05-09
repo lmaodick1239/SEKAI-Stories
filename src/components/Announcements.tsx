@@ -10,13 +10,13 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("polishLocalizationAnnouncement");
+        const cookie = localStorage.getItem("simplifiedChineseLocalizationAnnouncement");
         if (!cookie) {
-            localStorage.setItem("polishLocalizationAnnouncement", "0");
+            localStorage.setItem("simplifiedChineseLocalizationAnnouncement", "0");
             return;
         }
         localStorage.setItem(
-            "polishLocalizationAnnouncement",
+            "simplifiedChineseLocalizationAnnouncement",
             `${Number(cookie) + 1}`
         );
     };
@@ -25,8 +25,8 @@ const Announcements: React.FC = () => {
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
             <p>
-                Polish localization is now available! Thanks to{" "}
-                <a href="https://github.com/counter185">@counter185</a> for
+                Simplified Chinese localization is now available! Thanks to{" "}
+                <a href="https://github.com/MiddleRed">@MiddleRed</a> for
                 their contribution!
             </p>
             <p>
