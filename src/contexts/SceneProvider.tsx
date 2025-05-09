@@ -8,10 +8,6 @@ import IModel from "../types/IModel";
 import IBackground from "../types/IBackground";
 import IText from "../types/IText";
 import { getBackground } from "../utils/GetBackground";
-// import axios from "axios";
-// import { GetModelDataFromSekai } from "../utils/GetModelData";
-// import { sekaiUrl } from "../utils/URL";
-// import { GetMotionData } from "../utils/GetMotionUrl";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -37,6 +33,7 @@ const randomInitialScene: InitialScene[] = [
         character: "airi",
         modelX: 650,
         modelY: 170,
+        pngName: "airi",
     },
     {
         background: "/background_compressed/Background_Diner.jpg",
@@ -46,6 +43,7 @@ const randomInitialScene: InitialScene[] = [
         character: "ena",
         modelX: 690,
         modelY: 135,
+        pngName: "ena",
     },
     {
         background:
@@ -56,9 +54,9 @@ const randomInitialScene: InitialScene[] = [
         character: "kanade",
         modelX: 650,
         modelY: 170,
+        pngName: "kanade",
     },
 ];
-
 
 export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
@@ -79,40 +77,6 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
     const [startingMessage, setStartingMessage] = useState<string>("");
-
-    const randomInitialScene: InitialScene[] = [
-        {
-            background: "/background_special/Background_Uranohoshi.jpg",
-            model: "07airi_normal",
-            text: "No, I will not do AiScream on you.",
-            nameTag: "Airi",
-            character: "airi",
-            modelX: 650,
-            modelY: 170,
-            pngName: "airi",
-        },
-        {
-            background: "/background_compressed/Background_Diner.jpg",
-            model: "v2_19ena_casual",
-            text: "Mizuki, that's not how you break a KitKat!",
-            nameTag: "Ena",
-            character: "ena",
-            modelX: 690,
-            modelY: 135,
-            pngName: "ena",
-        },
-        {
-            background:
-                "background_compressed/Background_Kanade's_Room_(Night).jpg",
-            model: "v2_17kanade_casual",
-            text: "Hashiridashita...?",
-            nameTag: "Kanade",
-            character: "kanade",
-            modelX: 650,
-            modelY: 170,
-            pngName: "kanade",
-        },
-    ];
 
     const getInitialScene = (scene?: string): InitialScene => {
         const date = new Date();
@@ -325,66 +289,66 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     );
 };
 
-            // Load Sample Model from Static
-            // const [characterFolder, motionFolder] = await GetCharacterFolder(
-            //     initialScene["model"]
-            // );
+// Load Sample Model from Static
+// const [characterFolder, motionFolder] = await GetCharacterFolder(
+//     initialScene["model"]
+// );
 
-            // const model = await axios.get(
-            //     `${staticUrl}/model/${characterFolder}/${initialScene["model"]}/${initialScene["model"]}.model3.json`
-            // );
-            // const motion = await axios.get(
-            //     `${staticUrl}/motion/${motionFolder}/BuildMotionData.json`
-            // );
+// const model = await axios.get(
+//     `${staticUrl}/model/${characterFolder}/${initialScene["model"]}/${initialScene["model"]}.model3.json`
+// );
+// const motion = await axios.get(
+//     `${staticUrl}/motion/${motionFolder}/BuildMotionData.json`
+// );
 
-            // const modelData = await GetModelDataFromStatic(
-            //     characterFolder,
-            //     initialScene["model"],
-            //     model.data,
-            //     motion.data
-            // );
+// const modelData = await GetModelDataFromStatic(
+//     characterFolder,
+//     initialScene["model"],
+//     model.data,
+//     motion.data
+// );
 
-            // setStartingMessage("Fetching initial model from sekai-viewer...");
-            
-            // Load Sample Model from sekai-viewer
-            // const getModel = await axios.get(
-            //     `${sekaiUrl}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
-            // );
-            // setStartingMessage(
-            //     "Fetching initial motion data from sekai-viewer..."
-            // );
-            // const [motionBaseName, motionData] = await GetMotionData(
-            //     initialScene["model"]
-            // );
+// setStartingMessage("Fetching initial model from sekai-viewer...");
 
-            // setStartingMessage("Fixing model data...");
-            // const modelData = await GetModelDataFromSekai(
-            //     initialScene["model"],
-            //     getModel.data,
-            //     motionData,
-            //     motionBaseName
-            // );
+// Load Sample Model from sekai-viewer
+// const getModel = await axios.get(
+//     `${sekaiUrl}/model/${initialScene["model"].modelPath}/${initialScene["model"].modelFile}`
+// );
+// setStartingMessage(
+//     "Fetching initial motion data from sekai-viewer..."
+// );
+// const [motionBaseName, motionData] = await GetMotionData(
+//     initialScene["model"]
+// );
 
-            // setStartingMessage("Loading model texture...");
-            // await axios.get(
-            //     modelData.url + modelData.FileReferences.Textures[0]
-            // );
-            // setStartingMessage("Loading model moc3 file...");
-            // await axios.get(modelData.url + modelData.FileReferences.Moc, {
-            //     responseType: "arraybuffer",
-            // });
-            // setStartingMessage("Loading model physics file...");
-            // await axios.get(modelData.url + modelData.FileReferences.Physics);
+// setStartingMessage("Fixing model data...");
+// const modelData = await GetModelDataFromSekai(
+//     initialScene["model"],
+//     getModel.data,
+//     motionData,
+//     motionBaseName
+// );
 
-            // setStartingMessage("Putting new model...");
-            // const live2DModel = await Live2DModel.from(modelData, {
-            //     autoInteract: false,
-            // });
-            // live2DModel.scale.set(0.5);
-            // live2DModel.position.set(190, -280);
+// setStartingMessage("Loading model texture...");
+// await axios.get(
+//     modelData.url + modelData.FileReferences.Textures[0]
+// );
+// setStartingMessage("Loading model moc3 file...");
+// await axios.get(modelData.url + modelData.FileReferences.Moc, {
+//     responseType: "arraybuffer",
+// });
+// setStartingMessage("Loading model physics file...");
+// await axios.get(modelData.url + modelData.FileReferences.Physics);
 
-            // modelContainer.addChildAt(live2DModel, 0);
-            // initApplication.stage.addChildAt(modelContainer, 2);
-            // setStartingMessage("Adding pose and emotion...");
-            // live2DModel.motion("Expression", 38);
-            // await new Promise((resolve) => setTimeout(resolve, 2000));
+// setStartingMessage("Putting new model...");
+// const live2DModel = await Live2DModel.from(modelData, {
+//     autoInteract: false,
+// });
+// live2DModel.scale.set(0.5);
+// live2DModel.position.set(190, -280);
+
+// modelContainer.addChildAt(live2DModel, 0);
+// initApplication.stage.addChildAt(modelContainer, 2);
+// setStartingMessage("Adding pose and emotion...");
+// live2DModel.motion("Expression", 38);
+// await new Promise((resolve) => setTimeout(resolve, 2000));
