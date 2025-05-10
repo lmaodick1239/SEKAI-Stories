@@ -365,6 +365,10 @@ select:disabled {
   padding: inherit;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .flex {
   display: flex;
 }
@@ -379,12 +383,28 @@ select:disabled {
   flex-direction: row;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .extend-width {
   min-width: 100%;
 }
 
 .space-between {
   justify-content: space-around;
+}
+
+.white {
+  color: #ffffff;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.dvw80 {
+  width: 80dvw;
 }
 
 #content {
@@ -494,6 +514,10 @@ select:disabled {
   justify-content: center;
   box-sizing: border-box;
   overflow: auto;
+}
+
+.picker-type-div {
+  padding-bottom: 50px;
 }
 
 .picker-item {

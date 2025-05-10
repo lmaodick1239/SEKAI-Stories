@@ -36,7 +36,7 @@ const randomInitialScene: InitialScene[] = [
         pngName: "airi",
     },
     {
-        background: "/background_compressed/Background_Diner.jpg",
+        background: "/background_compressed/bg_a001101.jpg",
         model: "v2_19ena_casual",
         text: "Mizuki, that's not how you break a KitKat!",
         nameTag: "Ena",
@@ -47,7 +47,7 @@ const randomInitialScene: InitialScene[] = [
     },
     {
         background:
-            "background_compressed/Background_Kanade's_Room_(Night).jpg",
+            "background_compressed/bg_e000102.jpg",
         model: "v2_17kanade_casual",
         text: "Hashiridashita...?",
         nameTag: "Kanade",
@@ -99,7 +99,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
         if (scene === "bad_apple") {
             return {
                 background:
-                    "/background_compressed/Background_White_Screen.jpg",
+                    "/background_compressed/bg00026.jpg",
                 model: "17kanade_black",
                 text: "Mizuki, what do you mean by ⑨?",
                 nameTag: "Kanade",
@@ -147,13 +147,13 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             // Load Transparent (for development. idk why it causes issues before production)
             const transparentContainer = new PIXI.Container();
             const transparentSpriteForNameTag = await getBackground(
-                "/background/Background_Transparent.png"
+                "/background_special/Background_Transparent.png"
             );
             const transparentSpriteForDialogue = await getBackground(
-                "/background/Background_Transparent.png"
+                "/background_special/Background_Transparent.png"
             );
             const transparentSpriteForWhateverReason = await getBackground(
-                "/background/Background_Transparent.png"
+                "/background_special/Background_Transparent.png"
             );
             transparentContainer.addChildAt(transparentSpriteForNameTag, 0);
             transparentContainer.addChildAt(transparentSpriteForDialogue, 1);

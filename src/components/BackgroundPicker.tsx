@@ -1,17 +1,25 @@
-import { fuzzy } from "fast-fuzzy";
 import React, {
-    ChangeEvent,
-    useCallback,
     useContext,
-    useDeferredValue,
-    useEffect,
-    useMemo,
     useState,
+    // ChangeEvent,
+    // useCallback,
+    // useDeferredValue,
+    // useEffect,
+    // useMemo,
 } from "react";
 import { SceneContext } from "../contexts/SceneContext";
 import data from "../background.json";
 import { getBackground } from "../utils/GetBackground";
 import { useTranslation } from "react-i18next";
+// import { fuzzy } from "fast-fuzzy";
+
+interface IBackgroundList {
+    background: {
+        [key: string]: string[];
+    };
+}
+
+const backgroundList: IBackgroundList = data;
 
 const BackgroundPicker: React.FC = () => {
     const { t } = useTranslation();
@@ -24,24 +32,39 @@ const BackgroundPicker: React.FC = () => {
 
     const { background, setBackground } = context;
 
-    const [searchValue, setSearchValue] = useState("");
-    const handleSearchValueChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            setSearchValue(e.target.value);
-        },
-        []
-    );
-    const deferredSearchValue = useDeferredValue(searchValue);
-    const filteredBackgrounds = useMemo(() => {
-        if (!deferredSearchValue) {
-            return data.background;
-        }
-        return data.background.filter((bg) => {
-            return (
-                fuzzy(deferredSearchValue, bg.replace(/[^a-z0-9]/gi, "")) > 0.5
-            );
-        });
-    }, [deferredSearchValue]);
+    // const [searchValue, setSearchValue] = useState("");
+    // const handleSearchValueChange = useCallback(
+    //     (e: ChangeEvent<HTMLInputElement>) => {
+    //         setSearchValue(e.target.value);
+    //     },
+    //     []
+    // );
+    // const deferredSearchValue = useDeferredValue(searchValue);
+    // const filteredBackgrounds = useMemo(() => {
+    //     if (!deferredSearchValue) {
+    //         return data.background;
+    //     }
+    //     return data.background.filter((bg) => {
+    //         return (
+    //             fuzzy(deferredSearchValue, bg.replace(/[^a-z0-9]/gi, "")) > 0.5
+    //         );
+    //     });
+    // }, [deferredSearchValue]);
+    // useEffect(() => {
+    //     const onKeyDown = (keyDownEvent: KeyboardEvent) => {
+    //         if (keyDownEvent.key === "Escape") {
+    //             if (searchValue) {
+    //                 setSearchValue("");
+    //             } else {
+    //                 setShow(false);
+    //             }
+    //         }
+    //     };
+    //     window.addEventListener("keydown", onKeyDown);
+    //     return () => {
+    //         window.removeEventListener("keydown", onKeyDown);
+    //     };
+    // }, [searchValue]);
 
     const handleChangeBackground = async (bg: string) => {
         const backgroundSprite = await getBackground(
@@ -58,22 +81,6 @@ const BackgroundPicker: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        const onKeyDown = (keyDownEvent: KeyboardEvent) => {
-            if (keyDownEvent.key === "Escape") {
-                if (searchValue) {
-                    setSearchValue("");
-                } else {
-                    setShow(false);
-                }
-            }
-        };
-        window.addEventListener("keydown", onKeyDown);
-        return () => {
-            window.removeEventListener("keydown", onKeyDown);
-        };
-    }, [searchValue]);
-
     return (
         <>
             {show && (
@@ -87,7 +94,8 @@ const BackgroundPicker: React.FC = () => {
                     >
                         <i className="bi bi-x-lg"></i>
                     </button>
-                    <input
+                    <div></div>
+                    {/* <input
                         type="text"
                         value={searchValue}
                         onChange={handleSearchValueChange}
@@ -98,24 +106,40 @@ const BackgroundPicker: React.FC = () => {
                             width: "80%",
                             zIndex: 9999,
                         }}
-                    />
-                    {filteredBackgrounds.map((bg) => {
-                        return (
-                            <div
-                                key={bg}
-                                className="picker-div relative center"
-                            >
-                                <img
-                                    className="picker-item background-picker-item"
-                                    src={`/background_low_jpg/${bg}.jpg`}
-                                    onClick={async () => {
-                                        handleChangeBackground(bg);
-                                        setShow(false);
-                                    }}
-                                />
-                            </div>
-                        );
-                    })}
+                    /> */}
+                    <div className="flex-wrap relative center">
+                        {Object.keys(backgroundList.background).map((type) => {
+                            return (
+                                <div
+                                    className="flex-wrap center flex-vertical picker-type-div"
+                                    key={type}
+                                >
+                                    <div className="width-100 center text-center">
+                                        <h1 className="white">{t(type)}</h1>
+                                    </div>
+                                    <div className="flex-wrap center width-100">
+                                        {backgroundList.background[type].map(
+                                            (bg) => {
+                                                return (
+                                                    <img
+                                                        key={bg}
+                                                        className="picker-item background-picker-item"
+                                                        src={`/background_low_jpg/${bg}.jpg`}
+                                                        onClick={async () => {
+                                                            handleChangeBackground(
+                                                                bg
+                                                            );
+                                                            setShow(false);
+                                                        }}
+                                                    />
+                                                );
+                                            }
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             )}
             <div>

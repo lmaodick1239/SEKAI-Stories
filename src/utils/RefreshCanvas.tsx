@@ -22,13 +22,13 @@ export const refreshCanvas = async (context: ISceneContextType) => {
     Live2DModel.registerTicker(PIXI.Ticker);
     const transparentContainer = new PIXI.Container();
     const transparentSpriteForNameTag = await getBackground(
-        "/background/Background_Transparent.png"
+        "/background_special/Background_Transparent.png"
     );
     const transparentSpriteForDialogue = await getBackground(
-        "/background/Background_Transparent.png"
+        "/background_special/Background_Transparent.png"
     );
     const transparentSpriteForWhateverReason = await getBackground(
-        "/background/Background_Transparent.png"
+        "/background_special/Background_Transparent.png"
     );
     transparentContainer.addChild(transparentSpriteForNameTag);
     transparentContainer.addChild(transparentSpriteForDialogue);

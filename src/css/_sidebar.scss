@@ -52,6 +52,10 @@
     overflow: auto;
 }
 
+.picker-type-div {
+    padding-bottom: 50px 
+}
+
 .picker-item {
     height: 200px;
     border-radius: 10px;
@@ -133,8 +137,4 @@
 .transform-icons > div > i {
     font-size: 20px;
     margin-left: 10px;
-}
-
-#json {
-    
 }
