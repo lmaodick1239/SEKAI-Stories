@@ -3,6 +3,7 @@ import * as PIXI from "pixi.js";
 import IModel from "./IModel";
 import IBackground from "./IBackground";
 import IText from "./IText";
+import ISceneSetting from "./ISceneSetting";
 export default interface ISceneContextType {
     openedSidebar: string;
     setOpenedSidebar: Dispatch<SetStateAction<string>>;
@@ -20,6 +21,8 @@ export default interface ISceneContextType {
     setBackground: Dispatch<SetStateAction<IBackground | undefined>>;
     text: IText | undefined;
     setText: Dispatch<SetStateAction<IText | undefined>>;
+    sceneSetting: ISceneSetting | undefined;
+    setSceneSetting: Dispatch<SetStateAction<ISceneSetting | undefined>>;
     reset: number;
     setReset: Dispatch<SetStateAction<number>>;
     hide: boolean;

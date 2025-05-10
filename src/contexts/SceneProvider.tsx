@@ -8,6 +8,7 @@ import IModel from "../types/IModel";
 import IBackground from "../types/IBackground";
 import IText from "../types/IText";
 import { getBackground } from "../utils/GetBackground";
+import ISceneSetting from "../types/ISceneSetting";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -22,6 +23,7 @@ interface InitialScene {
     modelX: number;
     modelY: number;
     pngName: string;
+    sceneSetting: string;
 }
 
 const randomInitialScene: InitialScene[] = [
@@ -34,6 +36,7 @@ const randomInitialScene: InitialScene[] = [
         modelX: 650,
         modelY: 170,
         pngName: "airi",
+        sceneSetting: "Uranohoshi High School Idol Club",
     },
     {
         background: "/background_compressed/bg_a001101.jpg",
@@ -44,6 +47,7 @@ const randomInitialScene: InitialScene[] = [
         modelX: 690,
         modelY: 135,
         pngName: "ena",
+        sceneSetting: "Diner",
     },
     {
         background: "background_compressed/bg_e000102.jpg",
@@ -54,6 +58,7 @@ const randomInitialScene: InitialScene[] = [
         modelX: 650,
         modelY: 170,
         pngName: "kanade",
+        sceneSetting: "Kanade's Room",
     },
 ];
 
@@ -72,6 +77,9 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
         undefined
     );
     const [text, setText] = useState<IText | undefined>(undefined);
+    const [sceneSetting, setSceneSetting] = useState<ISceneSetting | undefined>(
+        undefined
+    );
     const [reset, setReset] = useState<number>(0);
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
@@ -92,6 +100,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 modelX: 650,
                 modelY: 0,
                 pngName: "mafuyu",
+                sceneSetting: "Mafuyu's Room",
             };
         }
 
@@ -105,6 +114,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 modelX: 650,
                 modelY: 170,
                 pngName: "kanade_black",
+                sceneSetting: "???",
             };
         }
 
@@ -113,7 +123,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
         ];
     };
 
-    const initialScene: InitialScene = getInitialScene("bad_apple");
+    const initialScene: InitialScene = getInitialScene();
 
     useEffect(() => {
         const cookie = localStorage.getItem("featureAnnouncement");
@@ -217,6 +227,32 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
 
             initApplication.stage.addChildAt(textContainer, 3);
 
+            // Load Scene Setting Text
+            const sceneSettingContainer = new PIXI.Container();
+            const sceneSettingBackgroundTexture = await Assets.load(
+                "/img/SceneSetting_Background.png"
+            );
+            const sceneSettingBackgroundSprite = new PIXI.Sprite(
+                sceneSettingBackgroundTexture
+            );
+            const sceneSettingText = new PIXI.Text(
+                initialScene["sceneSetting"],
+                {
+                    fontFamily: "FOT-RodinNTLGPro-DB",
+                    fontSize: 44,
+                    fill: 0xffffff,
+                    align: "center",
+                }
+            );
+            sceneSettingText.anchor.set(0.5, 0.5);
+            sceneSettingText.position.set(960, 540);
+
+            sceneSettingContainer.addChildAt(sceneSettingBackgroundSprite, 0);
+            sceneSettingContainer.addChildAt(sceneSettingText, 1);
+
+            initApplication.stage.addChildAt(sceneSettingContainer, 4);
+            sceneSettingContainer.visible = false;
+
             setApp(initApplication);
             setModels({
                 character1: {
@@ -248,6 +284,13 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 fontSize: 44,
                 visible: true,
             });
+            setSceneSetting({
+                sceneSettingContainer: sceneSettingContainer,
+                text: sceneSettingText,
+                textString: initialScene["sceneSetting"],
+                visible: false,
+            });
+
             setStartingMessage("");
         };
         runCanvas();
@@ -272,6 +315,8 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setBackground,
                 text,
                 setText,
+                sceneSetting,
+                setSceneSetting,
                 reset,
                 setReset,
                 hide,

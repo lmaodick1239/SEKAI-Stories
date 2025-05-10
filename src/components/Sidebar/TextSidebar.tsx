@@ -39,11 +39,11 @@ const TextSidebar: React.FC = () => {
         lockFontSize === "true" ? true : false
     );
 
-    if (!context || !context.text) {
+    if (!context || !context.text || !context.sceneSetting) {
         return t("please-wait");
     }
 
-    const { text, setText } = context;
+    const { text, setText, sceneSetting, setSceneSetting } = context;
 
     const handleNameTagChange = async (changedNameTag: string) => {
         text.nameTag.text = changedNameTag;
@@ -54,13 +54,27 @@ const TextSidebar: React.FC = () => {
         });
     };
 
-    const handleVisible = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleDialogueBoxVisible = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         const visible = Boolean(event?.target.checked);
         if (text?.textContainer) {
             text.textContainer.visible = visible;
         }
         setText({
             ...text,
+            visible: visible,
+        });
+    };
+    const handleSceneSettingVisible = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const visible = Boolean(event?.target.checked);
+        if (sceneSetting?.sceneSettingContainer) {
+            sceneSetting.sceneSettingContainer.visible = visible;
+        }
+        setSceneSetting({
+            ...sceneSetting,
             visible: visible,
         });
     };
@@ -87,6 +101,20 @@ const TextSidebar: React.FC = () => {
         setText({
             ...text,
             dialogueString: changedDialogue,
+        });
+    };
+    const handleSceneSettingChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const changedSceneSetting = event.target.value
+            .replace(/“|”/g, '"')
+            .replace(/‘|’/g, "'");
+        sceneSetting.text.text = changedSceneSetting;
+        sceneSetting.text.updateText(true);
+
+        setSceneSetting({
+            ...sceneSetting,
+            textString: changedSceneSetting,
         });
     };
 
@@ -296,8 +324,26 @@ const TextSidebar: React.FC = () => {
                         id="visible"
                         label={t("visible")}
                         checked={text.visible}
-                        onChange={handleVisible}
+                        onChange={handleDialogueBoxVisible}
                     />
+                </div>
+                <div className="option">
+                    <h2>Scene Text</h2>
+                    <div className="option__content">
+                        <input
+                            type="text"
+                            name="name-tag"
+                            id="name-tag"
+                            value={sceneSetting.textString}
+                            onChange={handleSceneSettingChange}
+                        />
+                        <Checkbox
+                            id="visible"
+                            label={t("visible")}
+                            checked={sceneSetting.visible}
+                            onChange={handleSceneSettingVisible}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
