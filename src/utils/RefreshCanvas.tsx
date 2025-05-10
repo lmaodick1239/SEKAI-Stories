@@ -4,9 +4,16 @@ import ISceneContextType from "../types/IAppContextType";
 import { getBackground } from "./GetBackground";
 
 export const refreshCanvas = async (context: ISceneContextType) => {
-    if (!context?.app || !context.text || !context.background) return;
+    if (
+        !context?.app ||
+        !context.text ||
+        !context.background ||
+        !context.sceneSetting
+    )
+        return;
 
-    const { app, setApp, text, background, modelContainer } = context;
+    const { app, setApp, text, background, modelContainer, sceneSetting } =
+        context;
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
     app.stop();
@@ -48,6 +55,10 @@ export const refreshCanvas = async (context: ISceneContextType) => {
 
     if (text.textContainer) {
         initApplication.stage.addChildAt(text.textContainer, 3);
+    }
+
+    if (sceneSetting.sceneSettingContainer) {
+        initApplication.stage.addChildAt(sceneSetting.sceneSettingContainer, 4);
     }
 
     setApp(initApplication);
