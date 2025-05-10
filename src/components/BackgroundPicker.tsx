@@ -25,6 +25,7 @@ const BackgroundPicker: React.FC = () => {
     const { t } = useTranslation();
 
     const [show, setShow] = useState<boolean>(false);
+    const [filterValue, setFilterValue] = useState<string>("all");
 
     const context = useContext(SceneContext);
 
@@ -81,6 +82,30 @@ const BackgroundPicker: React.FC = () => {
         }
     };
 
+    const renderBackgroundType = (type: string) => (
+        <div
+            className="flex-wrap center flex-vertical picker-type-div"
+            key={type}
+        >
+            <div className="width-100 center text-center">
+                <h1 className="white">{t(type)}</h1>
+            </div>
+            <div className="flex-wrap center width-100">
+                {backgroundList.background[type].map((bg) => (
+                    <img
+                        key={bg}
+                        className="picker-item background-picker-item"
+                        src={`/background_low_jpg/${bg}.jpg`}
+                        onClick={async () => {
+                            handleChangeBackground(bg);
+                            setShow(false);
+                        }}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+
     return (
         <>
             {show && (
@@ -94,7 +119,19 @@ const BackgroundPicker: React.FC = () => {
                     >
                         <i className="bi bi-x-lg"></i>
                     </button>
-                    <div></div>
+                    <select
+                        name="picker-filter"
+                        id="picker-filter"
+                        onChange={(e) => {
+                            setFilterValue(e.target.value);
+                        }}
+                        value={filterValue}
+                    >
+                        <option value="all">{t("all")}</option>
+                        {Object.keys(backgroundList.background).map((type) => {
+                            return <option value={type}>{t(type)}</option>;
+                        })}
+                    </select>
                     {/* <input
                         type="text"
                         value={searchValue}
@@ -108,37 +145,11 @@ const BackgroundPicker: React.FC = () => {
                         }}
                     /> */}
                     <div className="flex-wrap relative center">
-                        {Object.keys(backgroundList.background).map((type) => {
-                            return (
-                                <div
-                                    className="flex-wrap center flex-vertical picker-type-div"
-                                    key={type}
-                                >
-                                    <div className="width-100 center text-center">
-                                        <h1 className="white">{t(type)}</h1>
-                                    </div>
-                                    <div className="flex-wrap center width-100">
-                                        {backgroundList.background[type].map(
-                                            (bg) => {
-                                                return (
-                                                    <img
-                                                        key={bg}
-                                                        className="picker-item background-picker-item"
-                                                        src={`/background_low_jpg/${bg}.jpg`}
-                                                        onClick={async () => {
-                                                            handleChangeBackground(
-                                                                bg
-                                                            );
-                                                            setShow(false);
-                                                        }}
-                                                    />
-                                                );
-                                            }
-                                        )}
-                                    </div>
-                                </div>
-                            );
-                        })}
+                        {filterValue === "all"
+                            ? Object.keys(backgroundList.background).map(
+                                  renderBackgroundType
+                              )
+                            : renderBackgroundType(filterValue)}
                     </div>
                 </div>
             )}

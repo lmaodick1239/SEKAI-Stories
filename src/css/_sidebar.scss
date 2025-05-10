@@ -52,8 +52,16 @@
     overflow: auto;
 }
 
+#picker-filter {
+    min-width: 80dvw;
+    position: fixed;
+    top: 10px;
+    z-index: 9999;
+}
+
 .picker-type-div {
-    padding-bottom: 50px 
+    padding-top: 20px;
+    padding-bottom: 50px;
 }
 
 .picker-item {
