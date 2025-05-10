@@ -88,7 +88,7 @@ const ExportButton: React.FC = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             localStorage.setItem("autoSave", JSON.stringify(jsonRef.current));
-        }, 1000 * 60 * 3); 
+        }, 1000 * 60 * 3);
 
         return () => clearInterval(interval);
     }, []);
@@ -119,9 +119,9 @@ const ExportButton: React.FC = () => {
             let modelData: ILive2DModelData | undefined = undefined;
             if (model.from === "static") {
                 setLoadingMsg(
-                    `Loading model ${idx + 1} of ${
-                        modelJson.length
-                    }: Fetching ${model.modelName} model3`
+                    `(${idx + 1}/${modelJson.length}): ${t("loading-1")} ${
+                        model.modelName
+                    }`
                 );
                 const [characterFolder] = await GetCharacterFolder(
                     model.modelName
@@ -134,9 +134,9 @@ const ExportButton: React.FC = () => {
             }
             if (model.from === "sekai") {
                 setLoadingMsg(
-                    `Loading model ${idx + 1} of ${
-                        modelJson.length
-                    }: Fetching ${model.modelName} model3`
+                    `(${idx + 1}/${modelJson.length}): ${t("loading-1")} ${
+                        model.modelName
+                    }`
                 );
                 const characterData = await GetCharacterDataFromSekai(
                     model.character,
@@ -150,31 +150,31 @@ const ExportButton: React.FC = () => {
             }
 
             setLoadingMsg(
-                `Loading model ${idx + 1} of ${modelJson.length}: Loading ${
+                `(${idx + 1}/${modelJson.length}): ${t("loading-4")} ${
                     model.modelName
-                } textures`
+                }`
             );
             await axios.get(
                 modelData.url + modelData.FileReferences.Textures[0]
             );
             setLoadingMsg(
-                `Loading model ${idx + 1} of ${modelJson.length}: Loading ${
+                `(${idx + 1}/${modelJson.length}): ${t("loading-5")} ${
                     model.modelName
-                } moc data`
+                }`
             );
             await axios.get(modelData.url + modelData.FileReferences.Moc, {
                 responseType: "arraybuffer",
             });
             setLoadingMsg(
-                `Loading model ${idx + 1} of ${modelJson.length}: Loading ${
+                `(${idx + 1}/${modelJson.length}): ${t("loading-6")} ${
                     model.modelName
-                } physics data`
+                }`
             );
             await axios.get(modelData.url + modelData.FileReferences.Physics);
             setLoadingMsg(
-                `Loading model ${idx + 1} of ${modelJson.length}: Adding ${
+                `(${idx + 1}/${modelJson.length}): ${t("loading-7")} ${
                     model.modelName
-                } to scene`
+                }`
             );
             const live2DModel = await Live2DModel.from(modelData, {
                 autoInteract: false,
@@ -189,11 +189,6 @@ const ExportButton: React.FC = () => {
                 model?.modelExpression !== 99999 ||
                 model?.modelExpression !== 99999
             ) {
-                setLoadingMsg(
-                    `Loading model ${idx + 1} of ${
-                        modelJson.length
-                    }: Adding emotion and pose to ${model.modelName}`
-                );
                 live2DModel.motion("Expression", model.modelExpression);
                 await new Promise((resolve) => setTimeout(resolve, 2000));
                 live2DModel.motion("Motion", model.modelPose);
@@ -216,7 +211,6 @@ const ExportButton: React.FC = () => {
             };
         }
 
-        setLoadingMsg("Setting background...");
         background?.backgroundContainer.removeChildAt(0);
         background?.backgroundContainer.addChildAt(backgroundSprite, 0);
         if (background?.backgroundContainer) {
@@ -226,7 +220,6 @@ const ExportButton: React.FC = () => {
             });
         }
 
-        setLoadingMsg("Setting text...");
         if (text && text.nameTag && text.dialogue) {
             text.nameTag.text = textNameTag;
             text.nameTag.updateText(true);
@@ -239,7 +232,6 @@ const ExportButton: React.FC = () => {
             });
         }
 
-        setLoadingMsg("Setting models...");
         setModels(modelTextures);
         setLayers(Object.keys(modelTextures).length);
         setNextLayer(Object.keys(modelTextures).length);
@@ -319,11 +311,8 @@ const ExportButton: React.FC = () => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="window__content">
-                            <h1>Import/Export</h1>
-                            <p>
-                                Custom backgrounds and models are not included
-                                in this JSON file.
-                            </p>
+                            <h1>{t("import-export")}</h1>
+                            <p>{t("import-export-description")}</p>
                             {loadingMsg && <p>{loadingMsg}</p>}
                             <textarea
                                 name="json"
@@ -340,14 +329,14 @@ const ExportButton: React.FC = () => {
                                 onClick={handleImport}
                                 disabled={loadingMsg !== ""}
                             >
-                                Import
+                                {t("import")}
                             </button>
                             <button
                                 className="btn-regular btn-blue center"
                                 onClick={handleExport}
                                 disabled={loadingMsg !== ""}
                             >
-                                Export
+                                {t("export")}
                             </button>
                             <button
                                 className="btn-regular btn-white center"

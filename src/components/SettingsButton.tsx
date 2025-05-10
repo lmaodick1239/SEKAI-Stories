@@ -81,17 +81,13 @@ const SettingsButton: React.FC = () => {
                                     </option>
                                 ))}
                             </select>
-                            <h2>Auto-save</h2>
-                            <p>
-                                Your work is automatically saved every 3
-                                minutes. If something goes wrong, you can
-                                download the latest backup as a JSON file.
-                            </p>
+                            <h2>{t("auto-save")}</h2>
+                            <p>{t("auto-save-description")}</p>
                             <button
                                 className="btn-blue btn-extend-width btn-regular"
                                 onClick={handleGetAutoSaveData}
                             >
-                                Get last save
+                                {t("auto-save-button")}
                             </button>
                         </div>
                         <div className="extend-width center">

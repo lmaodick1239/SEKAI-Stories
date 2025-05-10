@@ -12,6 +12,7 @@ const i18nInit = () => {
             pl: { translation: pl },
             cn: { translation: cn },
         },
+        fallbackLng: "en",
     });
 
     const language = localStorage.getItem("language");

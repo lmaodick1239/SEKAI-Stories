@@ -9,7 +9,7 @@
     "easy-switch": "Use easy switch",
     "dialogue": "Dialogue",
     "font-size": "Font Size",
-    "add-symbol":"Add a symbol",
+    "add-symbol": "Add a symbol",
     "model-header": "Model",
     "selected-layer": "Selected Layer",
     "add-model-sekai": "Add model from sekai.best",
@@ -83,16 +83,24 @@
     "kaito": "KAITO",
     "others": "Others",
 
-    "general":"General",
-    "mmj":"MORE MORE JUMP!",
-    "vbs":"Vivid BAD SQUAD",
-    "wxs":"Wonderlands x Showtime",
-    "n25":"Nightcord at 25:00",
-    "ln":"Leo/need",
-    "vs":"VIRTUAL SINGER",
-    "split":"Split Locations",
-    "temp":"Others",
+    "general": "General",
+    "mmj": "MORE MORE JUMP!",
+    "vbs": "Vivid BAD SQUAD",
+    "wxs": "Wonderlands x Showtime",
+    "n25": "Nightcord at 25:00",
+    "ln": "Leo/need",
+    "vs": "VIRTUAL SINGER",
+    "split": "Split Locations",
+    "temp": "Others",
 
     "settings": "Settings",
-    "language": "Language"
+    "language": "Language",
+    "auto-save": "Auto-save",
+    "auto-save-description": "Your work is automatically saved every 3 minutes. If something goes wrong, you can download the latest backup as a JSON file.",
+    "auto-save-button": "Get last save",
+
+    "import-export": "Import/Export",
+    "import-export-description": "Custom backgrounds and sprites are not included in this JSON file.",
+    "import": "Import",
+    "export": "Export"
 }
