@@ -50,7 +50,7 @@ const randomInitialScene: InitialScene[] = [
         sceneSetting: "Diner",
     },
     {
-        background: "background_compressed/bg_e000102.jpg",
+        background: "/background_compressed/bg_e000102.jpg",
         model: "v2_17kanade_casual",
         text: "Hashiridashita...?",
         nameTag: "Kanade",
