@@ -67,7 +67,8 @@
 .picker-item {
     height: 200px;
     border-radius: 10px;
-    border: 2px solid $white;
+    border: 2px solid;
+    border-color: $white;
     aspect-ratio: 1/1;
     margin: 10px 0px;
     cursor: pointer;
@@ -78,6 +79,24 @@
     @media (width > 768px) {
         width: 200px;
         margin: 10px;
+    }
+}
+
+.picker-item-selected {
+    border-color: $dark-pink;
+    outline: 5px solid $dark-pink;
+
+    animation: flash 1s infinite;
+
+    @keyframes flash {
+        0%, 100% {
+            border-color: $dark-pink;
+            outline-color: $dark-pink;
+        }
+        50% {
+            border-color: $light-miku;
+            outline-color: $light-miku;
+        }
     }
 }
 

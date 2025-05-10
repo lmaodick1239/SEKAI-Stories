@@ -531,7 +531,8 @@ select:disabled {
 .picker-item {
   height: 200px;
   border-radius: 10px;
-  border: 2px solid #ffffff;
+  border: 2px solid;
+  border-color: #ffffff;
   aspect-ratio: 1/1;
   margin: 10px 0px;
   cursor: pointer;
@@ -545,6 +546,22 @@ select:disabled {
   .picker-item {
     width: 200px;
     margin: 10px;
+  }
+}
+
+.picker-item-selected {
+  border-color: #ff5599;
+  outline: 5px solid #ff5599;
+  animation: flash 1s infinite;
+}
+@keyframes flash {
+  0%, 100% {
+    border-color: #ff5599;
+    outline-color: #ff5599;
+  }
+  50% {
+    border-color: #77eedd;
+    outline-color: #77eedd;
   }
 }
 

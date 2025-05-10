@@ -80,8 +80,25 @@ const BackgroundPicker: React.FC = () => {
                 filename: `/background_compressed/${bg}.jpg`,
             });
         }
+
+        setFilterValue("all");
     };
 
+    React.useEffect(() => {
+        if (show && background?.filename) {
+            const selectedBackground = document.querySelector(
+                `img[src="${background.filename.replace(
+                    "/background_compressed/",
+                    "/background_low_jpg/"
+                )}"]`
+            );
+            selectedBackground?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+        }
+    }, [show, background?.filename]);
+    
     const renderBackgroundType = (type: string) => (
         <div
             className="flex-wrap center flex-vertical picker-type-div"
@@ -94,7 +111,12 @@ const BackgroundPicker: React.FC = () => {
                 {backgroundList.background[type].map((bg) => (
                     <img
                         key={bg}
-                        className="picker-item background-picker-item"
+                        className={`picker-item background-picker-item ${
+                            background?.filename ===
+                            `/background_compressed/${bg}.jpg`
+                                ? "picker-item-selected"
+                                : ""
+                        }`}
                         src={`/background_low_jpg/${bg}.jpg`}
                         onClick={async () => {
                             handleChangeBackground(bg);
@@ -123,13 +145,14 @@ const BackgroundPicker: React.FC = () => {
                         name="picker-filter"
                         id="picker-filter"
                         onChange={(e) => {
+                            document.getElementById("picker")?.scrollTo(0, 0);
                             setFilterValue(e.target.value);
                         }}
                         value={filterValue}
                     >
                         <option value="all">{t("all")}</option>
                         {Object.keys(backgroundList.background).map((type) => {
-                            return <option value={type}>{t(type)}</option>;
+                            return <option key={type} value={type}>{t(type)}</option>;
                         })}
                     </select>
                     {/* <input
