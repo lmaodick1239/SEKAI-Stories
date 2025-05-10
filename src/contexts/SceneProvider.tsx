@@ -46,8 +46,7 @@ const randomInitialScene: InitialScene[] = [
         pngName: "ena",
     },
     {
-        background:
-            "background_compressed/bg_e000102.jpg",
+        background: "background_compressed/bg_e000102.jpg",
         model: "v2_17kanade_casual",
         text: "Hashiridashita...?",
         nameTag: "Kanade",
@@ -98,8 +97,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
 
         if (scene === "bad_apple") {
             return {
-                background:
-                    "/background_compressed/bg00026.jpg",
+                background: "/background_compressed/bg00026.jpg",
                 model: "17kanade_black",
                 text: "Mizuki, what do you mean by ⑨?",
                 nameTag: "Kanade",
@@ -118,9 +116,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const initialScene: InitialScene = getInitialScene("bad_apple");
 
     useEffect(() => {
-        const cookie = localStorage.getItem(
-            "simplifiedChineseLocalizationAnnouncement"
-        );
+        const cookie = localStorage.getItem("featureAnnouncement");
         if (Number(cookie) < 2) {
             setHideAnnouncements(false);
         }

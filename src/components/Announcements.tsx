@@ -10,13 +10,13 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("simplifiedChineseLocalizationAnnouncement");
+        const cookie = localStorage.getItem("featureAnnouncement");
         if (!cookie) {
-            localStorage.setItem("simplifiedChineseLocalizationAnnouncement", "0");
+            localStorage.setItem("featureAnnouncement", "0");
             return;
         }
         localStorage.setItem(
-            "simplifiedChineseLocalizationAnnouncement",
+            "featureAnnouncement",
             `${Number(cookie) + 1}`
         );
     };
@@ -25,12 +25,13 @@ const Announcements: React.FC = () => {
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
             <p>
-                Simplified Chinese localization is now available! Thanks to{" "}
-                <a href="https://github.com/MiddleRed">@MiddleRed</a> for
-                their contribution!
+                New features has been added! See more information below.
             </p>
+            <button className="btn-blue btn-regular" onClick={() => {window.open("", "_blank")}}>
+                Ko-fi Announcement
+            </button>
             <p>
-                If you also wish to contribute, you can check this information
+                Localization contributions are still welcome! You can check this information
                 on{" "}
                 <a
                     href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
