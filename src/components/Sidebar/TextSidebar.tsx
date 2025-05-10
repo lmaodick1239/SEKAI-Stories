@@ -328,7 +328,7 @@ const TextSidebar: React.FC = () => {
                     />
                 </div>
                 <div className="option">
-                    <h2>Scene Text</h2>
+                    <h2>{t("scene-text")}</h2>
                     <div className="option__content">
                         <input
                             type="text"
