@@ -19,6 +19,7 @@ const randomText = {
         "Mizuki is programming her countdown website for そこに在る、光。",
         "Mafuyu scares Emu to make her stop breaking the fourth wall.",
         "Ena threw a large basin at Akito.",
+        "Ena fights against AI Art.",
         "Toya is enjoying Tsukasa's loud laugh.",
         "Kohane has been bitten by her pet snake.",
         "An woke up and started speaking in English.",
