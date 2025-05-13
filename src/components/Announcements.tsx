@@ -23,7 +23,7 @@ const Announcements: React.FC = () => {
             <h2>Notice</h2>
             <p>
                 Spanish translation is now available! Thanks to{" "}
-                <a href="">@gatomago_xd</a> for their contribution!
+                <a href="https://www.youtube.com/@GatoMagoMusic">@gatomago_xd</a> for their contribution!
             </p>
             <p>
                 Localization contributions are still welcome! You can check this
