@@ -10,29 +10,21 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("featureAnnouncement");
+        const cookie = localStorage.getItem("spanishTranslation");
         if (!cookie) {
-            localStorage.setItem("featureAnnouncement", "0");
+            localStorage.setItem("spanishTranslation", "0");
             return;
         }
-        localStorage.setItem("featureAnnouncement", `${Number(cookie) + 1}`);
+        localStorage.setItem("spanishTranslation", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>New features has been added! See more information below.</p>
-            <button
-                className="btn-blue btn-regular"
-                onClick={() => {
-                    window.open(
-                        "https://ko-fi.com/post/SEKAI-Stories-New-Features-T6T51ERVXZ",
-                        "_blank"
-                    );
-                }}
-            >
-                Ko-fi Announcement
-            </button>
+            <p>
+                Spanish translation is now available! Thanks to{" "}
+                <a href="">@gatomago_xd</a> for their contribution!
+            </p>
             <p>
                 Localization contributions are still welcome! You can check this
                 information on{" "}

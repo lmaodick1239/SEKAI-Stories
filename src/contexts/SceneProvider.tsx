@@ -126,8 +126,8 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const initialScene: InitialScene = getInitialScene();
 
     useEffect(() => {
-        const cookie = localStorage.getItem("featureAnnouncement");
-        if (Number(cookie) < 2) {
+        const cookie = localStorage.getItem("spanishTranslation");
+        if (Number(cookie) < 1) {
             setHideAnnouncements(false);
         }
 
