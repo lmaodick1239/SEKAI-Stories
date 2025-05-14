@@ -18,6 +18,7 @@ import { ILive2DModelList } from "../../types/ILive2DModelList";
 import AddModelSelect from "../AddModelSelect";
 import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
+import { ICoreModel } from "../../types/ICoreModel";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -52,6 +53,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     );
     const [showAddModelScreen, setShowAddModelScreen] =
         useState<boolean>(false);
+    const [showAdvancedOptions, setShowAdvancedOptions] =
+        useState<boolean>(false);
+
+    const [coreModel, setCoreModel] = useState<ICoreModel | null>(null);
+    const [parameterValues, setParameterValues] = useState<
+        Record<string, number>
+    >({});
 
     const characterSelect = useRef<null | HTMLSelectElement>(null);
     const modelSelect = useRef<null | HTMLSelectElement>(null);
@@ -67,7 +75,18 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentSelectedCharacter(firstModel.character);
     }, [context?.models, currentKey]);
 
-    if (!context || !context.models) {
+    useEffect(() => {
+        console.log(currentModel)
+        if (currentModel?.model instanceof Live2DModel && !loading) {
+            setCoreModel(
+                currentModel.model.internalModel.coreModel as ICoreModel
+            );
+        } else {
+            setCoreModel(null);
+        }
+    }, [currentModel, coreModel, loading]);
+
+    if (!context || !context.models) {  
         return t("please-wait");
     }
 
@@ -99,7 +118,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         model: string | ILive2DModelList,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
-        setLoading(true);
         let modelData: ILive2DModelData | undefined = undefined;
         let modelName: string | undefined = undefined;
         if (typeof model === "string") {
@@ -140,7 +158,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         modelContainer?.addChildAt(live2DModel, layerIndex);
 
         setLoadingMsg(``);
-        setLoading(false);
 
         return [live2DModel, modelData];
     };
@@ -154,6 +171,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentModel(models[key]);
         setCurrentSelectedCharacter(models[key].character);
         setLayerIndex(selectedIndex);
+        setParameterValues({});
     };
 
     const handleAddLayer = async (from: string) => {
@@ -249,6 +267,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const handleCharacterChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
+        setLoading(true);
         const character = event?.target.value;
         setCurrentSelectedCharacter(character);
         if (characterSelect.current && modelSelect.current) {
@@ -290,6 +309,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     : (firstFile as ILive2DModelList).modelBase,
                 modelData,
             });
+            setLoading(false);
         } catch {
             setLoadingMsg("Failed to load model!");
         } finally {
@@ -300,9 +320,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         }
     };
 
-    const handleFileChange = async (
+    const handleCostumeChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
+        setLoading(true);
         const modelBase = event?.target.value;
 
         if (!currentModel) return;
@@ -351,6 +372,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 modelName: modelBase,
                 modelData: modelData,
             });
+            setLoading(false);
         } catch {
             setLoadingMsg("Failed to load model!");
         } finally {
@@ -450,6 +472,62 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             }
         }
     };
+    const handleAdvanced = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = event.target.checked;
+        if (value) {
+            const confirmation = confirm(
+                "You are about to access all parts of this model. Continue?"
+            );
+            if (!confirmation) return;
+        }
+
+        setShowAdvancedOptions(value);
+    };
+
+    const handleLive2DParamsChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        params: string
+    ) => {
+        const newValue = Number(e.target.value);
+        (coreModel as ICoreModel).setParameterValueById(params, newValue);
+        setParameterValues((prev) => ({
+            ...prev,
+            [params]: newValue,
+        }));
+    };
+
+    const live2DInputSlider = (idx: number, param: string, filter?: string) => {
+        if (filter && !param.includes(filter)) {
+            return null;
+        }
+
+        if (!coreModel || !currentModel) return null;
+
+        const min = (coreModel as ICoreModel).getParameterMinimumValue(idx);
+        const max = (coreModel as ICoreModel).getParameterMaximumValue(idx);
+        const value = (coreModel as ICoreModel).getParameterValueById(param);
+
+        return (
+            <div className="option__content" key={param}>
+                <h3>{param}</h3>
+                <input
+                    type="range"
+                    name={param}
+                    id={param}
+                    min={min}
+                    max={max}
+                    step={0.01}
+                    value={parameterValues[param] ?? value}
+                    onChange={(e) => {
+                        handleLive2DParamsChange(e, param);
+                    }}
+                />
+            </div>
+        );
+    };
+
     return (
         <div>
             <h1>{t("model-header")}</h1>
@@ -525,7 +603,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         <div className="option__content">
                             <select
                                 value={currentModel?.modelName}
-                                onChange={handleFileChange}
+                                onChange={handleCostumeChange}
                                 ref={modelSelect}
                             >
                                 {(currentModel.from === "static"
@@ -712,6 +790,55 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     />
                 </div>
             </div>
+
+            {currentModel?.model instanceof Live2DModel && !loading && (
+                <>
+                    <div className="option">
+                        <h2>Mouth</h2>
+                        <div className="option__content">
+                            {coreModel &&
+                                coreModel["_parameterIds"]
+                                    .map((param, idx) => {
+                                        return live2DInputSlider(
+                                            idx,
+                                            param,
+                                            "Mouth"
+                                        );
+                                    })
+                                    .filter(Boolean)}
+                        </div>
+                    </div>
+                    <div className="option">
+                        <h2>Advanced</h2>
+                        <div className="option__content">
+                            <Checkbox
+                                id="advanced"
+                                label="Show advanced options"
+                                checked={showAdvancedOptions}
+                                onChange={handleAdvanced}
+                            />
+                            {showAdvancedOptions && coreModel && (
+                                <>
+                                    {coreModel["_parameterIds"].map(
+                                        (param, idx) => {
+                                            return live2DInputSlider(
+                                                idx,
+                                                param
+                                            );
+                                        }
+                                    )}
+                                    <Checkbox
+                                        id="advanced"
+                                        label="Show advanced options"
+                                        checked={showAdvancedOptions}
+                                        onChange={handleAdvanced}
+                                    />
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
