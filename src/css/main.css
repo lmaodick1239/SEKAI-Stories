@@ -417,6 +417,25 @@ select:disabled {
   width: 80dvw;
 }
 
+.full-screen {
+  width: 100dvw;
+  height: 100dvh;
+}
+
+.padding-20 {
+  padding: 20px;
+}
+
+#error-img {
+  width: 25dvw;
+}
+
+#error-traceback {
+  height: 80%;
+  font-size: 1em;
+  font-family: monospace;
+}
+
 #content {
   padding: 25px;
   box-sizing: border-box;
@@ -823,6 +842,10 @@ canvas {
 
 i {
   color: #444466;
+}
+
+pre {
+  word-wrap: break-word;
 }
 
 /*# sourceMappingURL=main.css.map */
