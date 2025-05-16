@@ -61,6 +61,17 @@ const randomInitialScene: InitialScene[] = [
         pngName: "kanade",
         sceneSetting: "Kanade's Room",
     },
+    {
+        background: "/background_compressed/bg_a002506.jpg",
+        model: "v2_20mizuki_school_back02",
+        text: "I feel like I've heard this song before...",
+        nameTag: "Mizuki",
+        character: "mizuki",
+        modelX: 700,
+        modelY: 120,
+        pngName: "mizuki",
+        sceneSetting: "Shrine",
+    },
 ];
 
 export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
