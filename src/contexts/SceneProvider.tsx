@@ -60,6 +60,7 @@ const randomInitialScene: InitialScene[] = [
         pngName: "kanade",
         sceneSetting: "Kanade's Room",
     },
+    
 ];
 
 export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
@@ -263,6 +264,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                     modelY: sprite.y,
                     modelScale: sprite.scale.x,
                     modelData: undefined,
+                    virtualEffect: false,
                     expression: 38,
                     pose: 102,
                     visible: true,
