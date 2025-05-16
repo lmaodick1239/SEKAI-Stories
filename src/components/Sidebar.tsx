@@ -12,7 +12,7 @@ const Sidebar: React.FC = () => {
 
     if (!context) return;
 
-    const { openedSidebar, startingMessage } = context;
+    const { openedSidebar, startingMessage, showExperimental } = context;
 
     const handleRefresh = () => {
         refreshCanvas(context);
@@ -23,16 +23,18 @@ const Sidebar: React.FC = () => {
             {openedSidebar == "text" && <TextSidebar />}
             {openedSidebar == "model" && <ModelSidebar />}
             {startingMessage && <p>{startingMessage}</p>}
-            <h1>{t("experimental.header")}</h1>
-            <div className="option">
-                <button
-                    className="btn-regular btn-blue btn-100"
-                    onClick={handleRefresh}
-                >
-                    {t("experimental.refresh")}
-                </button>
-                <p>{t("experimental.details")}</p>
-            </div>
+            {showExperimental && (
+                <div className="option">
+                    <h1>{t("experimental.header")}</h1>
+                    <button
+                        className="btn-regular btn-blue btn-100"
+                        onClick={handleRefresh}
+                    >
+                        {t("experimental.refresh")}
+                    </button>
+                    <p>{t("experimental.details")}</p>
+                </div>
+            )}
         </div>
     );
 };

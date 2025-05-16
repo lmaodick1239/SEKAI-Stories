@@ -60,7 +60,6 @@ const randomInitialScene: InitialScene[] = [
         pngName: "kanade",
         sceneSetting: "Kanade's Room",
     },
-    
 ];
 
 export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
@@ -84,6 +83,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [reset, setReset] = useState<number>(0);
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
+    const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [startingMessage, setStartingMessage] = useState<string>("");
 
     const getInitialScene = (scene?: string): InitialScene => {
@@ -127,9 +127,13 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const initialScene: InitialScene = getInitialScene();
 
     useEffect(() => {
-        const cookie = localStorage.getItem("spanishTranslation");
-        if (Number(cookie) < 1) {
+        const announcementCookie = localStorage.getItem("spanishTranslation");
+        if (Number(announcementCookie) < 1) {
             setHideAnnouncements(false);
+        }
+        const experimentalCookie = localStorage.getItem("showExperimental");
+        if (experimentalCookie === "true") {
+            setShowExperimental(true);
         }
 
         const runCanvas = async () => {
@@ -325,6 +329,8 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setHide,
                 hideAnnouncements,
                 setHideAnnouncements,
+                showExperimental: showExperimental,
+                setShowExperimental: setShowExperimental,
                 startingMessage,
                 setStartingMessage,
             }}

@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SupportButton from "./SupportButton";
+import { Checkbox } from "./Checkbox";
+import { SceneContext } from "../contexts/SceneContext";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
-
     const lng = i18n.language;
-
     const [show, setShow] = useState<boolean>(false);
+
+    const context = useContext(SceneContext);
+
+    if (!context) {
+        throw new Error("Context not provided.");
+    }
+
+    const { showExperimental, setShowExperimental } = context;
 
     const handleChangeLanguage = async (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -39,6 +47,12 @@ const SettingsButton: React.FC = () => {
         a.download = "autoSave.json";
         a.click();
         a.remove();
+    };
+
+    const handleExperimental = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("showExperimental", String(value));
+        setShowExperimental(value);
     };
 
     return (
@@ -90,6 +104,13 @@ const SettingsButton: React.FC = () => {
                             >
                                 {t("settings.auto-save-button")}
                             </button>
+                            <h2>Toggles</h2>
+                            <Checkbox
+                                id="experimental"
+                                label="Show Experimental"
+                                checked={showExperimental}
+                                onChange={handleExperimental}
+                            />
                         </div>
                         <div className="extend-width center">
                             <button

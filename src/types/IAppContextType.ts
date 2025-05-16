@@ -29,7 +29,8 @@ export default interface ISceneContextType {
     setHide: Dispatch<SetStateAction<boolean>>;
     hideAnnouncements: boolean;
     setHideAnnouncements: Dispatch<SetStateAction<boolean>>;
+    showExperimental: boolean;
+    setShowExperimental: Dispatch<SetStateAction<boolean>>;
     startingMessage: string;
-
     setStartingMessage: Dispatch<SetStateAction<string>>;
 }
