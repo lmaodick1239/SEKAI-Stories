@@ -224,7 +224,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         modelContainer?.addChildAt(sprite, layerIndex);
         const newLayer = {
             [`character${nextLayer + 1}`]: {
-                character: "Custom",
+                character: "custom",
                 modelName: modelName,
                 model: sprite,
                 modelX: sprite.x,
@@ -556,7 +556,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
         return (
             <div className="option__content" key={param}>
-                <h3>{t(`model.${param}`)}</h3>
+                <h3>{filter ? t(`model.${param}`) : param}</h3>
                 <input
                     type="range"
                     name={param}
