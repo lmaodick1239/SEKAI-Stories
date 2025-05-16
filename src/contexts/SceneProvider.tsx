@@ -126,7 +126,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const initialScene: InitialScene = getInitialScene();
 
     useEffect(() => {
-        const cookie = localStorage.getItem("spanishTranslation");
+        const cookie = localStorage.getItem("redditAd");
         if (Number(cookie) < 1) {
             setHideAnnouncements(false);
         }

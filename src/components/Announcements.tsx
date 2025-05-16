@@ -10,20 +10,22 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("spanishTranslation");
+        const cookie = localStorage.getItem("redditAd");
         if (!cookie) {
-            localStorage.setItem("spanishTranslation", "0");
+            localStorage.setItem("redditAd", "0");
             return;
         }
-        localStorage.setItem("spanishTranslation", `${Number(cookie) + 1}`);
+        localStorage.setItem("redditAd", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
+            <p>A dedicated subreddit has been made for SEKAI Stories!</p>
             <p>
-                Spanish translation is now available! Thanks to{" "}
-                <a href="https://www.youtube.com/@GatoMagoMusic">@gatomago_xd</a> for their contribution!
+                It's called{" "}
+                <a href="https://reddit.com/r/PJSKStories">r/PJSKStories</a>.
+                Take a visit~
             </p>
             <p>
                 Localization contributions are still welcome! You can check this
