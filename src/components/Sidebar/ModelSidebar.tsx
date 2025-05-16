@@ -253,7 +253,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const handleDeleteLayer = async () => {
         const modelsObjects = Object.entries(context.models ?? {});
         if (modelsObjects.length == 1) {
-            alert(t("delete-model-warn"));
+            alert(t("model.delete-model-warn"));
             return;
         }
         currentModel?.model.destroy();
