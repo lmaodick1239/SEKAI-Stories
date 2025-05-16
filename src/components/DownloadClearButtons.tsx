@@ -14,10 +14,16 @@ const DownloadClearButtons: React.FC = () => {
         return;
     }
 
-    const { app, reset, setReset } = context;
+    const { app, reset, setReset, guideline, setGuideline } = context;
 
     const handleSave = () => {
-        // const region = app?.stage.getBounds();
+        if (guideline) {
+            guideline.container.visible = false;
+            setGuideline({
+                ...guideline,
+                visible: false,
+            });
+        }
         const region = new PIXI.Rectangle(0, 0, 1920, 1080);
         const texture = app?.renderer.generateTexture(app.stage, { region });
         const dataURL = app?.renderer.plugins.extract.image(texture).src;

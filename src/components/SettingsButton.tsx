@@ -15,7 +15,8 @@ const SettingsButton: React.FC = () => {
         throw new Error("Context not provided.");
     }
 
-    const { showExperimental, setShowExperimental } = context;
+    const { showExperimental, setShowExperimental, guideline, setGuideline } =
+        context;
 
     const handleChangeLanguage = async (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -47,6 +48,17 @@ const SettingsButton: React.FC = () => {
         a.download = "autoSave.json";
         a.click();
         a.remove();
+    };
+
+    const handleGuideline = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        if (guideline) {
+            guideline.container.visible = value;
+            setGuideline({
+                ...guideline,
+                visible: value,
+            });
+        }
     };
 
     const handleExperimental = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,10 +116,17 @@ const SettingsButton: React.FC = () => {
                             >
                                 {t("settings.auto-save-button")}
                             </button>
-                            <h2>Toggles</h2>
+                            <h2>{t("settings.toggles")}</h2>
+
+                            <Checkbox
+                                id="guideline"
+                                label={t("settings.guidelines")}
+                                checked={guideline?.visible}
+                                onChange={handleGuideline}
+                            />
                             <Checkbox
                                 id="experimental"
-                                label="Show Experimental"
+                                label={t("settings.experimental")}
                                 checked={showExperimental}
                                 onChange={handleExperimental}
                             />

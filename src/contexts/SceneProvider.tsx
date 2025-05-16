@@ -9,6 +9,7 @@ import IBackground from "../types/IBackground";
 import IText from "../types/IText";
 import { getBackground } from "../utils/GetBackground";
 import ISceneSetting from "../types/ISceneSetting";
+import IGuideline from "../types/IGuideline";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -78,6 +79,9 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     );
     const [text, setText] = useState<IText | undefined>(undefined);
     const [sceneSetting, setSceneSetting] = useState<ISceneSetting | undefined>(
+        undefined
+    );
+    const [guideline, setGuideline] = useState<IGuideline | undefined>(
         undefined
     );
     const [reset, setReset] = useState<number>(0);
@@ -183,9 +187,9 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             backgroundContainer.addChild(backgroundSprite);
             initApplication.stage.addChildAt(backgroundContainer, 1);
 
-            const modelContainer = new PIXI.Container();
-
+            
             // Load Sample PNG Sprite
+            const modelContainer = new PIXI.Container();
             const texture = await PIXI.Texture.fromURL(
                 `/img/${initialScene.pngName}.png`
             );
@@ -258,6 +262,15 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             initApplication.stage.addChildAt(sceneSettingContainer, 4);
             sceneSettingContainer.visible = false;
 
+            // Load Guideline Tools
+            const guidelineContainer = new PIXI.Container();
+            const gridTexture = await Assets.load("/img/grid.png");
+            const gridSprite = new PIXI.Sprite(gridTexture);
+            guidelineContainer.addChild(gridSprite);
+            guidelineContainer.visible = false;
+            guidelineContainer.alpha = 0.2
+            initApplication.stage.addChildAt(guidelineContainer, 5);
+
             setApp(initApplication);
             setModels({
                 character1: {
@@ -296,7 +309,10 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 textString: initialScene["sceneSetting"],
                 visible: false,
             });
-
+            setGuideline({
+                container: guidelineContainer,
+                visible: false,
+            });
             setStartingMessage("");
         };
         runCanvas();
@@ -323,6 +339,8 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setText,
                 sceneSetting,
                 setSceneSetting,
+                guideline,
+                setGuideline,
                 reset,
                 setReset,
                 hide,

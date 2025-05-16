@@ -4,6 +4,7 @@ import IModel from "./IModel";
 import IBackground from "./IBackground";
 import IText from "./IText";
 import ISceneSetting from "./ISceneSetting";
+import IGuideline from "./IGuideline";
 export default interface ISceneContextType {
     openedSidebar: string;
     setOpenedSidebar: Dispatch<SetStateAction<string>>;
@@ -23,6 +24,9 @@ export default interface ISceneContextType {
     setText: Dispatch<SetStateAction<IText | undefined>>;
     sceneSetting: ISceneSetting | undefined;
     setSceneSetting: Dispatch<SetStateAction<ISceneSetting | undefined>>;
+    guideline: IGuideline | undefined;
+    setGuideline: Dispatch<SetStateAction<IGuideline | undefined>>;
+
     reset: number;
     setReset: Dispatch<SetStateAction<number>>;
     hide: boolean;

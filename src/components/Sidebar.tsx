@@ -33,6 +33,7 @@ const Sidebar: React.FC = () => {
                         {t("experimental.refresh")}
                     </button>
                     <p>{t("experimental.details")}</p>
+                    
                 </div>
             )}
         </div>

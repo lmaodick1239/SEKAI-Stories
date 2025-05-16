@@ -130,7 +130,10 @@
         "language": "Language",
         "auto-save": "Auto-save",
         "auto-save-description": "Your work is automatically saved every 3 minutes. If something goes wrong, you can download the latest backup as a JSON file.",
-        "auto-save-button": "Get last save"
+        "auto-save-button": "Get last save",
+        "toggles": "Toggles",
+        "guidelines": "Show guidelines",
+        "experimental": "Show experimental"
     },
     "import-export": {
         "header": "Import/Export",
