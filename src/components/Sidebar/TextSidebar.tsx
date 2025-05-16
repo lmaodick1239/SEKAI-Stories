@@ -327,23 +327,23 @@ const TextSidebar: React.FC = () => {
                         onChange={handleDialogueBoxVisible}
                     />
                 </div>
-                <div className="option">
-                    <h2>{t("text.scene-text")}</h2>
-                    <div className="option__content">
-                        <input
-                            type="text"
-                            name="name-tag"
-                            id="name-tag"
-                            value={sceneSetting.textString}
-                            onChange={handleSceneSettingChange}
-                        />
-                        <Checkbox
-                            id="visible"
-                            label={t("visible")}
-                            checked={sceneSetting.visible}
-                            onChange={handleSceneSettingVisible}
-                        />
-                    </div>
+            </div>
+            <div className="option">
+                <h2>{t("text.scene-text")}</h2>
+                <div className="option__content">
+                    <input
+                        type="text"
+                        name="name-tag"
+                        id="name-tag"
+                        value={sceneSetting.textString}
+                        onChange={handleSceneSettingChange}
+                    />
+                    <Checkbox
+                        id="visible"
+                        label={t("visible")}
+                        checked={sceneSetting.visible}
+                        onChange={handleSceneSettingVisible}
+                    />
                 </div>
             </div>
         </div>

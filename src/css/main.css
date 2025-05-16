@@ -516,7 +516,9 @@ select:disabled {
 }
 
 .option {
-  margin-top: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #d1d1d1;
 }
 
 #background-picker {
@@ -727,6 +729,7 @@ select:disabled {
 #settings-screen .window {
   width: 90dvw;
   max-width: 768px;
+  max-height: 80dvh;
 }
 
 #export-screen .window {
