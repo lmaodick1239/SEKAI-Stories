@@ -1,9 +1,11 @@
 {
     "please-wait": "Please wait...",
+
     "background-header": "Background",
     "select": "Select",
     "upload": "Upload",
     "upload-info": "To make sure the image looks right and doesn't get stretched or cut downed, please use an image with a 16:9 ratio.",
+
     "text-header": "Text",
     "name-tag": "Name Tag",
     "easy-switch": "Use easy switch",
@@ -11,6 +13,7 @@
     "font-size": "Font Size",
     "add-symbol": "Add a symbol",
     "scene-text": "Scene Text",
+
     "model-header": "Model",
     "selected-layer": "Selected Layer",
     "add-model-sekai": "Add model from sekai.best",
@@ -32,12 +35,17 @@
     "x-position": "X-Position",
     "y-position": "Y-Position",
     "scale": "Scale",
+
     "visible": "Visible",
+
     "experimental": "Experimental",
     "refresh": "Refresh",
+
     "experimental-details": "If you don't see any changes, you may try refreshing the canvas.",
+
     "close": "Close",
     "clear": "This will clear the whole canvas. Any progress will be lost!\nClicking OK will proceed the action",
+
     "support-header": "Support",
     "support-details": "If you enjoy using SEKAI Stories, you can support me through one of the following ways:",
     "ko-fi-details": "Donations are optional! I will also be posting the website updates there as well.",
@@ -104,5 +112,13 @@
     "import-export": "Import/Export",
     "import-export-description": "Custom backgrounds and sprites are not included in this JSON file.",
     "import": "Import",
-    "export": "Export"
+    "export": "Export",
+
+    "mouth": "Mouth",
+    "ParamMouthForm": "Primary Form",
+    "ParamMouthOpenY": "Opening",
+    "ParamMouthForm2": "Secondary Form",
+    "ParamMouthScaleX": "X-Scale",
+    "ParamMouthScaleY": "Y-Scale",
+    "ParamMouthPositionY": "Y-Position"
 }

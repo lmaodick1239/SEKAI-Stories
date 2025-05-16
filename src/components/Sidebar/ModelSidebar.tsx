@@ -313,6 +313,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 modelData,
             });
             setLoading(false);
+            setParameterValues({});
         } catch {
             setLoadingMsg("Failed to load model!");
         } finally {
@@ -377,6 +378,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 modelData: modelData,
             });
             setLoading(false);
+            setParameterValues({});
         } catch {
             setLoadingMsg("Failed to load model!");
         } finally {
@@ -554,7 +556,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
         return (
             <div className="option__content" key={param}>
-                <h3>{param}</h3>
+                <h3>{t(param)}</h3>
                 <input
                     type="range"
                     name={param}
@@ -843,7 +845,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             {currentModel?.model instanceof Live2DModel && !loading && (
                 <>
                     <div className="option">
-                        <h2>Mouth</h2>
+                        <h2>{t("mouth")}</h2>
                         <div className="option__content">
                             {coreModel &&
                                 coreModel["_parameterIds"]
@@ -858,11 +860,11 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         </div>
                     </div>
                     <div className="option">
-                        <h2>Advanced</h2>
+                        <h2>{t("advanced")}</h2>
                         <div className="option__content">
                             <Checkbox
                                 id="advanced"
-                                label="Show Live2D Parts"
+                                label={t("showlive2dparts")}
                                 checked={showLive2DParts}
                                 onChange={handleLive2DParts}
                             />
@@ -878,7 +880,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     )}
                                     <Checkbox
                                         id="advanced"
-                                        label="Show Live2D Parts"
+                                        label={t("showlive2dparts")}
                                         checked={showLive2DParts}
                                         onChange={handleLive2DParts}
                                     />
