@@ -62,13 +62,13 @@ const randomInitialScene: InitialScene[] = [
         sceneSetting: "Kanade's Room",
     },
     {
-        background: "/background_compressed/bg_a002506.jpg",
+        background: "/background_special/Background_SELF_CONTROL.jpg",
         model: "v2_20mizuki_school_back02",
         text: "I feel like I've heard this song before...",
         nameTag: "Mizuki",
         character: "mizuki",
-        modelX: 700,
-        modelY: 120,
+        modelX: 935,
+        modelY: 135,
         pngName: "mizuki",
         sceneSetting: "Shrine",
     },
@@ -198,7 +198,6 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             backgroundContainer.addChild(backgroundSprite);
             initApplication.stage.addChildAt(backgroundContainer, 1);
 
-            
             // Load Sample PNG Sprite
             const modelContainer = new PIXI.Container();
             const texture = await PIXI.Texture.fromURL(
@@ -279,7 +278,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             const gridSprite = new PIXI.Sprite(gridTexture);
             guidelineContainer.addChild(gridSprite);
             guidelineContainer.visible = false;
-            guidelineContainer.alpha = 0.2
+            guidelineContainer.alpha = 0.2;
             initApplication.stage.addChildAt(guidelineContainer, 5);
 
             setApp(initApplication);
