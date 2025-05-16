@@ -646,7 +646,7 @@ select:disabled {
 
 @media (width <= 768px) {
   #download-clear-buttons,
-  #locale-and-support {
+  #settings {
     z-index: 999;
   }
 }

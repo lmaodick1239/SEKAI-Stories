@@ -27,10 +27,10 @@ const SupportButton: React.FC = () => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="window__content">
-                            <h1>{t("support-header")}</h1>
-                            <p>{t("support-details")}</p>
+                            <h1>{t("support.header")}</h1>
+                            <p>{t("support.details")}</p>
                             <h2>Ko-fi</h2>
-                            <p>{t("ko-fi-details")}</p>
+                            <p>{t("support.ko-fi-details")}</p>
                             <a
                                 href="https://ko-fi.com/smiliepop"
                                 target="_blank"
@@ -38,7 +38,7 @@ const SupportButton: React.FC = () => {
                                 <img src="/img/kofi.jpg" alt="ko-fi" />
                             </a>
                             <h2>GitHub</h2>
-                            <p>{t("github-details")}</p>
+                            <p>{t("support.github-details")}</p>
                             <a
                                 href="https://github.com/lezzthanthree/SEKAI-Stories"
                                 target="_blank"
@@ -47,8 +47,8 @@ const SupportButton: React.FC = () => {
                             </a>
                             <p></p>
                             <p></p>
-                            <h1>{t("special-thanks-header")}</h1>
-                            <p>{t("special-thanks-description")}</p>
+                            <h1>{t("support.special-thanks-header")}</h1>
+                            <p>{t("support.special-thanks-description")}</p>
                             <a href="https://sekai.best" target="_blank">
                                 <img
                                     src="/img/sekai-viewer.png"

@@ -203,6 +203,7 @@ const ExportButton: React.FC = () => {
                     modelY: live2DModel.y,
                     modelScale: live2DModel.scale.x,
                     modelData: modelData,
+                    virtualEffect: false,
                     expression: model.modelExpression,
                     pose: model.modelPose,
                     visible: true,
@@ -311,8 +312,8 @@ const ExportButton: React.FC = () => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="window__content">
-                            <h1>{t("import-export")}</h1>
-                            <p>{t("import-export-description")}</p>
+                            <h1>{t("import-export.header")}</h1>
+                            <p>{t("import-export.description")}</p>
                             {loadingMsg && <p>{loadingMsg}</p>}
                             <textarea
                                 name="json"
@@ -329,14 +330,14 @@ const ExportButton: React.FC = () => {
                                 onClick={handleImport}
                                 disabled={loadingMsg !== ""}
                             >
-                                {t("import")}
+                                {t("import-export.import")}
                             </button>
                             <button
                                 className="btn-regular btn-blue center"
                                 onClick={handleExport}
                                 disabled={loadingMsg !== ""}
                             >
-                                {t("export")}
+                                {t("import-export.export")}
                             </button>
                             <button
                                 className="btn-regular btn-white center"

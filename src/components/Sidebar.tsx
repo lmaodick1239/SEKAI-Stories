@@ -23,15 +23,15 @@ const Sidebar: React.FC = () => {
             {openedSidebar == "text" && <TextSidebar />}
             {openedSidebar == "model" && <ModelSidebar />}
             {startingMessage && <p>{startingMessage}</p>}
-            <h1>{t("experimental")}</h1>
+            <h1>{t("experimental.header")}</h1>
             <div className="option">
                 <button
                     className="btn-regular btn-blue btn-100"
                     onClick={handleRefresh}
                 >
-                    {t("refresh")}
+                    {t("experimental.refresh")}
                 </button>
-                <p>{t("experimental-details")}</p>
+                <p>{t("experimental.details")}</p>
             </div>
         </div>
     );

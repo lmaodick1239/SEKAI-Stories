@@ -65,8 +65,8 @@ const SettingsButton: React.FC = () => {
                     >
                         <div className="window__content">
                             <SupportButton />
-                            <h1>{t("settings")}</h1>
-                            <h2>{t("language")}</h2>
+                            <h1>{t("settings.header")}</h1>
+                            <h2>{t("settings.language")}</h2>
                             <select
                                 name="language"
                                 id="language"
@@ -82,13 +82,13 @@ const SettingsButton: React.FC = () => {
                                     </option>
                                 ))}
                             </select>
-                            <h2>{t("auto-save")}</h2>
-                            <p>{t("auto-save-description")}</p>
+                            <h2>{t("settings.auto-save")}</h2>
+                            <p>{t("settings.auto-save-description")}</p>
                             <button
                                 className="btn-blue btn-extend-width btn-regular"
                                 onClick={handleGetAutoSaveData}
                             >
-                                {t("auto-save-button")}
+                                {t("settings.auto-save-button")}
                             </button>
                         </div>
                         <div className="extend-width center">

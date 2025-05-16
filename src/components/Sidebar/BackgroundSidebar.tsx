@@ -34,15 +34,15 @@ const BackgroundSidebar: React.FC = () => {
 
     return (
         <div>
-            <h1>{t("background-header")}</h1>
+            <h1>{t("background.header")}</h1>
             <div className="option">
                 <div className="option__content">
                     <BackgroundPicker />
                     <UploadImageButton
                         id="background-upload"
                         uploadFunction={handleUploadImage}
-                        text={t("upload")}
-                        alertMsg={t("upload-info")}
+                        text={t("background.upload")}
+                        alertMsg={t("background.upload-info")}
                     />
                 </div>
             </div>

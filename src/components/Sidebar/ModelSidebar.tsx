@@ -556,7 +556,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
         return (
             <div className="option__content" key={param}>
-                <h3>{t(param)}</h3>
+                <h3>{t(`model.${param}`)}</h3>
                 <input
                     type="range"
                     name={param}
@@ -575,15 +575,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
     return (
         <div>
-            <h1>{t("model-header")}</h1>
+            <h1>{t("model.header")}</h1>
             <div className="option">
-                <h2>{t("selected-layer")}</h2>
+                <h2>{t("model.selected-layer")}</h2>
                 <div className="option__content">
                     <select value={currentKey} onChange={handleLayerChange}>
                         {Object.keys(models).map((model, idx) => (
                             <option key={model} value={model}>
-                                {t("layer")} {idx + 1}:{" "}
-                                {t(models[model].character)}
+                                {t("model.layer")} {idx + 1}:{" "}
+                                {t(`character.${models[model].character}`)}
                             </option>
                         ))}
                     </select>
@@ -621,7 +621,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 currentModel?.character == "none") && (
                 <>
                     <div className="option">
-                        <h2>{t("character")}</h2>
+                        <h2>{t("model.character")}</h2>
                         <div className="option__content">
                             <select
                                 value={currentSelectedCharacter}
@@ -629,7 +629,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 ref={characterSelect}
                             >
                                 <option value="none" disabled>
-                                    {t("select-character")}
+                                    {t("model.select-character")}
                                 </option>
                                 {Object.keys(
                                     currentModel.from === "static"
@@ -637,14 +637,14 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                         : sekaiCharacterData
                                 ).map((character) => (
                                     <option key={character} value={character}>
-                                        {t(character)}
+                                        {t(`character.${character}`)}
                                     </option>
                                 ))}
                             </select>
                         </div>
                     </div>
                     <div className="option">
-                        <h2>{t("costume")}</h2>
+                        <h2>{t("model.costume")}</h2>
                         <div className="option__content">
                             <select
                                 value={currentModel?.modelName}
@@ -685,15 +685,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
                     {loading && <div className="option">{loadingMsg}</div>}
                     <div className="option">
-                        <h2>{t("emotion")}</h2>
+                        <h2>{t("model.emotion")}</h2>
                         <div className="option__content">
-                            <h3>{t("pose")}</h3>
+                            <h3>{t("model.pose")}</h3>
                             <select
                                 value={currentModel?.pose}
                                 onChange={handlePoseChange}
                             >
                                 <option value={99999} disabled>
-                                    {t("select-pose")}
+                                    {t("model.select-pose")}
                                 </option>
                                 {currentModel &&
                                     currentModel.modelData?.FileReferences.Motions.Motion.map(
@@ -720,17 +720,17 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     }
                                 }}
                             >
-                                {t("re-apply")}
+                                {t("model.re-apply")}
                             </button>
                         </div>
                         <div className="option__content">
-                            <h3>{t("expression")}</h3>
+                            <h3>{t("model.expression")}</h3>
                             <select
                                 value={currentModel?.expression}
                                 onChange={handleExpressionChange}
                             >
                                 <option value={99999} disabled>
-                                    {t("select-expression")}
+                                    {t("model.select-expression")}
                                 </option>
                                 {currentModel &&
                                     currentModel.modelData?.FileReferences.Motions.Expression.map(
@@ -757,18 +757,18 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     }
                                 }}
                             >
-                                {t("re-apply")}
+                                {t("model.re-apply")}
                             </button>
                         </div>
                     </div>
                 </>
             )}
             <div className="option">
-                <h2>{t("transform")}</h2>
+                <h2>{t("model.transform")}</h2>
                 <div className="option__content">
                     <div className="transform-icons">
                         <h3>
-                            {t("x-position")} ({currentModel?.modelX}px)
+                            {t("model.x-position")} ({currentModel?.modelX}px)
                         </h3>
                         <div>
                             <i
@@ -790,7 +790,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 <div className="option__content">
                     <div className="transform-icons">
                         <h3>
-                            {t("y-position")} ({currentModel?.modelY}px)
+                            {t("model.y-position")} ({currentModel?.modelY}px)
                         </h3>
                         <div>
                             <i
@@ -812,7 +812,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 <div className="option__content">
                     <div className="transform-icons">
                         <h3>
-                            {t("scale")} ({currentModel?.modelScale})
+                            {t("model.scale")} ({currentModel?.modelScale})
                         </h3>
                         <div>
                             <i
@@ -845,7 +845,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             {currentModel?.model instanceof Live2DModel && !loading && (
                 <>
                     <div className="option">
-                        <h2>{t("mouth")}</h2>
+                        <h2>{t("model.mouth")}</h2>
                         <div className="option__content">
                             {coreModel &&
                                 coreModel["_parameterIds"]
@@ -860,11 +860,11 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         </div>
                     </div>
                     <div className="option">
-                        <h2>{t("advanced")}</h2>
+                        <h2>{t("model.advanced")}</h2>
                         <div className="option__content">
                             <Checkbox
                                 id="advanced"
-                                label={t("showlive2dparts")}
+                                label={t("model.show-live2d-parts")}
                                 checked={showLive2DParts}
                                 onChange={handleLive2DParts}
                             />
@@ -880,7 +880,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     )}
                                     <Checkbox
                                         id="advanced"
-                                        label={t("showlive2dparts")}
+                                        label={t("model.show-live2d-parts")}
                                         checked={showLive2DParts}
                                         onChange={handleLive2DParts}
                                     />

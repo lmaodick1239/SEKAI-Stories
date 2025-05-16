@@ -25,17 +25,35 @@ const Content: React.FC = () => {
         const scrollPosition = window.scrollY;
         const tabs = document.getElementById("sidebar-select");
         const save = document.getElementById("download-clear-buttons");
-        const locale = document.getElementById("locale-and-support");
+        const locale = document.getElementById("settings");
         const hideAtPosition = 100;
 
         if (scrollPosition > hideAtPosition) {
-            if (tabs) tabs.style.opacity = "0";
-            if (save) save.style.opacity = "0";
-            if (locale) locale.style.opacity = "0";
+            if (tabs) {
+                tabs.style.opacity = "0";
+                tabs.style.pointerEvents = "none";
+            }
+            if (save) {
+                save.style.opacity = "0";
+                save.style.pointerEvents = "none";
+            }
+            if (locale) {
+                locale.style.opacity = "0";
+                locale.style.pointerEvents = "none";
+            }
         } else {
-            if (tabs) tabs.style.opacity = "1.0";
-            if (save) save.style.opacity = "1.0";
-            if (locale) locale.style.opacity = "1.0";
+            if (tabs) {
+                tabs.style.opacity = "1.0";
+                tabs.style.pointerEvents = "auto";
+            }
+            if (save) {
+                save.style.opacity = "1.0";
+                save.style.pointerEvents = "auto";
+            }
+            if (locale) {
+                locale.style.opacity = "1.0";
+                locale.style.pointerEvents = "auto";
+            }
         }
     });
 
@@ -64,7 +82,7 @@ const Content: React.FC = () => {
                     )}
                 </button>
             </div>
-            <div className="absolute top-left" id="locale-and-support">
+            <div className="absolute top-left" id="settings">
                 <SettingsButton />
             </div>
 

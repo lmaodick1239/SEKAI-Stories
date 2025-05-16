@@ -192,9 +192,9 @@ const TextSidebar: React.FC = () => {
 
     return (
         <div>
-            <h1>{t("text-header")}</h1>
+            <h1>{t("text.header")}</h1>
             <div className="option">
-                <h2>{t("name-tag")}</h2>
+                <h2>{t("text.name-tag")}</h2>
                 <div className="option__content">
                     {!easySwitch ? (
                         <input
@@ -249,7 +249,7 @@ const TextSidebar: React.FC = () => {
 
                     <Checkbox
                         id="easy-switch"
-                        label={t("easy-switch")}
+                        label={t("text.easy-switch")}
                         checked={easySwitch}
                         onChange={() => {
                             setEasySwitch(!easySwitch);
@@ -262,7 +262,7 @@ const TextSidebar: React.FC = () => {
                 </div>
             </div>
             <div className="option">
-                <h2>{t("dialogue")}</h2>
+                <h2>{t("text.dialogue")}</h2>
                 <div className="option__content">
                     <textarea
                         name="dialogue"
@@ -277,7 +277,7 @@ const TextSidebar: React.FC = () => {
                         onChange={handleAddSymbol}
                     >
                         <option value="none" disabled>
-                            {t("add-symbol")}
+                            {t("text.add-symbol")}
                         </option>
                         {Object.entries(symbols).map(([key, value]) => (
                             <option key={key} value={value}>
@@ -287,7 +287,7 @@ const TextSidebar: React.FC = () => {
                     </select>
                     <div className="transform-icons">
                         <h3>
-                            {t("font-size")} ({text.fontSize} px)
+                            {t("text.font-size")} ({text.fontSize} px)
                         </h3>
                         <div>
                             <i
@@ -328,7 +328,7 @@ const TextSidebar: React.FC = () => {
                     />
                 </div>
                 <div className="option">
-                    <h2>{t("scene-text")}</h2>
+                    <h2>{t("text.scene-text")}</h2>
                     <div className="option__content">
                         <input
                             type="text"
