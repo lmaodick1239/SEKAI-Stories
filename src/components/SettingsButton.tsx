@@ -108,7 +108,7 @@ const SettingsButton: React.FC = () => {
                                     </option>
                                 ))}
                             </select>
-                            <a href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md">
+                            <a href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md" target="_blank">
                                 Contribute for localization!
                             </a>
                             <h2>{t("settings.auto-save")}</h2>
