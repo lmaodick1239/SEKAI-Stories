@@ -15,7 +15,9 @@
         "dialogue": "Dialogue",
         "font-size": "Font Size",
         "add-symbol": "Add a symbol",
-        "scene-text": "Scene Text"
+        "scene-text": "Scene Text",
+        "y-offset": "Y-Offset",
+        "y-offset-details": "If the text in the canvas do not line up properly, adjustments may be necessary."
     },
 
     "model": {
@@ -41,14 +43,16 @@
         "y-position": "Y-Position",
         "scale": "Scale",
         "mouth": "Mouth",
-        "ParamMouthForm": "Primary Form",
+        "ParamMouthForm": "Primary Shape",
         "ParamMouthOpenY": "Opening",
-        "ParamMouthForm2": "Secondary Form",
+        "ParamMouthForm2": "Secondary Shape",
         "ParamMouthScaleX": "X-Scale",
         "ParamMouthScaleY": "Y-Scale",
         "ParamMouthPositionY": "Y-Position",
+        "ParamMouthShadow": "Shadow",
         "advanced": "Advanced",
-        "show-live2d-parts": "Show Live2D Parts"
+        "show-live2d-parts": "Show Live2D Parts",
+        "access-live2d-parts": "You are about to access all parts of this model. Continue?"
     },
 
     "visible": "Visible",
