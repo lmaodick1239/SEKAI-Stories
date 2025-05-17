@@ -523,7 +523,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         const value = event.target.checked;
         if (value) {
             const confirmation = confirm(
-                t("access-live2d-parts")
+                t("model.access-live2d-parts")
             );
             if (!confirmation) return;
         }
