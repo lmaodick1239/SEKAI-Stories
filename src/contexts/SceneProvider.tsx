@@ -150,6 +150,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
         if (experimentalCookie === "true") {
             setShowExperimental(true);
         }
+        const textAlignmentCookie = localStorage.getItem("textAlignment");
 
         const runCanvas = async () => {
             const canvas = document.getElementById(
@@ -226,7 +227,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 stroke: 0x5d5d79,
                 strokeThickness: 8,
             });
-            textNameTag.position.set(225, 780);
+            textNameTag.position.set(225, 780 + Number(textAlignmentCookie));
 
             const textDialogue = new PIXI.Text(initialScene["text"], {
                 fontFamily: "FOT-RodinNTLGPro-DB",
@@ -238,7 +239,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 wordWrapWidth: 1300,
                 breakWords: true,
             });
-            textDialogue.position.set(245, 845);
+            textDialogue.position.set(245, 845 + Number(textAlignmentCookie));
 
             textContainer.addChildAt(textBackgroundSprite, 0);
             textContainer.addChildAt(textNameTag, 1);
@@ -312,6 +313,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 dialogueString: initialScene["text"],
                 fontSize: 44,
                 visible: true,
+                yOffset: textAlignmentCookie ? Number(textAlignmentCookie) : 0,
             });
             setSceneSetting({
                 sceneSettingContainer: sceneSettingContainer,

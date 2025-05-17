@@ -190,6 +190,17 @@ const TextSidebar: React.FC = () => {
         });
     };
 
+    const handleYOffset = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(event.target.value);
+        localStorage.setItem("textAlignment", String(value))
+        text.nameTag.y = 780 + value
+        text.dialogue.y = 845 + value
+        setText({
+            ...text,
+            yOffset: value,
+        });
+    };
+
     return (
         <div>
             <h1>{t("text.header")}</h1>
@@ -345,6 +356,28 @@ const TextSidebar: React.FC = () => {
                         onChange={handleSceneSettingVisible}
                     />
                 </div>
+            </div>
+            <div className="option">
+                <h2>Y-Offset ({text.yOffset} px)</h2>
+                <input
+                    type="range"
+                    name="offset"
+                    id="offset"
+                    min={-20}
+                    max={20}
+                    value={text.yOffset}
+                    step={1}
+                    onChange={handleYOffset}
+                />
+                <p>
+                    If the text in the canvas do not line up properly,
+                    adjustments may be necessary.
+                </p>
+                <img
+                    src="/img/y-offset.png"
+                    alt="y-offset"
+                    className="width-100 margin-top-10"
+                />
             </div>
         </div>
     );

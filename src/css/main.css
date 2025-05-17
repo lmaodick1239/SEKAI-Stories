@@ -426,6 +426,10 @@ select:disabled {
   padding: 20px;
 }
 
+.margin-top-10 {
+  margin-top: 10px;
+}
+
 #error-img {
   width: 25dvw;
 }
