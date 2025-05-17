@@ -31,7 +31,7 @@ const randomInitialScene: InitialScene[] = [
     {
         background: "/background_special/Background_Uranohoshi.jpg",
         model: "07airi_normal",
-        text: "No, I will not do AiScream on you.",
+        text: "No, I will not do Ai♡Scream on you.",
         nameTag: "Airi",
         character: "airi",
         modelX: 650,
