@@ -12,8 +12,15 @@ export const refreshCanvas = async (context: ISceneContextType) => {
     )
         return;
 
-    const { app, setApp, text, background, modelContainer, sceneSetting } =
-        context;
+    const {
+        app,
+        setApp,
+        text,
+        background,
+        modelContainer,
+        sceneSetting,
+        guideline,
+    } = context;
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
     app.stop();
@@ -59,6 +66,10 @@ export const refreshCanvas = async (context: ISceneContextType) => {
 
     if (sceneSetting.sceneSettingContainer) {
         initApplication.stage.addChildAt(sceneSetting.sceneSettingContainer, 4);
+    }
+
+    if (guideline) {
+        initApplication.stage.addChildAt(guideline.container, 5);
     }
 
     setApp(initApplication);

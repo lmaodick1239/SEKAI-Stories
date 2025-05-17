@@ -105,7 +105,7 @@ const BackgroundPicker: React.FC = () => {
             key={type}
         >
             <div className="width-100 center text-center">
-                <h1 className="white">{t(type)}</h1>
+                <h1 className="white">{t(`group.${type}`)}</h1>
             </div>
             <div className="flex-wrap center width-100">
                 {backgroundList.background[type].map((bg) => (
@@ -150,9 +150,9 @@ const BackgroundPicker: React.FC = () => {
                         }}
                         value={filterValue}
                     >
-                        <option value="all">{t("all")}</option>
+                        <option value="all">{t("group.all")}</option>
                         {Object.keys(backgroundList.background).map((type) => {
-                            return <option key={type} value={type}>{t(type)}</option>;
+                            return <option key={type} value={type}>{t(`group.${type}`)}</option>;
                         })}
                     </select>
                     {/* <input
@@ -191,7 +191,7 @@ const BackgroundPicker: React.FC = () => {
                         setShow(!show);
                     }}
                 >
-                    {t("select")}
+                    {t("background.select")}
                 </button>
             </div>
         </>

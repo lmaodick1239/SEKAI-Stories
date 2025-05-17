@@ -18,6 +18,8 @@ import { ILive2DModelList } from "../../types/ILive2DModelList";
 import AddModelSelect from "../AddModelSelect";
 import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
+import { ICoreModel } from "../../types/ICoreModel";
+import { AdjustmentFilter, CRTFilter } from "pixi-filters";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -52,6 +54,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     );
     const [showAddModelScreen, setShowAddModelScreen] =
         useState<boolean>(false);
+    const [showLive2DParts, setShowLive2DParts] = useState<boolean>(false);
+
+    const [coreModel, setCoreModel] = useState<ICoreModel | null>(null);
+    const [parameterValues, setParameterValues] = useState<
+        Record<string, number>
+    >({});
 
     const characterSelect = useRef<null | HTMLSelectElement>(null);
     const modelSelect = useRef<null | HTMLSelectElement>(null);
@@ -66,6 +74,17 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentModel(firstModel);
         setCurrentSelectedCharacter(firstModel.character);
     }, [context?.models, currentKey]);
+
+    useEffect(() => {
+        console.log(currentModel);
+        if (currentModel?.model instanceof Live2DModel && !loading) {
+            setCoreModel(
+                currentModel.model.internalModel.coreModel as ICoreModel
+            );
+        } else {
+            setCoreModel(null);
+        }
+    }, [currentModel, coreModel, loading]);
 
     if (!context || !context.models) {
         return t("please-wait");
@@ -99,7 +118,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         model: string | ILive2DModelList,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
-        setLoading(true);
         let modelData: ILive2DModelData | undefined = undefined;
         let modelName: string | undefined = undefined;
         if (typeof model === "string") {
@@ -140,7 +158,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         modelContainer?.addChildAt(live2DModel, layerIndex);
 
         setLoadingMsg(``);
-        setLoading(false);
 
         return [live2DModel, modelData];
     };
@@ -154,6 +171,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentModel(models[key]);
         setCurrentSelectedCharacter(models[key].character);
         setLayerIndex(selectedIndex);
+        setParameterValues({});
     };
 
     const handleAddLayer = async (from: string) => {
@@ -178,6 +196,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 modelX: -200,
                 modelY: -280,
                 modelScale: 0.5,
+                virtualEffect: false,
                 expression: 99999,
                 pose: 99999,
                 visible: true,
@@ -205,12 +224,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         modelContainer?.addChildAt(sprite, layerIndex);
         const newLayer = {
             [`character${nextLayer + 1}`]: {
-                character: "Custom",
+                character: "custom",
                 modelName: modelName,
                 model: sprite,
                 modelX: sprite.x,
                 modelY: sprite.y,
                 modelScale: sprite.scale.x,
+                virtualEffect: false,
                 expression: 99999,
                 pose: 99999,
                 visible: true,
@@ -233,7 +253,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const handleDeleteLayer = async () => {
         const modelsObjects = Object.entries(context.models ?? {});
         if (modelsObjects.length == 1) {
-            alert(t("delete-model-warn"));
+            alert(t("model.delete-model-warn"));
             return;
         }
         currentModel?.model.destroy();
@@ -249,6 +269,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const handleCharacterChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
+        setLoading(true);
         const character = event?.target.value;
         setCurrentSelectedCharacter(character);
         if (characterSelect.current && modelSelect.current) {
@@ -285,11 +306,14 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 model: live2DModel,
                 pose: 99999,
                 expression: 99999,
+                virtualEffect: false,
                 modelName: isStatic
                     ? (firstFile as string)
                     : (firstFile as ILive2DModelList).modelBase,
                 modelData,
             });
+            setLoading(false);
+            setParameterValues({});
         } catch {
             setLoadingMsg("Failed to load model!");
         } finally {
@@ -300,9 +324,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         }
     };
 
-    const handleFileChange = async (
+    const handleCostumeChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
+        setLoading(true);
         const modelBase = event?.target.value;
 
         if (!currentModel) return;
@@ -348,9 +373,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 model: live2DModel,
                 pose: 99999,
                 expression: 99999,
+                virtualEffect: false,
                 modelName: modelBase,
                 modelData: modelData,
             });
+            setLoading(false);
+            setParameterValues({});
         } catch {
             setLoadingMsg("Failed to load model!");
         } finally {
@@ -359,6 +387,45 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 modelSelect.current.disabled = false;
             }
         }
+    };
+
+    const handleVirtualEffect = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = event.target.checked;
+
+        if (value && currentModel?.model) {
+            const crtFilter = new CRTFilter({
+                time: 2,
+                lineWidth: 10,
+                lineContrast: 0.1,
+                vignetting: 0,
+            });
+            const animateCRT = () => {
+                crtFilter.time += 0.2;
+                crtFilter.lineWidth = 10 + 5 * Math.sin(crtFilter.time * 0.01);
+                crtFilter.seed = Math.random();
+                requestAnimationFrame(animateCRT);
+            };
+
+            const adjustmentFilter = new AdjustmentFilter({
+                alpha: 0.8,
+                brightness: 1.2,
+                blue: 1,
+                green: 1,
+                red: 0.7,
+            });
+            animateCRT();
+
+            currentModel.model.filters = [crtFilter, adjustmentFilter];
+        } else {
+            if (currentModel?.model) {
+                currentModel.model.filters = [];
+            }
+        }
+        updateModelState({
+            virtualEffect: value,
+        });
     };
 
     const handlePoseChange = async (
@@ -450,17 +517,73 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             }
         }
     };
+    const handleLive2DParts = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = event.target.checked;
+        if (value) {
+            const confirmation = confirm(
+                t("access-live2d-parts")
+            );
+            if (!confirmation) return;
+        }
+
+        setShowLive2DParts(value);
+    };
+
+    const handleLive2DParamsChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        params: string
+    ) => {
+        const newValue = Number(e.target.value);
+        (coreModel as ICoreModel).setParameterValueById(params, newValue);
+        setParameterValues((prev) => ({
+            ...prev,
+            [params]: newValue,
+        }));
+    };
+
+    const live2DInputSlider = (idx: number, param: string, filter?: string) => {
+        if (filter && !param.includes(filter)) {
+            return null;
+        }
+
+        if (!coreModel || !currentModel) return null;
+
+        const min = (coreModel as ICoreModel).getParameterMinimumValue(idx);
+        const max = (coreModel as ICoreModel).getParameterMaximumValue(idx);
+        const value = (coreModel as ICoreModel).getParameterValueById(param);
+
+        return (
+            <div className="option__content" key={param}>
+                <h3>{filter ? t(`model.${param}`) : param}</h3>
+                <input
+                    type="range"
+                    name={param}
+                    id={param}
+                    min={min}
+                    max={max}
+                    step={0.01}
+                    value={parameterValues[param] ?? value}
+                    onChange={(e) => {
+                        handleLive2DParamsChange(e, param);
+                    }}
+                />
+            </div>
+        );
+    };
+
     return (
         <div>
-            <h1>{t("model-header")}</h1>
+            <h1>{t("model.header")}</h1>
             <div className="option">
-                <h2>{t("selected-layer")}</h2>
+                <h2>{t("model.selected-layer")}</h2>
                 <div className="option__content">
                     <select value={currentKey} onChange={handleLayerChange}>
                         {Object.keys(models).map((model, idx) => (
                             <option key={model} value={model}>
-                                {t("layer")} {idx + 1}:{" "}
-                                {t(models[model].character)}
+                                {t("model.layer")} {idx + 1}:{" "}
+                                {t(`character.${models[model].character}`)}
                             </option>
                         ))}
                     </select>
@@ -498,7 +621,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 currentModel?.character == "none") && (
                 <>
                     <div className="option">
-                        <h2>{t("character")}</h2>
+                        <h2>{t("model.character")}</h2>
                         <div className="option__content">
                             <select
                                 value={currentSelectedCharacter}
@@ -506,7 +629,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 ref={characterSelect}
                             >
                                 <option value="none" disabled>
-                                    {t("select-character")}
+                                    {t("model.select-character")}
                                 </option>
                                 {Object.keys(
                                     currentModel.from === "static"
@@ -514,18 +637,18 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                         : sekaiCharacterData
                                 ).map((character) => (
                                     <option key={character} value={character}>
-                                        {t(character)}
+                                        {t(`character.${character}`)}
                                     </option>
                                 ))}
                             </select>
                         </div>
                     </div>
                     <div className="option">
-                        <h2>{t("costume")}</h2>
+                        <h2>{t("model.costume")}</h2>
                         <div className="option__content">
                             <select
                                 value={currentModel?.modelName}
-                                onChange={handleFileChange}
+                                onChange={handleCostumeChange}
                                 ref={modelSelect}
                             >
                                 {(currentModel.from === "static"
@@ -551,20 +674,26 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     );
                                 })}
                             </select>
+                            <Checkbox
+                                id="virtual-effect"
+                                label="Virtual Effect"
+                                checked={currentModel.virtualEffect}
+                                onChange={handleVirtualEffect}
+                            />
                         </div>
                     </div>
 
                     {loading && <div className="option">{loadingMsg}</div>}
                     <div className="option">
-                        <h2>{t("emotion")}</h2>
+                        <h2>{t("model.emotion")}</h2>
                         <div className="option__content">
-                            <h3>{t("pose")}</h3>
+                            <h3>{t("model.pose")}</h3>
                             <select
                                 value={currentModel?.pose}
                                 onChange={handlePoseChange}
                             >
                                 <option value={99999} disabled>
-                                    {t("select-pose")}
+                                    {t("model.select-pose")}
                                 </option>
                                 {currentModel &&
                                     currentModel.modelData?.FileReferences.Motions.Motion.map(
@@ -591,17 +720,17 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     }
                                 }}
                             >
-                                {t("re-apply")}
+                                {t("model.re-apply")}
                             </button>
                         </div>
                         <div className="option__content">
-                            <h3>{t("expression")}</h3>
+                            <h3>{t("model.expression")}</h3>
                             <select
                                 value={currentModel?.expression}
                                 onChange={handleExpressionChange}
                             >
                                 <option value={99999} disabled>
-                                    {t("select-expression")}
+                                    {t("model.select-expression")}
                                 </option>
                                 {currentModel &&
                                     currentModel.modelData?.FileReferences.Motions.Expression.map(
@@ -628,18 +757,18 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     }
                                 }}
                             >
-                                {t("re-apply")}
+                                {t("model.re-apply")}
                             </button>
                         </div>
                     </div>
                 </>
             )}
             <div className="option">
-                <h2>{t("transform")}</h2>
+                <h2>{t("model.transform")}</h2>
                 <div className="option__content">
                     <div className="transform-icons">
                         <h3>
-                            {t("x-position")} ({currentModel?.modelX}px)
+                            {t("model.x-position")} ({currentModel?.modelX}px)
                         </h3>
                         <div>
                             <i
@@ -661,7 +790,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 <div className="option__content">
                     <div className="transform-icons">
                         <h3>
-                            {t("y-position")} ({currentModel?.modelY}px)
+                            {t("model.y-position")} ({currentModel?.modelY}px)
                         </h3>
                         <div>
                             <i
@@ -683,7 +812,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 <div className="option__content">
                     <div className="transform-icons">
                         <h3>
-                            {t("scale")} ({currentModel?.modelScale})
+                            {t("model.scale")} ({currentModel?.modelScale})
                         </h3>
                         <div>
                             <i
@@ -712,6 +841,55 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     />
                 </div>
             </div>
+
+            {currentModel?.model instanceof Live2DModel && !loading && (
+                <>
+                    <div className="option">
+                        <h2>{t("model.mouth")}</h2>
+                        <div className="option__content">
+                            {coreModel &&
+                                coreModel["_parameterIds"]
+                                    .map((param, idx) => {
+                                        return live2DInputSlider(
+                                            idx,
+                                            param,
+                                            "Mouth"
+                                        );
+                                    })
+                                    .filter(Boolean)}
+                        </div>
+                    </div>
+                    <div className="option">
+                        <h2>{t("model.advanced")}</h2>
+                        <div className="option__content">
+                            <Checkbox
+                                id="advanced"
+                                label={t("model.show-live2d-parts")}
+                                checked={showLive2DParts}
+                                onChange={handleLive2DParts}
+                            />
+                            {showLive2DParts && coreModel && (
+                                <>
+                                    {coreModel["_parameterIds"].map(
+                                        (param, idx) => {
+                                            return live2DInputSlider(
+                                                idx,
+                                                param
+                                            );
+                                        }
+                                    )}
+                                    <Checkbox
+                                        id="advanced"
+                                        label={t("model.show-live2d-parts")}
+                                        checked={showLive2DParts}
+                                        onChange={handleLive2DParts}
+                                    />
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

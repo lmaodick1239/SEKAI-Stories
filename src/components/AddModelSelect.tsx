@@ -33,8 +33,8 @@ const AddModelSelect: React.FC<AddModelSelectProps> = ({
                         setShow(false);
                     }}
                 >
-                    {t("add-model-sekai")}
-                    <p>{t("add-model-sekai-description")}</p>
+                    {t("model.add-model-sekai")}
+                    <p>{t("model.add-model-sekai-description")}</p>
                 </button>
                 <button
                     className="btn-blue btn-regular btn-extend-width"
@@ -43,8 +43,8 @@ const AddModelSelect: React.FC<AddModelSelectProps> = ({
                         setShow(false);
                     }}
                 >
-                    {t("add-model-static")}
-                    <p>{t("add-model-static-description")}</p>
+                    {t("model.add-model-static")}
+                    <p>{t("model.add-model-static-description")}</p>
                 </button>
                 <button
                     className="btn-white btn-regular"

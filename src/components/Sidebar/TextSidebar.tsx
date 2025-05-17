@@ -190,11 +190,22 @@ const TextSidebar: React.FC = () => {
         });
     };
 
+    const handleYOffset = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(event.target.value);
+        localStorage.setItem("textAlignment", String(value));
+        text.nameTag.y = 780 + value;
+        text.dialogue.y = 845 + value;
+        setText({
+            ...text,
+            yOffset: value,
+        });
+    };
+
     return (
         <div>
-            <h1>{t("text-header")}</h1>
+            <h1>{t("text.header")}</h1>
             <div className="option">
-                <h2>{t("name-tag")}</h2>
+                <h2>{t("text.name-tag")}</h2>
                 <div className="option__content">
                     {!easySwitch ? (
                         <input
@@ -249,7 +260,7 @@ const TextSidebar: React.FC = () => {
 
                     <Checkbox
                         id="easy-switch"
-                        label={t("easy-switch")}
+                        label={t("text.easy-switch")}
                         checked={easySwitch}
                         onChange={() => {
                             setEasySwitch(!easySwitch);
@@ -262,7 +273,7 @@ const TextSidebar: React.FC = () => {
                 </div>
             </div>
             <div className="option">
-                <h2>{t("dialogue")}</h2>
+                <h2>{t("text.dialogue")}</h2>
                 <div className="option__content">
                     <textarea
                         name="dialogue"
@@ -277,7 +288,7 @@ const TextSidebar: React.FC = () => {
                         onChange={handleAddSymbol}
                     >
                         <option value="none" disabled>
-                            {t("add-symbol")}
+                            {t("text.add-symbol")}
                         </option>
                         {Object.entries(symbols).map(([key, value]) => (
                             <option key={key} value={value}>
@@ -287,7 +298,7 @@ const TextSidebar: React.FC = () => {
                     </select>
                     <div className="transform-icons">
                         <h3>
-                            {t("font-size")} ({text.fontSize} px)
+                            {t("text.font-size")} ({text.fontSize} px)
                         </h3>
                         <div>
                             <i
@@ -327,24 +338,45 @@ const TextSidebar: React.FC = () => {
                         onChange={handleDialogueBoxVisible}
                     />
                 </div>
-                <div className="option">
-                    <h2>{t("scene-text")}</h2>
-                    <div className="option__content">
-                        <input
-                            type="text"
-                            name="name-tag"
-                            id="name-tag"
-                            value={sceneSetting.textString}
-                            onChange={handleSceneSettingChange}
-                        />
-                        <Checkbox
-                            id="visible"
-                            label={t("visible")}
-                            checked={sceneSetting.visible}
-                            onChange={handleSceneSettingVisible}
-                        />
-                    </div>
+            </div>
+            <div className="option">
+                <h2>{t("text.scene-text")}</h2>
+                <div className="option__content">
+                    <input
+                        type="text"
+                        name="name-tag"
+                        id="name-tag"
+                        value={sceneSetting.textString}
+                        onChange={handleSceneSettingChange}
+                    />
+                    <Checkbox
+                        id="visible"
+                        label={t("visible")}
+                        checked={sceneSetting.visible}
+                        onChange={handleSceneSettingVisible}
+                    />
                 </div>
+            </div>
+            <div className="option">
+                <h2>
+                    {t("text.y-offset")} ({text.yOffset} px)
+                </h2>
+                <input
+                    type="range"
+                    name="offset"
+                    id="offset"
+                    min={-20}
+                    max={20}
+                    value={text.yOffset}
+                    step={1}
+                    onChange={handleYOffset}
+                />
+                <p>{t("text.y-offset-details")}</p>
+                <img
+                    src="/img/y-offset.png"
+                    alt="y-offset"
+                    className="width-100 margin-top-10"
+                />
             </div>
         </div>
     );

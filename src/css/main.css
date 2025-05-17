@@ -417,6 +417,29 @@ select:disabled {
   width: 80dvw;
 }
 
+.full-screen {
+  width: 100dvw;
+  height: 100dvh;
+}
+
+.padding-20 {
+  padding: 20px;
+}
+
+.margin-top-10 {
+  margin-top: 10px;
+}
+
+#error-img {
+  width: 25dvw;
+}
+
+#error-traceback {
+  height: 80%;
+  font-size: 1em;
+  font-family: monospace;
+}
+
 #content {
   padding: 25px;
   box-sizing: border-box;
@@ -497,7 +520,9 @@ select:disabled {
 }
 
 .option {
-  margin-top: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #d1d1d1;
 }
 
 #background-picker {
@@ -627,7 +652,7 @@ select:disabled {
 
 @media (width <= 768px) {
   #download-clear-buttons,
-  #locale-and-support {
+  #settings {
     z-index: 999;
   }
 }
@@ -708,6 +733,7 @@ select:disabled {
 #settings-screen .window {
   width: 90dvw;
   max-width: 768px;
+  max-height: 80dvh;
 }
 
 #export-screen .window {
@@ -823,6 +849,10 @@ canvas {
 
 i {
   color: #444466;
+}
+
+pre {
+  word-wrap: break-word;
 }
 
 /*# sourceMappingURL=main.css.map */

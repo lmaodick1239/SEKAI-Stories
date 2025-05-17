@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SupportButton from "./SupportButton";
+import { Checkbox } from "./Checkbox";
+import { SceneContext } from "../contexts/SceneContext";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
-
     const lng = i18n.language;
-
     const [show, setShow] = useState<boolean>(false);
+
+    const context = useContext(SceneContext);
+
+    if (!context) {
+        throw new Error("Context not provided.");
+    }
+
+    const { showExperimental, setShowExperimental, guideline, setGuideline } =
+        context;
 
     const handleChangeLanguage = async (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -41,6 +50,23 @@ const SettingsButton: React.FC = () => {
         a.remove();
     };
 
+    const handleGuideline = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        if (guideline) {
+            guideline.container.visible = value;
+            setGuideline({
+                ...guideline,
+                visible: value,
+            });
+        }
+    };
+
+    const handleExperimental = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("showExperimental", String(value));
+        setShowExperimental(value);
+    };
+
     return (
         <div id="support-button">
             <button
@@ -65,8 +91,8 @@ const SettingsButton: React.FC = () => {
                     >
                         <div className="window__content">
                             <SupportButton />
-                            <h1>{t("settings")}</h1>
-                            <h2>{t("language")}</h2>
+                            <h1>{t("settings.header")}</h1>
+                            <h2>{t("settings.language")}</h2>
                             <select
                                 name="language"
                                 id="language"
@@ -82,14 +108,31 @@ const SettingsButton: React.FC = () => {
                                     </option>
                                 ))}
                             </select>
-                            <h2>{t("auto-save")}</h2>
-                            <p>{t("auto-save-description")}</p>
+                            <a href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md" target="_blank">
+                                Contribute for localization!
+                            </a>
+                            <h2>{t("settings.auto-save")}</h2>
+                            <p>{t("settings.auto-save-description")}</p>
                             <button
                                 className="btn-blue btn-extend-width btn-regular"
                                 onClick={handleGetAutoSaveData}
                             >
-                                {t("auto-save-button")}
+                                {t("settings.auto-save-button")}
                             </button>
+                            <h2>{t("settings.toggles")}</h2>
+
+                            <Checkbox
+                                id="guideline"
+                                label={t("settings.guidelines")}
+                                checked={guideline?.visible}
+                                onChange={handleGuideline}
+                            />
+                            <Checkbox
+                                id="experimental"
+                                label={t("settings.experimental")}
+                                checked={showExperimental}
+                                onChange={handleExperimental}
+                            />
                         </div>
                         <div className="extend-width center">
                             <button

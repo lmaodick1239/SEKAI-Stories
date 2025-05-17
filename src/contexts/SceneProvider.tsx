@@ -9,6 +9,7 @@ import IBackground from "../types/IBackground";
 import IText from "../types/IText";
 import { getBackground } from "../utils/GetBackground";
 import ISceneSetting from "../types/ISceneSetting";
+import IGuideline from "../types/IGuideline";
 
 interface AppProviderProps {
     children: React.ReactNode;
@@ -30,7 +31,7 @@ const randomInitialScene: InitialScene[] = [
     {
         background: "/background_special/Background_Uranohoshi.jpg",
         model: "07airi_normal",
-        text: "No, I will not do AiScream on you.",
+        text: "No, I will not do Ai♡Scream on you.",
         nameTag: "Airi",
         character: "airi",
         modelX: 650,
@@ -60,6 +61,17 @@ const randomInitialScene: InitialScene[] = [
         pngName: "kanade",
         sceneSetting: "Kanade's Room",
     },
+    {
+        background: "/background_special/Background_SELF_CONTROL.jpg",
+        model: "v2_20mizuki_school_back02",
+        text: "I feel like I've heard this song before...",
+        nameTag: "Mizuki",
+        character: "mizuki",
+        modelX: 935,
+        modelY: 135,
+        pngName: "mizuki",
+        sceneSetting: "Shrine",
+    },
 ];
 
 export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
@@ -80,9 +92,13 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [sceneSetting, setSceneSetting] = useState<ISceneSetting | undefined>(
         undefined
     );
+    const [guideline, setGuideline] = useState<IGuideline | undefined>(
+        undefined
+    );
     const [reset, setReset] = useState<number>(0);
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
+    const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [startingMessage, setStartingMessage] = useState<string>("");
 
     const getInitialScene = (scene?: string): InitialScene => {
@@ -126,10 +142,15 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const initialScene: InitialScene = getInitialScene();
 
     useEffect(() => {
-        const cookie = localStorage.getItem("redditAd");
-        if (Number(cookie) < 1) {
+        const announcementCookie = localStorage.getItem("featureAnnouncement2");
+        if (Number(announcementCookie) < 1) {
             setHideAnnouncements(false);
         }
+        const experimentalCookie = localStorage.getItem("showExperimental");
+        if (experimentalCookie === "true") {
+            setShowExperimental(true);
+        }
+        const textAlignmentCookie = localStorage.getItem("textAlignment");
 
         const runCanvas = async () => {
             const canvas = document.getElementById(
@@ -178,9 +199,8 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             backgroundContainer.addChild(backgroundSprite);
             initApplication.stage.addChildAt(backgroundContainer, 1);
 
-            const modelContainer = new PIXI.Container();
-
             // Load Sample PNG Sprite
+            const modelContainer = new PIXI.Container();
             const texture = await PIXI.Texture.fromURL(
                 `/img/${initialScene.pngName}.png`
             );
@@ -207,7 +227,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 stroke: 0x5d5d79,
                 strokeThickness: 8,
             });
-            textNameTag.position.set(225, 780);
+            textNameTag.position.set(225, 780 + Number(textAlignmentCookie));
 
             const textDialogue = new PIXI.Text(initialScene["text"], {
                 fontFamily: "FOT-RodinNTLGPro-DB",
@@ -219,7 +239,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 wordWrapWidth: 1300,
                 breakWords: true,
             });
-            textDialogue.position.set(245, 845);
+            textDialogue.position.set(245, 845 + Number(textAlignmentCookie));
 
             textContainer.addChildAt(textBackgroundSprite, 0);
             textContainer.addChildAt(textNameTag, 1);
@@ -253,6 +273,15 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             initApplication.stage.addChildAt(sceneSettingContainer, 4);
             sceneSettingContainer.visible = false;
 
+            // Load Guideline Tools
+            const guidelineContainer = new PIXI.Container();
+            const gridTexture = await Assets.load("/img/grid.png");
+            const gridSprite = new PIXI.Sprite(gridTexture);
+            guidelineContainer.addChild(gridSprite);
+            guidelineContainer.visible = false;
+            guidelineContainer.alpha = 0.2;
+            initApplication.stage.addChildAt(guidelineContainer, 5);
+
             setApp(initApplication);
             setModels({
                 character1: {
@@ -263,8 +292,9 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                     modelY: sprite.y,
                     modelScale: sprite.scale.x,
                     modelData: undefined,
-                    expression: 38,
-                    pose: 102,
+                    virtualEffect: false,
+                    expression: 0,
+                    pose: 0,
                     visible: true,
                     from: "sekai",
                 },
@@ -283,6 +313,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 dialogueString: initialScene["text"],
                 fontSize: 44,
                 visible: true,
+                yOffset: textAlignmentCookie ? Number(textAlignmentCookie) : 0,
             });
             setSceneSetting({
                 sceneSettingContainer: sceneSettingContainer,
@@ -290,7 +321,10 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 textString: initialScene["sceneSetting"],
                 visible: false,
             });
-
+            setGuideline({
+                container: guidelineContainer,
+                visible: false,
+            });
             setStartingMessage("");
         };
         runCanvas();
@@ -317,12 +351,16 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setText,
                 sceneSetting,
                 setSceneSetting,
+                guideline,
+                setGuideline,
                 reset,
                 setReset,
                 hide,
                 setHide,
                 hideAnnouncements,
                 setHideAnnouncements,
+                showExperimental: showExperimental,
+                setShowExperimental: setShowExperimental,
                 startingMessage,
                 setStartingMessage,
             }}

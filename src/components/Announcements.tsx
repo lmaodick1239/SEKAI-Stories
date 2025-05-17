@@ -10,23 +10,29 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("redditAd");
+        const cookie = localStorage.getItem("featureAnnouncement2");
         if (!cookie) {
-            localStorage.setItem("redditAd", "0");
+            localStorage.setItem("featureAnnouncement2", "0");
             return;
         }
-        localStorage.setItem("redditAd", `${Number(cookie) + 1}`);
+        localStorage.setItem("featureAnnouncement2", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>A dedicated subreddit has been made for SEKAI Stories!</p>
-            <p>
-                It's called{" "}
-                <a href="https://reddit.com/r/PJSKStories">r/PJSKStories</a>.
-                Take a visit~
-            </p>
+            <p>New features have been added! See more information below.</p>
+            <button
+                className="btn-blue btn-regular"
+                onClick={() => {
+                    window.open(
+                        "https://ko-fi.com/post/SEKAI-Stories-New-Features-U7U31F3UVI",
+                        "_blank"
+                    );
+                }}
+            >
+                Ko-fi Announcement
+            </button>
             <p>
                 Localization contributions are still welcome! You can check this
                 information on{" "}
