@@ -124,7 +124,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         } else {
             setCoreModel(null);
         }
-    }, [currentModel, coreModel, loading]);
+    }, [currentModel, loading]);
 
     if (!context || !context.models) {
         return t("please-wait");
@@ -296,6 +296,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             alert(t("model.delete-model-warn"));
             return;
         }
+        setLoading(true);
+        setCoreModel(null);
         currentModel?.model.destroy();
         delete models[currentKey];
         const firstKey = Object.keys(models)[0];
@@ -304,6 +306,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentSelectedCharacter(models[firstKey].character);
         setLayerIndex(0);
         setLayers(layers - 1);
+        setLoading(false);          
     };
 
     const handleCharacterChange = async (
