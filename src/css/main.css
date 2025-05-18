@@ -23,31 +23,16 @@
   font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
 }
 
-.app-pl,
-.app-cn,
-.app-ja,
-.app-es {
+[class^=app-]:not(.app-en) {
   font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
 }
-.app-pl button,
-.app-pl select,
-.app-cn button,
-.app-cn select,
-.app-ja button,
-.app-ja select,
-.app-es button,
-.app-es select {
+[class^=app-]:not(.app-en) button,
+[class^=app-]:not(.app-en) select {
   font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
   font-weight: 800;
 }
-.app-pl button p,
-.app-pl select p,
-.app-cn button p,
-.app-cn select p,
-.app-ja button p,
-.app-ja select p,
-.app-es button p,
-.app-es select p {
+[class^=app-]:not(.app-en) button p,
+[class^=app-]:not(.app-en) select p {
   font-weight: 400;
 }
 

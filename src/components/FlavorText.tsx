@@ -41,6 +41,7 @@ const randomText = {
         "ユ！",
         "Untitled.",
     ],
+    fil: ["UY, PILIPINS!", "Jollibot para sa bagong cast ng WxS."],
 };
 
 const FlavorText: React.FC = () => {
@@ -50,7 +51,7 @@ const FlavorText: React.FC = () => {
 
     useEffect(() => {
         const languageRandomText = randomText[lng]
-            ? randomText[lng]
+            ? [...randomText.en, ...randomText[lng]]
             : randomText.en;
         setText(
             languageRandomText[

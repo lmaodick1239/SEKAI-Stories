@@ -30,6 +30,7 @@ const SettingsButton: React.FC = () => {
         { code: "en", name: "English" },
         { code: "es", name: "Español" },
         { code: "pl", name: "Polski" },
+        { code: "fil", name: "Filipino" },
         { code: "cn", name: "简体中文" },
     ];
 

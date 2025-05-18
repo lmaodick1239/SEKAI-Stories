@@ -10,10 +10,7 @@
     }
 }
 
-.app-pl,
-.app-cn,
-.app-ja,
-.app-es {
+[class^="app-"]:not(.app-en) {
     font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK",
         "Noto Sans KR", "Noto Sans", sans-serif;
     button,
