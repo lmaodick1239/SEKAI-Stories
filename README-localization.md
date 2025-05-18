@@ -1,7 +1,7 @@
 # Contributing for Localization
 
 ## Simple
-If you wish to contribute but do not know how to code or use GitHub, you can download the [`en-US.json`](./src/locale/en-US.json) file, translate it into your desired language, and send it to me Discord (@lezzthanthree).
+If you wish to contribute but do not know how to code or use GitHub, you can download the [`en-US.json`](./src/locale/en-US.json) file, translate it into your desired language, and send it to me via Discord (@lezzthanthree).
 
 ## Advanced
 To contribute to the localization of the project, please follow these steps:
@@ -11,7 +11,7 @@ To contribute to the localization of the project, please follow these steps:
    ```ts
    import ja from '../locale/ja-JP.json';
    ```
-4. On the same file, add the locale to the `resources` object. For example, if you are adding Japanese, you would add the following line:
+4. On the same file, add the locale to the `resources` object.
    ```ts
     resources: {
          en: { translation: en },

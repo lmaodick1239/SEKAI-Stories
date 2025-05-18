@@ -117,12 +117,12 @@ const ExportButton: React.FC = () => {
         modelContainer?.removeChildren();
         for (const [idx, model] of modelJson.entries()) {
             let modelData: ILive2DModelData | undefined = undefined;
+            setLoadingMsg(
+                `(${idx + 1}/${modelJson.length}): ${t("loading-1")} ${
+                    model.modelName
+                }`
+            );
             if (model.from === "static") {
-                setLoadingMsg(
-                    `(${idx + 1}/${modelJson.length}): ${t("loading-1")} ${
-                        model.modelName
-                    }`
-                );
                 const [characterFolder] = await GetCharacterFolder(
                     model.modelName
                 );
@@ -133,11 +133,6 @@ const ExportButton: React.FC = () => {
                 );
             }
             if (model.from === "sekai") {
-                setLoadingMsg(
-                    `(${idx + 1}/${modelJson.length}): ${t("loading-1")} ${
-                        model.modelName
-                    }`
-                );
                 const characterData = await GetCharacterDataFromSekai(
                     model.character,
                     model.modelName
@@ -206,6 +201,7 @@ const ExportButton: React.FC = () => {
                     virtualEffect: false,
                     expression: model.modelExpression,
                     pose: model.modelPose,
+                    idle: true,
                     visible: true,
                     from: model.from,
                 },

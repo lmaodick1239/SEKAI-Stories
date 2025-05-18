@@ -1,3 +1,4 @@
+// Found the Cubism4Model class. no need for this.
 export interface ICoreModel {
     _parameterIds: string[];
     _parameterMaximumValues: number[];

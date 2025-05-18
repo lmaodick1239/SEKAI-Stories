@@ -4,7 +4,7 @@ import sekaiCharacterData from "../../character_sekai.json";
 import axios from "axios";
 import { SceneContext } from "../../contexts/SceneContext";
 import IModel from "../../types/IModel";
-import { Live2DModel } from "pixi-live2d-display";
+import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
 import UploadImageButton from "../UploadButton";
 import * as PIXI from "pixi.js";
 import { Checkbox } from "../Checkbox";
@@ -18,7 +18,6 @@ import { ILive2DModelList } from "../../types/ILive2DModelList";
 import AddModelSelect from "../AddModelSelect";
 import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
-import { ICoreModel } from "../../types/ICoreModel";
 import { AdjustmentFilter, CRTFilter } from "pixi-filters";
 
 interface StaticCharacterData {
@@ -35,6 +34,44 @@ const typedSekaiCharacterData: SekaiCharacterData = sekaiCharacterData;
 interface ModelSidebarProps {
     message?: string;
 }
+
+const defaultModelBreath = [
+    {
+        parameterId: "ParamAngleX",
+        offset: 0,
+        peak: 15,
+        cycle: 6.5345,
+        weight: 0.5,
+    },
+    {
+        parameterId: "ParamAngleY",
+        offset: 0,
+        peak: 8,
+        cycle: 3.5345,
+        weight: 0.5,
+    },
+    {
+        parameterId: "ParamAngleZ",
+        offset: 0,
+        peak: 10,
+        cycle: 5.5345,
+        weight: 0.5,
+    },
+    {
+        parameterId: "ParamBodyAngleX",
+        offset: 0,
+        peak: 4,
+        cycle: 15.5345,
+        weight: 0.5,
+    },
+    {
+        parameterId: "ParamBreath",
+        offset: 0,
+        peak: 0.5,
+        cycle: 3.2345,
+        weight: 0.5,
+    },
+];
 
 const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const { t } = useTranslation();
@@ -56,7 +93,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         useState<boolean>(false);
     const [showLive2DParts, setShowLive2DParts] = useState<boolean>(false);
 
-    const [coreModel, setCoreModel] = useState<ICoreModel | null>(null);
+    const [coreModel, setCoreModel] = useState<
+        Cubism4InternalModel["coreModel"] | null
+    >(null);
     const [parameterValues, setParameterValues] = useState<
         Record<string, number>
     >({});
@@ -79,7 +118,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         console.log(currentModel);
         if (currentModel?.model instanceof Live2DModel && !loading) {
             setCoreModel(
-                currentModel.model.internalModel.coreModel as ICoreModel
+                currentModel.model.internalModel
+                    .coreModel as Cubism4InternalModel["coreModel"]
             );
         } else {
             setCoreModel(null);
@@ -126,8 +166,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             setLoadingMsg(`${t("loading-1")} ${model}...`);
             modelData = await GetModelDataFromStatic(characterFolder, model);
             modelName = model;
-        }
-        if (
+        } else if (
             typeof model === "object" &&
             "modelBase" in model &&
             "modelPath" in model &&
@@ -181,7 +220,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             );
             if (!confirmation) return;
         }
-        // const live2DModel = await newModel(filename, layers);
         const modelName = "none";
         const texture = await PIXI.Texture.fromURL(
             "/background/Background_New_Layer.png"
@@ -199,6 +237,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 virtualEffect: false,
                 expression: 99999,
                 pose: 99999,
+                idle: true,
                 visible: true,
                 modelData: undefined,
                 from: from,
@@ -233,6 +272,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 virtualEffect: false,
                 expression: 99999,
                 pose: 99999,
+                idle: true,
                 visible: true,
                 modelData: undefined,
                 from: "upload",
@@ -415,8 +455,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 green: 1,
                 red: 0.7,
             });
-            animateCRT();
 
+            animateCRT();
             currentModel.model.filters = [crtFilter, adjustmentFilter];
         } else {
             if (currentModel?.model) {
@@ -517,14 +557,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             }
         }
     };
+
     const handleLive2DParts = async (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         const value = event.target.checked;
         if (value) {
-            const confirmation = confirm(
-                t("model.access-live2d-parts")
-            );
+            const confirmation = confirm(t("model.access-live2d-parts"));
             if (!confirmation) return;
         }
 
@@ -536,11 +575,24 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         params: string
     ) => {
         const newValue = Number(e.target.value);
-        (coreModel as ICoreModel).setParameterValueById(params, newValue);
+        coreModel?.setParameterValueById(params, newValue);
         setParameterValues((prev) => ({
             ...prev,
             [params]: newValue,
         }));
+    };
+
+    const handleIdle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.checked;
+        if (
+            currentModel?.model instanceof Live2DModel &&
+            "breath" in currentModel.model.internalModel
+        ) {
+            const modelBreath = currentModel.model.internalModel
+                .breath as Cubism4InternalModel["breath"];
+            modelBreath.setParameters(value ? defaultModelBreath : []);
+            updateModelState({ idle: value });
+        }
     };
 
     const live2DInputSlider = (idx: number, param: string, filter?: string) => {
@@ -550,9 +602,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
         if (!coreModel || !currentModel) return null;
 
-        const min = (coreModel as ICoreModel).getParameterMinimumValue(idx);
-        const max = (coreModel as ICoreModel).getParameterMaximumValue(idx);
-        const value = (coreModel as ICoreModel).getParameterValueById(param);
+        const min = coreModel.getParameterMinimumValue(idx);
+        const max = coreModel.getParameterMaximumValue(idx);
+        const value = coreModel.getParameterValueById(param);
 
         return (
             <div className="option__content" key={param}>
@@ -849,7 +901,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         <div className="option__content">
                             {coreModel &&
                                 coreModel["_parameterIds"]
-                                    .map((param, idx) => {
+                                    .map((param: string, idx: number) => {
                                         return live2DInputSlider(
                                             idx,
                                             param,
@@ -863,6 +915,14 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         <h2>{t("model.advanced")}</h2>
                         <div className="option__content">
                             <Checkbox
+                                label="Idle Animation"
+                                checked={currentModel.idle}
+                                id="idle"
+                                onChange={handleIdle}
+                            />
+                        </div>
+                        <div className="option__content">
+                            <Checkbox
                                 id="advanced"
                                 label={t("model.show-live2d-parts")}
                                 checked={showLive2DParts}
@@ -871,7 +931,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             {showLive2DParts && coreModel && (
                                 <>
                                     {coreModel["_parameterIds"].map(
-                                        (param, idx) => {
+                                        (param: string, idx: number) => {
                                             return live2DInputSlider(
                                                 idx,
                                                 param

@@ -295,6 +295,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                     virtualEffect: false,
                     expression: 0,
                     pose: 0,
+                    idle: true,
                     visible: true,
                     from: "sekai",
                 },

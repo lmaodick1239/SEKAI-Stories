@@ -2,7 +2,7 @@ button {
     border: none;
     margin: 10px 0px;
     cursor: pointer;
- }
+}
 
 button.btn-regular {
     padding: 8px 50px;
@@ -37,6 +37,11 @@ button.btn-white {
 
 button.btn-pink {
     background-color: $dark-pink;
+    color: $white;
+}
+
+button.btn-red {
+    background-color: $red;
     color: $white;
 }
 

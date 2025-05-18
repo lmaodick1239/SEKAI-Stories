@@ -13,6 +13,7 @@ export default interface IModel {
     modelData: ILive2DModelData | undefined;
     expression: number | undefined;
     pose: number | undefined;
+    idle: boolean;
     visible: boolean;
     from: string;
 }

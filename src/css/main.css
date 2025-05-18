@@ -16,7 +16,7 @@
 }
 .app-en button,
 .app-en select {
-  font-family: "FOT-RodinNTLGPro-EB";
+  font-family: "FOT-RodinNTLGPro-EB", sans-serif;
 }
 .app-en button p,
 .app-en select p {
@@ -103,6 +103,11 @@ button.btn-white {
 
 button.btn-pink {
   background-color: #ff5599;
+  color: #ffffff;
+}
+
+button.btn-red {
+  background-color: #ff2b2b;
   color: #ffffff;
 }
 
