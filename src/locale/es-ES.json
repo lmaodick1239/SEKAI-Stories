@@ -4,30 +4,32 @@
     "background": {
         "header": "Fondos",
         "select": "Seleccionar",
-        "upload": "Subir",
-        "upload-info": "Para asegurarte de que la imagen se vea bien y no se estire o recorte, por favor usa una imagen con un radio de 16:9."
+        "upload": "Agregar",
+        "upload-info": "Para asegurarte de que la imagen se vea bien y no se recorte o estire, usa una imagen con un radio de 16:9."
     },
 
     "text": {
         "header": "Texto",
         "name-tag": "Nombre",
-        "easy-switch": "Seleccionar cambio simple",
+        "easy-switch": "Utilizar cambio simple",
         "dialogue": "Dialogo",
         "font-size": "Tamaño de fuente",
-        "add-symbol": "Agregar un símbolo",
-        "scene-text": "Texto de Escena"
+        "add-symbol": "Añadir un símbolo",
+        "scene-text": "Texto de Escena",
+        "y-offset": "Ajustar-Y",
+        "y-offset-details": "Si el texto del lienzo no está alineado correctamente, podría ser necesario ajustarlo."
     },
 
     "model": {
-        "header": "Modelo",
-        "selected-layer": "Seleccionar capa",
-        "add-model-sekai": "Agregar modelos de sekai.best",
-        "add-model-sekai-description": "¡Ten acceso a los modelos proporcionados por Sekai Viewer!",
-        "add-model-static": "Agregar modelos de SEKAI Stories",
-        "add-model-static-description": "Opción de reserva para cuando Sekai Viewer esta caido.",
+        "header": "Modelos",
+        "selected-layer": "Capa seleccionada",
+        "add-model-sekai": "Agregar modelo de sekai.best",
+        "add-model-sekai-description": "Obtén modelos proveídos por Sekai Viewer!",
+        "add-model-static": "Agregar modelo de SEKAI Stories",
+        "add-model-static-description": "Opción de respaldo en caso de que Sekai Viewer este caído.",
         "delete-model-warn": "Esta es la única capa y no puede ser eliminada.",
         "character": "Personaje",
-        "select-character": "Selecciona un Personaje",
+        "select-character": "Selecciona un personaje",
         "costume": "Traje",
         "emotion": "Emoción",
         "pose": "Pose",
@@ -35,43 +37,56 @@
         "expression": "Expresión",
         "select-expression": "Selecciona una expresión",
         "layer": "Capa",
-        "re-apply": "Reaplicar",
-        "transform": "Mover",
+        "re-apply": "Volver a aplicar",
+        "transform": "Posicionar",
         "x-position": "Posición-X",
         "y-position": "Posición-Y",
-        "scale": "Escala"
+        "scale": "Escala",
+        "mouth": "Boca",
+        "ParamMouthForm": "Forma Primaria",
+        "ParamMouthOpenY": "Apertura",
+        "ParamMouthForm2": "Forma secundaria",
+        "ParamMouthScaleX": "Tamaño-X",
+        "ParamMouthScaleY": "Tamaño-Y",
+        "ParamMouthPositionY": "Posición-Y",
+        "ParamMouthShadow": "Sombra",
+        "advanced": "Avanzado",
+        "show-live2d-parts": "Mostrar partes Live2D",
+        "access-live2d-parts": "Estas por acceder a todas las partes de este modelo. ¿Deseas continuar?"
     },
-    "visible": "Visible",
+
+    "visible": "Visibilidad",
 
     "experimental": {
         "header": "Experimental",
-        "details": "Si no ves algún cambio, deberías intentar recargar el lienzo.",
+        "details": "Si no vez algun cambio deberías intentar recargar el lienzo.",
         "refresh": "Recargar"
     },
+
     "close": "Cerrar",
-    "clear": "Esto Eliminara todo el lienzo. ¡Cualquier progreso sera perdido!\nDarle click a OK procedera la accion",
+    "clear": "¡Esto eliminara todo el lienzo y cualquier progreso será eliminado! \n Dar click en aceptar continuara esta acción.",
 
     "support": {
         "header": "Apoyar",
         "details": "Si disfrutas usando SEKAI Stories, puedes apoyarme mediante una de las siguientes formas:",
-        "ko-fi-details": "¡Las donaciones son opcionales! Estaré publicando las actualizaciones del sitio hay también.",
-        "github-details": "¡Este proyectó es completamente de código abierto, puedes reportar problemas o abrir un pull request para contribuir!",
-        "special-thanks-header": "Agradecimientos especiales",
-        "special-thanks-description": "¡Me gustaría agradecerle al dueño de Sekai Viewer por permitirme acceder a sus modelos mediante este sitio!"
+        "ko-fi-details": "Las donaciones son opcionales! además publicare las actualizaciones del sitio ahí.",
+        "github-details": "¡Este proyecto es de Código abierto! ¡puedes reportar problemas o abrir un pull request para contribuir!",
+        "special-thanks-header": " Agradecimientos especiales",
+        "special-thanks-description": "Me gustaría agradecer al dueño de Sekai Viewer por permitirme usar sus modelos mediante este sitio!"
     },
 
     "loading-1": "Obteniendo archivos del modelo para",
     "loading-2": "Obteniendo archivos de movimiento para",
-    "loading-3": "Reparando modelo para",
+    "loading-3": "Arreglando modelo para",
     "loading-4": "Cargando texturas para",
     "loading-5": "Cargando archivo moc3 para",
-    "loading-6": "Cargando archivos de físicas para",
+    "loading-6": "Cargando físicas para",
     "loading-7": "Agregando nuevo modelo",
     "failed-load": "Error al cargar el nuevo modelo!",
 
     "character": {
         "none": "Nada",
-        "custom": "Personalizado",
+        "custom": "Agregado",
         "ichika": "Ichika",
         "saki": "Saki",
         "honami": "Honami",
@@ -110,21 +125,23 @@
         "n25": "Nightcord at 25:00",
         "ln": "Leo/need",
         "vs": "VIRTUAL SINGER",
-        "split": "Lugares Divididos",
+        "split": "Lugares divididos",
         "temp": "Otros"
     },
 
     "settings": {
-        "header": "Ajustes",
-        "language": "Idiomas",
-        "auto-save": "Guardado Automatico",
-        "auto-save-description": "Tu trabajo es guardado automaticamente cada 3 minutos. Si algo sale mal, puedes descargar la ultima copia de seguridad como un archivo JSON.",
-        "auto-save-button": "Coneguir el ultimo guardado automatico"
+        "header": "Opciones",
+        "language": "Idioma",
+        "auto-save": "Guardado automático",
+        "auto-save-description": "Tu trabajo será guardado automáticamente cada 3 minutos. En caso de que ocurra algo podras descargar el respaldo más reciente como un archivo JSON.",
+        "auto-save-button": "Descargar respaldo",
+        "toggles": "Alternar",
+        "guidelines": "Mostrar líneas de guía",
+        "experimental": "Mostrar funciones experimentales"
     },
-
     "import-export": {
         "header": "Importar/Exportar",
-        "description": "Los fondos y sprites personalizados no se incluyen en este archivo JSON.",
+        "description": "Los fondos y Sprite agregados no serán incluidos en este JSON.",
         "import": "Importar",
         "export": "Exportar"
     }
