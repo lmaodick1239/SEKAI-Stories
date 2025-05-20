@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
 import { Checkbox } from "../Checkbox";
 import RadioButton from "../RadioButton";
@@ -40,11 +40,21 @@ const TextSidebar: React.FC = () => {
         lockFontSize === "true" ? true : false
     );
 
+    useEffect(() => {
+        const tab = localStorage.getItem("textTab");
+        setOpenTab(tab ? tab : "name-tag");
+    }, []);
+    
     if (!context || !context.text || !context.sceneSetting) {
         return t("please-wait");
     }
 
     const { text, setText, sceneSetting, setSceneSetting } = context;
+
+    const handleTab = (tab: string) => {
+        setOpenTab(tab);
+        localStorage.setItem("textTab", tab);
+    };
 
     const handleNameTagChange = async (changedNameTag: string) => {
         text.nameTag.text = changedNameTag;
@@ -205,12 +215,14 @@ const TextSidebar: React.FC = () => {
     return (
         <div>
             <h1>{t("text.header")}</h1>
-            <div className="option" onClick={() => setOpenTab("name-tag")}>
+            <div className="option" onClick={() => handleTab("name-tag")}>
                 <div className="space-between flex-horizontal center">
                     <h2>{t("text.name-tag")}</h2>
                     {openTab === "name-tag" ? (
                         <i className="bi bi-caret-down-fill" />
-                    ) : <i className="bi bi-caret-right-fill" />}
+                    ) : (
+                        <i className="bi bi-caret-right-fill" />
+                    )}
                 </div>
                 {openTab === "name-tag" && (
                     <div className="option__content">
@@ -289,14 +301,16 @@ const TextSidebar: React.FC = () => {
             <div
                 className="option"
                 onClick={() => {
-                    setOpenTab("dialogue");
+                    handleTab("dialogue");
                 }}
             >
                 <div className="space-between flex-horizontal center">
                     <h2>{t("text.dialogue")}</h2>
                     {openTab === "dialogue" ? (
                         <i className="bi bi-caret-down-fill" />
-                    ) : <i className="bi bi-caret-right-fill" />}
+                    ) : (
+                        <i className="bi bi-caret-right-fill" />
+                    )}
                 </div>
                 {openTab === "dialogue" && (
                     <div className="option__content">
@@ -370,14 +384,16 @@ const TextSidebar: React.FC = () => {
             <div
                 className="option"
                 onClick={() => {
-                    setOpenTab("scene-text");
+                    handleTab("scene-text");
                 }}
             >
                 <div className="space-between flex-horizontal center">
                     <h2>{t("text.scene-text")}</h2>
                     {openTab === "scene-text" ? (
                         <i className="bi bi-caret-down-fill" />
-                    ) : <i className="bi bi-caret-right-fill" />}
+                    ) : (
+                        <i className="bi bi-caret-right-fill" />
+                    )}
                 </div>
                 {openTab === "scene-text" && (
                     <div className="option__content">
@@ -400,14 +416,16 @@ const TextSidebar: React.FC = () => {
             <div
                 className="option"
                 onClick={() => {
-                    setOpenTab("y-offset");
+                    handleTab("y-offset");
                 }}
             >
                 <div className="space-between flex-horizontal center">
                     <h2>{t("text.y-offset")}</h2>
                     {openTab === "y-offset" ? (
                         <i className="bi bi-caret-down-fill" />
-                    ) : <i className="bi bi-caret-right-fill" />}
+                    ) : (
+                        <i className="bi bi-caret-right-fill" />
+                    )}
                 </div>
                 {openTab === "y-offset" && (
                     <div className="option__content">
