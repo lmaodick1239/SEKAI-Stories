@@ -635,7 +635,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     setOpenTab("select-layer");
                 }}
             >
-                <h2>{t("model.selected-layer")}</h2>
+                <div className="space-between flex-horizontal center">
+                    <h2>{t("model.selected-layer")}</h2>
+                    {openTab !== "select-layer" && (
+                        <i className="bi bi-caret-down-fill" />
+                    )}
+                </div>
                 {openTab === "select-layer" && (
                     <div className="option__content">
                         <select value={currentKey} onChange={handleLayerChange}>
@@ -684,7 +689,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         className="option"
                         onClick={() => setOpenTab("character")}
                     >
-                        <h2>{t("model.character")}</h2>
+                        <div className="space-between flex-horizontal center">
+                            <h2>{t("model.character")}</h2>
+                            {openTab !== "character" && (
+                                <i className="bi bi-caret-down-fill" />
+                            )}
+                        </div>
                         {openTab === "character" && (
                             <div className="option__content">
                                 <select
@@ -715,7 +725,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         className="option"
                         onClick={() => setOpenTab("costume")}
                     >
-                        <h2>{t("model.costume")}</h2>
+                        <div className="space-between flex-horizontal center">
+                            <h2>{t("model.costume")}</h2>
+                            {openTab !== "costume" && (
+                                <i className="bi bi-caret-down-fill" />
+                            )}
+                        </div>
+
                         {openTab === "costume" && (
                             <div className="option__content">
                                 <select
@@ -763,7 +779,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             setOpenTab("emotion");
                         }}
                     >
-                        <h2>{t("model.emotion")}</h2>
+                        <div className="space-between flex-horizontal center">
+                            <h2>{t("model.emotion")}</h2>
+                            {openTab !== "emotion" && (
+                                <i className="bi bi-caret-down-fill" />
+                            )}
+                        </div>
                         {openTab === "emotion" && (
                             <>
                                 <div className="option__content">
@@ -853,7 +874,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 </>
             )}
             <div className="option" onClick={() => setOpenTab("transform")}>
-                <h2>{t("model.transform")}</h2>
+                <div className="space-between flex-horizontal center">
+                    <h2>{t("model.transform")}</h2>
+                    {openTab !== "transform" && (
+                        <i className="bi bi-caret-down-fill" />
+                    )}
+                </div>
                 {openTab === "transform" && (
                     <>
                         <div className="option__content">
@@ -952,7 +978,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             setOpenTab("mouth");
                         }}
                     >
-                        <h2>{t("model.mouth")}</h2>
+                         <div className="space-between flex-horizontal center">
+                            <h2>{t("model.mouth")}</h2>
+                            {openTab !== "mouth" && (
+                                <i className="bi bi-caret-down-fill" />
+                            )}
+                        </div>
                         {openTab === "mouth" && (
                             <div className="option__content">
                                 {coreModel &&
@@ -974,7 +1005,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             setOpenTab("advanced");
                         }}
                     >
-                        <h2>{t("model.advanced")}</h2>
+                         <div className="space-between flex-horizontal center">
+                            <h2>{t("model.advanced")}</h2>
+                            {openTab !== "advanced" && (
+                                <i className="bi bi-caret-down-fill" />
+                            )}
+                        </div>
                         {openTab === "advanced" && (
                             <div className="option__content">
                                 <h3>Live2D Parameters</h3>

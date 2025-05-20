@@ -206,7 +206,12 @@ const TextSidebar: React.FC = () => {
         <div>
             <h1>{t("text.header")}</h1>
             <div className="option" onClick={() => setOpenTab("name-tag")}>
-                <h2>{t("text.name-tag")}</h2>
+                <div className="space-between flex-horizontal center">
+                    <h2>{t("text.name-tag")}</h2>
+                    {openTab !== "name-tag" && (
+                        <i className="bi bi-caret-down-fill" />
+                    )}
+                </div>
                 {openTab === "name-tag" && (
                     <div className="option__content">
                         {!easySwitch ? (
@@ -287,7 +292,12 @@ const TextSidebar: React.FC = () => {
                     setOpenTab("dialogue");
                 }}
             >
-                <h2>{t("text.dialogue")}</h2>
+                <div className="space-between flex-horizontal center">
+                    <h2>{t("text.dialogue")}</h2>
+                    {openTab !== "dialogue" && (
+                        <i className="bi bi-caret-down-fill" />
+                    )}
+                </div>
                 {openTab === "dialogue" && (
                     <div className="option__content">
                         <textarea
@@ -360,11 +370,16 @@ const TextSidebar: React.FC = () => {
             <div
                 className="option"
                 onClick={() => {
-                    setOpenTab("scene");
+                    setOpenTab("scene-text");
                 }}
             >
-                <h2>{t("text.scene-text")}</h2>
-                {openTab === "scene" && (
+                <div className="space-between flex-horizontal center">
+                    <h2>{t("text.scene-text")}</h2>
+                    {openTab !== "scene-text" && (
+                        <i className="bi bi-caret-down-fill" />
+                    )}
+                </div>
+                {openTab === "scene-text" && (
                     <div className="option__content">
                         <input
                             type="text"
@@ -388,9 +403,12 @@ const TextSidebar: React.FC = () => {
                     setOpenTab("y-offset");
                 }}
             >
-                <h2>
-                    {t("text.y-offset")}
-                </h2>
+                <div className="space-between flex-horizontal center">
+                    <h2>{t("text.y-offset")}</h2>
+                    {openTab !== "y-offset" && (
+                        <i className="bi bi-caret-down-fill" />
+                    )}
+                </div>
                 {openTab === "y-offset" && (
                     <div className="option__content">
                         <h3> Adjustment: ({text.yOffset}px)</h3>
