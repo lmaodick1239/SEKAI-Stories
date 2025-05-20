@@ -121,7 +121,7 @@ const TextSidebar: React.FC = () => {
 
     const handleAddSymbol = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const symbol = event.target.value;
-        if (symbol === "none") {
+        if (symbol !== "none") {
             text.dialogue.text += symbol;
             text.dialogue.updateText(true);
             setText({
