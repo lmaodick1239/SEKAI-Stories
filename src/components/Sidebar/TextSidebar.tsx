@@ -25,6 +25,7 @@ const TextSidebar: React.FC = () => {
     const nameTag2Cookie = localStorage.getItem("nameTag2");
     const lockFontSize = localStorage.getItem("lockFontSize");
     const easySwitchEnabled = localStorage.getItem("easySwitchEnabled");
+    const [openTab, setOpenTab] = useState<string>("name-tag");
 
     const context = useContext(SceneContext);
     const [bell, setBell] = useState<boolean>(false);
@@ -204,179 +205,213 @@ const TextSidebar: React.FC = () => {
     return (
         <div>
             <h1>{t("text.header")}</h1>
-            <div className="option">
+            <div className="option" onClick={() => setOpenTab("name-tag")}>
                 <h2>{t("text.name-tag")}</h2>
-                <div className="option__content">
-                    {!easySwitch ? (
+                {openTab === "name-tag" && (
+                    <div className="option__content">
+                        {!easySwitch ? (
+                            <input
+                                type="text"
+                                name="name-tag"
+                                id="name-tag"
+                                value={text?.nameTagString}
+                                onChange={(
+                                    event: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    const changedNameTag = event.target.value;
+                                    handleNameTagChange(changedNameTag);
+                                }}
+                            />
+                        ) : (
+                            <>
+                                <div className="flex-horizontal center">
+                                    <RadioButton
+                                        name="name-tag"
+                                        value="nameTag1"
+                                        onChange={handleEasyNameTagSelect}
+                                    />
+
+                                    <input
+                                        type="text"
+                                        name="name-tag"
+                                        value={nameTags["nameTag1"]}
+                                        onChange={(e) => {
+                                            handleEasyNameTagChange(
+                                                e,
+                                                "nameTag1"
+                                            );
+                                        }}
+                                        placeholder="Student A"
+                                    />
+                                </div>
+                                <div className="flex-horizontal center">
+                                    <RadioButton
+                                        name="name-tag"
+                                        value="nameTag2"
+                                        onChange={handleEasyNameTagSelect}
+                                    />
+                                    <input
+                                        type="text"
+                                        name="name-tag"
+                                        value={nameTags["nameTag2"]}
+                                        onChange={(e) => {
+                                            handleEasyNameTagChange(
+                                                e,
+                                                "nameTag2"
+                                            );
+                                        }}
+                                        placeholder="Student B"
+                                    />
+                                </div>
+                            </>
+                        )}
+
+                        <Checkbox
+                            id="easy-switch"
+                            label={t("text.easy-switch")}
+                            checked={easySwitch}
+                            onChange={() => {
+                                setEasySwitch(!easySwitch);
+                                localStorage.setItem(
+                                    "easySwitchEnabled",
+                                    String(!easySwitch)
+                                );
+                            }}
+                        />
+                    </div>
+                )}
+            </div>
+            <div
+                className="option"
+                onClick={() => {
+                    setOpenTab("dialogue");
+                }}
+            >
+                <h2>{t("text.dialogue")}</h2>
+                {openTab === "dialogue" && (
+                    <div className="option__content">
+                        <textarea
+                            name="dialogue"
+                            id="dialogue"
+                            value={text?.dialogueString}
+                            onChange={handleDialogueChange}
+                        ></textarea>
+                        <select
+                            name="add-symbol"
+                            id="add-symbol"
+                            value="none"
+                            onChange={handleAddSymbol}
+                        >
+                            <option value="none" disabled>
+                                {t("text.add-symbol")}
+                            </option>
+                            {Object.entries(symbols).map(([key, value]) => (
+                                <option key={key} value={value}>
+                                    {`${value} (${key})`}
+                                </option>
+                            ))}
+                        </select>
+                        <div className="transform-icons">
+                            <h3>
+                                {t("text.font-size")} ({text.fontSize} px)
+                            </h3>
+                            <div>
+                                <i
+                                    className="bi bi-pencil-fill"
+                                    onClick={handleInputFontSizeChange}
+                                ></i>
+                                <i
+                                    className={
+                                        lockFontSizeState
+                                            ? "bi bi-unlock-fill"
+                                            : "bi bi-lock-fill"
+                                    }
+                                    onClick={() => {
+                                        setLockFontSizeState(
+                                            !lockFontSizeState
+                                        );
+                                        localStorage.setItem(
+                                            "lockFontSize",
+                                            String(!lockFontSizeState)
+                                        );
+                                    }}
+                                ></i>
+                            </div>
+                        </div>
+                        <input
+                            type="range"
+                            name="font-size"
+                            id="font-size"
+                            value={text.fontSize}
+                            min={10}
+                            max={120}
+                            onChange={handleFontSizeChange}
+                            {...(lockFontSizeState ? { disabled: true } : {})}
+                        />
+                        <Checkbox
+                            id="visible"
+                            label={t("visible")}
+                            checked={text.visible}
+                            onChange={handleDialogueBoxVisible}
+                        />
+                    </div>
+                )}
+            </div>
+            <div
+                className="option"
+                onClick={() => {
+                    setOpenTab("scene");
+                }}
+            >
+                <h2>{t("text.scene-text")}</h2>
+                {openTab === "scene" && (
+                    <div className="option__content">
                         <input
                             type="text"
                             name="name-tag"
                             id="name-tag"
-                            value={text?.nameTagString}
-                            onChange={(
-                                event: React.ChangeEvent<HTMLInputElement>
-                            ) => {
-                                const changedNameTag = event.target.value;
-                                handleNameTagChange(changedNameTag);
-                            }}
+                            value={sceneSetting.textString}
+                            onChange={handleSceneSettingChange}
                         />
-                    ) : (
-                        <>
-                            <div className="flex-horizontal center">
-                                <RadioButton
-                                    name="name-tag"
-                                    value="nameTag1"
-                                    onChange={handleEasyNameTagSelect}
-                                />
-
-                                <input
-                                    type="text"
-                                    name="name-tag"
-                                    value={nameTags["nameTag1"]}
-                                    onChange={(e) => {
-                                        handleEasyNameTagChange(e, "nameTag1");
-                                    }}
-                                    placeholder="Student A"
-                                />
-                            </div>
-                            <div className="flex-horizontal center">
-                                <RadioButton
-                                    name="name-tag"
-                                    value="nameTag2"
-                                    onChange={handleEasyNameTagSelect}
-                                />
-                                <input
-                                    type="text"
-                                    name="name-tag"
-                                    value={nameTags["nameTag2"]}
-                                    onChange={(e) => {
-                                        handleEasyNameTagChange(e, "nameTag2");
-                                    }}
-                                    placeholder="Student B"
-                                />
-                            </div>
-                        </>
-                    )}
-
-                    <Checkbox
-                        id="easy-switch"
-                        label={t("text.easy-switch")}
-                        checked={easySwitch}
-                        onChange={() => {
-                            setEasySwitch(!easySwitch);
-                            localStorage.setItem(
-                                "easySwitchEnabled",
-                                String(!easySwitch)
-                            );
-                        }}
-                    />
-                </div>
-            </div>
-            <div className="option">
-                <h2>{t("text.dialogue")}</h2>
-                <div className="option__content">
-                    <textarea
-                        name="dialogue"
-                        id="dialogue"
-                        value={text?.dialogueString}
-                        onChange={handleDialogueChange}
-                    ></textarea>
-                    <select
-                        name="add-symbol"
-                        id="add-symbol"
-                        value="none"
-                        onChange={handleAddSymbol}
-                    >
-                        <option value="none" disabled>
-                            {t("text.add-symbol")}
-                        </option>
-                        {Object.entries(symbols).map(([key, value]) => (
-                            <option key={key} value={value}>
-                                {`${value} (${key})`}
-                            </option>
-                        ))}
-                    </select>
-                    <div className="transform-icons">
-                        <h3>
-                            {t("text.font-size")} ({text.fontSize} px)
-                        </h3>
-                        <div>
-                            <i
-                                className="bi bi-pencil-fill"
-                                onClick={handleInputFontSizeChange}
-                            ></i>
-                            <i
-                                className={
-                                    lockFontSizeState
-                                        ? "bi bi-unlock-fill"
-                                        : "bi bi-lock-fill"
-                                }
-                                onClick={() => {
-                                    setLockFontSizeState(!lockFontSizeState);
-                                    localStorage.setItem(
-                                        "lockFontSize",
-                                        String(!lockFontSizeState)
-                                    );
-                                }}
-                            ></i>
-                        </div>
+                        <Checkbox
+                            id="visible"
+                            label={t("visible")}
+                            checked={sceneSetting.visible}
+                            onChange={handleSceneSettingVisible}
+                        />
                     </div>
-                    <input
-                        type="range"
-                        name="font-size"
-                        id="font-size"
-                        value={text.fontSize}
-                        min={10}
-                        max={120}
-                        onChange={handleFontSizeChange}
-                        {...(lockFontSizeState ? { disabled: true } : {})}
-                    />
-                    <Checkbox
-                        id="visible"
-                        label={t("visible")}
-                        checked={text.visible}
-                        onChange={handleDialogueBoxVisible}
-                    />
-                </div>
+                )}
             </div>
-            <div className="option">
-                <h2>{t("text.scene-text")}</h2>
-                <div className="option__content">
-                    <input
-                        type="text"
-                        name="name-tag"
-                        id="name-tag"
-                        value={sceneSetting.textString}
-                        onChange={handleSceneSettingChange}
-                    />
-                    <Checkbox
-                        id="visible"
-                        label={t("visible")}
-                        checked={sceneSetting.visible}
-                        onChange={handleSceneSettingVisible}
-                    />
-                </div>
-            </div>
-            <div className="option">
+            <div
+                className="option"
+                onClick={() => {
+                    setOpenTab("y-offset");
+                }}
+            >
                 <h2>
-                    {t("text.y-offset")} ({text.yOffset} px)
+                    {t("text.y-offset")}
                 </h2>
-                <input
-                    type="range"
-                    name="offset"
-                    id="offset"
-                    min={-20}
-                    max={20}
-                    value={text.yOffset}
-                    step={1}
-                    onChange={handleYOffset}
-                />
-                <p>{t("text.y-offset-details")}</p>
-                <img
-                    src="/img/y-offset.png"
-                    alt="y-offset"
-                    className="width-100 margin-top-10"
-                />
+                {openTab === "y-offset" && (
+                    <div className="option__content">
+                        <h3> Adjustment: ({text.yOffset}px)</h3>
+                        <input
+                            type="range"
+                            name="offset"
+                            id="offset"
+                            min={-20}
+                            max={20}
+                            value={text.yOffset}
+                            step={1}
+                            onChange={handleYOffset}
+                        />
+                        <p>{t("text.y-offset-details")}</p>
+                        <img
+                            src="/img/y-offset.png"
+                            alt="y-offset"
+                            className="width-100 margin-top-10"
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -78,6 +78,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
     const context = useContext(SceneContext);
 
+    const [openTab, setOpenTab] = useState<string>("select-layer");
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
         undefined
     );
@@ -628,336 +629,406 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     return (
         <div>
             <h1>{t("model.header")}</h1>
-            <div className="option">
+            <div
+                className="option"
+                onClick={() => {
+                    setOpenTab("select-layer");
+                }}
+            >
                 <h2>{t("model.selected-layer")}</h2>
-                <div className="option__content">
-                    <select value={currentKey} onChange={handleLayerChange}>
-                        {Object.keys(models).map((model, idx) => (
-                            <option key={model} value={model}>
-                                {t("model.layer")} {idx + 1}:{" "}
-                                {t(`character.${models[model].character}`)}
-                            </option>
-                        ))}
-                    </select>
-                    <div id="layer-buttons">
-                        <button
-                            className="btn-circle btn-white"
-                            onClick={() => {
-                                setShowAddModelScreen(!showAddModelScreen);
-                            }}
-                        >
-                            <i className="bi bi-plus-circle"></i>
-                        </button>
-                        {showAddModelScreen && (
-                            <AddModelSelect
-                                addModel={handleAddLayer}
-                                setShow={setShowAddModelScreen}
+                {openTab === "select-layer" && (
+                    <div className="option__content">
+                        <select value={currentKey} onChange={handleLayerChange}>
+                            {Object.keys(models).map((model, idx) => (
+                                <option key={model} value={model}>
+                                    {t("model.layer")} {idx + 1}:{" "}
+                                    {t(`character.${models[model].character}`)}
+                                </option>
+                            ))}
+                        </select>
+                        <div id="layer-buttons">
+                            <button
+                                className="btn-circle btn-white"
+                                onClick={() => {
+                                    setShowAddModelScreen(!showAddModelScreen);
+                                }}
+                            >
+                                <i className="bi bi-plus-circle"></i>
+                            </button>
+                            {showAddModelScreen && (
+                                <AddModelSelect
+                                    addModel={handleAddLayer}
+                                    setShow={setShowAddModelScreen}
+                                />
+                            )}
+                            <UploadImageButton
+                                id="background-upload"
+                                uploadFunction={handleUploadImage}
+                                text={<i className="bi bi-upload"></i>}
+                                type="round"
                             />
-                        )}
-                        <UploadImageButton
-                            id="background-upload"
-                            uploadFunction={handleUploadImage}
-                            text={<i className="bi bi-upload"></i>}
-                            type="round"
-                        />
-                        <button
-                            className="btn-circle btn-white"
-                            onClick={handleDeleteLayer}
-                        >
-                            <i className="bi bi-x-circle"></i>
-                        </button>
+                            <button
+                                className="btn-circle btn-white"
+                                onClick={handleDeleteLayer}
+                            >
+                                <i className="bi bi-x-circle"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
             {(currentModel?.model instanceof Live2DModel ||
                 currentModel?.character == "none") && (
                 <>
-                    <div className="option">
+                    <div
+                        className="option"
+                        onClick={() => setOpenTab("character")}
+                    >
                         <h2>{t("model.character")}</h2>
-                        <div className="option__content">
-                            <select
-                                value={currentSelectedCharacter}
-                                onChange={handleCharacterChange}
-                                ref={characterSelect}
-                            >
-                                <option value="none" disabled>
-                                    {t("model.select-character")}
-                                </option>
-                                {Object.keys(
-                                    currentModel.from === "static"
-                                        ? staticCharacterData
-                                        : sekaiCharacterData
-                                ).map((character) => (
-                                    <option key={character} value={character}>
-                                        {t(`character.${character}`)}
+                        {openTab === "character" && (
+                            <div className="option__content">
+                                <select
+                                    value={currentSelectedCharacter}
+                                    onChange={handleCharacterChange}
+                                    ref={characterSelect}
+                                >
+                                    <option value="none" disabled>
+                                        {t("model.select-character")}
                                     </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="option">
-                        <h2>{t("model.costume")}</h2>
-                        <div className="option__content">
-                            <select
-                                value={currentModel?.modelName}
-                                onChange={handleCostumeChange}
-                                ref={modelSelect}
-                            >
-                                {(currentModel.from === "static"
-                                    ? typedStaticCharacterData[
-                                          currentSelectedCharacter
-                                      ]
-                                    : typedSekaiCharacterData[
-                                          currentSelectedCharacter
-                                      ]
-                                )?.map((model, idx) => {
-                                    const value =
+                                    {Object.keys(
                                         currentModel.from === "static"
-                                            ? (model as string)
-                                            : (model as ILive2DModelList)
-                                                  .modelBase;
-                                    return (
+                                            ? staticCharacterData
+                                            : sekaiCharacterData
+                                    ).map((character) => (
                                         <option
-                                            key={`${value}${idx}`}
-                                            value={value}
+                                            key={character}
+                                            value={character}
                                         >
-                                            {value}
+                                            {t(`character.${character}`)}
                                         </option>
-                                    );
-                                })}
-                            </select>
-                            <Checkbox
-                                id="virtual-effect"
-                                label="Virtual Effect"
-                                checked={currentModel.virtualEffect}
-                                onChange={handleVirtualEffect}
-                            />
-                        </div>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+                    </div>
+                    <div
+                        className="option"
+                        onClick={() => setOpenTab("costume")}
+                    >
+                        <h2>{t("model.costume")}</h2>
+                        {openTab === "costume" && (
+                            <div className="option__content">
+                                <select
+                                    value={currentModel?.modelName}
+                                    onChange={handleCostumeChange}
+                                    ref={modelSelect}
+                                >
+                                    {(currentModel.from === "static"
+                                        ? typedStaticCharacterData[
+                                              currentSelectedCharacter
+                                          ]
+                                        : typedSekaiCharacterData[
+                                              currentSelectedCharacter
+                                          ]
+                                    )?.map((model, idx) => {
+                                        const value =
+                                            currentModel.from === "static"
+                                                ? (model as string)
+                                                : (model as ILive2DModelList)
+                                                      .modelBase;
+                                        return (
+                                            <option
+                                                key={`${value}${idx}`}
+                                                value={value}
+                                            >
+                                                {value}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                                <Checkbox
+                                    id="virtual-effect"
+                                    label="Virtual Effect"
+                                    checked={currentModel.virtualEffect}
+                                    onChange={handleVirtualEffect}
+                                />
+                            </div>
+                        )}
                     </div>
 
                     {loading && <div className="option">{loadingMsg}</div>}
-                    <div className="option">
+                    <div
+                        className="option"
+                        onClick={() => {
+                            setOpenTab("emotion");
+                        }}
+                    >
                         <h2>{t("model.emotion")}</h2>
-                        <div className="option__content">
-                            <h3>{t("model.pose")}</h3>
-                            <select
-                                value={currentModel?.pose}
-                                onChange={handlePoseChange}
-                            >
-                                <option value={99999} disabled>
-                                    {t("model.select-pose")}
-                                </option>
-                                {currentModel &&
-                                    currentModel.modelData?.FileReferences.Motions.Motion.map(
-                                        (o, idx) => (
-                                            <option key={idx} value={idx}>
-                                                {o.Name}
-                                            </option>
-                                        )
-                                    )}
-                            </select>
-                            <button
-                                className="btn-regular btn-blue btn-extend-width"
-                                onClick={async () => {
-                                    if (
-                                        currentModel &&
-                                        currentModel.model instanceof
-                                            Live2DModel &&
-                                        currentModel.pose !== 99999
-                                    ) {
-                                        currentModel.model.motion(
-                                            "Motion",
-                                            currentModel.pose
-                                        );
-                                    }
-                                }}
-                            >
-                                {t("model.re-apply")}
-                            </button>
-                        </div>
-                        <div className="option__content">
-                            <h3>{t("model.expression")}</h3>
-                            <select
-                                value={currentModel?.expression}
-                                onChange={handleExpressionChange}
-                            >
-                                <option value={99999} disabled>
-                                    {t("model.select-expression")}
-                                </option>
-                                {currentModel &&
-                                    currentModel.modelData?.FileReferences.Motions.Expression.map(
-                                        (o, idx) => (
-                                            <option key={idx} value={idx}>
-                                                {o.Name}
-                                            </option>
-                                        )
-                                    )}
-                            </select>
-                            <button
-                                className="btn-regular btn-blue btn-extend-width"
-                                onClick={async () => {
-                                    if (
-                                        currentModel &&
-                                        currentModel.model instanceof
-                                            Live2DModel &&
-                                        currentModel.expression !== 99999
-                                    ) {
-                                        currentModel.model.motion(
-                                            "Expression",
-                                            currentModel.expression
-                                        );
-                                    }
-                                }}
-                            >
-                                {t("model.re-apply")}
-                            </button>
-                        </div>
+                        {openTab === "emotion" && (
+                            <>
+                                <div className="option__content">
+                                    <h3>{t("model.pose")}</h3>
+                                    <select
+                                        value={currentModel?.pose}
+                                        onChange={handlePoseChange}
+                                    >
+                                        <option value={99999} disabled>
+                                            {t("model.select-pose")}
+                                        </option>
+                                        {currentModel &&
+                                            currentModel.modelData?.FileReferences.Motions.Motion.map(
+                                                (o, idx) => (
+                                                    <option
+                                                        key={idx}
+                                                        value={idx}
+                                                    >
+                                                        {o.Name}
+                                                    </option>
+                                                )
+                                            )}
+                                    </select>
+                                    <button
+                                        className="btn-regular btn-blue btn-extend-width"
+                                        onClick={async () => {
+                                            if (
+                                                currentModel &&
+                                                currentModel.model instanceof
+                                                    Live2DModel &&
+                                                currentModel.pose !== 99999
+                                            ) {
+                                                currentModel.model.motion(
+                                                    "Motion",
+                                                    currentModel.pose
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        {t("model.re-apply")}
+                                    </button>
+                                </div>
+                                <div className="option__content">
+                                    <h3>{t("model.expression")}</h3>
+                                    <select
+                                        value={currentModel?.expression}
+                                        onChange={handleExpressionChange}
+                                    >
+                                        <option value={99999} disabled>
+                                            {t("model.select-expression")}
+                                        </option>
+                                        {currentModel &&
+                                            currentModel.modelData?.FileReferences.Motions.Expression.map(
+                                                (o, idx) => (
+                                                    <option
+                                                        key={idx}
+                                                        value={idx}
+                                                    >
+                                                        {o.Name}
+                                                    </option>
+                                                )
+                                            )}
+                                    </select>
+                                    <button
+                                        className="btn-regular btn-blue btn-extend-width"
+                                        onClick={async () => {
+                                            if (
+                                                currentModel &&
+                                                currentModel.model instanceof
+                                                    Live2DModel &&
+                                                currentModel.expression !==
+                                                    99999
+                                            ) {
+                                                currentModel.model.motion(
+                                                    "Expression",
+                                                    currentModel.expression
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        {t("model.re-apply")}
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </>
             )}
-            <div className="option">
+            <div className="option" onClick={() => setOpenTab("transform")}>
                 <h2>{t("model.transform")}</h2>
-                <div className="option__content">
-                    <div className="transform-icons">
-                        <h3>
-                            {t("model.x-position")} ({currentModel?.modelX}px)
-                        </h3>
-                        <div>
-                            <i
-                                className="bi bi-pencil-fill"
-                                onClick={() => handleTransformChange("x")}
-                            ></i>
+                {openTab === "transform" && (
+                    <>
+                        <div className="option__content">
+                            <div className="transform-icons">
+                                <h3>
+                                    {t("model.x-position")} (
+                                    {currentModel?.modelX}px)
+                                </h3>
+                                <div>
+                                    <i
+                                        className="bi bi-pencil-fill"
+                                        onClick={() =>
+                                            handleTransformChange("x")
+                                        }
+                                    ></i>
+                                </div>
+                            </div>
+                            <input
+                                type="range"
+                                name="x-value"
+                                id="x-value"
+                                min={-720}
+                                max={1720}
+                                value={currentModel?.modelX}
+                                onChange={handleXTransform}
+                            />
                         </div>
-                    </div>
-                    <input
-                        type="range"
-                        name="x-value"
-                        id="x-value"
-                        min={-720}
-                        max={1720}
-                        value={currentModel?.modelX}
-                        onChange={handleXTransform}
-                    />
-                </div>
-                <div className="option__content">
-                    <div className="transform-icons">
-                        <h3>
-                            {t("model.y-position")} ({currentModel?.modelY}px)
-                        </h3>
-                        <div>
-                            <i
-                                className="bi bi-pencil-fill"
-                                onClick={() => handleTransformChange("y")}
-                            ></i>
+                        <div className="option__content">
+                            <div className="transform-icons">
+                                <h3>
+                                    {t("model.y-position")} (
+                                    {currentModel?.modelY}px)
+                                </h3>
+                                <div>
+                                    <i
+                                        className="bi bi-pencil-fill"
+                                        onClick={() =>
+                                            handleTransformChange("y")
+                                        }
+                                    ></i>
+                                </div>
+                            </div>
+                            <input
+                                type="range"
+                                name="x-value"
+                                id="x-value"
+                                min={-1280}
+                                max={1280}
+                                value={currentModel?.modelY}
+                                onChange={handleYTransform}
+                            />
                         </div>
-                    </div>
-                    <input
-                        type="range"
-                        name="x-value"
-                        id="x-value"
-                        min={-1280}
-                        max={1280}
-                        value={currentModel?.modelY}
-                        onChange={handleYTransform}
-                    />
-                </div>
-                <div className="option__content">
-                    <div className="transform-icons">
-                        <h3>
-                            {t("model.scale")} ({currentModel?.modelScale})
-                        </h3>
-                        <div>
-                            <i
-                                className="bi bi-pencil-fill"
-                                onClick={() => handleTransformChange("scale")}
-                            ></i>
+                        <div className="option__content">
+                            <div className="transform-icons">
+                                <h3>
+                                    {t("model.scale")} (
+                                    {currentModel?.modelScale})
+                                </h3>
+                                <div>
+                                    <i
+                                        className="bi bi-pencil-fill"
+                                        onClick={() =>
+                                            handleTransformChange("scale")
+                                        }
+                                    ></i>
+                                </div>
+                            </div>
+                            <input
+                                type="range"
+                                name="x-value"
+                                id="x-value"
+                                min={0}
+                                max={1}
+                                step={0.01}
+                                value={currentModel?.modelScale}
+                                onChange={handleScaleTransform}
+                            />
                         </div>
-                    </div>
-                    <input
-                        type="range"
-                        name="x-value"
-                        id="x-value"
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        value={currentModel?.modelScale}
-                        onChange={handleScaleTransform}
-                    />
-                </div>
-                <div className="option__content">
-                    <Checkbox
-                        id="visible"
-                        label={t("visible")}
-                        checked={currentModel?.visible}
-                        onChange={handleVisible}
-                    />
-                </div>
+                        <div className="option__content">
+                            <Checkbox
+                                id="visible"
+                                label={t("visible")}
+                                checked={currentModel?.visible}
+                                onChange={handleVisible}
+                            />
+                        </div>
+                    </>
+                )}
             </div>
 
             {currentModel?.model instanceof Live2DModel && !loading && (
                 <>
-                    <div className="option">
+                    <div
+                        className="option"
+                        onClick={() => {
+                            setOpenTab("mouth");
+                        }}
+                    >
                         <h2>{t("model.mouth")}</h2>
-                        <div className="option__content">
-                            {coreModel &&
-                                coreModel["_parameterIds"]
-                                    .map((param: string, idx: number) => {
-                                        return live2DInputSlider(idx, param, "Mouth");
-                                    })
-                                    .filter(Boolean)}
-                        </div>
-                    </div>
-                    <div className="option">
-                        <h2>{t("model.advanced")}</h2>
-                        <div className="option__content">
-                            <h3>Live2D Parameters</h3>
-                            {coreModel && (
-                                <>
-                                    <select
-                                        name="parameters"
-                                        id="parameters"
-                                        onChange={(e) => {
-                                            const [param, idx] =
-                                                e.target.value.split(",");
-                                            console.log(param, idx)
-                                            setSelectedParameter({
-                                                idx: Number(idx),
-                                                param,
-                                            });
-                                        }}
-                                        value={`${selectedParameter?.param},${selectedParameter?.idx}`}
-                                    >
-                                        <option value="_,-1" disabled>
-                                            Select a parameter
-                                        </option>
-                                        {coreModel["_parameterIds"].map(
-                                            (param: string, idx: number) => (
-                                                <option
-                                                    value={`${param},${idx}`}
-                                                    key={idx}
-                                                >
-                                                    {param}
-                                                </option>
-                                            )
-                                        )}
-                                    </select>
-                                    {selectedParameter &&
-                                        live2DInputSlider(
-                                            selectedParameter?.idx,
-                                            selectedParameter?.param
-                                        )}
-                                </>
-                            )}
+                        {openTab === "mouth" && (
                             <div className="option__content">
-                                <h3>Toggles</h3>
-                                <Checkbox
-                                    label="Idle Animation"
-                                    checked={currentModel.idle}
-                                    id="idle"
-                                    onChange={handleIdle}
-                                />
+                                {coreModel &&
+                                    coreModel["_parameterIds"]
+                                        .map((param: string, idx: number) => {
+                                            return live2DInputSlider(
+                                                idx,
+                                                param,
+                                                "Mouth"
+                                            );
+                                        })
+                                        .filter(Boolean)}
                             </div>
-                        </div>
+                        )}
+                    </div>
+                    <div
+                        className="option"
+                        onClick={() => {
+                            setOpenTab("advanced");
+                        }}
+                    >
+                        <h2>{t("model.advanced")}</h2>
+                        {openTab === "advanced" && (
+                            <div className="option__content">
+                                <h3>Live2D Parameters</h3>
+                                {coreModel && (
+                                    <>
+                                        <select
+                                            name="parameters"
+                                            id="parameters"
+                                            onChange={(e) => {
+                                                const [param, idx] =
+                                                    e.target.value.split(",");
+                                                console.log(param, idx);
+                                                setSelectedParameter({
+                                                    idx: Number(idx),
+                                                    param,
+                                                });
+                                            }}
+                                            value={`${selectedParameter?.param},${selectedParameter?.idx}`}
+                                        >
+                                            <option value="_,-1" disabled>
+                                                Select a parameter
+                                            </option>
+                                            {coreModel["_parameterIds"].map(
+                                                (
+                                                    param: string,
+                                                    idx: number
+                                                ) => (
+                                                    <option
+                                                        value={`${param},${idx}`}
+                                                        key={idx}
+                                                    >
+                                                        {param}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
+                                        {selectedParameter &&
+                                            live2DInputSlider(
+                                                selectedParameter?.idx,
+                                                selectedParameter?.param
+                                            )}
+                                    </>
+                                )}
+                                <div className="option__content">
+                                    <h3>Toggles</h3>
+                                    <Checkbox
+                                        label="Idle Animation"
+                                        checked={currentModel.idle}
+                                        id="idle"
+                                        onChange={handleIdle}
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </>
             )}
