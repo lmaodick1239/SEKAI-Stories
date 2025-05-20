@@ -10,38 +10,40 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("featureAnnouncement2");
+        const cookie = localStorage.getItem("uiuxTest");
         if (!cookie) {
-            localStorage.setItem("featureAnnouncement2", "0");
+            localStorage.setItem("uiuxTest", "0");
             return;
         }
-        localStorage.setItem("featureAnnouncement2", `${Number(cookie) + 1}`);
+        localStorage.setItem("uiuxTest", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>New features have been added! See more information below.</p>
+            <p>
+                A poll has been created to see if the current UI/UX is better
+                than before.
+            </p>
             <button
                 className="btn-blue btn-regular"
                 onClick={() => {
                     window.open(
-                        "https://ko-fi.com/post/SEKAI-Stories-New-Features-U7U31F3UVI",
+                        "https://ko-fi.com/polls/Is-the-UIUX-better-Q5Q01F9KEM",
                         "_blank"
                     );
                 }}
             >
-                Ko-fi Announcement
+                Ko-fi Poll
             </button>
             <p>
-                Localization contributions are still welcome! You can check this
-                information on{" "}
+                Previous Announcement:{" "}
                 <a
-                    href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
+                    href="https://ko-fi.com/post/SEKAI-Stories-New-Features-U7U31F3UVI"
                     className="text-orange"
                     target="_blank"
                 >
-                    GitHub
+                    SEKAI Stories New Features!
                 </a>
                 .
             </p>
