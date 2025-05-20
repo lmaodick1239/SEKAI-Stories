@@ -10,31 +10,31 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("uiuxTest");
+        const cookie = localStorage.getItem("uiuxTest2");
         if (!cookie) {
-            localStorage.setItem("uiuxTest", "0");
+            localStorage.setItem("uiuxTest2", "0");
             return;
         }
-        localStorage.setItem("uiuxTest", `${Number(cookie) + 1}`);
+        localStorage.setItem("uiuxTest2", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
             <p>
-                A poll has been created to see if the current UI/UX is better
-                than before.
+                The sidebar has recently just updated. Please provide your
+                feedback if you like the changes~
             </p>
             <button
                 className="btn-blue btn-regular"
                 onClick={() => {
                     window.open(
-                        "https://ko-fi.com/polls/Is-the-UIUX-better-Q5Q01F9KEM",
+                        "https://forms.gle/bfGey2YS4mcvqDK9A",
                         "_blank"
                     );
                 }}
             >
-                Ko-fi Poll
+                Feedback
             </button>
             <p>
                 Previous Announcement:{" "}
