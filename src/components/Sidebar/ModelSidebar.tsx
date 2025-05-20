@@ -91,7 +91,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     );
     const [showAddModelScreen, setShowAddModelScreen] =
         useState<boolean>(false);
-    const [showLive2DParts, setShowLive2DParts] = useState<boolean>(false);
+    const [selectedParameter, setSelectedParameter] = useState<{
+        idx: number;
+        param: string;
+    }>({ idx: -1, param: "_" });
 
     const [coreModel, setCoreModel] = useState<
         Cubism4InternalModel["coreModel"] | null
@@ -306,7 +309,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentSelectedCharacter(models[firstKey].character);
         setLayerIndex(0);
         setLayers(layers - 1);
-        setLoading(false);          
+        setLoading(false);
+        setParameterValues({});
+        setSelectedParameter({ idx: -1, param: "_" });
     };
 
     const handleCharacterChange = async (
@@ -357,6 +362,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             });
             setLoading(false);
             setParameterValues({});
+            setSelectedParameter({ idx: -1, param: "_" });
         } catch {
             setLoadingMsg("Failed to load model!");
         } finally {
@@ -422,6 +428,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             });
             setLoading(false);
             setParameterValues({});
+            setSelectedParameter({ idx: -1, param: "_" });
         } catch {
             setLoadingMsg("Failed to load model!");
         } finally {
@@ -561,18 +568,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         }
     };
 
-    const handleLive2DParts = async (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const value = event.target.checked;
-        if (value) {
-            const confirmation = confirm(t("model.access-live2d-parts"));
-            if (!confirmation) return;
-        }
-
-        setShowLive2DParts(value);
-    };
-
     const handleLive2DParamsChange = (
         e: React.ChangeEvent<HTMLInputElement>,
         params: string
@@ -603,6 +598,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             return null;
         }
 
+        if (idx == -1) return null;
+
         if (!coreModel || !currentModel) return null;
 
         const min = coreModel.getParameterMinimumValue(idx);
@@ -611,7 +608,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
         return (
             <div className="option__content" key={param}>
-                <h3>{filter ? t(`model.${param}`) : param}</h3>
+                {filter && <h3>{t(`model.${param}`)}</h3>}
                 <input
                     type="range"
                     name={param}
@@ -905,11 +902,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             {coreModel &&
                                 coreModel["_parameterIds"]
                                     .map((param: string, idx: number) => {
-                                        return live2DInputSlider(
-                                            idx,
-                                            param,
-                                            "Mouth"
-                                        );
+                                        return live2DInputSlider(idx, param, "Mouth");
                                     })
                                     .filter(Boolean)}
                         </div>
@@ -917,38 +910,53 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     <div className="option">
                         <h2>{t("model.advanced")}</h2>
                         <div className="option__content">
-                            <Checkbox
-                                label="Idle Animation"
-                                checked={currentModel.idle}
-                                id="idle"
-                                onChange={handleIdle}
-                            />
-                        </div>
-                        <div className="option__content">
-                            <Checkbox
-                                id="advanced"
-                                label={t("model.show-live2d-parts")}
-                                checked={showLive2DParts}
-                                onChange={handleLive2DParts}
-                            />
-                            {showLive2DParts && coreModel && (
+                            <h3>Live2D Parameters</h3>
+                            {coreModel && (
                                 <>
-                                    {coreModel["_parameterIds"].map(
-                                        (param: string, idx: number) => {
-                                            return live2DInputSlider(
-                                                idx,
-                                                param
-                                            );
-                                        }
-                                    )}
-                                    <Checkbox
-                                        id="advanced"
-                                        label={t("model.show-live2d-parts")}
-                                        checked={showLive2DParts}
-                                        onChange={handleLive2DParts}
-                                    />
+                                    <select
+                                        name="parameters"
+                                        id="parameters"
+                                        onChange={(e) => {
+                                            const [param, idx] =
+                                                e.target.value.split(",");
+                                            console.log(param, idx)
+                                            setSelectedParameter({
+                                                idx: Number(idx),
+                                                param,
+                                            });
+                                        }}
+                                        value={`${selectedParameter?.param},${selectedParameter?.idx}`}
+                                    >
+                                        <option value="_,-1" disabled>
+                                            Select a parameter
+                                        </option>
+                                        {coreModel["_parameterIds"].map(
+                                            (param: string, idx: number) => (
+                                                <option
+                                                    value={`${param},${idx}`}
+                                                    key={idx}
+                                                >
+                                                    {param}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    {selectedParameter &&
+                                        live2DInputSlider(
+                                            selectedParameter?.idx,
+                                            selectedParameter?.param
+                                        )}
                                 </>
                             )}
+                            <div className="option__content">
+                                <h3>Toggles</h3>
+                                <Checkbox
+                                    label="Idle Animation"
+                                    checked={currentModel.idle}
+                                    id="idle"
+                                    onChange={handleIdle}
+                                />
+                            </div>
                         </div>
                     </div>
                 </>
