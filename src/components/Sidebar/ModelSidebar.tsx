@@ -581,6 +581,30 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         }));
     };
 
+    const handleLive2DParamsStep = (type: string, params: string) => {
+        let newValue: number = 0;
+        const currentValue = coreModel?.getParameterValueById(params) ?? 0;
+        const step = 1;
+        switch (type) {
+            case "+":
+                newValue = currentValue + step;
+                break;
+            case "-":
+                newValue = currentValue - step;
+                break;
+            case "0":
+                newValue = 0;
+                break;
+            default:
+                newValue = currentValue;
+        }
+        coreModel?.setParameterValueById(params, newValue);
+        setParameterValues((prev) => ({
+            ...prev,
+            [params]: newValue,
+        }));
+    };
+
     const handleIdle = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.checked;
         if (
@@ -651,7 +675,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 </option>
                             ))}
                         </select>
-                        <div id="layer-buttons">
+                        <div className="layer-buttons">
                             <button
                                 className="btn-circle btn-white"
                                 onClick={() => {
@@ -978,7 +1002,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             setOpenTab("mouth");
                         }}
                     >
-                         <div className="space-between flex-horizontal center">
+                        <div className="space-between flex-horizontal center">
                             <h2>{t("model.mouth")}</h2>
                             {openTab !== "mouth" && (
                                 <i className="bi bi-caret-down-fill" />
@@ -1005,7 +1029,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             setOpenTab("advanced");
                         }}
                     >
-                         <div className="space-between flex-horizontal center">
+                        <div className="space-between flex-horizontal center">
                             <h2>{t("model.advanced")}</h2>
                             {openTab !== "advanced" && (
                                 <i className="bi bi-caret-down-fill" />
@@ -1047,11 +1071,49 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                                 )
                                             )}
                                         </select>
-                                        {selectedParameter &&
-                                            live2DInputSlider(
-                                                selectedParameter?.idx,
-                                                selectedParameter?.param
-                                            )}
+                                        {selectedParameter && (
+                                            <>
+                                                {live2DInputSlider(
+                                                    selectedParameter?.idx,
+                                                    selectedParameter?.param
+                                                )}
+                                                <div className="layer-buttons">
+                                                    <button
+                                                        className="btn-circle btn-white"
+                                                        onClick={() => {
+                                                            handleLive2DParamsStep(
+                                                                "-",
+                                                                selectedParameter?.param
+                                                            );
+                                                        }}
+                                                    >
+                                                        <i className="bi bi-caret-left-fill" />
+                                                    </button>
+                                                    <button
+                                                        className="btn-circle btn-white"
+                                                        onClick={() => {
+                                                            handleLive2DParamsStep(
+                                                                "0",
+                                                                selectedParameter?.param
+                                                            );
+                                                        }}
+                                                    >
+                                                        <i className="bi bi-arrow-clockwise" />
+                                                    </button>
+                                                    <button
+                                                        className="btn-circle btn-white"
+                                                        onClick={() => {
+                                                            handleLive2DParamsStep(
+                                                                "+",
+                                                                selectedParameter?.param
+                                                            );
+                                                        }}
+                                                    >
+                                                        <i className="bi bi-caret-right-fill" />
+                                                    </button>
+                                                </div>
+                                            </>
+                                        )}
                                     </>
                                 )}
                                 <div className="option__content">

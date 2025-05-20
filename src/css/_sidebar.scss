@@ -119,14 +119,14 @@
     z-index: 10000;
 }
 
-#layer-buttons {
+.layer-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: end;
 }
 
-#layer-buttons > button > i {
+.layer-buttons > button > i {
     font-size: 32px;
 }
 
