@@ -2,6 +2,7 @@ button {
     border: none;
     margin: 10px 0px;
     cursor: pointer;
+    user-select: none;
 }
 
 button.btn-regular {
