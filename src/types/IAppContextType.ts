@@ -16,6 +16,10 @@ export default interface ISceneContextType {
     setLayers: Dispatch<SetStateAction<number>>;
     nextLayer: number;
     setNextLayer: Dispatch<SetStateAction<number>>;
+    currentKey: string;
+    setCurrentKey: Dispatch<SetStateAction<string>>;
+    currentModel: IModel | undefined;
+    setCurrentModel: Dispatch<SetStateAction<IModel | undefined>>;
     modelContainer: PIXI.Container | undefined;
     setModelContainer: Dispatch<SetStateAction<PIXI.Container | undefined>>;
     background: IBackground | undefined;

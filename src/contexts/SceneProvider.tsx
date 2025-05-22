@@ -85,6 +85,10 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [modelContainer, setModelContainer] = useState<
         PIXI.Container | undefined
     >(undefined);
+    const [currentModel, setCurrentModel] = useState<IModel | undefined>(
+        undefined
+    );
+    const [currentKey, setCurrentKey] = useState<string>("");
     const [background, setBackground] = useState<IBackground | undefined>(
         undefined
     );
@@ -248,6 +252,24 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
 
             initApplication.stage.addChildAt(textContainer, 3);
 
+            const model = {
+                character1: {
+                    character: initialScene["character"],
+                    model: sprite,
+                    modelName: initialScene["model"],
+                    modelX: sprite.x,
+                    modelY: sprite.y,
+                    modelScale: sprite.scale.x,
+                    modelData: undefined,
+                    virtualEffect: false,
+                    expression: 0,
+                    pose: 0,
+                    idle: true,
+                    visible: true,
+                    from: "sekai",
+                },
+            };
+
             // Load Scene Setting Text
             const sceneSettingContainer = new PIXI.Container();
             const sceneSettingBackgroundTexture = await Assets.load(
@@ -284,23 +306,9 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             initApplication.stage.addChildAt(guidelineContainer, 5);
 
             setApp(initApplication);
-            setModels({
-                character1: {
-                    character: initialScene["character"],
-                    model: sprite,
-                    modelName: initialScene["model"],
-                    modelX: sprite.x,
-                    modelY: sprite.y,
-                    modelScale: sprite.scale.x,
-                    modelData: undefined,
-                    virtualEffect: false,
-                    expression: 0,
-                    pose: 0,
-                    idle: true,
-                    visible: true,
-                    from: "sekai",
-                },
-            });
+            setModels(model);
+            setCurrentKey("character1");
+            setCurrentModel(model["character1"]);
             setModelContainer(modelContainer);
             setBackground({
                 backgroundContainer: backgroundContainer,
@@ -345,6 +353,10 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setLayers,
                 nextLayer,
                 setNextLayer,
+                currentKey,
+                setCurrentKey,
+                currentModel,
+                setCurrentModel,
                 modelContainer,
                 setModelContainer,
                 background,

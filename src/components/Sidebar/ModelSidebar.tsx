@@ -79,10 +79,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const context = useContext(SceneContext);
 
     const [openTab, setOpenTab] = useState<string>("select-layer");
-    const [currentModel, setCurrentModel] = useState<IModel | undefined>(
-        undefined
-    );
-    const [currentKey, setCurrentKey] = useState<string>("");
+
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
     const [layerIndex, setLayerIndex] = useState<number>(0);
@@ -108,18 +105,15 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const modelSelect = useRef<null | HTMLSelectElement>(null);
 
     useEffect(() => {
-        if (!context?.models || currentKey) return;
-        const entries = Object.entries(context.models);
-        if (entries.length === 0) return;
-
-        const [firstKey, firstModel] = entries[0];
-        setCurrentKey(firstKey);
-        setCurrentModel(firstModel);
-        setCurrentSelectedCharacter(firstModel.character);
-    }, [context?.models, currentKey]);
+        if (!context?.models || !context.currentKey || !context.currentModel)
+            return;
+        const modelKeys = Object.keys(context.models);
+        const currentKeyIndex = modelKeys.indexOf(context.currentKey);
+        setLayerIndex(currentKeyIndex);
+        setCurrentSelectedCharacter(currentModel?.character ?? "none");
+    }, []);
 
     useEffect(() => {
-        console.log(currentModel);
         if (currentModel?.model instanceof Live2DModel && !loading) {
             setCoreModel(
                 currentModel.model.internalModel
@@ -128,7 +122,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         } else {
             setCoreModel(null);
         }
-    }, [currentModel, loading]);
+    }, [context?.currentModel, loading]);
 
     if (!context || !context.models) {
         return t("please-wait");
@@ -142,6 +136,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setNextLayer,
         layers,
         setLayers,
+        currentKey,
+        setCurrentKey,
+        currentModel,
+        setCurrentModel,
     } = context;
 
     const updateModelState = (updates: Partial<IModel>) => {
