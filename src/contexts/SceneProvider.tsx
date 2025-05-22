@@ -238,6 +238,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 wordWrap: true,
                 wordWrapWidth: 1300,
                 breakWords: true,
+                lineHeight: 55,
             });
             textDialogue.position.set(245, 845 + Number(textAlignmentCookie));
 
