@@ -336,6 +336,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 visible: false,
             });
             setStartingMessage("");
+            setLayers(1)
         };
         runCanvas();
     }, [reset]);
@@ -373,8 +374,8 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setHide,
                 hideAnnouncements,
                 setHideAnnouncements,
-                showExperimental: showExperimental,
-                setShowExperimental: setShowExperimental,
+                showExperimental,
+                setShowExperimental,
                 startingMessage,
                 setStartingMessage,
             }}
