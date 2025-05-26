@@ -260,7 +260,7 @@ const TextSidebar: React.FC = () => {
                                                 "nameTag1"
                                             );
                                         }}
-                                        placeholder="Student A"
+                                        placeholder="Miku"
                                     />
                                 </div>
                                 <div className="flex-horizontal center">
@@ -279,7 +279,7 @@ const TextSidebar: React.FC = () => {
                                                 "nameTag2"
                                             );
                                         }}
-                                        placeholder="Student B"
+                                        placeholder="Teto"
                                     />
                                 </div>
                             </>

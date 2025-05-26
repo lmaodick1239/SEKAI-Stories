@@ -1053,7 +1053,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         </div>
                         {(openAll || openTab === "advanced") && (
                             <div className="option__content">
-                                <h3>Live2D Parameters</h3>
+                                <h3>{t("model.live2d-parameters")}</h3>
                                 {coreModel && (
                                     <>
                                         <select
@@ -1071,7 +1071,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                             value={`${selectedParameter?.param},${selectedParameter?.idx}`}
                                         >
                                             <option value="_,-1" disabled>
-                                                Select a parameter
+                                                {t("model.select-parameter")}
                                             </option>
                                             {coreModel["_parameterIds"].map(
                                                 (
@@ -1134,9 +1134,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                     </>
                                 )}
                                 <div className="option__content">
-                                    <h3>Toggles</h3>
+                                    <h3>{t("model.toggles")}</h3>
                                     <Checkbox
-                                        label="Idle Animation"
+                                        label={t("model.idle")}
                                         checked={currentModel.idle}
                                         id="idle"
                                         onChange={handleIdle}

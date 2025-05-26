@@ -11,7 +11,7 @@
     "text": {
         "header": "Text",
         "name-tag": "Pangalan",
-        "easy-switch": "Madaliang pagpalit",
+        "easy-switch": "Madaliang salitan",
         "dialogue": "Dayalogo",
         "font-size": "Laki ng teksto",
         "add-symbol": "Magdagdag ng simbolo",
@@ -52,7 +52,11 @@
         "ParamMouthShadow": "Anino",
         "advanced": "Advanced",
         "show-live2d-parts": "Ipakita ang mga bahagi ng modelo",
-        "access-live2d-parts": "Magkakaroon ka ng access sa lahat ng bahagi ng modelong ito. Ipagpatuloy?"
+        "access-live2d-parts": "Magkakaroon ka ng access sa lahat ng bahagi ng modelong ito. Ipagpatuloy?",
+        "toggles": "Mga Toggle",
+        "idle": "Idle na animasyon",
+        "live2d-parameters": "Live2D Parameters",
+        "select-parameter": "Pumili ng parameter"
     },
 
     "visible": "Ipakita",
@@ -137,7 +141,8 @@
         "auto-save-button": "Kunin ang huling save",
         "toggles": "Mga Toggle",
         "guidelines": "Ipakita ang guideline",
-        "experimental": "Ipakita ang eksperimental"
+        "experimental": "Ipakita ang eksperimental",
+        "expand": "Buksan lahat ng opsyon sa menu"
     },
     "import-export": {
         "header": "Import/Export",
