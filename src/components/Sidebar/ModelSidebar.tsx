@@ -197,6 +197,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             autoInteract: false,
         });
         live2DModel.scale.set(currentModel?.modelScale);
+        live2DModel.anchor.set(0.5, 0.5);
         live2DModel.position.set(currentModel?.modelX, currentModel?.modelY);
         currentModel?.model.destroy();
         modelContainer?.addChildAt(live2DModel, layerIndex);
@@ -237,8 +238,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 character: "none",
                 modelName: modelName,
                 model: sprite,
-                modelX: -200,
-                modelY: -280,
+                modelX: 640,
+                modelY: 870,
                 modelScale: 0.5,
                 virtualEffect: false,
                 expression: 99999,
@@ -266,14 +267,16 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         const modelName = imgSrc;
         const texture = await PIXI.Texture.fromURL(modelName);
         const sprite = new PIXI.Sprite(texture);
-        modelContainer?.addChildAt(sprite, layerIndex);
+        sprite.anchor.set(0.5, 0.5);
+        sprite.position.set(960, 540);
+        modelContainer?.addChildAt(sprite, layers);
         const newLayer = {
             [`character${nextLayer + 1}`]: {
                 character: "custom",
                 modelName: modelName,
                 model: sprite,
-                modelX: sprite.x,
-                modelY: sprite.y,
+                modelX: 960,
+                modelY: 540,
                 modelScale: sprite.scale.x,
                 virtualEffect: false,
                 expression: 99999,
@@ -937,8 +940,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 type="range"
                                 name="x-value"
                                 id="x-value"
-                                min={-720}
-                                max={1720}
+                                min={0}
+                                max={1920}
                                 value={currentModel?.modelX}
                                 onChange={handleXTransform}
                             />
@@ -960,10 +963,10 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                             </div>
                             <input
                                 type="range"
-                                name="x-value"
-                                id="x-value"
-                                min={-1280}
-                                max={1280}
+                                name="y-value"
+                                id="y-value"
+                                min={0}
+                                max={1080}
                                 value={currentModel?.modelY}
                                 onChange={handleYTransform}
                             />

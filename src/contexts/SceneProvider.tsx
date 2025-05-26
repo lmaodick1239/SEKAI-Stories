@@ -34,8 +34,8 @@ const randomInitialScene: InitialScene[] = [
         text: "No, I will not do Ai♡Scream on you.",
         nameTag: "Airi",
         character: "airi",
-        modelX: 650,
-        modelY: 170,
+        modelX: 960,
+        modelY: 630,
         pngName: "airi",
         sceneSetting: "Uranohoshi High School Idol Club",
     },
@@ -45,8 +45,8 @@ const randomInitialScene: InitialScene[] = [
         text: "Mizuki, that's not how you break a KitKat!",
         nameTag: "Ena",
         character: "ena",
-        modelX: 690,
-        modelY: 135,
+        modelX: 960,
+        modelY: 630,
         pngName: "ena",
         sceneSetting: "Diner",
     },
@@ -56,8 +56,8 @@ const randomInitialScene: InitialScene[] = [
         text: "Hashiridashita...?",
         nameTag: "Kanade",
         character: "kanade",
-        modelX: 650,
-        modelY: 170,
+        modelX: 960,
+        modelY: 630,
         pngName: "kanade",
         sceneSetting: "Kanade's Room",
     },
@@ -67,8 +67,8 @@ const randomInitialScene: InitialScene[] = [
         text: "I feel like I've heard this song before...",
         nameTag: "Mizuki",
         character: "mizuki",
-        modelX: 935,
-        modelY: 135,
+        modelX: 1265,
+        modelY: 630,
         pngName: "mizuki",
         sceneSetting: "Shrine",
     },
@@ -113,8 +113,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 text: "→↓↑→→↓→→↑↑↓↓←→←→",
                 nameTag: "Mafuyu",
                 character: "mafuyu",
-                modelX: 650,
-                modelY: 0,
+                modelX: 960,
+                modelY: 545,
                 pngName: "mafuyu",
                 sceneSetting: "Mafuyu's Room",
             };
@@ -200,6 +200,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             );
             const sprite = new PIXI.Sprite(texture);
             modelContainer.addChildAt(sprite, 0);
+            sprite.anchor.set(0.5, 0.5)
             sprite.position.set(initialScene["modelX"], initialScene["modelY"]);
 
             initApplication.stage.addChildAt(modelContainer, 2);
