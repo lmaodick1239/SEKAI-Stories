@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { SceneContext } from "./SceneContext";
 import * as PIXI from "pixi.js";
 import { Assets } from "@pixi/assets";
@@ -139,7 +139,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
         ];
     };
 
-    const initialScene: InitialScene = getInitialScene();
+    const initialScene: InitialScene = useMemo(() => getInitialScene(), [reset]);
 
     useEffect(() => {
         const textAlignmentCookie = Number(
