@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
+import { SidebarContext } from "../../contexts/SidebarContext";
 import { Checkbox } from "../Checkbox";
 import RadioButton from "../RadioButton";
 import { useTranslation } from "react-i18next";
@@ -16,18 +17,20 @@ const symbols = {
     "beamed-eight-note": "♫",
     "beamed-sixteenth-note": "♬",
     "japanese-ellipsis": "…",
+    "japanese-circle": "〇",
+    "japanese-cross": "×",
 };
 
 const TextSidebar: React.FC = () => {
     const { t } = useTranslation();
+    const scene = useContext(SceneContext);
+    const sidebar = useContext(SidebarContext);
 
     const nameTag1Cookie = localStorage.getItem("nameTag1");
     const nameTag2Cookie = localStorage.getItem("nameTag2");
     const lockFontSize = localStorage.getItem("lockFontSize");
     const easySwitchEnabled = localStorage.getItem("easySwitchEnabled");
-    const [openTab, setOpenTab] = useState<string>("name-tag");
 
-    const context = useContext(SceneContext);
     const [bell, setBell] = useState<boolean>(false);
     const [easySwitch, setEasySwitch] = useState<boolean>(
         easySwitchEnabled === "true" ? true : false
@@ -40,20 +43,15 @@ const TextSidebar: React.FC = () => {
         lockFontSize === "true" ? true : false
     );
 
-    useEffect(() => {
-        const tab = localStorage.getItem("textTab");
-        setOpenTab(tab ? tab : "name-tag");
-    }, []);
-    
-    if (!context || !context.text || !context.sceneSetting) {
+    if (!scene || !sidebar || !scene.text || !scene.sceneSetting) {
         return t("please-wait");
     }
 
-    const { text, setText, sceneSetting, setSceneSetting } = context;
+    const { text, setText, sceneSetting, setSceneSetting } = scene;
+    const { openTextOption, setOpenTextOption, openAll } = sidebar;
 
     const handleTab = (tab: string) => {
-        setOpenTab(tab);
-        localStorage.setItem("textTab", tab);
+        setOpenTextOption(tab);
     };
 
     const handleNameTagChange = async (changedNameTag: string) => {
@@ -146,10 +144,12 @@ const TextSidebar: React.FC = () => {
     ) => {
         const changedFontSize = Number(event.target.value);
         text.dialogue.style.fontSize = changedFontSize;
-        text.dialogue.style.strokeThickness =
-            Math.floor(8 + (changedFontSize / 44 - 1) * 2);
-        text.dialogue.style.lineHeight =
-            Math.floor(55 + (changedFontSize / 44 - 1) * 40);
+        text.dialogue.style.strokeThickness = Math.floor(
+            8 + (changedFontSize / 44 - 1) * 2
+        );
+        text.dialogue.style.lineHeight = Math.floor(
+            55 + (changedFontSize / 44 - 1) * 40
+        );
         text.dialogue.updateText(true);
         setText({
             ...text,
@@ -220,13 +220,13 @@ const TextSidebar: React.FC = () => {
             <div className="option" onClick={() => handleTab("name-tag")}>
                 <div className="space-between flex-horizontal center">
                     <h2>{t("text.name-tag")}</h2>
-                    {openTab === "name-tag" ? (
+                    {openAll || openTextOption === "name-tag" ? (
                         <i className="bi bi-caret-down-fill" />
                     ) : (
                         <i className="bi bi-caret-right-fill" />
                     )}
                 </div>
-                {openTab === "name-tag" && (
+                {(openAll || openTextOption === "name-tag") && (
                     <div className="option__content">
                         {!easySwitch ? (
                             <input
@@ -308,13 +308,13 @@ const TextSidebar: React.FC = () => {
             >
                 <div className="space-between flex-horizontal center">
                     <h2>{t("text.dialogue")}</h2>
-                    {openTab === "dialogue" ? (
+                    {openAll || openTextOption === "dialogue" ? (
                         <i className="bi bi-caret-down-fill" />
                     ) : (
                         <i className="bi bi-caret-right-fill" />
                     )}
                 </div>
-                {openTab === "dialogue" && (
+                {(openAll || openTextOption === "dialogue") && (
                     <div className="option__content">
                         <textarea
                             name="dialogue"
@@ -391,13 +391,13 @@ const TextSidebar: React.FC = () => {
             >
                 <div className="space-between flex-horizontal center">
                     <h2>{t("text.scene-text")}</h2>
-                    {openTab === "scene-text" ? (
+                    {openAll || openTextOption === "scene-text" ? (
                         <i className="bi bi-caret-down-fill" />
                     ) : (
                         <i className="bi bi-caret-right-fill" />
                     )}
                 </div>
-                {openTab === "scene-text" && (
+                {(openAll || openTextOption === "scene-text") && (
                     <div className="option__content">
                         <input
                             type="text"
@@ -423,13 +423,13 @@ const TextSidebar: React.FC = () => {
             >
                 <div className="space-between flex-horizontal center">
                     <h2>{t("text.y-offset")}</h2>
-                    {openTab === "y-offset" ? (
+                    {openAll || openTextOption === "y-offset" ? (
                         <i className="bi bi-caret-down-fill" />
                     ) : (
                         <i className="bi bi-caret-right-fill" />
                     )}
                 </div>
-                {openTab === "y-offset" && (
+                {(openAll || openTextOption === "y-offset") && (
                     <div className="option__content">
                         <h3> Adjustment: ({text.yOffset}px)</h3>
                         <input

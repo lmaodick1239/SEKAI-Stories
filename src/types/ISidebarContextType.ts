@@ -9,4 +9,8 @@ export default interface ISidebarContextType {
     setHideAnnouncements: Dispatch<SetStateAction<boolean>>;
     showExperimental: boolean;
     setShowExperimental: Dispatch<SetStateAction<boolean>>;
+    openAll: boolean;
+    setOpenAll: Dispatch<SetStateAction<boolean>>;
+    openTextOption: string;
+    setOpenTextOption: Dispatch<SetStateAction<string>>;
 }

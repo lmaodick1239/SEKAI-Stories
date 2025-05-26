@@ -19,6 +19,7 @@ import AddModelSelect from "../AddModelSelect";
 import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
 import { AdjustmentFilter, CRTFilter } from "pixi-filters";
+import { SidebarContext } from "../../contexts/SidebarContext";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -76,7 +77,8 @@ const defaultModelBreath = [
 const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const { t } = useTranslation();
 
-    const context = useContext(SceneContext);
+    const scene = useContext(SceneContext);
+    const sidebar = useContext(SidebarContext);
 
     const [openTab, setOpenTab] = useState<string>("select-layer");
 
@@ -105,10 +107,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const modelSelect = useRef<null | HTMLSelectElement>(null);
 
     useEffect(() => {
-        if (!context?.models || !context.currentKey || !context.currentModel)
-            return;
-        const modelKeys = Object.keys(context.models);
-        const currentKeyIndex = modelKeys.indexOf(context.currentKey);
+        if (!scene?.models || !scene.currentKey || !scene.currentModel) return;
+        const modelKeys = Object.keys(scene.models);
+        const currentKeyIndex = modelKeys.indexOf(scene.currentKey);
         setLayerIndex(currentKeyIndex);
         setCurrentSelectedCharacter(currentModel?.character ?? "none");
     }, []);
@@ -122,9 +123,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         } else {
             setCoreModel(null);
         }
-    }, [context?.currentModel, loading]);
+    }, [scene?.currentModel, loading]);
 
-    if (!context || !context.models) {
+    if (!scene || !sidebar || !scene.models) {
         return t("please-wait");
     }
 
@@ -140,7 +141,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentKey,
         currentModel,
         setCurrentModel,
-    } = context;
+    } = scene;
+
+    const { openAll } = sidebar;
 
     const updateModelState = (updates: Partial<IModel>) => {
         setModels((prevModels) => ({
@@ -294,7 +297,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     };
 
     const handleDeleteLayer = async () => {
-        const modelsObjects = Object.entries(context.models ?? {});
+        const modelsObjects = Object.entries(scene.models ?? {});
         if (modelsObjects.length == 1) {
             alert(t("model.delete-model-warn"));
             return;
@@ -660,13 +663,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             >
                 <div className="space-between flex-horizontal center">
                     <h2>{t("model.selected-layer")}</h2>
-                    {openTab === "select-layer" ? (
+                    {openAll || openTab === "select-layer" ? (
                         <i className="bi bi-caret-down-fill" />
                     ) : (
                         <i className="bi bi-caret-right-fill" />
                     )}
                 </div>
-                {openTab === "select-layer" && (
+                {(openAll || openTab === "select-layer") && (
                     <div className="option__content">
                         <select value={currentKey} onChange={handleLayerChange}>
                             {Object.keys(models).map((model, idx) => (
@@ -716,13 +719,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     >
                         <div className="space-between flex-horizontal center">
                             <h2>{t("model.character")}</h2>
-                            {openTab === "character" ? (
+                            {openAll || openTab === "character" ? (
                                 <i className="bi bi-caret-down-fill" />
                             ) : (
                                 <i className="bi bi-caret-right-fill" />
                             )}
                         </div>
-                        {openTab === "character" && (
+                        {(openAll || openTab === "character") && (
                             <div className="option__content">
                                 <select
                                     value={currentSelectedCharacter}
@@ -754,14 +757,14 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     >
                         <div className="space-between flex-horizontal center">
                             <h2>{t("model.costume")}</h2>
-                            {openTab === "costume" ? (
+                            {openAll || openTab === "costume" ? (
                                 <i className="bi bi-caret-down-fill" />
                             ) : (
                                 <i className="bi bi-caret-right-fill" />
                             )}
                         </div>
 
-                        {openTab === "costume" && (
+                        {(openAll || openTab === "costume") && (
                             <div className="option__content">
                                 <select
                                     value={currentModel?.modelName}
@@ -810,13 +813,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     >
                         <div className="space-between flex-horizontal center">
                             <h2>{t("model.emotion")}</h2>
-                            {openTab === "emotion" ? (
+                            {openAll || openTab === "emotion" ? (
                                 <i className="bi bi-caret-down-fill" />
                             ) : (
                                 <i className="bi bi-caret-right-fill" />
                             )}
                         </div>
-                        {openTab === "emotion" && (
+                        {(openAll || openTab === "emotion") && (
                             <>
                                 <div className="option__content">
                                     <h3>{t("model.pose")}</h3>
@@ -907,13 +910,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             <div className="option" onClick={() => setOpenTab("transform")}>
                 <div className="space-between flex-horizontal center">
                     <h2>{t("model.transform")}</h2>
-                    {openTab === "transform" ? (
+                    {openAll || openTab === "transform" ? (
                         <i className="bi bi-caret-down-fill" />
                     ) : (
                         <i className="bi bi-caret-right-fill" />
                     )}
                 </div>
-                {openTab === "transform" && (
+                {(openAll || openTab === "transform") && (
                     <>
                         <div className="option__content">
                             <div className="transform-icons">
@@ -1013,13 +1016,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     >
                         <div className="space-between flex-horizontal center">
                             <h2>{t("model.mouth")}</h2>
-                            {openTab === "mouth" ? (
+                            {openAll || openTab === "mouth" ? (
                                 <i className="bi bi-caret-down-fill" />
                             ) : (
                                 <i className="bi bi-caret-right-fill" />
                             )}
                         </div>
-                        {openTab === "mouth" && (
+                        {(openAll || openTab === "mouth") && (
                             <div className="option__content">
                                 {coreModel &&
                                     coreModel["_parameterIds"]
@@ -1042,13 +1045,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     >
                         <div className="space-between flex-horizontal center">
                             <h2>{t("model.advanced")}</h2>
-                            {openTab === "advanced" ? (
+                            {openAll || openTab === "advanced" ? (
                                 <i className="bi bi-caret-down-fill" />
                             ) : (
                                 <i className="bi bi-caret-right-fill" />
                             )}
                         </div>
-                        {openTab === "advanced" && (
+                        {(openAll || openTab === "advanced") && (
                             <div className="option__content">
                                 <h3>Live2D Parameters</h3>
                                 {coreModel && (

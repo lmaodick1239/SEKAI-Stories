@@ -18,7 +18,8 @@ const SettingsButton: React.FC = () => {
     }
 
     const { guideline, setGuideline } = scene;
-    const { showExperimental, setShowExperimental } = sidebar;
+    const { openAll, setOpenAll, showExperimental, setShowExperimental } =
+        sidebar;
 
     const handleChangeLanguage = async (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -68,6 +69,12 @@ const SettingsButton: React.FC = () => {
         const value = e.target.checked;
         localStorage.setItem("showExperimental", String(value));
         setShowExperimental(value);
+    };
+
+    const handleExpand = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("openAll", String(value));
+        setOpenAll(value);
     };
 
     return (
@@ -127,6 +134,12 @@ const SettingsButton: React.FC = () => {
                             </button>
                             <h2>{t("settings.toggles")}</h2>
 
+                            <Checkbox
+                                id="expand"
+                                label={t("settings.expand")}
+                                checked={openAll}
+                                onChange={handleExpand}
+                            />
                             <Checkbox
                                 id="guideline"
                                 label={t("settings.guidelines")}

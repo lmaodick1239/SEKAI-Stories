@@ -11,6 +11,8 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
     const [showExperimental, setShowExperimental] = useState<boolean>(false);
+    const [openAll, setOpenAll] = useState<boolean>(false);
+    const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
 
     useEffect(() => {
         const announcementCookie = localStorage.getItem("uiuxTest2");
@@ -20,6 +22,10 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
         const experimentalCookie = localStorage.getItem("showExperimental");
         if (experimentalCookie === "true") {
             setShowExperimental(true);
+        }
+        const openAllCookie = localStorage.getItem("openAll");
+        if (openAllCookie === "true") {
+            setOpenAll(true);
         }
     }, []);
 
@@ -34,6 +40,10 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
                 setHideAnnouncements,
                 showExperimental,
                 setShowExperimental,
+                openAll,
+                setOpenAll,
+                openTextOption,
+                setOpenTextOption,
             }}
         >
             {children}
