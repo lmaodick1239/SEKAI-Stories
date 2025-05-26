@@ -5,17 +5,20 @@ import BackgroundSidebar from "./Sidebar/BackgroundSidebar";
 import ModelSidebar from "./Sidebar/ModelSidebar";
 import { refreshCanvas } from "../utils/RefreshCanvas";
 import { useTranslation } from "react-i18next";
+import { SidebarContext } from "../contexts/SidebarContext";
 
 const Sidebar: React.FC = () => {
     const { t } = useTranslation();
-    const context = useContext(SceneContext);
+    const scene = useContext(SceneContext);
+    const sidebar = useContext(SidebarContext);
 
-    if (!context) return;
+    if (!scene || !sidebar) return;
 
-    const { openedSidebar, startingMessage, showExperimental } = context;
+    const { startingMessage } = scene;
+    const { openedSidebar, showExperimental } = sidebar;
 
     const handleRefresh = () => {
-        refreshCanvas(context);
+        refreshCanvas(scene);
     };
     return (
         <div id="sidebar">
@@ -33,7 +36,6 @@ const Sidebar: React.FC = () => {
                         {t("experimental.refresh")}
                     </button>
                     <p>{t("experimental.details")}</p>
-                    
                 </div>
             )}
         </div>

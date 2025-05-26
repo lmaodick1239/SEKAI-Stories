@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import { SceneContext } from "../contexts/SceneContext";
+import { SidebarContext } from "../contexts/SidebarContext";
 
 const SidebarSelect: React.FC = () => {
-    const context = useContext(SceneContext);
+    const sidebar = useContext(SidebarContext);
 
-    if (!context) return;
+    if (!sidebar) return;
 
-    const { openedSidebar, setOpenedSidebar } = context;
+    const { openedSidebar, setOpenedSidebar } = sidebar;
 
     return (
         <div className="absolute flex-vertical" id="sidebar-select">

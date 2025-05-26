@@ -1,0 +1,12 @@
+import { Dispatch, SetStateAction } from "react";
+
+export default interface ISidebarContextType {
+    openedSidebar: string;
+    setOpenedSidebar: Dispatch<SetStateAction<string>>;
+    hide: boolean;
+    setHide: Dispatch<SetStateAction<boolean>>;
+    hideAnnouncements: boolean;
+    setHideAnnouncements: Dispatch<SetStateAction<boolean>>;
+    showExperimental: boolean;
+    setShowExperimental: Dispatch<SetStateAction<boolean>>;
+}

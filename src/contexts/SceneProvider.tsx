@@ -11,7 +11,7 @@ import { getBackground } from "../utils/GetBackground";
 import ISceneSetting from "../types/ISceneSetting";
 import IGuideline from "../types/IGuideline";
 
-interface AppProviderProps {
+interface SceneProviderProps {
     children: React.ReactNode;
 }
 
@@ -74,8 +74,7 @@ const randomInitialScene: InitialScene[] = [
     },
 ];
 
-export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
-    const [openedSidebar, setOpenedSidebar] = useState<string>("text");
+export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel> | undefined>(
         undefined
@@ -100,9 +99,6 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
         undefined
     );
     const [reset, setReset] = useState<number>(0);
-    const [hide, setHide] = useState<boolean>(false);
-    const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
-    const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [startingMessage, setStartingMessage] = useState<string>("");
 
     const getInitialScene = (scene?: string): InitialScene => {
@@ -146,15 +142,9 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     const initialScene: InitialScene = getInitialScene();
 
     useEffect(() => {
-        const announcementCookie = localStorage.getItem("uiuxTest2");
-        if (Number(announcementCookie) < 1) {
-            setHideAnnouncements(false);
-        }
-        const experimentalCookie = localStorage.getItem("showExperimental");
-        if (experimentalCookie === "true") {
-            setShowExperimental(true);
-        }
-        const textAlignmentCookie = localStorage.getItem("textAlignment");
+        const textAlignmentCookie = Number(
+            localStorage.getItem("textAlignment") ?? 0
+        );
 
         const runCanvas = async () => {
             const canvas = document.getElementById(
@@ -162,7 +152,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
             ) as HTMLCanvasElement;
 
             if (app) {
-                app?.stop();
+                app.stop();
             }
 
             const initApplication = new PIXI.Application({
@@ -231,7 +221,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 stroke: 0x5d5d79,
                 strokeThickness: 8,
             });
-            textNameTag.position.set(225, 780 + Number(textAlignmentCookie));
+            textNameTag.position.set(225, 780 + textAlignmentCookie);
 
             const textDialogue = new PIXI.Text(initialScene["text"], {
                 fontFamily: "FOT-RodinNTLGPro-DB",
@@ -244,7 +234,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 breakWords: true,
                 lineHeight: 55,
             });
-            textDialogue.position.set(245, 845 + Number(textAlignmentCookie));
+            textDialogue.position.set(245, 845 + textAlignmentCookie);
 
             textContainer.addChildAt(textBackgroundSprite, 0);
             textContainer.addChildAt(textNameTag, 1);
@@ -323,7 +313,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 dialogueString: initialScene["text"],
                 fontSize: 44,
                 visible: true,
-                yOffset: textAlignmentCookie ? Number(textAlignmentCookie) : 0,
+                yOffset: textAlignmentCookie,
             });
             setSceneSetting({
                 sceneSettingContainer: sceneSettingContainer,
@@ -336,7 +326,7 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 visible: false,
             });
             setStartingMessage("");
-            setLayers(1)
+            setLayers(1);
         };
         runCanvas();
     }, [reset]);
@@ -344,8 +334,6 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
     return (
         <SceneContext.Provider
             value={{
-                openedSidebar,
-                setOpenedSidebar,
                 app,
                 setApp,
                 models,
@@ -370,12 +358,6 @@ export const SceneProvider: React.FC<AppProviderProps> = ({ children }) => {
                 setGuideline,
                 reset,
                 setReset,
-                hide,
-                setHide,
-                hideAnnouncements,
-                setHideAnnouncements,
-                showExperimental,
-                setShowExperimental,
                 startingMessage,
                 setStartingMessage,
             }}

@@ -5,21 +5,23 @@ import DownloadClearButtons from "./DownloadClearButtons";
 import { SceneContext } from "../contexts/SceneContext";
 import FlavorText from "./FlavorText";
 import SettingsButton from "./SettingsButton";
+import { SidebarContext } from "../contexts/SidebarContext";
 
 const Content: React.FC = () => {
     const contentBackground = useRef<HTMLDivElement | null>(null);
-    const context = useContext(SceneContext);
+    const scene = useContext(SceneContext);
+    const sidebar = useContext(SidebarContext);
 
     useEffect(() => {
-        if (!context || !context.background) return;
+        if (!scene || !scene.background) return;
         if (contentBackground.current) {
-            contentBackground.current.style.backgroundImage = context
-                ?.background.filename
-                ? `url("${context.background.filename}")`
+            contentBackground.current.style.backgroundImage = scene?.background
+                .filename
+                ? `url("${scene.background.filename}")`
                 : "";
         }
-        console.log("Background set to:", context.background.filename);
-    }, [context]);
+        console.log("Background set to:", scene.background.filename);
+    }, [scene]);
 
     window.addEventListener("scroll", function () {
         const scrollPosition = window.scrollY;
@@ -57,10 +59,10 @@ const Content: React.FC = () => {
         }
     });
 
-    if (!context) {
+    if (!scene || !sidebar) {
         throw new Error("Context is not loaded properly.");
     }
-    const { hide, setHide } = context;
+    const { hide, setHide } = sidebar;
 
     return (
         <div id="content" className="center" style={{ position: "relative" }}>

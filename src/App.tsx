@@ -1,17 +1,17 @@
 import { useContext } from "react";
 import Content from "./components/Content";
 import Sidebar from "./components/Sidebar";
-import { SceneContext } from "./contexts/SceneContext";
 import Announcements from "./components/Announcements";
 import { useTranslation } from "react-i18next";
 import { ErrorBoundary } from "react-error-boundary";
+import { SidebarContext } from "./contexts/SidebarContext";
 
 function App() {
-    const context = useContext(SceneContext);
-    if (!context) {
+    const sidebar = useContext(SidebarContext);
+    if (!sidebar) {
         throw new Error("Context is not loaded properly.");
     }
-    const { hide, hideAnnouncements } = context;
+    const { hide, hideAnnouncements } = sidebar;
 
     const { i18n } = useTranslation();
     const lang = i18n.language;

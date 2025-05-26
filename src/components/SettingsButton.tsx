@@ -3,20 +3,22 @@ import { useTranslation } from "react-i18next";
 import SupportButton from "./SupportButton";
 import { Checkbox } from "./Checkbox";
 import { SceneContext } from "../contexts/SceneContext";
+import { SidebarContext } from "../contexts/SidebarContext";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
     const lng = i18n.language;
     const [show, setShow] = useState<boolean>(false);
 
-    const context = useContext(SceneContext);
+    const scene = useContext(SceneContext);
+    const sidebar = useContext(SidebarContext);
 
-    if (!context) {
+    if (!scene || !sidebar) {
         throw new Error("Context not provided.");
     }
 
-    const { showExperimental, setShowExperimental, guideline, setGuideline } =
-        context;
+    const { guideline, setGuideline } = scene;
+    const { showExperimental, setShowExperimental } = sidebar;
 
     const handleChangeLanguage = async (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -109,7 +111,10 @@ const SettingsButton: React.FC = () => {
                                     </option>
                                 ))}
                             </select>
-                            <a href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md" target="_blank">
+                            <a
+                                href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
+                                target="_blank"
+                            >
                                 Contribute for localization!
                             </a>
                             <h2>{t("settings.auto-save")}</h2>

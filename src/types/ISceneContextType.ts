@@ -6,8 +6,6 @@ import IText from "./IText";
 import ISceneSetting from "./ISceneSetting";
 import IGuideline from "./IGuideline";
 export default interface ISceneContextType {
-    openedSidebar: string;
-    setOpenedSidebar: Dispatch<SetStateAction<string>>;
     app: PIXI.Application | undefined;
     setApp: Dispatch<SetStateAction<PIXI.Application | undefined>>;
     models: Record<string, IModel> | undefined;
@@ -30,15 +28,8 @@ export default interface ISceneContextType {
     setSceneSetting: Dispatch<SetStateAction<ISceneSetting | undefined>>;
     guideline: IGuideline | undefined;
     setGuideline: Dispatch<SetStateAction<IGuideline | undefined>>;
-
     reset: number;
     setReset: Dispatch<SetStateAction<number>>;
-    hide: boolean;
-    setHide: Dispatch<SetStateAction<boolean>>;
-    hideAnnouncements: boolean;
-    setHideAnnouncements: Dispatch<SetStateAction<boolean>>;
-    showExperimental: boolean;
-    setShowExperimental: Dispatch<SetStateAction<boolean>>;
     startingMessage: string;
     setStartingMessage: Dispatch<SetStateAction<string>>;
 }
