@@ -944,7 +944,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 max={1920}
                                 value={currentModel?.modelX}
                                 onChange={handleXTransform}
+                                list="x-value-snap"
                             />
+                            <datalist id="x-value-snap">
+                                <option value={640} />
+                                <option value={960} />
+                                <option value={1280} />
+                            </datalist>
                         </div>
                         <div className="option__content">
                             <div className="transform-icons">
@@ -969,7 +975,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                 max={1080}
                                 value={currentModel?.modelY}
                                 onChange={handleYTransform}
+                                list="y-value-snap"
                             />
+                            <datalist id="y-value-snap">
+                                <option value={540} />
+                                <option value={865} />
+                            </datalist>
                         </div>
                         <div className="option__content">
                             <div className="transform-icons">
