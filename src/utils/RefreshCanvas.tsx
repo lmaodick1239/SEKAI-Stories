@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Live2DModel } from "pixi-live2d-display";
-import ISceneContextType from "../types/IAppContextType";
+import ISceneContextType from "../types/ISceneContextType";
 import { getBackground } from "./GetBackground";
 
 export const refreshCanvas = async (context: ISceneContextType) => {
