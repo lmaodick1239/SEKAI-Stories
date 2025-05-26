@@ -11,7 +11,9 @@
     }
 }
 
-#announcements > p, #announcements >h2 {
+#announcements > p,
+#announcements > h2,
+#announcements > ul {
     color: $white;
 }
 

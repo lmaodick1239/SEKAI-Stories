@@ -66,6 +66,10 @@ p {
   font-size: 16px;
 }
 
+ul {
+  margin-left: 16px;
+}
+
 button {
   border: none;
   margin: 10px 0px;
@@ -694,7 +698,9 @@ select:disabled {
   }
 }
 
-#announcements > p, #announcements > h2 {
+#announcements > p,
+#announcements > h2,
+#announcements > ul {
   color: #ffffff;
 }
 
