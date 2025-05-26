@@ -44,7 +44,8 @@ h2 {
 h1,
 h2,
 h3,
-p {
+p,
+label {
   color: #444466;
   user-select: none;
 }
@@ -98,9 +99,27 @@ button.btn-blue {
   color: #444466;
 }
 
+button.btn-blue:active,
+button.btn-pink:active {
+  background-color: #e3fcf8;
+  color: #77eddd;
+}
+button.btn-blue:active i,
+button.btn-pink:active i {
+  color: #77eddd;
+}
+
 button.btn-white {
   background-color: #ffffff;
   color: #444466;
+}
+
+button.btn-white:active {
+  background-color: #a1f4ec;
+  color: #ffffff;
+}
+button.btn-white:active i {
+  color: #ffffff;
 }
 
 button.btn-pink {
@@ -841,6 +860,10 @@ canvas {
 
 i {
   color: #444466;
+}
+
+a {
+  user-select: none;
 }
 
 pre {

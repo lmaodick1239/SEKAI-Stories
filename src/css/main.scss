@@ -57,4 +57,10 @@ i {
     color: $black;
 }
 
-pre {word-wrap: break-word;}
+a {
+    user-select: none;
+}
+
+pre {
+    word-wrap: break-word;
+}

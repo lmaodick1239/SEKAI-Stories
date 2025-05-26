@@ -30,10 +30,25 @@ button.btn-blue {
     background-color: $light-miku;
     color: $black;
 }
+button.btn-blue:active,
+button.btn-pink:active {
+    background-color: $light-miku-clicked;
+    color: $light-miku-text-clicked;
+    i {
+        color: $light-miku-text-clicked;
+    }
+}
 
 button.btn-white {
     background-color: $white;
     color: $black;
+}
+button.btn-white:active {
+    background-color: $white-clicked;
+    color: $white-text-clicked;
+    i {
+        color: $white-text-clicked;
+    }
 }
 
 button.btn-pink {
