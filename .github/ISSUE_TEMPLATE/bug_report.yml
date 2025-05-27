@@ -6,6 +6,15 @@ body:
       label: The problem
       description: Provide details of the bug, how to get the bug, etc.
       value: |
+        <!-- 
+          PLEASE READ:
+          There are some know bugs:
+            1. disappearing parts after save (see Issue #20)
+            2. incomplete Live2D parts after loading
+
+          These bugs are caused by the PIXI.js-Live2D Renderer library, not the application itself.
+          Any issues created related to these bugs will be automatically closed.
+        -->
         ### Decription 
         <!-- Describe the bug -->
 
