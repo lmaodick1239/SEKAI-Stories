@@ -8,7 +8,7 @@ body:
       value: |
         <!-- 
           PLEASE READ:
-          There are some know bugs:
+          There are some known bugs:
             1. disappearing parts after save (see Issue #20)
             2. incomplete Live2D parts after loading
 
