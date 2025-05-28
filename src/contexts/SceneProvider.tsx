@@ -10,6 +10,7 @@ import IText from "../types/IText";
 import { getBackground } from "../utils/GetBackground";
 import ISceneSetting from "../types/ISceneSetting";
 import IGuideline from "../types/IGuideline";
+import { IJsonSave } from "../types/IJsonSave";
 
 interface SceneProviderProps {
     children: React.ReactNode;
@@ -100,6 +101,9 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     );
     const [reset, setReset] = useState<number>(0);
     const [startingMessage, setStartingMessage] = useState<string>("");
+    const [sceneJson, setSceneJson] = useState<IJsonSave | undefined>(
+        undefined
+    );
 
     const getInitialScene = (scene?: string): InitialScene => {
         const date = new Date();
@@ -139,7 +143,10 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
         ];
     };
 
-    const initialScene: InitialScene = useMemo(() => getInitialScene(), [reset]);
+    const initialScene: InitialScene = useMemo(
+        () => getInitialScene(),
+        [reset]
+    );
 
     useEffect(() => {
         const textAlignmentCookie = Number(
@@ -200,7 +207,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             );
             const sprite = new PIXI.Sprite(texture);
             modelContainer.addChildAt(sprite, 0);
-            sprite.anchor.set(0.5, 0.5)
+            sprite.anchor.set(0.5, 0.5);
             sprite.position.set(initialScene["modelX"], initialScene["modelY"]);
 
             initApplication.stage.addChildAt(modelContainer, 2);
@@ -355,6 +362,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 setText,
                 sceneSetting,
                 setSceneSetting,
+                sceneJson,
+                setSceneJson,
                 guideline,
                 setGuideline,
                 reset,

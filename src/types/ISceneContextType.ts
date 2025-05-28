@@ -5,6 +5,7 @@ import IBackground from "./IBackground";
 import IText from "./IText";
 import ISceneSetting from "./ISceneSetting";
 import IGuideline from "./IGuideline";
+import { IJsonSave } from "./IJsonSave";
 export default interface ISceneContextType {
     app: PIXI.Application | undefined;
     setApp: Dispatch<SetStateAction<PIXI.Application | undefined>>;
@@ -26,6 +27,8 @@ export default interface ISceneContextType {
     setText: Dispatch<SetStateAction<IText | undefined>>;
     sceneSetting: ISceneSetting | undefined;
     setSceneSetting: Dispatch<SetStateAction<ISceneSetting | undefined>>;
+    sceneJson: IJsonSave | undefined;
+    setSceneJson: Dispatch<SetStateAction<IJsonSave | undefined>>;
     guideline: IGuideline | undefined;
     setGuideline: Dispatch<SetStateAction<IGuideline | undefined>>;
     reset: number;

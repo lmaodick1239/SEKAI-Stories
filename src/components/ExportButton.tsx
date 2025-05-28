@@ -30,15 +30,16 @@ const ExportButton: React.FC = () => {
         models,
         modelContainer,
         reset,
+        sceneJson,
         setBackground,
         setText,
         setModels,
         setLayers,
         setNextLayer,
         setReset,
+        setSceneJson
     } = context;
-    const [json, setJson] = useState<IJsonSave | undefined>(undefined);
-    const jsonRef = useRef<IJsonSave | undefined>(json);
+    const jsonRef = useRef<IJsonSave | undefined>(sceneJson);
 
     useEffect(() => {
         if (
@@ -74,7 +75,7 @@ const ExportButton: React.FC = () => {
             })
             .filter((model) => model !== undefined);
 
-        setJson({
+        setSceneJson({
             lastModified: modifiedDateStamp,
             background: currentBackground,
             text: currentText,
@@ -83,8 +84,8 @@ const ExportButton: React.FC = () => {
     }, [background, text, models]);
 
     useEffect(() => {
-        jsonRef.current = json;
-    }, [json]);
+        jsonRef.current = sceneJson;
+    }, [sceneJson]);
     useEffect(() => {
         const interval = setInterval(() => {
             localStorage.setItem("autoSave", JSON.stringify(jsonRef.current));
@@ -175,6 +176,7 @@ const ExportButton: React.FC = () => {
                 autoInteract: false,
             });
             live2DModel.scale.set(model?.modelTransform.scale);
+            live2DModel.anchor.set(0.5, 0.5)
             live2DModel.position.set(
                 model?.modelTransform.x,
                 model?.modelTransform.y
@@ -236,7 +238,7 @@ const ExportButton: React.FC = () => {
     };
 
     const handleExport = () => {
-        const jsonString = JSON.stringify(json, null, 2);
+        const jsonString = JSON.stringify(sceneJson, null, 2);
         const blob = new Blob([jsonString], {
             type: "application/json",
         });
@@ -264,7 +266,7 @@ const ExportButton: React.FC = () => {
                     if (ValidateJsonSave(data)) {
                         try {
                             await loadScene(data);
-                            setJson(data);
+                            setSceneJson(data);
                         } catch (error) {
                             alert(
                                 "Error loading scene: " +
@@ -315,7 +317,7 @@ const ExportButton: React.FC = () => {
                                 name="json"
                                 id="json"
                                 value={
-                                    json ? JSON.stringify(json, null, 2) : ""
+                                    sceneJson ? JSON.stringify(sceneJson, null, 2) : ""
                                 }
                                 readOnly
                             />
