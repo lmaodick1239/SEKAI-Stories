@@ -39,6 +39,7 @@ const randomText = {
         "WONDERHOY!",
         "Lovely, Fairy, Momoi Airi!",
         "ユ！",
+        "Meet SEKAI Stories's cousin, SIFAS Dialogue Sandbox!",
         "Untitled.",
     ],
     fil: ["UY, PILIPINS!", "Jollibot para sa bagong cast ng WxS."],
