@@ -67,6 +67,9 @@ const SettingsButton: React.FC = () => {
 
     const handleExperimental = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.checked;
+        if (value && !confirm("This is only used for testing and other experimental features. Continue?")) {
+            return;
+        }
         localStorage.setItem("showExperimental", String(value));
         setShowExperimental(value);
     };
