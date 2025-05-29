@@ -50,7 +50,7 @@ const DownloadClearButtons: React.FC = () => {
             id="download-clear-buttons"
         >
             <button className="btn-circle btn-blue" onClick={handleSave}>
-                <i className="bi bi-floppy2-fill sidebar__select"></i>
+                <i className="bi bi-camera-fill sidebar__select"></i>
             </button>
             <ExportButton />
             <button className="btn-circle btn-white" onClick={handleReset}>
