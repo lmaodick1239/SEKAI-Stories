@@ -10,12 +10,12 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("minorUpdate1");
+        const cookie = localStorage.getItem("minorUpdate2");
         if (!cookie) {
-            localStorage.setItem("minorUpdate1", "0");
+            localStorage.setItem("minorUpdate2", "0");
             return;
         }
-        localStorage.setItem("minorUpdate1", `${Number(cookie) + 1}`);
+        localStorage.setItem("minorUpdate2", `${Number(cookie) + 1}`);
     };
 
     return (
@@ -25,9 +25,9 @@ const Announcements: React.FC = () => {
                 A few minor updates have been pushed!
             </p>
             <ul>
-                <li>Added snapping to x-offset and y-offset sliders</li>
-                <li>Added a toggle to expand all menu options in Settings</li>
-                <li>Moved model's/sprite's anchor to the center</li>
+                <li>Added few new backgrounds</li>
+                <li>Added few new models</li>
+                <li>Fixed issue that disallows users to add new model</li>
             </ul>            
             <p>Tap this section to close.</p>
         </div>
