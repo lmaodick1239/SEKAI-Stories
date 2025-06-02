@@ -229,7 +229,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         }
         const modelName = "none";
         const texture = await PIXI.Texture.fromURL(
-            "/background/Background_New_Layer.png"
+            "/img/Background_New_Layer.png"
         );
         const sprite = new PIXI.Sprite(texture);
         modelContainer?.addChildAt(sprite, layers);
