@@ -165,6 +165,12 @@
             "modelFile": "v2_02saki_clothes_t06.model3.json"
         },
         {
+            "modelName": "v2_02saki_pajamas_t08",
+            "modelBase": "v2_02saki_pajamas",
+            "modelPath": "v2/main/02_saki/v2_02saki_pajamas",
+            "modelFile": "v2_02saki_pajamas_t08.model3.json"
+        },
+        {
             "modelName": "v2_02saki_parttime_t09",
             "modelBase": "v2_02saki_parttime",
             "modelPath": "v2/main/02_saki/v2_02saki_parttime",
@@ -857,22 +863,10 @@
             "modelFile": "09kohane_culture_1a_t02.model3.json"
         },
         {
-            "modelName": "09kohane_longnormal_3.0_f_t03",
-            "modelBase": "09kohane_longnormal",
-            "modelPath": "v1/main/09_kohane/09kohane_longnormal",
-            "modelFile": "09kohane_longnormal_3.0_f_t03.model3.json"
-        },
-        {
             "modelName": "09kohane_longnormal_3_f_t04",
             "modelBase": "09kohane_longnormal",
             "modelPath": "v1/main/09_kohane/09kohane_longnormal",
             "modelFile": "09kohane_longnormal_3_f_t04.model3.json"
-        },
-        {
-            "modelName": "09kohane_longunit_3.0_f_t03",
-            "modelBase": "09kohane_longunit",
-            "modelPath": "v1/main/09_kohane/09kohane_longunit",
-            "modelFile": "09kohane_longunit_3.0_f_t03.model3.json"
         },
         {
             "modelName": "09kohane_longunit_3_f_t04",
@@ -941,10 +935,10 @@
             "modelFile": "v2_09_kohane_2025aprilfool_t01.model3.json"
         },
         {
-            "modelName": "v2_09_kohane_casual_t06",
+            "modelName": "v2_09_kohane_casual_t07",
             "modelBase": "v2_09kohane_casual",
             "modelPath": "v2/main/09_kohane/v2_09kohane_casual",
-            "modelFile": "v2_09_kohane_casual_t06.model3.json"
+            "modelFile": "v2_09_kohane_casual_t07.model3.json"
         },
         {
             "modelName": "v2_09kohane_longnormal_3_f_t05",
@@ -959,16 +953,16 @@
             "modelFile": "v2_09kohane_longunit_3_f_t05.model3.json"
         },
         {
-            "modelName": "v2_09_kohane_uniform_t03",
+            "modelName": "v2_09_kohane_uniform_t04",
             "modelBase": "v2_09kohane_school01",
             "modelPath": "v2/main/09_kohane/v2_09kohane_school01",
-            "modelFile": "v2_09_kohane_uniform_t03.model3.json"
+            "modelFile": "v2_09_kohane_uniform_t04.model3.json"
         },
         {
-            "modelName": "v2_09_kohane_unit_t09",
+            "modelName": "v2_09_kohane_unit_t10",
             "modelBase": "v2_09kohane_unit",
             "modelPath": "v2/main/09_kohane/v2_09kohane_unit",
-            "modelFile": "v2_09_kohane_unit_t09.model3.json"
+            "modelFile": "v2_09_kohane_unit_t10.model3.json"
         }
     ],
     "an": [
@@ -1113,6 +1107,12 @@
             "modelFile": "v2_11akito_2025april_t01.model3.json"
         },
         {
+            "modelName": "v2_11akito_casual_t11",
+            "modelBase": "v2_11akito_casual",
+            "modelPath": "v2/main/11_akito/v2_11akito_casual",
+            "modelFile": "v2_11akito_casual_t11.model3.json"
+        },
+        {
             "modelName": "v2_11akito_casual_t08",
             "modelBase": "v2_11akito_casual",
             "modelPath": "v2/main/11_akito/v2_11akito_casual",
@@ -1137,10 +1137,22 @@
             "modelFile": "v2_11akito_school_t04.model3.json"
         },
         {
+            "modelName": "v2_11akito_school_t06",
+            "modelBase": "v2_11akito_school01",
+            "modelPath": "v2/main/11_akito/v2_11akito_school01",
+            "modelFile": "v2_11akito_school_t06.model3.json"
+        },
+        {
             "modelName": "v2_11akito_unit_t08",
             "modelBase": "v2_11akito_unit",
             "modelPath": "v2/main/11_akito/v2_11akito_unit",
             "modelFile": "v2_11akito_unit_t08.model3.json"
+        },
+        {
+            "modelName": "v2_11akito_unit_t10",
+            "modelBase": "v2_11akito_unit",
+            "modelPath": "v2/main/11_akito/v2_11akito_unit",
+            "modelFile": "v2_11akito_unit_t10.model3.json"
         }
     ],
     "touya": [
@@ -1291,10 +1303,10 @@
             "modelFile": "v2_13_tsukasa_2025aprilfool_t02.model3.json"
         },
         {
-            "modelName": "v2_13_tsukasa_clothes_t08",
+            "modelName": "v2_13_tsukasa_clothes_t09",
             "modelBase": "v2_13tsukasa_casual",
             "modelPath": "v2/main/13_tsukasa/v2_13tsukasa_casual",
-            "modelFile": "v2_13_tsukasa_clothes_t08.model3.json"
+            "modelFile": "v2_13_tsukasa_clothes_t09.model3.json"
         },
         {
             "modelName": "v2_13_tsukasa_clothes_zoom_t08",
@@ -1315,16 +1327,16 @@
             "modelFile": "v2_13tsukasa_enst_t04.model3.json"
         },
         {
-            "modelName": "v2_13_tsukasa_uniform_t04",
+            "modelName": "v2_13_tsukasa_uniform_t05",
             "modelBase": "v2_13tsukasa_school01",
             "modelPath": "v2/main/13_tsukasa/v2_13tsukasa_school01",
-            "modelFile": "v2_13_tsukasa_uniform_t04.model3.json"
+            "modelFile": "v2_13_tsukasa_uniform_t05.model3.json"
         },
         {
-            "modelName": "v2_13_tsukasa_unit_t05",
+            "modelName": "v2_13_tsukasa_unit_t06",
             "modelBase": "v2_13tsukasa_unit",
             "modelPath": "v2/main/13_tsukasa/v2_13tsukasa_unit",
-            "modelFile": "v2_13_tsukasa_unit_t05.model3.json"
+            "modelFile": "v2_13_tsukasa_unit_t06.model3.json"
         }
     ],
     "emu": [
@@ -1573,10 +1585,10 @@
             "modelFile": "v2_16rui_2025aprilfool_t01.model3.json"
         },
         {
-            "modelName": "16rui_clothes2",
+            "modelName": "v2_16rui_casual_t04",
             "modelBase": "v2_16rui_casual",
             "modelPath": "v2/main/16_rui/v2_16rui_casual",
-            "modelFile": "16rui_clothes2.model3.json"
+            "modelFile": "v2_16rui_casual_t04.model3.json"
         },
         {
             "modelName": "v2_16rui_culture_t04",
@@ -1591,10 +1603,10 @@
             "modelFile": "v2_16rui_enst_t03.model3.json"
         },
         {
-            "modelName": "v2_16rui_school_t03",
+            "modelName": "v2_16rui_school_t04",
             "modelBase": "v2_16rui_school01",
             "modelPath": "v2/main/16_rui/v2_16rui_school01",
-            "modelFile": "v2_16rui_school_t03.model3.json"
+            "modelFile": "v2_16rui_school_t04.model3.json"
         },
         {
             "modelName": "16rui_unit2",
@@ -1763,10 +1775,10 @@
             "modelFile": "v2_18mafuyu_2025aprilfool_t02.model3.json"
         },
         {
-            "modelName": "18mafuyu_clothes2",
+            "modelName": "v2_18mafuyu_casual_t03",
             "modelBase": "v2_18mafuyu_casual",
             "modelPath": "v2/main/18_mafuyu/v2_18mafuyu_casual",
-            "modelFile": "18mafuyu_clothes2.model3.json"
+            "modelFile": "v2_18mafuyu_casual_t03.model3.json"
         },
         {
             "modelName": "18mafuyu_darkunit2",
@@ -2039,16 +2051,16 @@
             "modelFile": "21miku_night_3.0_f_t01.model3.json"
         },
         {
-            "modelName": "21miku_normal_3.0_f_t03",
-            "modelBase": "21miku_normal",
-            "modelPath": "v1/main/21_miku/21miku_normal",
-            "modelFile": "21miku_normal_3.0_f_t03.model3.json"
-        },
-        {
             "modelName": "21miku_normal_3.0_f_t02",
             "modelBase": "21miku_normal",
             "modelPath": "v1/main/21_miku/21miku_normal",
             "modelFile": "21miku_normal_3.0_f_t02.model3.json"
+        },
+        {
+            "modelName": "21miku_normal_3.0_f_t03",
+            "modelBase": "21miku_normal",
+            "modelPath": "v1/main/21_miku/21miku_normal",
+            "modelFile": "21miku_normal_3.0_f_t03.model3.json"
         },
         {
             "modelName": "21miku_normal_black_t01",
@@ -2079,6 +2091,12 @@
             "modelBase": "21miku_wonder",
             "modelPath": "v1/main/21_miku/21miku_wonder",
             "modelFile": "21miku_wonder_3.0_f_t05.model3.json"
+        },
+        {
+            "modelName": "21miku_wonder_3.0_f_t05_black",
+            "modelBase": "21miku_wonderblack",
+            "modelPath": "v1/main/21_miku/21miku_wonderblack",
+            "modelFile": "21miku_wonder_3.0_f_t05_black.model3.json"
         },
         {
             "modelName": "21miku_collabo01_t2",
@@ -2185,6 +2203,12 @@
             "modelFile": "22rin_wonder_3.0_f_t02.model3.json"
         },
         {
+            "modelName": "22rin_wonder_3.0_f_t03_black",
+            "modelBase": "22rin_wonderblack",
+            "modelPath": "v1/main/22_rin/22rin_wonderblack",
+            "modelFile": "22rin_wonder_3.0_f_t03_black.model3.json"
+        },
+        {
             "modelName": "22rin_collabo01_t04",
             "modelBase": "clb01_22rin",
             "modelPath": "v1/collabo/22_rin/clb01_22rin",
@@ -2281,6 +2305,12 @@
             "modelBase": "23len_wonder",
             "modelPath": "v1/main/23_len/23len_wonder",
             "modelFile": "23len_wonder_3.0_f_t03.model3.json"
+        },
+        {
+            "modelName": "23len_wonder_3.0_f_t05_black",
+            "modelBase": "23len_wonderblack",
+            "modelPath": "v1/main/23_len/23len_wonderblack",
+            "modelFile": "23len_wonder_3.0_f_t05_black.model3.json"
         },
         {
             "modelName": "23len_collabo01_t01",
@@ -2387,6 +2417,12 @@
             "modelFile": "24luka_wonder_t02.model3.json"
         },
         {
+            "modelName": "24luka_wonder_t04_black",
+            "modelBase": "24luka_wonderblack",
+            "modelPath": "v1/main/24_luka/24luka_wonderblack",
+            "modelFile": "24luka_wonder_t04_black.model3.json"
+        },
+        {
             "modelName": "24luka_collabo01_t02",
             "modelBase": "clb01_24luka01",
             "modelPath": "v1/collabo/24_luka/clb01_24luka01",
@@ -2491,10 +2527,10 @@
             "modelFile": "25meiko_wonder_t02.model3.json"
         },
         {
-            "modelName": "25meiko_wonder_black_t01",
-            "modelBase": "25meiko_wonder_black",
-            "modelPath": "v1/main/25_meiko/25meiko_wonder_black",
-            "modelFile": "25meiko_wonder_black_t01.model3.json"
+            "modelName": "25meiko_wonder_t01_black",
+            "modelBase": "25meiko_wonderblack",
+            "modelPath": "v1/main/25_meiko/25meiko_wonderblack",
+            "modelFile": "25meiko_wonder_t01_black.model3.json"
         },
         {
             "modelName": "25meiko_collabo01_t02",
@@ -2613,6 +2649,12 @@
             "modelFile": "26kaito_wonder_3.0_f_t02.model3.json"
         },
         {
+            "modelName": "26kaito_wonder_3.0_t04_black",
+            "modelBase": "26kaito_wonderblack",
+            "modelPath": "v1/main/26_kaito/26kaito_wonderblack",
+            "modelFile": "26kaito_wonder_3.0_t04_black.model3.json"
+        },
+        {
             "modelName": "26kaito_collabo01_t03",
             "modelBase": "clb01_26kaito",
             "modelPath": "v1/collabo/26_kaito/clb01_26kaito",
@@ -2699,6 +2741,12 @@
             "modelFile": "sub_anchild_t05.model3.json"
         },
         {
+            "modelName": "sub_anfather_t06",
+            "modelBase": "sub_anfather",
+            "modelPath": "v1/sub/sub_anfather",
+            "modelFile": "sub_anfather_t06.model3.json"
+        },
+        {
             "modelName": "sub_anfather_t05",
             "modelBase": "sub_anfather",
             "modelPath": "v1/sub/sub_anfather",
@@ -2721,6 +2769,12 @@
             "modelBase": "sub_anfather_rw",
             "modelPath": "v1/sub/sub_anfather_rw",
             "modelFile": "sub_anfather02_t02.model3.json"
+        },
+        {
+            "modelName": "sub_anfather02_t03",
+            "modelBase": "sub_anfather_rw",
+            "modelPath": "v1/sub/sub_anfather_rw",
+            "modelFile": "sub_anfather02_t03.model3.json"
         },
         {
             "modelName": "sub_anfatheryoung_t04",
@@ -2909,10 +2963,10 @@
             "modelFile": "sub_mahuyufather_t03.model3.json"
         },
         {
-            "modelName": "sub_mafuyumother_t04",
+            "modelName": "sub_mafuyumother_t05",
             "modelBase": "sub_mafuyumother",
             "modelPath": "v1/sub/sub_mafuyumother",
-            "modelFile": "sub_mafuyumother_t04.model3.json"
+            "modelFile": "sub_mafuyumother_t05.model3.json"
         },
         {
             "modelName": "sub_mikudayo_t02",
@@ -2967,6 +3021,12 @@
             "modelBase": "sub_mizukisister_jc",
             "modelPath": "v1/sub/sub_mizukisister_jc",
             "modelFile": "sub_mizukisister_jc.model3.json"
+        },
+        {
+            "modelName": "sub_mrmrhouse_landlord_t02",
+            "modelBase": "sub_mrmrhouse_landlord",
+            "modelPath": "v1/sub/sub_mrmrhouse_landlord",
+            "modelFile": "sub_mrmrhouse_landlord_t02.model3.json"
         },
         {
             "modelName": "sub_mrmrhouse_landlord_t01",
@@ -3065,6 +3125,12 @@
             "modelFile": "sub_otorisister_t04.model3.json"
         },
         {
+            "modelName": "sub_partner_t06",
+            "modelBase": "sub_partner",
+            "modelPath": "v1/sub/sub_partner",
+            "modelFile": "sub_partner_t06.model3.json"
+        },
+        {
             "modelName": "sub_partner_t05",
             "modelBase": "sub_partner",
             "modelPath": "v1/sub/sub_partner",
@@ -3125,10 +3191,28 @@
             "modelFile": "sub_rilleyyoung_t03.model3.json"
         },
         {
+            "modelName": "sub_vivibasrival01_t02",
+            "modelBase": "sub_rivalsisters_elena",
+            "modelPath": "v1/sub/sub_rivalsisters_elena",
+            "modelFile": "sub_vivibasrival01_t02.model3.json"
+        },
+        {
+            "modelName": "sub_vivibasrival02_t03",
+            "modelBase": "sub_rivalsisters_rebecca",
+            "modelPath": "v1/sub/sub_rivalsisters_rebecca",
+            "modelFile": "sub_vivibasrival02_t03.model3.json"
+        },
+        {
             "modelName": "sub_rivaltwins_cedric_t06",
             "modelBase": "sub_rivaltwins_cedric",
             "modelPath": "v1/sub/sub_rivaltwins_cedric",
             "modelFile": "sub_rivaltwins_cedric_t06.model3.json"
+        },
+        {
+            "modelName": "sub_rivaltwins_cedric_t07",
+            "modelBase": "sub_rivaltwins_cedric",
+            "modelPath": "v1/sub/sub_rivaltwins_cedric",
+            "modelFile": "sub_rivaltwins_cedric_t07.model3.json"
         },
         {
             "modelName": "sub_rivaltwins_slade_t05",
@@ -3257,16 +3341,16 @@
             "modelFile": "sub_youta_t02.model3.json"
         },
         {
-            "modelName": "sub_fanminori_t01",
-            "modelBase": "sub_yuina",
-            "modelPath": "v1/sub/sub_yuina",
-            "modelFile": "sub_fanminori_t01.model3.json"
-        },
-        {
             "modelName": "sub_fanminori_t02",
             "modelBase": "sub_yuina",
             "modelPath": "v1/sub/sub_yuina",
             "modelFile": "sub_fanminori_t02.model3.json"
+        },
+        {
+            "modelName": "sub_fanminori_t01",
+            "modelBase": "sub_yuina",
+            "modelPath": "v1/sub/sub_yuina",
+            "modelFile": "sub_fanminori_t01.model3.json"
         },
         {
             "modelName": "sub_longingactor_t03",
@@ -3309,6 +3393,12 @@
             "modelBase": "v2_sub_child10_shiho",
             "modelPath": "v2/sub/v2_sub_child10_shiho",
             "modelFile": "v2_sub_child10_shiho_t05.model3.json"
+        },
+        {
+            "modelName": "v2_sub_airichild02_t03",
+            "modelBase": "v2_sub_child_airi",
+            "modelPath": "v2/sub/v2_sub_child_airi",
+            "modelFile": "v2_sub_airichild02_t03.model3.json"
         },
         {
             "modelName": "sub_honamichild02_t08",
