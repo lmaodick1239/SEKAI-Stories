@@ -108,13 +108,16 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
 
     useEffect(() => {
         if (!scene?.models || !scene.currentKey || !scene.currentModel) return;
-        const modelKeys = Object.keys(scene.models);
-        const currentKeyIndex = modelKeys.indexOf(scene.currentKey);
+        const modelKeys = Object.keys(models);
+        const currentKeyIndex = modelKeys.indexOf(currentKey);
+        const model = models[currentKey];
         setLayerIndex(currentKeyIndex);
-        setCurrentSelectedCharacter(currentModel?.character ?? "none");
-    }, []);
+        setCurrentModel(model);
+        setCurrentSelectedCharacter(model?.character ?? "none");
+    }, [scene?.models]);
 
     useEffect(() => {
+        if (!scene?.models || !scene.currentKey || !scene.currentModel) return;
         if (currentModel?.model instanceof Live2DModel && !loading) {
             setCoreModel(
                 currentModel.model.internalModel
