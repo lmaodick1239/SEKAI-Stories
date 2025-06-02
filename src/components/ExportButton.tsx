@@ -51,7 +51,7 @@ const ExportButton: React.FC = () => {
         const modifiedDateStamp = new Date().toISOString();
         const currentBackground = !background?.upload
             ? background?.filename
-            : "/background_compressed/Background_Between_Worlds.jpg";
+            : "/img/Background_Between_Worlds.jpg";
         const currentText = {
             nameTag: text?.nameTagString,
             dialogue: text?.dialogueString,
