@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
 import { AdjustmentFilter, CRTFilter } from "pixi-filters";
 import { SidebarContext } from "../../contexts/SidebarContext";
+import Window from "../Window";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -102,6 +103,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [parameterValues, setParameterValues] = useState<
         Record<string, number>
     >({});
+    const [deleteWarnWindow, setDeleteWarnWindow] = useState<boolean>(false);
 
     const characterSelect = useRef<null | HTMLSelectElement>(null);
     const modelSelect = useRef<null | HTMLSelectElement>(null);
@@ -299,7 +301,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const handleDeleteLayer = async () => {
         const modelsObjects = Object.entries(scene.models ?? {});
         if (modelsObjects.length == 1) {
-            alert(t("model.delete-model-warn"));
+            setDeleteWarnWindow(true);
             return;
         }
         setLoading(true);
@@ -1157,6 +1159,13 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                         )}
                     </div>
                 </>
+            )}
+            {deleteWarnWindow && (
+                <Window show={setDeleteWarnWindow}>
+                    <div className="window__content">
+                        <p>{t("model.delete-model-warn")}</p>
+                    </div>
+                </Window>
             )}
         </div>
     );

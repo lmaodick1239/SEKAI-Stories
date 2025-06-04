@@ -4,6 +4,7 @@ import SupportButton from "./SupportButton";
 import { Checkbox } from "./Checkbox";
 import { SceneContext } from "../contexts/SceneContext";
 import { SidebarContext } from "../contexts/SidebarContext";
+import Window from "./Window";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -67,7 +68,12 @@ const SettingsButton: React.FC = () => {
 
     const handleExperimental = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.checked;
-        if (value && !confirm("This is only used for testing and other experimental features. Continue?")) {
+        if (
+            value &&
+            !confirm(
+                "This is only used for testing and other experimental features. Continue?"
+            )
+        ) {
             return;
         }
         localStorage.setItem("showExperimental", String(value));
@@ -91,20 +97,11 @@ const SettingsButton: React.FC = () => {
                 <i className="bi bi-gear-fill sidebar__select"></i>
             </button>
             {show && (
-                <div
-                    id="settings-screen"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setShow(false);
-                    }}
-                >
-                    <div
-                        className="window"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="window__content">
-                            <SupportButton />
-                            <h1>{t("settings.header")}</h1>
+                <Window show={setShow}>
+                    <div className="window__content">
+                        <SupportButton />
+                        <h1>{t("settings.header")}</h1>
+                        <div className="window__divider">
                             <h2>{t("settings.language")}</h2>
                             <select
                                 name="language"
@@ -127,6 +124,8 @@ const SettingsButton: React.FC = () => {
                             >
                                 Contribute for localization!
                             </a>
+                        </div>
+                        <div className="window__divider">
                             <h2>{t("settings.auto-save")}</h2>
                             <p>{t("settings.auto-save-description")}</p>
                             <button
@@ -135,8 +134,9 @@ const SettingsButton: React.FC = () => {
                             >
                                 {t("settings.auto-save-button")}
                             </button>
+                        </div>
+                        <div className="window__divider">
                             <h2>{t("settings.toggles")}</h2>
-
                             <Checkbox
                                 id="expand"
                                 label={t("settings.expand")}
@@ -156,16 +156,8 @@ const SettingsButton: React.FC = () => {
                                 onChange={handleExperimental}
                             />
                         </div>
-                        <div className="extend-width center">
-                            <button
-                                className="btn-regular btn-white center"
-                                onClick={() => setShow(false)}
-                            >
-                                {t("close")}
-                            </button>
-                        </div>
                     </div>
-                </div>
+                </Window>
             )}
         </div>
     );

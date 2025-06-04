@@ -14,6 +14,7 @@ import { Live2DModel } from "pixi-live2d-display";
 import IModel from "../types/IModel";
 import { ILive2DModelData } from "../types/ILive2DModelData";
 import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
+import Window from "./Window";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
@@ -37,7 +38,7 @@ const ExportButton: React.FC = () => {
         setLayers,
         setNextLayer,
         setReset,
-        setSceneJson
+        setSceneJson,
     } = context;
     const jsonRef = useRef<IJsonSave | undefined>(sceneJson);
 
@@ -176,7 +177,7 @@ const ExportButton: React.FC = () => {
                 autoInteract: false,
             });
             live2DModel.scale.set(model?.modelTransform.scale);
-            live2DModel.anchor.set(0.5, 0.5)
+            live2DModel.anchor.set(0.5, 0.5);
             live2DModel.position.set(
                 model?.modelTransform.x,
                 model?.modelTransform.y
@@ -248,7 +249,6 @@ const ExportButton: React.FC = () => {
         a.download = "export.json";
         a.click();
         a.remove();
-        alert("Exported JSON file");
     };
 
     const handleImport = async () => {
@@ -298,31 +298,11 @@ const ExportButton: React.FC = () => {
                 <i className="bi bi-braces sidebar__select"></i>
             </button>
             {show && (
-                <div
+                <Window
                     id="export-screen"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setShow(false);
-                    }}
-                >
-                    <div
-                        className="window"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="window__content">
-                            <h1>{t("import-export.header")}</h1>
-                            <p>{t("import-export.description")}</p>
-                            {loadingMsg && <p>{loadingMsg}</p>}
-                            <textarea
-                                name="json"
-                                id="json"
-                                value={
-                                    sceneJson ? JSON.stringify(sceneJson, null, 2) : ""
-                                }
-                                readOnly
-                            />
-                        </div>
-                        <div className="window__buttons">
+                    show={setShow}
+                    buttons={
+                        <>
                             <button
                                 className="btn-regular btn-blue center"
                                 onClick={handleImport}
@@ -337,15 +317,25 @@ const ExportButton: React.FC = () => {
                             >
                                 {t("import-export.export")}
                             </button>
-                            <button
-                                className="btn-regular btn-white center"
-                                onClick={() => setShow(false)}
-                            >
-                                {t("close")}
-                            </button>
-                        </div>
+                        </>
+                    }
+                >
+                    <div className="window__content">
+                        <h1>{t("import-export.header")}</h1>
+                        <p>{t("import-export.description")}</p>
+                        {loadingMsg && <p>{loadingMsg}</p>}
+                        <textarea
+                            name="json"
+                            id="json"
+                            value={
+                                sceneJson
+                                    ? JSON.stringify(sceneJson, null, 2)
+                                    : ""
+                            }
+                            readOnly
+                        />
                     </div>
-                </div>
+                </Window>
             )}
         </div>
     );

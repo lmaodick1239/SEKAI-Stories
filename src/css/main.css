@@ -103,6 +103,11 @@ button.btn-blue {
   color: #444466;
 }
 
+button.btn-pink {
+  background-color: #ff5599;
+  color: #ffffff;
+}
+
 button.btn-blue:active,
 button.btn-pink:active {
   background-color: #e3fcf8;
@@ -126,13 +131,16 @@ button.btn-white:active i {
   color: #ffffff;
 }
 
-button.btn-pink {
-  background-color: #ff5599;
+button.btn-red {
+  background-color: #ff2b2b;
   color: #ffffff;
 }
 
-button.btn-red {
-  background-color: #ff2b2b;
+button.btn-red:active {
+  background-color: #000000;
+  color: #ffffff;
+}
+button.btn-red:active i {
   color: #ffffff;
 }
 
@@ -151,6 +159,8 @@ input[type=checkbox] {
   appearance: none;
   width: 40px;
   height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   vertical-align: middle;
   background: none;
   border: 0;
@@ -715,10 +725,7 @@ select:disabled {
   }
 }
 
-#support-screen,
-#add-model-select-screen,
-#settings-screen,
-#export-screen {
+.screen {
   padding: 10px;
   position: fixed;
   top: 0;
@@ -734,28 +741,16 @@ select:disabled {
   box-sizing: border-box;
   overflow: auto;
 }
-#support-screen h2,
-#add-model-select-screen h2,
-#settings-screen h2,
-#export-screen h2 {
+.screen h2 {
   padding-top: 10px;
 }
-#support-screen p,
-#add-model-select-screen p,
-#settings-screen p,
-#export-screen p {
+.screen p {
   padding-bottom: 5px;
-}
-
-#settings-screen .window {
-  width: 90dvw;
-  max-width: 768px;
-  max-height: 80dvh;
 }
 
 #export-screen .window {
   width: 90dvw;
-  height: 60dvh;
+  min-height: 80dvh;
   max-width: 768px;
 }
 
@@ -766,7 +761,7 @@ select:disabled {
   padding: 20px;
   border-radius: 20px;
   max-width: 768px;
-  max-height: 60dvh;
+  max-height: 80dvh;
   overflow: visible;
 }
 @media (width <= 768px) {
@@ -776,6 +771,8 @@ select:disabled {
 }
 
 .window__content {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
   position: relative;
   overflow-y: visible;
@@ -789,7 +786,7 @@ select:disabled {
   box-sizing: border-box;
 }
 .window__content textarea {
-  height: 80%;
+  height: 100%;
   font-size: 1em;
   font-family: monospace;
 }
@@ -817,6 +814,14 @@ select:disabled {
   .window__buttons {
     flex-direction: row;
   }
+}
+.window__buttons button {
+  margin: 10px;
+}
+
+.window__divider {
+  width: 100%;
+  margin: 4px 0px;
 }
 
 * {

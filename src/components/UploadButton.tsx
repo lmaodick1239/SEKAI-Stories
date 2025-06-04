@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import Window from "./Window";
 
 interface UploadImageButtonProps {
     id: string;
@@ -24,6 +25,7 @@ const UploadImageButton: React.FC<UploadImageButtonProps> = ({
         }
         return true;
     };
+    const [alertWindow, setAlertWindow] = useState(false);
     return (
         <>
             <input
@@ -50,15 +52,26 @@ const UploadImageButton: React.FC<UploadImageButtonProps> = ({
                 }
                 onClick={async () => {
                     if (alertMsg) {
-                        alert(alertMsg);
-                    }
-                    if (uploadElement.current) {
-                        await uploadElement.current.click();
+                        setAlertWindow(true);
+                    } else if (uploadElement.current) {
+                        uploadElement.current.click();
                     }
                 }}
             >
                 {text}
             </button>
+            {alertWindow && (
+                <Window
+                    confirmFunction={() =>
+                        uploadElement.current && uploadElement.current.click()
+                    }
+                    show={setAlertWindow}
+                >
+                    <div className="window__content">
+                        <p>{alertMsg}</p>
+                    </div>
+                </Window>
+            )}
         </>
     );
 };

@@ -64,7 +64,8 @@
     },
 
     "close": "Cerrar",
-    "clear": "¡Esto eliminara todo el lienzo y cualquier progreso será eliminado! \n Dar click en aceptar continuara esta acción.",
+    "clear": "¡Esto eliminara todo el lienzo y cualquier progreso será eliminado!",
+    "clear-ok": "Borrar",
 
     "support": {
         "header": "Apoyar",

@@ -50,7 +50,8 @@
     },
 
     "close": "Zamknij",
-    "clear": "To działanie wyczyści całe płótno. Cały postęp zostanie utracony!\nKliknij OK, aby kontynuować",
+    "clear": "To działanie wyczyści całe płótno. Cały postęp zostanie utracony!",
+    "clear-ok": "Wyczyść",
 
     "support": {
         "header": "Wsparcie",

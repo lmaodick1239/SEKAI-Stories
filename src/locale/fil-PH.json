@@ -10,7 +10,7 @@
 
     "text": {
         "header": "Teksto",
-        "name-tag": "Pang alan",
+        "name-tag": "Pangalan",
         "easy-switch": "Madaliang salitan",
         "dialogue": "Dayalogo",
         "font-size": "Laki ng teksto",
@@ -68,7 +68,8 @@
     },
 
     "close": "Isara",
-    "clear": "Mawawala LAHAT ng nilalaman sa canvas. Ang lahat ng ginawa mo ay mawawala!\nAng pag-click sa OK ay magpapatuloy sa aksyon.",
+    "clear": "Mawawala LAHAT ng nilalaman sa canvas. Ang lahat ng ginawa mo ay mawawala!",
+    "clear-ok": "Ipagpatuloy",
 
     "support": {
         "header": "Suporta",

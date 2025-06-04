@@ -30,6 +30,12 @@ button.btn-blue {
     background-color: $light-miku;
     color: $black;
 }
+
+button.btn-pink {
+    background-color: $dark-pink;
+    color: $white;
+}
+
 button.btn-blue:active,
 button.btn-pink:active {
     background-color: $light-miku-clicked;
@@ -43,6 +49,7 @@ button.btn-white {
     background-color: $white;
     color: $black;
 }
+
 button.btn-white:active {
     background-color: $white-clicked;
     color: $white-text-clicked;
@@ -51,14 +58,17 @@ button.btn-white:active {
     }
 }
 
-button.btn-pink {
-    background-color: $dark-pink;
-    color: $white;
-}
-
 button.btn-red {
     background-color: $red;
     color: $white;
+}
+
+button.btn-red:active {
+    background-color: $red-clicked;
+    color: $white;
+    i {
+        color: $white;
+    }
 }
 
 button.btn-orange {

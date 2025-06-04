@@ -4,10 +4,7 @@
     }
 }
 
-#support-screen,
-#add-model-select-screen,
-#settings-screen,
-#export-screen {
+.screen {
     padding: 10px;
     position: fixed;
     top: 0;
@@ -31,18 +28,10 @@
     }
 }
 
-#settings-screen {
-    .window {
-        width: 90dvw;
-        max-width: 768px;
-        max-height: 80dvh;
-    }
-}
-
 #export-screen {
     .window {
         width: 90dvw;
-        height: 60dvh;
+        min-height: 80dvh;
         max-width: 768px;
     }
 }
@@ -54,7 +43,7 @@
     padding: 20px;
     border-radius: 20px;
     max-width: 768px;
-    max-height: 60dvh;
+    max-height: 80dvh;
     overflow: visible;
     img {
         @media (width <= 768px) {
@@ -63,6 +52,8 @@
     }
 }
 .window__content {
+    display: flex;
+    flex-direction: column;
     padding: 10px;
     position: relative;
     overflow-y: visible;
@@ -77,7 +68,7 @@
         box-sizing: border-box;
     }
     textarea {
-        height: 80%;
+        height: 100%;
         font-size: 1em;
         font-family: monospace;
     }
@@ -102,4 +93,13 @@
     @media (width > 768px) {
         flex-direction: row;
     }
+
+    button {
+        margin: 10px
+    }
+}
+
+.window__divider {
+    width: 100%;
+    margin: 4px 0px;
 }

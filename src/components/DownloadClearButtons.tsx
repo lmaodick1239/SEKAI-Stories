@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SceneContext } from "../contexts/SceneContext";
 import * as PIXI from "pixi.js";
 import { refreshCanvas } from "../utils/RefreshCanvas";
 import { useTranslation } from "react-i18next";
 import ExportButton from "./ExportButton";
+import Window from "./Window";
 
 const DownloadClearButtons: React.FC = () => {
+    const [resetShow, setResetShow] = useState(false);
     const { t } = useTranslation();
 
     const context = useContext(SceneContext);
@@ -38,12 +40,6 @@ const DownloadClearButtons: React.FC = () => {
         refreshCanvas(context);
     };
 
-    const handleReset = () => {
-        const confirmation = confirm(t("clear"));
-        if (!confirmation) return;
-        setReset(reset + 1);
-    };
-
     return (
         <div
             className="absolute bottom-left flex-vertical"
@@ -53,9 +49,24 @@ const DownloadClearButtons: React.FC = () => {
                 <i className="bi bi-camera-fill sidebar__select"></i>
             </button>
             <ExportButton />
-            <button className="btn-circle btn-white" onClick={handleReset}>
+            <button
+                className="btn-circle btn-white"
+                onClick={() => setResetShow(true)}
+            >
                 <i className="bi bi-trash-fill sidebar__select"></i>
             </button>
+            {resetShow && (
+                <Window
+                    show={setResetShow}
+                    confirmFunction={() => setReset(reset + 1)}
+                    confirmLabel={t("clear-ok")}
+                    danger={true}
+                >
+                    <div className="window__content">
+                        <p>{t("clear")}</p>
+                    </div>
+                </Window>
+            )}
         </div>
     );
 };

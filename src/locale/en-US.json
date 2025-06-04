@@ -66,9 +66,10 @@
         "details": "If you don't see any changes, you may try refreshing the canvas.",
         "refresh": "Refresh"
     },
-
+    
     "close": "Close",
-    "clear": "This will clear the whole canvas. Any progress will be lost!\nClicking OK will proceed the action",
+    "clear": "This will clear the whole canvas. Any progress will be lost!",
+    "clear-ok": "Clear",
 
     "support": {
         "header": "Support",
