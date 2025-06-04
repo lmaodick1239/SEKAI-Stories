@@ -30,7 +30,15 @@ To contribute to the localization of the project, please follow these steps:
 #### Optional
 For creativity, you can translate the flavor texts or add your own at [`src/components/FlavorText.tsx`](./src/components/FlavorText.tsx). **Make sure not to add any offensive or inappropriate texts**.
 
+## List of languages translated
+| Language   | Locale Code | Translator/s  | Status           |
+|------------|-------------|---------------|------------------|
+| Polish     | pl-PL       | counter185    | Some are missing |
+| Spanish    | es-ES       | GatoMago      | Some are missing |
+| S. Chinese | zh-CN       | MiddleRed     | Some are missing |
+| Filipino   | tl-PH       | lezzthanthree | Complete         | 
+
 ## About fonts
-Currently, the project uses Noto Sans JP via Google Fonts.
+Currently, the project uses Noto Sans via Google Fonts.
 
 If the font is not supported in the language, I'll be adding an additional font that would fit the language and aesthetic of the project.

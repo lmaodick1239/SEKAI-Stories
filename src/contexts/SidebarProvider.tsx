@@ -15,7 +15,7 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
 
     useEffect(() => {
-        const announcementCookie = localStorage.getItem("minorUpdate2");
+        const announcementCookie = localStorage.getItem("localization-q");
         if (Number(announcementCookie) < 1) {
             setHideAnnouncements(false);
         }

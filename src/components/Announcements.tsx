@@ -10,25 +10,29 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("minorUpdate2");
+        const cookie = localStorage.getItem("localization-q");
         if (!cookie) {
-            localStorage.setItem("minorUpdate2", "0");
+            localStorage.setItem("localization-q", "0");
             return;
         }
-        localStorage.setItem("minorUpdate2", `${Number(cookie) + 1}`);
+        localStorage.setItem("localization-q", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
             <p>
-                A few minor updates have been pushed!
+                Localization contributions are still welcome! You can check this
+                information on{" "}
+                <a
+                    href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
+                    className="text-orange"
+                    target="_blank"
+                >
+                    GitHub
+                </a>
+                .
             </p>
-            <ul>
-                <li>Added few new backgrounds</li>
-                <li>Added few new models</li>
-                <li>Fixed issue that disallows users to add new model</li>
-            </ul>            
             <p>Tap this section to close.</p>
         </div>
     );
