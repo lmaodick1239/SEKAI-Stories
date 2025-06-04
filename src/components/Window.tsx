@@ -20,6 +20,12 @@ const Window: React.FC<WindowProps> = ({
     children,
 }) => {
     useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                show(false);
+            }
+        };
+        document.addEventListener("keydown", handleEsc);
         const main = document.querySelector("body");
         if (main) {
             main.style.overflow = "hidden";

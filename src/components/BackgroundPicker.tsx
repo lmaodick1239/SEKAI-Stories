@@ -1,5 +1,6 @@
 import React, {
     useContext,
+    useEffect,
     useState,
     // ChangeEvent,
     // useCallback,
@@ -33,6 +34,14 @@ const BackgroundPicker: React.FC = () => {
 
     const { background, setBackground } = context;
 
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setShow(false);
+            }
+        };
+        document.addEventListener("keydown", handleEsc);
+    }, []);
     // const [searchValue, setSearchValue] = useState("");
     // const handleSearchValueChange = useCallback(
     //     (e: ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +107,7 @@ const BackgroundPicker: React.FC = () => {
             });
         }
     }, [show, background?.filename]);
-    
+
     const renderBackgroundType = (type: string) => (
         <div
             className="flex-wrap center flex-vertical picker-type-div"
@@ -152,7 +161,11 @@ const BackgroundPicker: React.FC = () => {
                     >
                         <option value="all">{t("group.all")}</option>
                         {Object.keys(backgroundList.background).map((type) => {
-                            return <option key={type} value={type}>{t(`group.${type}`)}</option>;
+                            return (
+                                <option key={type} value={type}>
+                                    {t(`group.${type}`)}
+                                </option>
+                            );
                         })}
                     </select>
                     {/* <input
