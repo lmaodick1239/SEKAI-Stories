@@ -35,6 +35,9 @@
 [class^=app-]:not(.app-en) select p {
   font-weight: 400;
 }
+[class^=app-]:not(.app-en) button.btn-circle {
+  font-family: "Noto Sans", sans-serif;
+}
 
 h1,
 h2 {
