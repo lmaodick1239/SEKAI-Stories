@@ -32,7 +32,6 @@ const randomText = {
         "Just Monika.",
         "What if Movie Miku appeared on my screen all of the sudden?",
         "私は雨。(turns into ame-chan)",
-        "My Vercel Bandwidth blew up after I announced this application.",
         "MinoHaru is canon.",
         "AnHane is canon.",
         "Won won!?",
