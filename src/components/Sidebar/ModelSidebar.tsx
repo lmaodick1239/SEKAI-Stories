@@ -224,12 +224,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     };
 
     const handleAddLayer = async (from: string) => {
-        if (layers >= 5) {
-            const confirmation = confirm(
-                "Adding more than five layers may prevent other models from rendering properly and could cause lag. Do you want to continue?\n\nClicking OK will proceed the action."
-            );
-            if (!confirmation) return;
-        }
         const modelName = "none";
         const texture = await PIXI.Texture.fromURL(
             "/img/Background_New_Layer.png"
