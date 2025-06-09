@@ -12,10 +12,23 @@ function App() {
     if (!sidebar) {
         throw new Error("Context is not loaded properly.");
     }
-    const { hide, hideAnnouncements } = sidebar;
+    const { hide, hideAnnouncements, allowRefresh } = sidebar;
 
     const { i18n } = useTranslation();
     const lang = i18n.language;
+
+    useEffect(() => {
+        if (!allowRefresh) {
+            window.onbeforeunload = (e) => {
+                e.preventDefault();
+            };
+        } else {
+            window.onbeforeunload = null;
+        }
+        return () => {
+            window.onbeforeunload = null;
+        };
+    }, [allowRefresh]);
 
     return (
         <ErrorBoundary fallbackRender={(props) => <ErrorFallback {...props} />}>

@@ -15,15 +15,17 @@ import IModel from "../types/IModel";
 import { ILive2DModelData } from "../types/ILive2DModelData";
 import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
 import Window from "./Window";
+import { SidebarContext } from "../contexts/SidebarContext";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
-    const context = useContext(SceneContext);
+    const scene = useContext(SceneContext);
+    const sidebar = useContext(SidebarContext);
 
     const { t } = useTranslation();
 
     const [show, setShow] = useState<boolean>(false);
-    if (!context) throw new Error("Context not prepared.");
+    if (!scene || !sidebar) throw new Error("Context not prepared.");
 
     const {
         background,
@@ -41,7 +43,8 @@ const ExportButton: React.FC = () => {
         setNextLayer,
         setReset,
         setSceneJson,
-    } = context;
+    } = scene;
+    const { setAllowRefresh } = sidebar;
     const jsonRef = useRef<IJsonSave | undefined>(sceneJson);
 
     useEffect(() => {
@@ -90,6 +93,7 @@ const ExportButton: React.FC = () => {
             text: currentText,
             models: currentModels,
         });
+        setAllowRefresh(false);
     }, [background, splitBackground, text, models]);
 
     useEffect(() => {
@@ -123,7 +127,6 @@ const ExportButton: React.FC = () => {
                 "Error from background. Could be that the background does not exist."
             );
         }
-
 
         setLoadingMsg("Fetching text...");
         const textNameTag = data.text.nameTag;
@@ -240,22 +243,28 @@ const ExportButton: React.FC = () => {
             });
         }
 
-        splitBackground?.first.backgroundContainer.removeChildAt(0)
-        splitBackground?.first.backgroundContainer.addChildAt(firstBackgroundSprite, 0)
-        splitBackground?.second.backgroundContainer.removeChildAt(0)
-        splitBackground?.second.backgroundContainer.addChildAt(secondBackgroundSprite, 0)
+        splitBackground?.first.backgroundContainer.removeChildAt(0);
+        splitBackground?.first.backgroundContainer.addChildAt(
+            firstBackgroundSprite,
+            0
+        );
+        splitBackground?.second.backgroundContainer.removeChildAt(0);
+        splitBackground?.second.backgroundContainer.addChildAt(
+            secondBackgroundSprite,
+            0
+        );
         if (splitBackground?.splitContainer) {
             setSplitBackground({
                 ...splitBackground,
                 first: {
                     ...splitBackground.first,
-                    filename: firstBackgroundData
+                    filename: firstBackgroundData,
                 },
                 second: {
                     ...splitBackground.second,
-                    filename: secondBackgroundData
-                }
-            })
+                    filename: secondBackgroundData,
+                },
+            });
         }
 
         if (text && text.nameTag && text.dialogue) {
@@ -287,6 +296,8 @@ const ExportButton: React.FC = () => {
         a.download = "export.json";
         a.click();
         a.remove();
+
+        setAllowRefresh(true)
     };
 
     const handleImport = async () => {

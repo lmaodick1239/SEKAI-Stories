@@ -13,6 +13,7 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
     const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [openAll, setOpenAll] = useState<boolean>(false);
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
+    const [allowRefresh, setAllowRefresh] = useState<boolean>(false);
 
     useEffect(() => {
         const announcementCookie = localStorage.getItem("localization-q");
@@ -44,6 +45,8 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
                 setOpenAll,
                 openTextOption,
                 setOpenTextOption,
+                allowRefresh,
+                setAllowRefresh,
             }}
         >
             {children}

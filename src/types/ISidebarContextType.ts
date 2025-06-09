@@ -13,4 +13,6 @@ export default interface ISidebarContextType {
     setOpenAll: Dispatch<SetStateAction<boolean>>;
     openTextOption: string;
     setOpenTextOption: Dispatch<SetStateAction<string>>;
+    allowRefresh: boolean;
+    setAllowRefresh: Dispatch<SetStateAction<boolean>>;
 }
