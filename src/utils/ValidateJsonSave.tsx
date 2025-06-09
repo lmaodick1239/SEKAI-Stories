@@ -3,6 +3,9 @@ import { IJsonSave } from "../types/IJsonSave";
 export const ValidateJsonSave = (parsedJson: IJsonSave) => {
     return (
         typeof parsedJson.background === "string" &&
+        typeof parsedJson.splitBackground === "object" &&
+        typeof parsedJson.splitBackground.first === "string" &&
+        typeof parsedJson.splitBackground.second === "string" &&
         typeof parsedJson.text === "object" &&
         typeof parsedJson.text.nameTag === "string" &&
         typeof parsedJson.text.dialogue === "string" &&

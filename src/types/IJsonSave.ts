@@ -1,6 +1,10 @@
 export interface IJsonSave {
     lastModified: string;
     background: string;
+    splitBackground: {
+        first: string;
+        second: string;
+    };
     text: {
         nameTag: string;
         dialogue: string;

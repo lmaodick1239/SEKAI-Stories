@@ -27,12 +27,14 @@ const ExportButton: React.FC = () => {
 
     const {
         background,
+        splitBackground,
         text,
         models,
         modelContainer,
         reset,
         sceneJson,
         setBackground,
+        setSplitBackground,
         setText,
         setModels,
         setLayers,
@@ -45,6 +47,7 @@ const ExportButton: React.FC = () => {
     useEffect(() => {
         if (
             background === undefined ||
+            splitBackground === undefined ||
             text === undefined ||
             models === undefined
         )
@@ -53,6 +56,10 @@ const ExportButton: React.FC = () => {
         const currentBackground = !background?.upload
             ? background?.filename
             : "/img/Background_Between_Worlds.jpg";
+        const currentSplitBackground = {
+            first: splitBackground.first.filename,
+            second: splitBackground.second.filename,
+        };
         const currentText = {
             nameTag: text?.nameTagString,
             dialogue: text?.dialogueString,
@@ -79,10 +86,11 @@ const ExportButton: React.FC = () => {
         setSceneJson({
             lastModified: modifiedDateStamp,
             background: currentBackground,
+            splitBackground: currentSplitBackground,
             text: currentText,
             models: currentModels,
         });
-    }, [background, text, models]);
+    }, [background, splitBackground, text, models]);
 
     useEffect(() => {
         jsonRef.current = sceneJson;
@@ -96,18 +104,30 @@ const ExportButton: React.FC = () => {
     }, []);
 
     const loadScene = async (data: IJsonSave) => {
+        setLoadingMsg("Fetching background...");
         const backgroundData = data.background;
         const backgroundSprite = await getBackground(backgroundData);
+        const firstBackgroundData = data.splitBackground.first;
+        const secondBackgroundData = data.splitBackground.second;
+        const firstBackgroundSprite = await getBackground(firstBackgroundData);
+        const secondBackgroundSprite = await getBackground(
+            secondBackgroundData
+        );
 
-        if (!backgroundSprite)
+        if (
+            !backgroundSprite ||
+            !firstBackgroundSprite ||
+            !secondBackgroundSprite
+        ) {
             throw new Error(
                 "Error from background. Could be that the background does not exist."
             );
-        setLoadingMsg("Fetching background...");
+        }
 
+
+        setLoadingMsg("Fetching text...");
         const textNameTag = data.text.nameTag;
         const textDialogue = data.text.dialogue;
-        setLoadingMsg("Fetching text...");
 
         const modelJson = data.models;
 
@@ -218,6 +238,24 @@ const ExportButton: React.FC = () => {
                 ...background,
                 filename: backgroundData,
             });
+        }
+
+        splitBackground?.first.backgroundContainer.removeChildAt(0)
+        splitBackground?.first.backgroundContainer.addChildAt(firstBackgroundSprite, 0)
+        splitBackground?.second.backgroundContainer.removeChildAt(0)
+        splitBackground?.second.backgroundContainer.addChildAt(secondBackgroundSprite, 0)
+        if (splitBackground?.splitContainer) {
+            setSplitBackground({
+                ...splitBackground,
+                first: {
+                    ...splitBackground.first,
+                    filename: firstBackgroundData
+                },
+                second: {
+                    ...splitBackground.second,
+                    filename: secondBackgroundData
+                }
+            })
         }
 
         if (text && text.nameTag && text.dialogue) {
