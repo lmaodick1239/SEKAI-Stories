@@ -352,14 +352,15 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 splitContainer: splitBackgroundContainer,
                 first: {
                     backgroundContainer: firstBackground,
-                    filename: "",
+                    filename: "/background_compressed/bg_e000303.jpg",
                     upload: false,
                 },
                 second: {
                     backgroundContainer: secondBackground,
-                    filename: "",
+                    filename: "/background_compressed/bg_e000403.jpg",
                     upload: false,
                 },
+                visible: false,
             });
             setText({
                 textContainer: textContainer,

@@ -4,6 +4,7 @@ import { SceneContext } from "../../contexts/SceneContext";
 import UploadImageButton from "../UploadButton";
 import { getBackground } from "../../utils/GetBackground";
 import { useTranslation } from "react-i18next";
+import { Checkbox } from "../Checkbox";
 
 const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();
@@ -16,7 +17,8 @@ const BackgroundSidebar: React.FC = () => {
     )
         return t("please-wait");
 
-    const { background, setBackground } = context;
+    const { background, setBackground, splitBackground, setSplitBackground } =
+        context;
 
     const handleUploadImage = async (file: File) => {
         const imgSrc = URL.createObjectURL(file);
@@ -32,17 +34,76 @@ const BackgroundSidebar: React.FC = () => {
         }
     };
 
+    const handleSplitImage = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = event.target.checked;
+
+        if (splitBackground?.splitContainer) {
+            splitBackground.splitContainer.visible = value;
+            setSplitBackground({
+                ...splitBackground,
+                visible: value,
+            });
+        }
+    };
+
     return (
         <div>
             <h1>{t("background.header")}</h1>
             <div className="option">
                 <div className="option__content">
-                    <BackgroundPicker />
-                    <UploadImageButton
-                        id="background-upload"
-                        uploadFunction={handleUploadImage}
-                        text={t("background.upload")}
-                        alertMsg={t("background.upload-info")}
+                    {splitBackground?.visible ? (
+                        <>
+                            <BackgroundPicker
+                                background={splitBackground.first}
+                                setFunction={(bg) => {
+                                    setSplitBackground({
+                                        ...splitBackground,
+                                        first: {
+                                            ...splitBackground.first,
+                                            filename: bg,
+                                        },
+                                    });
+                                }}
+                            />
+                            <BackgroundPicker
+                                background={splitBackground.second}
+                                setFunction={(bg) => {
+                                    setSplitBackground({
+                                        ...splitBackground,
+                                        second: {
+                                            ...splitBackground.second,
+                                            filename: bg,
+                                        },
+                                    });
+                                }}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <BackgroundPicker
+                                background={background}
+                                setFunction={(bg) => {
+                                    setBackground({
+                                        ...background,
+                                        filename: `/background_compressed/${bg}.jpg`,
+                                    });
+                                }}
+                            />
+                            <UploadImageButton
+                                id="background-upload"
+                                uploadFunction={handleUploadImage}
+                                text={t("background.upload")}
+                                alertMsg={t("background.upload-info")}
+                            />
+                        </>
+                    )}
+                    <Checkbox
+                        id="split"
+                        label={t("background.split-location")}
+                        checked={splitBackground?.visible}
+                        onChange={handleSplitImage}
                     />
                 </div>
             </div>

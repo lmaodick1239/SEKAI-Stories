@@ -12,6 +12,7 @@ import { SceneContext } from "../contexts/SceneContext";
 import data from "../background.json";
 import { getBackground } from "../utils/GetBackground";
 import { useTranslation } from "react-i18next";
+import IBackground from "../types/IBackground";
 // import { fuzzy } from "fast-fuzzy";
 
 interface IBackgroundList {
@@ -20,9 +21,17 @@ interface IBackgroundList {
     };
 }
 
+interface BackgroundPickerProps {
+    background: IBackground;
+    setFunction: (bg: string) => void;
+}
+
 const backgroundList: IBackgroundList = data;
 
-const BackgroundPicker: React.FC = () => {
+const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
+    background,
+    setFunction,
+}) => {
     const { t } = useTranslation();
 
     const [show, setShow] = useState<boolean>(false);
@@ -32,8 +41,6 @@ const BackgroundPicker: React.FC = () => {
 
     if (!context) throw new Error("Context not found");
 
-    const { background, setBackground } = context;
-
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
@@ -42,39 +49,6 @@ const BackgroundPicker: React.FC = () => {
         };
         document.addEventListener("keydown", handleEsc);
     }, []);
-    // const [searchValue, setSearchValue] = useState("");
-    // const handleSearchValueChange = useCallback(
-    //     (e: ChangeEvent<HTMLInputElement>) => {
-    //         setSearchValue(e.target.value);
-    //     },
-    //     []
-    // );
-    // const deferredSearchValue = useDeferredValue(searchValue);
-    // const filteredBackgrounds = useMemo(() => {
-    //     if (!deferredSearchValue) {
-    //         return data.background;
-    //     }
-    //     return data.background.filter((bg) => {
-    //         return (
-    //             fuzzy(deferredSearchValue, bg.replace(/[^a-z0-9]/gi, "")) > 0.5
-    //         );
-    //     });
-    // }, [deferredSearchValue]);
-    // useEffect(() => {
-    //     const onKeyDown = (keyDownEvent: KeyboardEvent) => {
-    //         if (keyDownEvent.key === "Escape") {
-    //             if (searchValue) {
-    //                 setSearchValue("");
-    //             } else {
-    //                 setShow(false);
-    //             }
-    //         }
-    //     };
-    //     window.addEventListener("keydown", onKeyDown);
-    //     return () => {
-    //         window.removeEventListener("keydown", onKeyDown);
-    //     };
-    // }, [searchValue]);
 
     const handleChangeBackground = async (bg: string) => {
         const backgroundSprite = await getBackground(
@@ -83,12 +57,7 @@ const BackgroundPicker: React.FC = () => {
 
         background?.backgroundContainer.removeChildAt(0);
         background?.backgroundContainer.addChildAt(backgroundSprite, 0);
-        if (background?.backgroundContainer) {
-            setBackground({
-                ...background,
-                filename: `/background_compressed/${bg}.jpg`,
-            });
-        }
+        setFunction(`/background_compressed/${bg}.jpg`);
 
         setFilterValue("all");
     };
@@ -168,18 +137,7 @@ const BackgroundPicker: React.FC = () => {
                             );
                         })}
                     </select>
-                    {/* <input
-                        type="text"
-                        value={searchValue}
-                        onChange={handleSearchValueChange}
-                        placeholder="Search background"
-                        style={{
-                            position: "fixed",
-                            top: 10,
-                            width: "80%",
-                            zIndex: 9999,
-                        }}
-                    /> */}
+
                     <div className="flex-wrap relative center">
                         {filterValue === "all"
                             ? Object.keys(backgroundList.background).map(
@@ -189,7 +147,7 @@ const BackgroundPicker: React.FC = () => {
                     </div>
                 </div>
             )}
-            <div>
+            <div className="option__background">
                 <img
                     src={background?.filename}
                     alt="background-selected"
@@ -212,3 +170,49 @@ const BackgroundPicker: React.FC = () => {
 };
 
 export default BackgroundPicker;
+
+// const [searchValue, setSearchValue] = useState("");
+// const handleSearchValueChange = useCallback(
+//     (e: ChangeEvent<HTMLInputElement>) => {
+//         setSearchValue(e.target.value);
+//     },
+//     []
+// );
+// const deferredSearchValue = useDeferredValue(searchValue);
+// const filteredBackgrounds = useMemo(() => {
+//     if (!deferredSearchValue) {
+//         return data.background;
+//     }
+//     return data.background.filter((bg) => {
+//         return (
+//             fuzzy(deferredSearchValue, bg.replace(/[^a-z0-9]/gi, "")) > 0.5
+//         );
+//     });
+// }, [deferredSearchValue]);
+// useEffect(() => {
+//     const onKeyDown = (keyDownEvent: KeyboardEvent) => {
+//         if (keyDownEvent.key === "Escape") {
+//             if (searchValue) {
+//                 setSearchValue("");
+//             } else {
+//                 setShow(false);
+//             }
+//         }
+//     };
+//     window.addEventListener("keydown", onKeyDown);
+//     return () => {
+//         window.removeEventListener("keydown", onKeyDown);
+//     };
+// }, [searchValue]);
+/* <input
+    type="text"
+    value={searchValue}
+    onChange={handleSearchValueChange}
+    placeholder="Search background"
+    style={{
+        position: "fixed",
+        top: 10,
+        width: "80%",
+        zIndex: 9999,
+    }}
+/> */

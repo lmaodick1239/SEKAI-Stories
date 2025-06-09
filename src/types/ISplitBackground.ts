@@ -5,4 +5,5 @@ export interface ISplitBackground {
     splitContainer: PIXI.Container;
     first: IBackground;
     second: IBackground;
+    visible: boolean;
 }
