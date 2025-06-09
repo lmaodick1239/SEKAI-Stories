@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Window from "./Window";
+import Window from "./UI/Window";
 
 const SupportButton: React.FC = () => {
     const { t } = useTranslation();

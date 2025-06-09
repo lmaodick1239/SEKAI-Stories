@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SupportButton from "./SupportButton";
-import { Checkbox } from "./Checkbox";
+import { Checkbox } from "./UI/Checkbox";
 import { SceneContext } from "../contexts/SceneContext";
 import { SidebarContext } from "../contexts/SidebarContext";
-import Window from "./Window";
+import Window from "./UI/Window";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();

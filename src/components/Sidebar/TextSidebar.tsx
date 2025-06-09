@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
 import { SidebarContext } from "../../contexts/SidebarContext";
-import { Checkbox } from "../Checkbox";
-import RadioButton from "../RadioButton";
+import { Checkbox } from "../UI/Checkbox";
+import RadioButton from "../UI/RadioButton";
 import { useTranslation } from "react-i18next";
 
 const symbols = {

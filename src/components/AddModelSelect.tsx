@@ -1,6 +1,6 @@
 import React, { SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
-import Window from "./Window";
+import Window from "./UI/Window";
 
 interface AddModelSelectProps {
     addModel: (from: string) => void;

@@ -14,7 +14,7 @@ import { Live2DModel } from "pixi-live2d-display";
 import IModel from "../types/IModel";
 import { ILive2DModelData } from "../types/ILive2DModelData";
 import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
-import Window from "./Window";
+import Window from "./UI/Window";
 import { SidebarContext } from "../contexts/SidebarContext";
 
 const ExportButton: React.FC = () => {
@@ -297,7 +297,7 @@ const ExportButton: React.FC = () => {
         a.click();
         a.remove();
 
-        setAllowRefresh(true)
+        setAllowRefresh(true);
     };
 
     const handleImport = async () => {

@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import BackgroundPicker from "../BackgroundPicker";
 import { SceneContext } from "../../contexts/SceneContext";
-import UploadImageButton from "../UploadButton";
+import UploadImageButton from "../UI/UploadButton";
 import { getBackground } from "../../utils/GetBackground";
 import { useTranslation } from "react-i18next";
-import { Checkbox } from "../Checkbox";
+import { Checkbox } from "../UI/Checkbox";
 
 const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();

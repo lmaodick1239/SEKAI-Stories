@@ -4,7 +4,7 @@ import * as PIXI from "pixi.js";
 import { refreshCanvas } from "../utils/RefreshCanvas";
 import { useTranslation } from "react-i18next";
 import ExportButton from "./ExportButton";
-import Window from "./Window";
+import Window from "./UI/Window";
 import { SidebarContext } from "../contexts/SidebarContext";
 
 const DownloadClearButtons: React.FC = () => {
@@ -41,7 +41,7 @@ const DownloadClearButtons: React.FC = () => {
         a.remove();
 
         refreshCanvas(scene);
-        setAllowRefresh(true)
+        setAllowRefresh(true);
     };
 
     return (

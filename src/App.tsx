@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import Content from "./components/Content";
 import Sidebar from "./components/Sidebar";
-import Announcements from "./components/Announcements";
+import Announcements from "./components/UI/Announcements";
 import { useTranslation } from "react-i18next";
 import { ErrorBoundary } from "react-error-boundary";
 import { SidebarContext } from "./contexts/SidebarContext";
@@ -42,13 +42,17 @@ function App() {
 }
 
 function ErrorFallback({ error }: { error: Error }) {
-    const context = useContext(SceneContext);
-    if (!context) throw new Error("Context not prepared.");
-    const { sceneJson } = context;
+    const scene = useContext(SceneContext);
+    const sidebar = useContext(SidebarContext);
+    if (!scene || !sidebar) throw new Error("Context not prepared.");
+    const { sceneJson } = scene;
+    const { setAllowRefresh } = sidebar;
 
     useEffect(() => {
         localStorage.setItem("autoSave", JSON.stringify(sceneJson));
     }, [sceneJson]);
+
+    setAllowRefresh(true);
 
     return (
         <div className="app-en center flex-vertical full-screen padding-20">
@@ -62,7 +66,10 @@ function ErrorFallback({ error }: { error: Error }) {
             <p className="text-center">
                 If the problem persists, please report this issue on GitHub.
             </p>
-            <p className="text-center">Your work is automatically saved. You can get it back from Settings.</p>
+            <p className="text-center">
+                Your work is automatically saved. You can get it back from
+                Settings.
+            </p>
             <textarea
                 readOnly
                 value={`Traceback: \n${error.stack} \n\n${error.message}`}
@@ -79,7 +86,7 @@ function ErrorFallback({ error }: { error: Error }) {
             >
                 Copy
             </button>
-                <button
+            <button
                 onClick={() =>
                     window.open(
                         "https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README.md#report-an-issue",

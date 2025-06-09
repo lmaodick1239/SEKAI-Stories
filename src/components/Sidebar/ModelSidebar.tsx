@@ -5,9 +5,9 @@ import axios from "axios";
 import { SceneContext } from "../../contexts/SceneContext";
 import IModel from "../../types/IModel";
 import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
-import UploadImageButton from "../UploadButton";
+import UploadImageButton from "../UI/UploadButton";
 import * as PIXI from "pixi.js";
-import { Checkbox } from "../Checkbox";
+import { Checkbox } from "../UI/Checkbox";
 import {
     GetModelDataFromSekai,
     GetModelDataFromStatic,
@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
 import { AdjustmentFilter, CRTFilter } from "pixi-filters";
 import { SidebarContext } from "../../contexts/SidebarContext";
-import Window from "../Window";
+import Window from "../UI/Window";
 
 interface StaticCharacterData {
     [key: string]: string[];
