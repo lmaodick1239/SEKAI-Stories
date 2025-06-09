@@ -17,6 +17,7 @@ export const refreshCanvas = async (context: ISceneContextType) => {
         setApp,
         text,
         background,
+        splitBackground,
         modelContainer,
         sceneSetting,
         guideline,
@@ -35,18 +36,12 @@ export const refreshCanvas = async (context: ISceneContextType) => {
 
     Live2DModel.registerTicker(PIXI.Ticker);
     const transparentContainer = new PIXI.Container();
-    const transparentSpriteForNameTag = await getBackground(
+    const transparentSprite = await getBackground(
         "/background_special/Background_Transparent.png"
     );
-    const transparentSpriteForDialogue = await getBackground(
-        "/background_special/Background_Transparent.png"
-    );
-    const transparentSpriteForWhateverReason = await getBackground(
-        "/background_special/Background_Transparent.png"
-    );
-    transparentContainer.addChild(transparentSpriteForNameTag);
-    transparentContainer.addChild(transparentSpriteForDialogue);
-    transparentContainer.addChild(transparentSpriteForWhateverReason);
+    
+    transparentContainer.addChild(transparentSprite);
+    
     initApplication.stage.addChildAt(transparentContainer, 0);
     await new Promise((resolve) => setTimeout(resolve, 200));
 
@@ -54,22 +49,26 @@ export const refreshCanvas = async (context: ISceneContextType) => {
         initApplication.stage.addChildAt(background.backgroundContainer, 1);
     }
     await new Promise((resolve) => setTimeout(resolve, 200));
+    if (splitBackground?.splitContainer) {
+        initApplication.stage.addChildAt(splitBackground?.splitContainer, 2);
+    }
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     if (modelContainer) {
-        initApplication.stage.addChildAt(modelContainer, 2);
+        initApplication.stage.addChildAt(modelContainer, 3);
     }
     await new Promise((resolve) => setTimeout(resolve, 200));
 
     if (text.textContainer) {
-        initApplication.stage.addChildAt(text.textContainer, 3);
+        initApplication.stage.addChildAt(text.textContainer, 4);
     }
 
     if (sceneSetting.sceneSettingContainer) {
-        initApplication.stage.addChildAt(sceneSetting.sceneSettingContainer, 4);
+        initApplication.stage.addChildAt(sceneSetting.sceneSettingContainer, 5);
     }
 
     if (guideline) {
-        initApplication.stage.addChildAt(guideline.container, 5);
+        initApplication.stage.addChildAt(guideline.container, 6);
     }
 
     setApp(initApplication);

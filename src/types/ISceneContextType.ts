@@ -6,6 +6,7 @@ import IText from "./IText";
 import ISceneSetting from "./ISceneSetting";
 import IGuideline from "./IGuideline";
 import { IJsonSave } from "./IJsonSave";
+import { ISplitBackground } from "./ISplitBackground";
 export default interface ISceneContextType {
     app: PIXI.Application | undefined;
     setApp: Dispatch<SetStateAction<PIXI.Application | undefined>>;
@@ -23,6 +24,8 @@ export default interface ISceneContextType {
     setModelContainer: Dispatch<SetStateAction<PIXI.Container | undefined>>;
     background: IBackground | undefined;
     setBackground: Dispatch<SetStateAction<IBackground | undefined>>;
+    splitBackground: ISplitBackground | undefined;
+    setSplitBackground: Dispatch<SetStateAction<ISplitBackground | undefined>>;
     text: IText | undefined;
     setText: Dispatch<SetStateAction<IText | undefined>>;
     sceneSetting: ISceneSetting | undefined;

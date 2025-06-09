@@ -11,6 +11,7 @@ import { getBackground } from "../utils/GetBackground";
 import ISceneSetting from "../types/ISceneSetting";
 import IGuideline from "../types/IGuideline";
 import { IJsonSave } from "../types/IJsonSave";
+import { ISplitBackground } from "../types/ISplitBackground";
 
 interface SceneProviderProps {
     children: React.ReactNode;
@@ -92,6 +93,9 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const [background, setBackground] = useState<IBackground | undefined>(
         undefined
     );
+    const [splitBackground, setSplitBackground] = useState<
+        ISplitBackground | undefined
+    >(undefined);
     const [text, setText] = useState<IText | undefined>(undefined);
     const [sceneSetting, setSceneSetting] = useState<ISceneSetting | undefined>(
         undefined
@@ -144,9 +148,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     };
 
     const initialScene: InitialScene = useMemo(
-        () => getInitialScene(
-            "persona_4"
-        ),
+        () => getInitialScene("persona_4"),
         [reset]
     );
 
@@ -176,21 +178,11 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
 
             // Load Transparent (for development. idk why it causes issues before production)
             const transparentContainer = new PIXI.Container();
-            const transparentSpriteForNameTag = await getBackground(
+            const transparentSprite = await getBackground(
                 "/background_special/Background_Transparent.png"
             );
-            const transparentSpriteForDialogue = await getBackground(
-                "/background_special/Background_Transparent.png"
-            );
-            const transparentSpriteForWhateverReason = await getBackground(
-                "/background_special/Background_Transparent.png"
-            );
-            transparentContainer.addChildAt(transparentSpriteForNameTag, 0);
-            transparentContainer.addChildAt(transparentSpriteForDialogue, 1);
-            transparentContainer.addChildAt(
-                transparentSpriteForWhateverReason,
-                2
-            );
+            transparentContainer.addChildAt(transparentSprite, 0);
+
             initApplication.stage.addChildAt(transparentContainer, 0);
 
             // Load Background
@@ -202,6 +194,47 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             backgroundContainer.addChild(backgroundSprite);
             initApplication.stage.addChildAt(backgroundContainer, 1);
 
+            // Load Split Background
+            const splitBackgroundContainer = new PIXI.Container();
+            const firstBackground = new PIXI.Container();
+            const firstBackgroundSprite = await getBackground(
+                "/background_compressed/bg_e000303.jpg"
+            );
+            const firstMask = new PIXI.Graphics();
+            firstMask.beginFill();
+            firstMask.moveTo(0, 0);
+            firstMask.lineTo(985, 0);
+            firstMask.lineTo(905, 1080);
+            firstMask.lineTo(0, 1080);
+            firstMask.endFill();
+            firstBackground.mask = firstMask;
+            firstBackground.addChild(firstBackgroundSprite);
+            const secondBackground = new PIXI.Container();
+            const secondBackgroundSprite = await getBackground(
+                "/background_compressed/bg_e000403.jpg"
+            );
+            const secondMask = new PIXI.Graphics();
+            secondMask.beginFill();
+            secondMask.moveTo(1920, 0);
+            secondMask.lineTo(1005, 0);
+            secondMask.lineTo(925, 1080);
+            secondMask.lineTo(1920, 1080);
+            secondMask.endFill();
+            secondBackground.mask = secondMask;
+            secondBackground.addChild(secondBackgroundSprite);
+            const line = new PIXI.Graphics();
+            line.beginFill(0xffffff);
+            line.moveTo(985, 0);
+            line.lineTo(1005, 0);
+            line.lineTo(925, 1080);
+            line.lineTo(905, 1080);
+            line.endFill();
+            splitBackgroundContainer.addChildAt(firstBackground, 0);
+            splitBackgroundContainer.addChildAt(secondBackground, 1);
+            splitBackgroundContainer.addChildAt(line, 2);
+            initApplication.stage.addChildAt(splitBackgroundContainer, 2);
+            splitBackgroundContainer.visible = false;
+
             // Load Sample PNG Sprite
             const modelContainer = new PIXI.Container();
             const texture = await PIXI.Texture.fromURL(
@@ -212,7 +245,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             sprite.anchor.set(0.5, 0.5);
             sprite.position.set(initialScene["modelX"], initialScene["modelY"]);
 
-            initApplication.stage.addChildAt(modelContainer, 2);
+            initApplication.stage.addChildAt(modelContainer, 3);
 
             // Load Text
             setStartingMessage("Adding text...");
@@ -250,7 +283,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             textContainer.addChildAt(textNameTag, 1);
             textContainer.addChildAt(textDialogue, 2);
 
-            initApplication.stage.addChildAt(textContainer, 3);
+            initApplication.stage.addChildAt(textContainer, 4);
 
             const model = {
                 character1: {
@@ -293,7 +326,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             sceneSettingContainer.addChildAt(sceneSettingBackgroundSprite, 0);
             sceneSettingContainer.addChildAt(sceneSettingText, 1);
 
-            initApplication.stage.addChildAt(sceneSettingContainer, 4);
+            initApplication.stage.addChildAt(sceneSettingContainer, 5);
             sceneSettingContainer.visible = false;
 
             // Load Guideline Tools
@@ -303,7 +336,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             guidelineContainer.addChild(gridSprite);
             guidelineContainer.visible = false;
             guidelineContainer.alpha = 0.2;
-            initApplication.stage.addChildAt(guidelineContainer, 5);
+            initApplication.stage.addChildAt(guidelineContainer, 6);
 
             setApp(initApplication);
             setModels(model);
@@ -314,6 +347,19 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 backgroundContainer: backgroundContainer,
                 filename: initialScene["background"],
                 upload: false,
+            });
+            setSplitBackground({
+                splitContainer: splitBackgroundContainer,
+                first: {
+                    backgroundContainer: firstBackground,
+                    filename: "",
+                    upload: false,
+                },
+                second: {
+                    backgroundContainer: secondBackground,
+                    filename: "",
+                    upload: false,
+                },
             });
             setText({
                 textContainer: textContainer,
@@ -360,6 +406,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 setModelContainer,
                 background,
                 setBackground,
+                splitBackground,
+                setSplitBackground,
                 text,
                 setText,
                 sceneSetting,
