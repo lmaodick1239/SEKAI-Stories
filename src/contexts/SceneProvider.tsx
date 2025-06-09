@@ -124,16 +124,16 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             };
         }
 
-        if (scene === "bad_apple") {
+        if (scene === "persona_4") {
             return {
-                background: "/background_compressed/bg00026.jpg",
-                model: "17kanade_black",
-                text: "Mizuki, what do you mean by ⑨?",
-                nameTag: "Kanade",
-                character: "kanade",
-                modelX: 650,
-                modelY: 170,
-                pngName: "kanade_black",
+                background: "/background_special/Background_TV_World.jpg",
+                model: "v2_13tsukasa_unit",
+                text: "R-Rui! Is this another experiment of yours!?",
+                nameTag: "Tsukasa",
+                character: "tsukasa",
+                modelX: 960,
+                modelY: 580,
+                pngName: "tsukasa",
                 sceneSetting: "???",
             };
         }
@@ -144,7 +144,9 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     };
 
     const initialScene: InitialScene = useMemo(
-        () => getInitialScene(),
+        () => getInitialScene(
+            "persona_4"
+        ),
         [reset]
     );
 

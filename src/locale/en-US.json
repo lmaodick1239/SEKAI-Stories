@@ -54,7 +54,7 @@
         "show-live2d-parts": "Show Live2D Parts",
         "access-live2d-parts": "You are about to access all parts of this model. Continue?",
         "toggles": "Toggles",
-        "idle": "Idle animation",
+        "idle": "Idle Animation",
         "live2d-parameters": "Live2D Parameters",
         "select-parameter": "Select a parameter"
     },
