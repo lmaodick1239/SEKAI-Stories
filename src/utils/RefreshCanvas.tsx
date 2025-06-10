@@ -8,7 +8,7 @@ export const refreshCanvas = async (context: ISceneContextType) => {
         !context?.app ||
         !context.text ||
         !context.background ||
-        !context.sceneSetting
+        !context.sceneText
     )
         return;
 
@@ -19,7 +19,7 @@ export const refreshCanvas = async (context: ISceneContextType) => {
         background,
         splitBackground,
         modelContainer,
-        sceneSetting,
+        sceneText,
         guideline,
     } = context;
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -39,9 +39,9 @@ export const refreshCanvas = async (context: ISceneContextType) => {
     const transparentSprite = await getBackground(
         "/background_special/Background_Transparent.png"
     );
-    
+
     transparentContainer.addChild(transparentSprite);
-    
+
     initApplication.stage.addChildAt(transparentContainer, 0);
     await new Promise((resolve) => setTimeout(resolve, 200));
 
@@ -63,8 +63,8 @@ export const refreshCanvas = async (context: ISceneContextType) => {
         initApplication.stage.addChildAt(text.textContainer, 4);
     }
 
-    if (sceneSetting.sceneSettingContainer) {
-        initApplication.stage.addChildAt(sceneSetting.sceneSettingContainer, 5);
+    if (sceneText.sceneTextContainer) {
+        initApplication.stage.addChildAt(sceneText.sceneTextContainer, 5);
     }
 
     if (guideline) {

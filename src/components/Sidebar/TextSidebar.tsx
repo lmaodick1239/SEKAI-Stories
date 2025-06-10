@@ -43,11 +43,16 @@ const TextSidebar: React.FC = () => {
         lockFontSize === "true" ? true : false
     );
 
-    if (!scene || !sidebar || !scene.text || !scene.sceneSetting) {
+    if (!scene || !sidebar || !scene.text || !scene.sceneText) {
         return t("please-wait");
     }
 
-    const { text, setText, sceneSetting, setSceneSetting } = scene;
+    const {
+        text,
+        setText,
+        sceneText,
+        setSceneText
+    } = scene;
     const { openTextOption, setOpenTextOption, openAll } = sidebar;
 
     const handleTab = (tab: string) => {
@@ -75,15 +80,15 @@ const TextSidebar: React.FC = () => {
             visible: visible,
         });
     };
-    const handleSceneSettingVisible = (
+    const handleSceneTextVisible = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         const visible = Boolean(event?.target.checked);
-        if (sceneSetting?.sceneSettingContainer) {
-            sceneSetting.sceneSettingContainer.visible = visible;
+        if (sceneText?.sceneTextContainer) {
+            sceneText.sceneTextContainer.visible = visible;
         }
-        setSceneSetting({
-            ...sceneSetting,
+        setSceneText({
+            ...sceneText,
             visible: visible,
         });
     };
@@ -112,18 +117,18 @@ const TextSidebar: React.FC = () => {
             dialogueString: changedDialogue,
         });
     };
-    const handleSceneSettingChange = (
+    const handleSceneTextChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        const changedSceneSetting = event.target.value
+        const changedSceneText = event.target.value
             .replace(/“|”/g, '"')
             .replace(/‘|’/g, "'");
-        sceneSetting.text.text = changedSceneSetting;
-        sceneSetting.text.updateText(true);
+        sceneText.text.text = changedSceneText;
+        sceneText.text.updateText(true);
 
-        setSceneSetting({
-            ...sceneSetting,
-            textString: changedSceneSetting,
+        setSceneText({
+            ...sceneText,
+            textString: changedSceneText,
         });
     };
 
@@ -403,14 +408,14 @@ const TextSidebar: React.FC = () => {
                             type="text"
                             name="name-tag"
                             id="name-tag"
-                            value={sceneSetting.textString}
-                            onChange={handleSceneSettingChange}
+                            value={sceneText.textString}
+                            onChange={handleSceneTextChange}
                         />
                         <Checkbox
                             id="visible"
                             label={t("visible")}
-                            checked={sceneSetting.visible}
-                            onChange={handleSceneSettingVisible}
+                            checked={sceneText.visible}
+                            onChange={handleSceneTextVisible}
                         />
                     </div>
                 )}
