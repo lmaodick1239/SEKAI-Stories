@@ -87,7 +87,7 @@ const BackgroundSidebar: React.FC = () => {
                                 setFunction={(bg) => {
                                     setBackground({
                                         ...background,
-                                        filename: `/background_compressed/${bg}.jpg`,
+                                        filename: bg,
                                     });
                                 }}
                             />
