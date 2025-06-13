@@ -591,7 +591,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const handleLive2DParamsStep = (type: string, params: string) => {
         let newValue: number = 0;
         const currentValue = coreModel?.getParameterValueById(params) ?? 0;
-        const step = 1;
+        const step = 0.1;
         switch (type) {
             case "+":
                 newValue = currentValue + step;
