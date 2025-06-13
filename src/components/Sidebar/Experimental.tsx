@@ -46,7 +46,7 @@ const Experimental: React.FC = () => {
                 </div>
             </div>
             <div className="option">
-                <div className="option__conte">
+                <div className="option__content">
                     <button
                         className="btn-regular btn-100 btn-red"
                         onClick={() => {
