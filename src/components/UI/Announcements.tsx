@@ -10,17 +10,31 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("localization-q");
+        const cookie = localStorage.getItem("splitlocationupdate");
         if (!cookie) {
-            localStorage.setItem("localization-q", "0");
+            localStorage.setItem("splitlocationupdate", "0");
             return;
         }
-        localStorage.setItem("localization-q", `${Number(cookie) + 1}`);
+        localStorage.setItem("splitlocationupdate", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
+            <p>New features has been added! See more information below.</p>
+
+            <button
+                className="btn-blue btn-regular"
+                onClick={() => {
+                    window.open(
+                        "https://ko-fi.com/Post/SEKAI-Stories-New-Features-M4M61GE1WD",
+
+                        "_blank"
+                    );
+                }}
+            >
+                Ko-fi Announcement
+            </button>
             <p>
                 Localization contributions are still welcome! You can check this
                 information on{" "}

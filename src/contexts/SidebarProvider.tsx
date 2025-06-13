@@ -16,7 +16,7 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
     const [allowRefresh, setAllowRefresh] = useState<boolean>(false);
 
     useEffect(() => {
-        const announcementCookie = localStorage.getItem("localization-q");
+        const announcementCookie = localStorage.getItem("splitlocationupdate");
         if (Number(announcementCookie) < 1) {
             setHideAnnouncements(false);
         }
