@@ -1,5 +1,5 @@
 import { IJsonSave } from "../types/IJsonSave";
-
+import { ILive2DParameterJsonSave } from "../types/ILive2DParameterJsonSave";
 export const ValidateJsonSave = (parsedJson: IJsonSave) => {
     return (
         typeof parsedJson.background === "string" &&
@@ -21,7 +21,26 @@ export const ValidateJsonSave = (parsedJson: IJsonSave) => {
                 typeof model.modelTransform.y === "number" &&
                 typeof model.modelTransform.scale === "number" &&
                 typeof model.modelExpression === "number" &&
-                typeof model.modelPose === "number"
+                typeof model.modelPose === "number" &&
+                typeof model.modelParametersChanged === "object" &&
+                Object.entries(model.modelParametersChanged).every(
+                    ([name, value]) => {
+                        return (
+                            typeof name === "string" &&
+                            typeof value === "number"
+                        );
+                    }
+                ) &&
+                typeof model.modelIdle === "boolean"
         )
     );
+};
+
+export const ValidateLive2DParameterJsonSave = (
+    parsedJson: ILive2DParameterJsonSave
+) => {
+
+    return Object.entries(parsedJson).every(([name, value]) => {
+        return typeof name === "string" && typeof value === "number";
+    });
 };

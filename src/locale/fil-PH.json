@@ -50,13 +50,18 @@
         "ParamMouthScaleY": "Y-Sukat",
         "ParamMouthPositionY": "Y-Posisyon",
         "ParamMouthShadow": "Anino",
-        "advanced": "Advanced",
+        "live2d": "Live2D",
         "show-live2d-parts": "Ipakita ang mga bahagi ng modelo",
         "access-live2d-parts": "Magkakaroon ka ng access sa lahat ng bahagi ng modelong ito. Ipagpatuloy?",
         "toggles": "Mga Toggle",
         "idle": "Idle na animasyon",
-        "live2d-parameters": "Live2D Parameters",
-        "select-parameter": "Pumili ng parameter"
+        "parameters": "Parameters",
+        "select-parameter": "Pumili ng parameter",
+        "import-export": "Import/Export",
+        "import": "Mag-import",
+        "export": "Mag-export",
+        "live2d-import-export-description": "Ang mga ginawa mong pagbabago sa Live2D adjustments ay puwede mong i-save at i-load.",
+        "advanced": "Advanced"
     },
 
     "visible": "Ipakita",
@@ -149,6 +154,6 @@
         "header": "Import/Export",
         "description": "Hindi kasama ang mga na-upload na likuran at mga sprites sa JSON file.",
         "import": "Mag-import",
-        "export": "I-export"
+        "export": "Mag-export"
     }
 }

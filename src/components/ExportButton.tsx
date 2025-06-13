@@ -10,7 +10,7 @@ import {
     GetModelDataFromStatic,
 } from "../utils/GetModelData";
 import axios from "axios";
-import { Live2DModel } from "pixi-live2d-display";
+import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
 import IModel from "../types/IModel";
 import { ILive2DModelData } from "../types/ILive2DModelData";
 import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
@@ -82,6 +82,8 @@ const ExportButton: React.FC = () => {
                     },
                     modelExpression: model.expression,
                     modelPose: model.pose,
+                    modelParametersChanged: model.parametersChanged,
+                    modelIdle: model.idle,
                 };
             })
             .filter((model) => model !== undefined);
@@ -214,6 +216,30 @@ const ExportButton: React.FC = () => {
                 await new Promise((resolve) => setTimeout(resolve, 2000));
                 live2DModel.motion("Motion", model.modelPose);
             }
+
+            if (model?.modelParametersChanged) {
+                const coreModel = live2DModel.internalModel
+                    .coreModel as Cubism4InternalModel["coreModel"];
+                Object.entries(model.modelParametersChanged).forEach(
+                    ([name, value]) => {
+                        try {
+                            coreModel?.setParameterValueById(name, value);
+                        } catch {
+                            return;
+                        }
+                    }
+                );
+            }
+
+            if (
+                model?.modelIdle === false &&
+                live2DModel instanceof Live2DModel &&
+                "breath" in live2DModel.internalModel
+            ) {
+                const modelBreath = live2DModel.internalModel
+                    .breath as Cubism4InternalModel["breath"];
+                modelBreath.setParameters([]);
+            }
             modelTextures = {
                 ...modelTextures,
                 [`character${idx + 1}`]: {
@@ -227,9 +253,12 @@ const ExportButton: React.FC = () => {
                     virtualEffect: false,
                     expression: model.modelExpression,
                     pose: model.modelPose,
-                    idle: true,
+                    idle: model.modelIdle,
                     visible: true,
                     from: model.from,
+                    parametersChanged: model.modelParametersChanged
+                        ? model.modelParametersChanged
+                        : {},
                 },
             };
         }

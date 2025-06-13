@@ -16,5 +16,7 @@ export interface IJsonSave {
         modelTransform: { x: number; y: number; scale: number };
         modelExpression: number | undefined;
         modelPose: number | undefined;
+        modelParametersChanged: Record<string, number> | undefined;
+        modelIdle: boolean;
     }[];
 }

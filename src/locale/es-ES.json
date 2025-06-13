@@ -50,9 +50,13 @@
         "ParamMouthScaleY": "Tamaño-Y",
         "ParamMouthPositionY": "Posición-Y",
         "ParamMouthShadow": "Sombra",
-        "advanced": "Avanzado",
+        "live2d": "Live2D",
         "show-live2d-parts": "Mostrar partes Live2D",
-        "access-live2d-parts": "Estas por acceder a todas las partes de este modelo. ¿Deseas continuar?"
+        "access-live2d-parts": "Estas por acceder a todas las partes de este modelo. ¿Deseas continuar?",
+        "import-export": "Importar/Exportar",
+        "import": "Importar",
+        "export": "Exportar",
+        "advanced": "Avanzado"
     },
 
     "visible": "Visibilidad",

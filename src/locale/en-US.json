@@ -51,13 +51,18 @@
         "ParamMouthScaleY": "Y-Scale",
         "ParamMouthPositionY": "Y-Position",
         "ParamMouthShadow": "Shadow",
-        "advanced": "Advanced",
+        "live2d": "Live2D",
         "show-live2d-parts": "Show Live2D Parts",
         "access-live2d-parts": "You are about to access all parts of this model. Continue?",
         "toggles": "Toggles",
         "idle": "Idle Animation",
-        "live2d-parameters": "Live2D Parameters",
-        "select-parameter": "Select a parameter"
+        "parameters": "Parameters",
+        "select-parameter": "Select a parameter",
+        "import-export": "Import/Export",
+        "import": "Import",
+        "export": "Export",
+        "live2d-import-export-description": "You can save your Live2D adjustments as a JSON file and and apply it on other models.",
+        "advanced": "Advanced"
     },
 
     "visible": "Visible",

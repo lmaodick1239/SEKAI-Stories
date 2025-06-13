@@ -16,4 +16,5 @@ export default interface IModel {
     idle: boolean;
     visible: boolean;
     from: string;
+    parametersChanged: Record<string, number>;
 }

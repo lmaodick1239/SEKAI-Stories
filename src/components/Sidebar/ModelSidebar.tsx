@@ -21,6 +21,8 @@ import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai
 import { AdjustmentFilter, CRTFilter } from "pixi-filters";
 import { SidebarContext } from "../../contexts/SidebarContext";
 import Window from "../UI/Window";
+import { ILive2DParameterJsonSave } from "../../types/ILive2DParameterJsonSave";
+import { ValidateLive2DParameterJsonSave } from "../../utils/ValidateJsonSave";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -100,9 +102,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     const [coreModel, setCoreModel] = useState<
         Cubism4InternalModel["coreModel"] | null
     >(null);
-    const [parameterValues, setParameterValues] = useState<
-        Record<string, number>
-    >({});
+
     const [deleteWarnWindow, setDeleteWarnWindow] = useState<boolean>(false);
 
     const characterSelect = useRef<null | HTMLSelectElement>(null);
@@ -221,7 +221,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setCurrentModel(models[key]);
         setCurrentSelectedCharacter(models[key].character);
         setLayerIndex(selectedIndex);
-        setParameterValues({});
+
         setSelectedParameter({ idx: -1, param: "_" });
     };
 
@@ -247,6 +247,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 visible: true,
                 modelData: undefined,
                 from: from,
+                parametersChanged: {},
             },
         };
         setModels((prevModels) => ({
@@ -284,6 +285,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 visible: true,
                 modelData: undefined,
                 from: "upload",
+                parametersChanged: {},
             },
         };
         setModels((prevModels) => ({
@@ -315,7 +317,6 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
         setLayerIndex(0);
         setLayers(layers - 1);
         setLoading(false);
-        setParameterValues({});
         setSelectedParameter({ idx: -1, param: "_" });
     };
 
@@ -364,9 +365,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     ? (firstFile as string)
                     : (firstFile as ILive2DModelList).modelBase,
                 modelData,
+                parametersChanged: {},
             });
             setLoading(false);
-            setParameterValues({});
             setSelectedParameter({ idx: -1, param: "_" });
         } catch {
             setLoadingMsg("Failed to load model!");
@@ -430,9 +431,9 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 virtualEffect: false,
                 modelName: modelBase,
                 modelData: modelData,
+                parametersChanged: {},
             });
             setLoading(false);
-            setParameterValues({});
             setSelectedParameter({ idx: -1, param: "_" });
         } catch {
             setLoadingMsg("Failed to load model!");
@@ -579,10 +580,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
     ) => {
         const newValue = Number(e.target.value);
         coreModel?.setParameterValueById(params, newValue);
-        setParameterValues((prev) => ({
-            ...prev,
-            [params]: newValue,
-        }));
+        updateModelState({
+            parametersChanged: {
+                ...currentModel?.parametersChanged,
+                [params]: newValue,
+            },
+        });
     };
 
     const handleLive2DParamsStep = (type: string, params: string) => {
@@ -603,10 +606,12 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 newValue = currentValue;
         }
         coreModel?.setParameterValueById(params, newValue);
-        setParameterValues((prev) => ({
-            ...prev,
-            [params]: newValue,
-        }));
+        updateModelState({
+            parametersChanged: {
+                ...currentModel?.parametersChanged,
+                [params]: newValue,
+            },
+        });
     };
 
     const handleIdle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -620,6 +625,61 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
             modelBreath.setParameters(value ? defaultModelBreath : []);
             updateModelState({ idle: value });
         }
+    };
+
+    const handleImportLive2DParams = () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".json";
+        input.onchange = (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                const jsonString = event.target?.result;
+                if (typeof jsonString === "string") {
+                    const data: ILive2DParameterJsonSave =
+                        JSON.parse(jsonString);
+                    if (ValidateLive2DParameterJsonSave(data)) {
+                        const newParams: Record<string, number> = {};
+                        Object.entries(data).forEach(([name, value]) => {
+                            try {
+                                coreModel?.setParameterValueById(name, value);
+                                console.log(name, value);
+                                newParams[name] = value;
+                            } catch {
+                                return;
+                            }
+                        });
+                        updateModelState({
+                            parametersChanged: {
+                                ...currentModel?.parametersChanged,
+                                ...newParams,
+                            },
+                        });
+                    } else {
+                        alert("Invalid JSON Save");
+                    }
+                }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+        input.remove();
+    };
+
+    const handleExportLive2DParams = () => {
+        const data = currentModel?.parametersChanged;
+        const jsonString = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonString], {
+            type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${currentModel?.character ?? "character"}_live2d.json`;
+        a.click();
+        a.remove();
     };
 
     const live2DInputSlider = (idx: number, param: string, filter?: string) => {
@@ -645,7 +705,7 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     min={min}
                     max={max}
                     step={0.01}
-                    value={parameterValues[param] ?? value}
+                    value={currentModel.parametersChanged[param] ?? value}
                     onChange={(e) => {
                         handleLive2DParamsChange(e, param);
                     }}
@@ -1053,20 +1113,20 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     <div
                         className="option"
                         onClick={() => {
-                            setOpenTab("advanced");
+                            setOpenTab("live2d");
                         }}
                     >
                         <div className="space-between flex-horizontal center">
-                            <h2>{t("model.advanced")}</h2>
-                            {openAll || openTab === "advanced" ? (
+                            <h2>{t("model.live2d")}</h2>
+                            {openAll || openTab === "live2d" ? (
                                 <i className="bi bi-caret-down-fill" />
                             ) : (
                                 <i className="bi bi-caret-right-fill" />
                             )}
                         </div>
-                        {(openAll || openTab === "advanced") && (
+                        {(openAll || openTab === "live2d") && (
                             <div className="option__content">
-                                <h3>{t("model.live2d-parameters")}</h3>
+                                <h3>{t("model.parameters")}</h3>
                                 {coreModel && (
                                     <>
                                         <select
@@ -1154,6 +1214,28 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                                         id="idle"
                                         onChange={handleIdle}
                                     />
+                                </div>
+                                <div className="option__content">
+                                    <h3>{t("model.import-export")}</h3>
+                                    <p>
+                                        {t(
+                                            "model.live2d-import-export-description"
+                                        )}
+                                    </p>
+                                    <div className="padding-top-bottom-10">
+                                        <button
+                                            className="btn-regular btn-100 btn-blue"
+                                            onClick={handleImportLive2DParams}
+                                        >
+                                            {t("model.import")}
+                                        </button>
+                                        <button
+                                            className="btn-regular btn-100 btn-blue"
+                                            onClick={handleExportLive2DParams}
+                                        >
+                                            {t("model.export")}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         )}

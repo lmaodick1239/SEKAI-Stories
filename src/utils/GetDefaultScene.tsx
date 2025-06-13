@@ -214,6 +214,7 @@ const LoadModel = async (
                 idle: true,
                 visible: true,
                 from: "sekai",
+                parametersChanged: {},
             },
         },
         modelContainer: modelContainer,
