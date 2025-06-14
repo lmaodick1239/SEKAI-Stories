@@ -35,9 +35,6 @@ interface SekaiCharacterData {
 
 const typedSekaiCharacterData: SekaiCharacterData = sekaiCharacterData;
 
-interface ModelSidebarProps {
-    message?: string;
-}
 
 const defaultModelBreath = [
     {
@@ -77,7 +74,7 @@ const defaultModelBreath = [
     },
 ];
 
-const ModelSidebar: React.FC<ModelSidebarProps> = () => {
+const ModelSidebar: React.FC = () => {
     const { t } = useTranslation();
 
     const scene = useContext(SceneContext);
@@ -365,6 +362,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                     ? (firstFile as string)
                     : (firstFile as ILive2DModelList).modelBase,
                 modelData,
+                visible: true,
+                idle: true,
                 parametersChanged: {},
             });
             setLoading(false);
@@ -431,6 +430,8 @@ const ModelSidebar: React.FC<ModelSidebarProps> = () => {
                 virtualEffect: false,
                 modelName: modelBase,
                 modelData: modelData,
+                visible: true,
+                idle: true,
                 parametersChanged: {},
             });
             setLoading(false);
