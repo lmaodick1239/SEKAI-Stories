@@ -61,7 +61,7 @@
         "import-export": "Import/Export",
         "import": "Import",
         "export": "Export",
-        "live2d-import-export-description": "You can save your Live2D adjustments as a JSON file and and apply it on other models.",
+        "live2d-import-export-description": "You can save your Live2D adjustments as a JSON file and apply it on other models.",
         "advanced": "Advanced"
     },
 
