@@ -472,6 +472,17 @@ select:disabled {
   padding: 10px 0px;
 }
 
+.padding-left-right-10 {
+  padding: 0px 10px;
+}
+
+.link {
+  color: #ff5599;
+  text-decoration: underline;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 #content {
   padding: 25px;
   box-sizing: border-box;

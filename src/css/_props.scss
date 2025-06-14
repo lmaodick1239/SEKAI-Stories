@@ -89,7 +89,7 @@
 }
 
 .padding-20 {
-    padding: 20px
+    padding: 20px;
 }
 
 .margin-top-10 {
@@ -107,5 +107,16 @@
 }
 
 .padding-top-bottom-10 {
-    padding: 10px 0px
+    padding: 10px 0px;
+}
+
+.padding-left-right-10 {
+    padding: 0px 10px;
+}
+
+.link {
+    color: $dark-pink;
+    text-decoration: underline;
+    font-weight: 800;
+    cursor: pointer;
 }
