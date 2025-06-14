@@ -1,5 +1,11 @@
+# 5.0.1
+Release data: June 14, 2025
+- Re-enable visibility and idle animation checkmark when changing characters/costume
+- Fixed misspelling on error fallback
+- Added download button on error fallback.
+
 # 5.0.0
-Release date: June 14, 2025
+Release date: June 13, 2025
 - Added split location
 - Allow Import and Export on custom Live2D Parameters Adjustments
 - Save split location background to Scene JSON
