@@ -62,6 +62,7 @@
         "import": "Import",
         "export": "Export",
         "live2d-import-export-description": "You can save your Live2D adjustments as a JSON file and apply it on other models.",
+        "live2d-tooltip": "You can use your arrow keys to select and adjust parameters.",
         "advanced": "Advanced"
     },
 

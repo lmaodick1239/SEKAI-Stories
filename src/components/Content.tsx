@@ -20,7 +20,6 @@ const Content: React.FC = () => {
                 ? `url("${scene.background.filename}")`
                 : "";
         }
-        console.log("Background set to:", scene.background.filename);
     }, [scene]);
 
     window.addEventListener("scroll", function () {

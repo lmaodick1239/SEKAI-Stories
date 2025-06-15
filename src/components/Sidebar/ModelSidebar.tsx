@@ -35,7 +35,6 @@ interface SekaiCharacterData {
 
 const typedSekaiCharacterData: SekaiCharacterData = sekaiCharacterData;
 
-
 const defaultModelBreath = [
     {
         parameterId: "ParamAngleX",
@@ -104,6 +103,7 @@ const ModelSidebar: React.FC = () => {
 
     const characterSelect = useRef<null | HTMLSelectElement>(null);
     const modelSelect = useRef<null | HTMLSelectElement>(null);
+    const live2dSelect = useRef<null | HTMLSelectElement>(null);
 
     useEffect(() => {
         if (!scene?.models || !scene.currentKey || !scene.currentModel) return;
@@ -126,6 +126,48 @@ const ModelSidebar: React.FC = () => {
             setCoreModel(null);
         }
     }, [scene?.currentModel, loading]);
+
+    useEffect(() => {
+        const handler = (e: KeyboardEvent) => {
+            const select = live2dSelect.current;
+
+            if (!select) return;
+
+            if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                handleLive2DParamsStep("-", selectedParameter?.param);
+                return;
+            }
+            if (e.key === "ArrowRight") {
+                e.preventDefault();
+                handleLive2DParamsStep("+", selectedParameter?.param);
+                return;
+            }
+
+            let nextIndex = 0;
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                nextIndex += 1;
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                nextIndex -= 1;
+            } else {
+                return;
+            }
+
+            const toSelectIndex = select.selectedIndex + nextIndex;
+            if (toSelectIndex < 0 || toSelectIndex >= select.options.length) {
+                return;
+            }
+            select.selectedIndex = toSelectIndex;
+            select.dispatchEvent(new Event("change", { bubbles: true }));
+        };
+
+        if (openTab == "live2d") {
+            document.addEventListener("keydown", handler);
+        }
+        return () => document.removeEventListener("keydown", handler);
+    }, [openTab, selectedParameter]);
 
     if (!scene || !sidebar || !scene.models) {
         return t("please-wait");
@@ -1128,6 +1170,15 @@ const ModelSidebar: React.FC = () => {
                         {(openAll || openTab === "live2d") && (
                             <div className="option__content">
                                 <h3>{t("model.parameters")}</h3>
+                                {window.matchMedia &&
+                                    window.matchMedia("(pointer: fine)")
+                                        .matches && (
+                                        <div>
+                                            <p>
+                                               {t("model.live2d-tooltip")}
+                                            </p>
+                                        </div>
+                                    )}
                                 {coreModel && (
                                     <>
                                         <select
@@ -1136,13 +1187,13 @@ const ModelSidebar: React.FC = () => {
                                             onChange={(e) => {
                                                 const [param, idx] =
                                                     e.target.value.split(",");
-                                                console.log(param, idx);
                                                 setSelectedParameter({
                                                     idx: Number(idx),
                                                     param,
                                                 });
                                             }}
                                             value={`${selectedParameter?.param},${selectedParameter?.idx}`}
+                                            ref={live2dSelect}
                                         >
                                             <option value="_,-1" disabled>
                                                 {t("model.select-parameter")}

@@ -1,3 +1,7 @@
+# 5.1.0
+Release date: June 15, 2025
+- Allow keyboard shortcuts on adjusting Live2D Parameters
+
 # 5.0.1
 Release data: June 14, 2025
 - Re-enable visibility and idle animation checkmark when changing characters/costume

@@ -55,12 +55,13 @@
         "access-live2d-parts": "Magkakaroon ka ng access sa lahat ng bahagi ng modelong ito. Ipagpatuloy?",
         "toggles": "Mga Toggle",
         "idle": "Idle na animasyon",
-        "parameters": "Parameters",
+        "parameters": "Mga Parameter",
         "select-parameter": "Pumili ng parameter",
         "import-export": "Import/Export",
         "import": "Mag-import",
         "export": "Mag-export",
         "live2d-import-export-description": "Ang mga ginawa mong pagbabago sa Live2D adjustments ay puwede mong i-save at i-load.",
+        "live2d-tooltip": "Puwede mong gamitin ang mga arrow keys upang pumili ng parameter at ayusin.",
         "advanced": "Advanced"
     },
 
