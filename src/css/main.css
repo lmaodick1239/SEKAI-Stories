@@ -785,6 +785,7 @@ select:disabled {
   max-width: 768px;
   max-height: 80dvh;
   overflow: visible;
+  animation: open_window 0.05s linear;
 }
 @media (width <= 768px) {
   .window img {
@@ -792,6 +793,14 @@ select:disabled {
   }
 }
 
+@keyframes open_window {
+  0% {
+    transform: scale(50%);
+  }
+  100% {
+    transform: scale(100%);
+  }
+}
 .window__content {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 interface WindowProps {
@@ -20,9 +20,10 @@ const Window: React.FC<WindowProps> = ({
     children,
 }) => {
     useEffect(() => {
+        new Audio("/sound/open.wav").play();
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
-                show(false);
+                handleClose();
             }
         };
         document.addEventListener("keydown", handleEsc);
@@ -34,9 +35,29 @@ const Window: React.FC<WindowProps> = ({
             if (main) {
                 main.style.overflow = "";
             }
+            document.removeEventListener("keydown", handleEsc);
         };
     }, []);
+
+    const window = useRef<HTMLDivElement | null>(null);
     const { t } = useTranslation();
+
+    const handleClose = () => {
+        new Audio("/sound/close.wav").play();
+        if (window.current) {
+            window.current.style.transition = "transform 0.05s linear";
+            window.current.style.transform = "scale(0.5)";
+            setTimeout(() => {
+                show(false);
+                if (window.current) {
+                    window.current.style.transition = "";
+                    window.current.style.transform = "";
+                }
+            }, 100);
+        } else {
+            show(false);
+        }
+    };
 
     return (
         <div
@@ -44,10 +65,14 @@ const Window: React.FC<WindowProps> = ({
             id={id ?? id}
             onClick={(e) => {
                 e.stopPropagation();
-                show(false);
+                handleClose();
             }}
         >
-            <div className="window" onClick={(e) => e.stopPropagation()}>
+            <div
+                className="window"
+                ref={window}
+                onClick={(e) => e.stopPropagation()}
+            >
                 {children}
                 <div className="window__buttons">
                     {buttons}
@@ -58,7 +83,7 @@ const Window: React.FC<WindowProps> = ({
                             } center`}
                             onClick={() => {
                                 confirmFunction();
-                                show(false);
+                                handleClose();
                             }}
                         >
                             {confirmLabel}
@@ -66,7 +91,7 @@ const Window: React.FC<WindowProps> = ({
                     )}
                     <button
                         className="btn-regular btn-white center"
-                        onClick={() => show(false)}
+                        onClick={() => handleClose()}
                     >
                         {t("close")}
                     </button>

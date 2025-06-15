@@ -30,6 +30,19 @@ function App() {
         };
     }, [allowRefresh]);
 
+    useEffect(() => {
+        const handleButtonClick = () => {
+            console.log("pop!")
+            new Audio("/sound/select.wav").play();
+        };
+
+        document.addEventListener("click", handleButtonClick);
+
+        return () => {
+            document.removeEventListener("click", handleButtonClick);
+        };
+    }, []);
+
     return (
         <ErrorBoundary fallbackRender={(props) => <ErrorFallback {...props} />}>
             <main className={`app-${lang}`} id="app">
