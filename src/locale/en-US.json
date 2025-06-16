@@ -154,7 +154,9 @@
         "toggles": "Toggles",
         "guidelines": "Show guidelines",
         "experimental": "Show experimental",
-        "expand": "Expand all menu options"
+        "expand": "Expand all menu options",
+        "tutorial": "Tutorial",
+        "show-tutorial": "Show one more time"
     },
     "import-export": {
         "header": "Import/Export",

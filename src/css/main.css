@@ -483,6 +483,10 @@ select:disabled {
   cursor: pointer;
 }
 
+.outline-blue-4 {
+  outline: 4px solid #77eedd;
+}
+
 #content {
   padding: 25px;
   box-sizing: border-box;
@@ -787,9 +791,12 @@ select:disabled {
   overflow: visible;
   animation: open_window 0.05s linear;
 }
+.window img {
+  max-width: 70%;
+}
 @media (width <= 768px) {
   .window img {
-    width: 50%;
+    width: 70%;
   }
 }
 
@@ -809,9 +816,6 @@ select:disabled {
   overflow-y: visible;
   overflow-x: hidden;
   height: 100%;
-}
-.window__content img {
-  max-width: 50%;
 }
 .window__content select {
   box-sizing: border-box;

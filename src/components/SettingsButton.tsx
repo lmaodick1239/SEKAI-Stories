@@ -19,8 +19,13 @@ const SettingsButton: React.FC = () => {
     }
 
     const { guideline, setGuideline } = scene;
-    const { openAll, setOpenAll, showExperimental, setShowExperimental } =
-        sidebar;
+    const {
+        openAll,
+        setOpenAll,
+        showExperimental,
+        setShowExperimental,
+        setShowTutorial,
+    } = sidebar;
 
     const handleChangeLanguage = async (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -133,6 +138,18 @@ const SettingsButton: React.FC = () => {
                                 onClick={handleGetAutoSaveData}
                             >
                                 {t("settings.auto-save-button")}
+                            </button>
+                        </div>
+                        <div className="window__divider">
+                            <h2>{t("settings.tutorial")}</h2>
+                            <button
+                                className="btn-blue btn-extend-width btn-regular"
+                                onClick={() => {
+                                    setShowTutorial(true)
+                                    setShow(false)
+                                }}
+                            >
+                                {t("settings.show-tutorial")}
                             </button>
                         </div>
                         <div className="window__divider">

@@ -6,6 +6,7 @@ import { SceneContext } from "../contexts/SceneContext";
 import FlavorText from "./FlavorText";
 import SettingsButton from "./SettingsButton";
 import { SidebarContext } from "../contexts/SidebarContext";
+import Tutorial from "./Tutorial";
 
 const Content: React.FC = () => {
     const contentBackground = useRef<HTMLDivElement | null>(null);
@@ -61,12 +62,12 @@ const Content: React.FC = () => {
     if (!scene || !sidebar) {
         throw new Error("Context is not loaded properly.");
     }
-    const { hide, setHide } = sidebar;
+    const { hide, setHide, showTutorial, setShowTutorial } = sidebar;
 
     return (
         <div id="content" className="center" style={{ position: "relative" }}>
             <div id="content-background" ref={contentBackground}></div>
-
+            {showTutorial && <Tutorial show={setShowTutorial} />}
             {!hide && <SidebarSelect />}
             <DownloadClearButtons />
             <div className="absolute bottom-right" id="hide-sidebar">

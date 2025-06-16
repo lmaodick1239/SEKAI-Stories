@@ -10,6 +10,7 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
+    const [showTutorial, setShowTutorial] = useState<boolean>(false);
     const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [openAll, setOpenAll] = useState<boolean>(false);
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
@@ -28,7 +29,15 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
         if (openAllCookie === "true") {
             setOpenAll(true);
         }
+        const showTutorialCookie = localStorage.getItem("showTutorial");
+        if (!showTutorialCookie || showTutorialCookie === "true") {
+            setShowTutorial(true);
+        }
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem("showTutorial", String(showTutorial));
+    }, [showTutorial]);
 
     return (
         <SidebarContext.Provider
@@ -39,6 +48,8 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
                 setHide,
                 hideAnnouncements,
                 setHideAnnouncements,
+                showTutorial,
+                setShowTutorial,
                 showExperimental,
                 setShowExperimental,
                 openAll,

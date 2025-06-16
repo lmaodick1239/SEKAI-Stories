@@ -47,8 +47,9 @@
     overflow: visible;
     img {
         @media (width <= 768px) {
-            width: 50%;
+            width: 70%;
         }
+        max-width: 70%;
     }
     animation: open_window 0.05s linear;
 }
@@ -70,10 +71,6 @@
     overflow-y: visible;
     overflow-x: hidden;
     height: 100%;
-
-    img {
-        max-width: 50%;
-    }
 
     select {
         box-sizing: border-box;

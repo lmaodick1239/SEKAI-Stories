@@ -6,6 +6,8 @@ interface WindowProps {
     confirmFunction?: () => void;
     confirmLabel?: string;
     danger?: boolean;
+    hideClose?: boolean;
+    skipCloseInConfirm?: boolean;
     id?: string;
     buttons?: React.ReactNode;
     children: React.ReactNode;
@@ -15,6 +17,8 @@ const Window: React.FC<WindowProps> = ({
     confirmFunction,
     confirmLabel = "OK",
     danger = false,
+    hideClose = false,
+    skipCloseInConfirm = false,
     id,
     buttons,
     children,
@@ -65,7 +69,7 @@ const Window: React.FC<WindowProps> = ({
             id={id ?? id}
             onClick={(e) => {
                 e.stopPropagation();
-                handleClose();
+                if (!hideClose) handleClose();
             }}
         >
             <div
@@ -83,18 +87,20 @@ const Window: React.FC<WindowProps> = ({
                             } center`}
                             onClick={() => {
                                 confirmFunction();
-                                handleClose();
+                                if (!skipCloseInConfirm) handleClose();
                             }}
                         >
                             {confirmLabel}
                         </button>
                     )}
-                    <button
-                        className="btn-regular btn-white center close-button"
-                        onClick={() => handleClose()}
-                    >
-                        {t("close")}
-                    </button>
+                    {!hideClose && (
+                        <button
+                            className="btn-regular btn-white center close-button"
+                            onClick={() => handleClose()}
+                        >
+                            {t("close")}
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
