@@ -9,6 +9,7 @@ interface WindowProps {
     hideClose?: boolean;
     skipCloseInConfirm?: boolean;
     id?: string;
+    className?: string;
     buttons?: React.ReactNode;
     children: React.ReactNode;
 }
@@ -19,7 +20,8 @@ const Window: React.FC<WindowProps> = ({
     danger = false,
     hideClose = false,
     skipCloseInConfirm = false,
-    id,
+    id = "",
+    className = "",
     buttons,
     children,
 }) => {
@@ -65,7 +67,7 @@ const Window: React.FC<WindowProps> = ({
 
     return (
         <div
-            className="screen"
+            className={`screen ${className}`}
             id={id ?? id}
             onClick={(e) => {
                 e.stopPropagation();

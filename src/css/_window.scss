@@ -54,6 +54,13 @@
     animation: open_window 0.05s linear;
 }
 
+.window__90_width {
+    .window {
+        width: 90dvw;
+        max-width: 768px;
+    }
+}
+
 @keyframes open_window {
     0% {
         transform: scale(50%);

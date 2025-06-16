@@ -1,40 +1,67 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import Window from "./UI/Window";
+import { useTranslation } from "react-i18next";
+import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
 
 interface TutorialProps {
     show: Dispatch<SetStateAction<boolean>>;
 }
 
 const Tutorial: React.FC<TutorialProps> = ({ show }) => {
-    const [page, setPage] = useState<number>(0);
+    const [page, setPage] = useState<number>(-1);
+    const { t, i18n } = useTranslation();
+    const lng = i18n.language;
 
     return (
         <>
+            {page == -1 && (
+                <Window
+                    show={show}
+                    confirmLabel={t("next")}
+                    confirmFunction={() => setPage(page + 1)}
+                    skipCloseInConfirm
+                    className="window__90_width"
+                    hideClose
+                >
+                    <div className="window__content">
+                        <h1>{t("settings.language")}</h1>
+                        <select
+                            name="language"
+                            id="language"
+                            value={lng}
+                            onChange={handleChangeLanguage}
+                        >
+                            {Object.entries(languageNames).map(
+                                ([code, name]) => (
+                                    <option key={code} value={code}>
+                                        {name}
+                                    </option>
+                                )
+                            )}
+                        </select>
+                    </div>
+                </Window>
+            )}
             {page == 0 && (
                 <Window
                     show={show}
-                    confirmLabel="It's my first time here"
-                    confirmFunction={() => {
-                        setPage(page + 1);
-                    }}
+                    confirmLabel={t("tutorial.confirmFirstTime")}
+                    confirmFunction={() => setPage(page + 1)}
                     skipCloseInConfirm
                 >
                     <div className="window__content">
                         <h1 className="text-center">
-                            Welcome to SEKAI Stories!
+                            {t("tutorial.welcomeHeader")}
                         </h1>
                         <div className="window__divider">
                             <h2 className="text-center">
-                                This window will guide you on how to use this
-                                site.
+                                {t("tutorial.welcomeIntroHeader")}
                             </h2>
                             <p className="text-center">
-                                If you are familiar with this application, you
-                                can close this window.
+                                {t("tutorial.welcomeIntroParagraph1")}
                             </p>
                             <p className="text-center">
-                                You can also open this tutorial at any time on
-                                Settings.
+                                {t("tutorial.welcomeIntroParagraph2")}
                             </p>
                         </div>
                     </div>
@@ -43,16 +70,14 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
             {page == 1 && (
                 <Window
                     show={show}
-                    confirmLabel="Next"
-                    confirmFunction={() => {
-                        setPage(page + 1);
-                    }}
+                    confirmLabel={t("next")}
+                    confirmFunction={() => setPage(page + 1)}
                     skipCloseInConfirm
                     hideClose
                 >
                     <div className="window__content">
                         <h1 className="text-center">
-                            These will navigate you between menus!
+                            {t("tutorial.menuNavigationHeader")}
                         </h1>
                         <div className="window__divider center">
                             <img
@@ -67,17 +92,15 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
             {page == 2 && (
                 <Window
                     show={show}
-                    confirmLabel="Next"
-                    confirmFunction={() => {
-                        setPage(page + 1);
-                    }}
+                    confirmLabel={t("next")}
+                    confirmFunction={() => setPage(page + 1)}
                     skipCloseInConfirm
                     hideClose
                 >
                     <div className="window__content">
                         <h1 className="text-center">
                             <i className="sidebar__select bi bi-card-image"></i>{" "}
-                            Background Menu
+                            {t("tutorial.backgroundMenuHeader")}
                         </h1>
                         <div className="window__divider center">
                             <img
@@ -87,18 +110,12 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             />
                         </div>
                         <div className="window__divider">
-                            <h2>Select and Upload</h2>
-                            <p>
-                                Select backgrounds from Project SEKAI or upload
-                                your own.
-                            </p>
+                            <h2>{t("tutorial.selectUploadHeader")}</h2>
+                            <p>{t("tutorial.selectUploadParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Split Location</h2>
-                            <p>
-                                You can also do Split Location, showing two in
-                                one background.
-                            </p>
+                            <h2>{t("tutorial.splitLocationHeader")}</h2>
+                            <p>{t("tutorial.splitLocationParagraph")}</p>
                         </div>
                     </div>
                 </Window>
@@ -106,17 +123,15 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
             {page == 3 && (
                 <Window
                     show={show}
-                    confirmLabel="Next"
-                    confirmFunction={() => {
-                        setPage(page + 1);
-                    }}
+                    confirmLabel={t("next")}
+                    confirmFunction={() => setPage(page + 1)}
                     skipCloseInConfirm
                     hideClose
                 >
                     <div className="window__content">
                         <h1 className="text-center">
-                            <i className="sidebar__select bi bi-chat"></i> Text
-                            Menu
+                            <i className="sidebar__select bi bi-chat"></i>{" "}
+                            {t("tutorial.textMenuHeader")}
                         </h1>
                         <div className="window__divider center">
                             <img
@@ -126,31 +141,18 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             />
                         </div>
                         <div className="window__divider">
-                            <h2>Name Tag</h2>
-                            <p>
-                                This is where you put the names of your
-                                character.
-                            </p>
-                            <h3>Easy Switch</h3>
-                            <p>
-                                Easy Switch will allow you to switch between two
-                                characters without retyping.
-                            </p>
+                            <h2>{t("tutorial.nameTagHeader")}</h2>
+                            <p>{t("tutorial.nameTagParagraph")}</p>
+                            <h3>{t("tutorial.easySwitchHeader")}</h3>
+                            <p>{t("tutorial.easySwitchParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Dialogue</h2>
-                            <p>
-                                This is where you put the dialogue of what the
-                                character is speaking.
-                            </p>
+                            <h2>{t("tutorial.dialogueHeader")}</h2>
+                            <p>{t("tutorial.dialogueParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Scene Text</h2>
-                            <p>
-                                The time and location of the scene you're
-                                making, usually seen at the start of every PJSK
-                                story.
-                            </p>
+                            <h2>{t("tutorial.sceneTextHeader")}</h2>
+                            <p>{t("tutorial.sceneTextParagraph")}</p>
                         </div>
                     </div>
                 </Window>
@@ -158,17 +160,15 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
             {page == 4 && (
                 <Window
                     show={show}
-                    confirmLabel="Next"
-                    confirmFunction={() => {
-                        setPage(page + 1);
-                    }}
+                    confirmLabel={t("next")}
+                    confirmFunction={() => setPage(page + 1)}
                     skipCloseInConfirm
                     hideClose
                 >
                     <div className="window__content">
                         <h1 className="text-center">
                             <i className="sidebar__select bi bi-person-fill"></i>{" "}
-                            Model & Sprites Menu
+                            {t("tutorial.modelMenuHeader")}
                         </h1>
                         <div className="window__divider center">
                             <img
@@ -178,80 +178,52 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             />
                         </div>
                         <div className="window__divider">
-                            <h2>Selected Layer</h2>
-                            <p>
-                                All the models shown on the scene are located
-                                here. You can select and do some tweaking.
-                            </p>
+                            <h2>{t("tutorial.selectedLayerHeader")}</h2>
+                            <p>{t("tutorial.selectedLayerParagraph")}</p>
                             <h3>
-                                <i className="bi bi-plus-circle" /> Add Model
+                                <i className="bi bi-plus-circle" />{" "}
+                                {t("tutorial.addModelHeader")}
                             </h3>
-                            <p>
-                                You can add a new Live2D model character by
-                                clicking the <i className="bi bi-plus-circle" />{" "}
-                                button.
-                            </p>
+                            <p>{t("tutorial.addModelParagraph")}</p>
                             <h3>
-                                <i className="bi bi-upload" /> Upload PNG Sprite
+                                <i className="bi bi-upload" />{" "}
+                                {t("tutorial.uploadSpriteHeader")}
                             </h3>
-                            <p>
-                                Upload your own PNG sprite by clicking the{" "}
-                                <i className="bi bi-upload" /> button.
-                            </p>
+                            <p>{t("tutorial.uploadSpriteParagraph")}</p>
                             <h3>
-                                <i className="bi bi-x-circle" /> Remove Layer
+                                <i className="bi bi-x-circle" />{" "}
+                                {t("tutorial.removeLayerHeader")}
                             </h3>
-                            <p>Deletes the selected layer.</p>
+                            <p>{t("tutorial.removeLayerParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Transform</h2>
-                            <p>
-                                This will allow you to move, change the size,
-                                and hide the layer you selected.
-                            </p>
+                            <h2>{t("tutorial.transformHeader")}</h2>
+                            <p>{t("tutorial.transformParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Character</h2>
-                            <p>
-                                If the selected model is a Live2D, you can
-                                select characters from the PJSK Cast.
-                            </p>
+                            <h2>{t("tutorial.characterHeader")}</h2>
+                            <p>{t("tutorial.characterParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Costume</h2>
-                            <p>
-                                Once you have selected a character, you can
-                                select a costume of your choice.
-                            </p>
+                            <h2>{t("tutorial.costumeHeader")}</h2>
+                            <p>{t("tutorial.costumeParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Emotion</h2>
-                            <h3>Pose</h3>
-                            <p>Changes the pose of the character selected.</p>
-                            <h3>Expression</h3>
-                            <p>
-                                Changes the facial expression of the character
-                                selected.
-                            </p>
+                            <h2>{t("tutorial.emotionHeader")}</h2>
+                            <h3>{t("tutorial.poseHeader")}</h3>
+                            <p>{t("tutorial.poseParagraph")}</p>
+                            <h3>{t("tutorial.expressionHeader")}</h3>
+                            <p>{t("tutorial.expressionParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Mouth</h2>
-                            <p>
-                                Allows you to change and tweak the opening and
-                                shape of the mouth of a Live2D model.
-                            </p>
+                            <h2>{t("tutorial.mouthHeader")}</h2>
+                            <p>{t("tutorial.mouthParagraph")}</p>
                         </div>
                         <div className="window__divider">
-                            <h2>Live2D</h2>
-                            <p>
-                                You can customize your own poses by tweaking the
-                                Live2D parameters and pause the idle animation.
-                            </p>
-                            <h3>Import/Export</h3>
-                            <p>
-                                You can also save the adjustments you made and
-                                load it to another model.
-                            </p>
+                            <h2>{t("tutorial.live2dHeader")}</h2>
+                            <p>{t("tutorial.live2dParagraph")}</p>
+                            <h3>{t("tutorial.importExportHeader")}</h3>
+                            <p>{t("tutorial.importExportParagraph")}</p>
                         </div>
                     </div>
                 </Window>
@@ -259,16 +231,14 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
             {page == 5 && (
                 <Window
                     show={show}
-                    confirmLabel="Next"
-                    confirmFunction={() => {
-                        setPage(page + 1);
-                    }}
+                    confirmLabel={t("next")}
+                    confirmFunction={() => setPage(page + 1)}
                     skipCloseInConfirm
                     hideClose
                 >
                     <div className="window__content">
                         <h1 className="text-center">
-                            Once you're done, save your work!
+                            {t("tutorial.saveHeader")}
                         </h1>
                         <div className="window__divider center">
                             <img
@@ -279,13 +249,10 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                         </div>
                         <div className="window__divider">
                             <h2>
-                                <i className="bi bi-braces" /> {" "}
-                                Import/Export
+                                <i className="bi bi-braces" />{" "}
+                                {t("tutorial.importExportHeader")}
                             </h2>
-                            <p>
-                                This will allow you to save and load your entire
-                                scene as an editable format.
-                            </p>
+                            <p>{t("tutorial.sceneImportExportParagraph")}</p>
                         </div>
                     </div>
                 </Window>
@@ -293,11 +260,12 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
             {page == 6 && (
                 <Window show={show}>
                     <div className="window__content">
-                        <h1 className="text-center">And that's it!</h1>
+                        <h1 className="text-center">
+                            {t("tutorial.endHeader")}
+                        </h1>
                         <div className="window__divider center flex-vertical">
                             <p className="text-center">
-                                If you wish to repeat this, you can access them
-                                back on Settings.
+                                {t("tutorial.endParagraph")}
                             </p>
                             <img
                                 className="center"
