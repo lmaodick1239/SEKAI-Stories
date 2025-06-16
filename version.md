@@ -1,3 +1,9 @@
+# 5.2.0
+Release date: June 16, 2025
+- Added sound effects
+- Added tutorial screen
+- Warn users when there's custom Live2D adjustments before deleting a model or changing characters and costume.
+
 # 5.1.0
 Release date: June 15, 2025
 - Allow keyboard shortcuts on adjusting Live2D Parameters
