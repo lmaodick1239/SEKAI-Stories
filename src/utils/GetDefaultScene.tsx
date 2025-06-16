@@ -85,17 +85,17 @@ const LoadInitialScene = (scene?: string): InitialScene => {
         };
     }
 
-    if (scene === "persona_4") {
+    if (scene === "junes") {
         return {
-            background: "/background_special/Background_TV_World.jpg",
-            model: "v2_13tsukasa_unit",
-            text: "R-Rui! Is this another experiment of yours!?",
-            nameTag: "Tsukasa",
-            character: "tsukasa",
+            background: "/background_special/Background_Dojima.png",
+            model: "14emu_cloth001",
+            text: "Every day's great at your Junes!",
+            nameTag: "Emu",
+            character: "emu",
             modelX: 960,
-            modelY: 580,
-            pngName: "tsukasa",
-            sceneText: "???",
+            modelY: 660,
+            pngName: "emu",
+            sceneText: "Dojima Residence",
         };
     }
 
@@ -333,7 +333,7 @@ export const LoadScene = async ({
     app,
     setStartingMessage,
 }: GetDefaultSceneProps) => {
-    const initialScene: InitialScene = LoadInitialScene();
+    const initialScene: InitialScene = LoadInitialScene("junes");
 
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
