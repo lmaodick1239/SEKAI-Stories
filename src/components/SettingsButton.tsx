@@ -5,6 +5,7 @@ import { Checkbox } from "./UI/Checkbox";
 import { SceneContext } from "../contexts/SceneContext";
 import { SidebarContext } from "../contexts/SidebarContext";
 import Window from "./UI/Window";
+import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -27,21 +28,7 @@ const SettingsButton: React.FC = () => {
         setShowTutorial,
     } = sidebar;
 
-    const handleChangeLanguage = async (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        const languangeToChange = event.target.value;
-
-        i18n.changeLanguage(languangeToChange);
-        localStorage.setItem("language", languangeToChange);
-    };
-    const languages = [
-        { code: "en", name: "English" },
-        { code: "es", name: "Español" },
-        { code: "pl", name: "Polski" },
-        { code: "fil", name: "Filipino" },
-        { code: "cn", name: "简体中文" },
-    ];
+    
 
     const handleGetAutoSaveData = () => {
         const data = localStorage.getItem("autoSave");
@@ -114,14 +101,13 @@ const SettingsButton: React.FC = () => {
                                 value={lng}
                                 onChange={handleChangeLanguage}
                             >
-                                {languages.map((language) => (
-                                    <option
-                                        key={language.code}
-                                        value={language.code}
-                                    >
-                                        {language.name}
-                                    </option>
-                                ))}
+                                {Object.entries(languageNames).map(
+                                    ([code, name]) => (
+                                        <option key={code} value={code}>
+                                            {name}
+                                        </option>
+                                    )
+                                )}
                             </select>
                             <a
                                 href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
@@ -145,8 +131,8 @@ const SettingsButton: React.FC = () => {
                             <button
                                 className="btn-blue btn-extend-width btn-regular"
                                 onClick={() => {
-                                    setShowTutorial(true)
-                                    setShow(false)
+                                    setShowTutorial(true);
+                                    setShow(false);
                                 }}
                             >
                                 {t("settings.show-tutorial")}

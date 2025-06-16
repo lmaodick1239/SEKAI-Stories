@@ -18,12 +18,15 @@ To contribute to the localization of the project, please follow these steps:
          ja: { translation: ja },
     },
     ```
-5. At [`src/components/SettingsButton.tsx`](./src/components/SettingsButton.tsx), add the language to the `languages` array:
+5. Also at the same file, add the language name to the `languageNames` array:
     ```ts
-    const languages = [
-        { code: 'en', name: 'English' },
-        { code: 'ja', name: '日本語' },
-    ];
+    export const languageNames = {
+        en: "English",
+        pl: "Polski",
+        cn: "简体中文",
+        es: "Español",
+        fil: "Filipino",
+    };
     ```
 6. Open a pull request with your changes. 
 

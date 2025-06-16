@@ -3,7 +3,24 @@ import en from "../locale/en-US.json";
 import pl from "../locale/pl-PL.json";
 import cn from "../locale/zh-CN.json";
 import es from "../locale/es-ES.json";
-import fil from "../locale/fil-PH.json"
+import fil from "../locale/fil-PH.json";
+
+export const languageNames = {
+    en: "English",
+    pl: "Polski",
+    cn: "简体中文",
+    es: "Español",
+    fil: "Filipino",
+};
+
+export const handleChangeLanguage = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+) => {
+    const languangeToChange = event.target.value;
+
+    i18n.changeLanguage(languangeToChange);
+    localStorage.setItem("language", languangeToChange);
+};
 
 const i18nInit = () => {
     i18n.init({
