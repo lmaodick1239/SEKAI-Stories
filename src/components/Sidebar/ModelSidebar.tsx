@@ -1325,13 +1325,12 @@ const ModelSidebar: React.FC = () => {
                 <Window
                     show={setLive2DChangedWarnWindow}
                     confirmFunction={live2DChangedFunction}
-                    confirmLabel="Continue"
+                    confirmLabel={t("continue-ok")}
                     danger
                 >
                     <div className="window__content">
                         <p>
-                            You have custom Live2D parameter adjustments.
-                            Continuing will discard them!
+                            {t("model.live2d-changed-warn")}
                         </p>
                     </div>
                 </Window>

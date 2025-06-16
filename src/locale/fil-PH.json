@@ -23,6 +23,8 @@
     "model": {
         "header": "Modelo",
         "selected-layer": "Napiling Layer",
+        "add-model-header":"Bagong modelo",
+        "add-model-description":"Pumili kung saan kukunin ang modelo.",
         "add-model-sekai": "Magdagdag ng modelo mula sa sekai.best",
         "add-model-sekai-description": "Kumuha ng mga modelo galing sa Sekai Viewer!",
         "add-model-static": "Magdagdag ng modelo mula sa SEKAI Stories",
@@ -62,6 +64,7 @@
         "export": "Mag-export",
         "live2d-import-export-description": "Ang mga ginawa mong pagbabago sa Live2D adjustments ay puwede mong i-save at i-load.",
         "live2d-tooltip": "Puwede mong gamitin ang mga arrow keys upang pumili ng parameter at ayusin.",
+        "live2d-changed-warn": "May binago kang mga Live2D parameter. Mawawala ang mga ito kapag ipinagpatuloy mo!",
         "advanced": "Advanced"
     },
 
@@ -76,6 +79,7 @@
     "close": "Isara",
     "clear": "Mawawala LAHAT ng nilalaman sa canvas. Ang lahat ng ginawa mo ay mawawala!",
     "clear-ok": "Ipagpatuloy",
+    "continue-ok": "Ipagpatuloy",
 
     "support": {
         "header": "Suporta",

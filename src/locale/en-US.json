@@ -24,9 +24,11 @@
     "model": {
         "header": "Model",
         "selected-layer": "Selected Layer",
-        "add-model-sekai": "Add model from sekai.best",
+        "add-model-header": "Add model",
+        "add-model-description": "Choose where to get your model.",
+        "add-model-sekai": "sekai.best",
         "add-model-sekai-description": "Get access to models provided by Sekai Viewer!",
-        "add-model-static": "Add model from SEKAI Stories",
+        "add-model-static": "SEKAI Stories",
         "add-model-static-description": "Fallback option when Sekai Viewer is down.",
         "delete-model-warn": "This is the only layer and cannot be deleted.",
         "character": "Character",
@@ -63,6 +65,7 @@
         "export": "Export",
         "live2d-import-export-description": "You can save your Live2D adjustments as a JSON file and apply it on other models.",
         "live2d-tooltip": "You can use your arrow keys to select and adjust parameters.",
+        "live2d-changed-warn": "You have custom Live2D parameter adjustments. Continuing will discard them!",
         "advanced": "Advanced"
     },
 
@@ -77,6 +80,7 @@
     "close": "Close",
     "clear": "This will clear the whole canvas. Any progress will be lost!",
     "clear-ok": "Clear",
+    "continue-ok": "Continue",
 
     "support": {
         "header": "Support",
