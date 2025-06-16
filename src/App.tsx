@@ -31,12 +31,20 @@ function App() {
     }, [allowRefresh]);
 
     useEffect(() => {
-        const handleButtonClick = () => {
-            console.log("pop!")
+        const handleButtonClick = (e: MouseEvent) => {
+            // console.log("pop!")
+            const target = e.target as HTMLElement;
+            if (
+                target.closest(".close-button") ||
+                target.closest("label") ||
+                target.closest("input[type='file']") ||
+                target.closest("a")
+            )
+                return;
             new Audio("/sound/select.wav").play();
         };
 
-        document.addEventListener("click", handleButtonClick);
+        document.addEventListener("click", handleButtonClick, true);
 
         return () => {
             document.removeEventListener("click", handleButtonClick);

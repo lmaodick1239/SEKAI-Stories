@@ -90,7 +90,7 @@ const Window: React.FC<WindowProps> = ({
                         </button>
                     )}
                     <button
-                        className="btn-regular btn-white center"
+                        className="btn-regular btn-white center close-button"
                         onClick={() => handleClose()}
                     >
                         {t("close")}
