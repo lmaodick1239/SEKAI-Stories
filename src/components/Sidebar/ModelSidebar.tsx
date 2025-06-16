@@ -100,6 +100,11 @@ const ModelSidebar: React.FC = () => {
     >(null);
 
     const [deleteWarnWindow, setDeleteWarnWindow] = useState<boolean>(false);
+    const [live2DChangedWarnWindow, setLive2DChangedWarnWindow] =
+        useState<boolean>(false);
+    const [live2DChangedFunction, setLive2DChangedFunction] = useState<
+        (() => void) | undefined
+    >(undefined);
 
     const characterSelect = useRef<null | HTMLSelectElement>(null);
     const modelSelect = useRef<null | HTMLSelectElement>(null);
@@ -159,6 +164,7 @@ const ModelSidebar: React.FC = () => {
             if (toSelectIndex < 0 || toSelectIndex >= select.options.length) {
                 return;
             }
+            new Audio("/sound/slide.wav").play();
             select.selectedIndex = toSelectIndex;
             select.dispatchEvent(new Event("change", { bubbles: true }));
         };
@@ -359,11 +365,22 @@ const ModelSidebar: React.FC = () => {
         setSelectedParameter({ idx: -1, param: "_" });
     };
 
-    const handleCharacterChange = async (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
+    const handleLive2DChange = async (fn: () => void) => {
+        if (
+            currentModel?.parametersChanged &&
+            Object.keys(currentModel.parametersChanged).length > 0
+        ) {
+            setLive2DChangedWarnWindow(true);
+            setLive2DChangedFunction(() => fn);
+            return;
+        }
+
+        fn();
+    };
+
+    const handleCharacterChange = async (value: string) => {
         setLoading(true);
-        const character = event?.target.value;
+        const character = value;
         setCurrentSelectedCharacter(character);
         if (characterSelect.current && modelSelect.current) {
             characterSelect.current.disabled = true;
@@ -420,11 +437,9 @@ const ModelSidebar: React.FC = () => {
         }
     };
 
-    const handleCostumeChange = async (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
+    const handleCostumeChange = async (value: string) => {
         setLoading(true);
-        const modelBase = event?.target.value;
+        const modelBase = value;
 
         if (!currentModel) return;
         if (characterSelect.current && modelSelect.current) {
@@ -807,7 +822,11 @@ const ModelSidebar: React.FC = () => {
                             />
                             <button
                                 className="btn-circle btn-white"
-                                onClick={handleDeleteLayer}
+                                onClick={() => {
+                                    handleLive2DChange(() =>
+                                        handleDeleteLayer()
+                                    );
+                                }}
                             >
                                 <i className="bi bi-x-circle"></i>
                             </button>
@@ -834,7 +853,12 @@ const ModelSidebar: React.FC = () => {
                             <div className="option__content">
                                 <select
                                     value={currentSelectedCharacter}
-                                    onChange={handleCharacterChange}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        handleLive2DChange(() =>
+                                            handleCharacterChange(value)
+                                        );
+                                    }}
                                     ref={characterSelect}
                                 >
                                     <option value="none" disabled>
@@ -873,7 +897,12 @@ const ModelSidebar: React.FC = () => {
                             <div className="option__content">
                                 <select
                                     value={currentModel?.modelName}
-                                    onChange={handleCostumeChange}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        handleLive2DChange(() =>
+                                            handleCostumeChange(value)
+                                        );
+                                    }}
                                     ref={modelSelect}
                                 >
                                     {(currentModel.from === "static"
@@ -1174,9 +1203,7 @@ const ModelSidebar: React.FC = () => {
                                     window.matchMedia("(pointer: fine)")
                                         .matches && (
                                         <div>
-                                            <p>
-                                               {t("model.live2d-tooltip")}
-                                            </p>
+                                            <p>{t("model.live2d-tooltip")}</p>
                                         </div>
                                     )}
                                 {coreModel && (
@@ -1293,6 +1320,21 @@ const ModelSidebar: React.FC = () => {
                         )}
                     </div>
                 </>
+            )}
+            {live2DChangedWarnWindow && (
+                <Window
+                    show={setLive2DChangedWarnWindow}
+                    confirmFunction={live2DChangedFunction}
+                    confirmLabel="Continue"
+                    danger
+                >
+                    <div className="window__content">
+                        <p>
+                            You have custom Live2D parameter adjustments.
+                            Continuing will discard them!
+                        </p>
+                    </div>
+                </Window>
             )}
             {deleteWarnWindow && (
                 <Window show={setDeleteWarnWindow}>
