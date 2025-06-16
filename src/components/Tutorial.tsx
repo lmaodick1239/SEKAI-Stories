@@ -79,7 +79,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                         <h1 className="text-center">
                             {t("tutorial.menuNavigationHeader")}
                         </h1>
-                        <div className="window__divider center">
+                        <div className="window__divider center padding-top-bottom-10">
                             <img
                                 src="/img/menu1.png"
                                 className="outline-blue-4"
@@ -102,7 +102,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             <i className="sidebar__select bi bi-card-image"></i>{" "}
                             {t("tutorial.backgroundMenuHeader")}
                         </h1>
-                        <div className="window__divider center">
+                        <div className="window__divider center padding-top-bottom-10">
                             <img
                                 src="/img/menu2.png"
                                 className="outline-blue-4"
@@ -112,10 +112,24 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                         <div className="window__divider">
                             <h2>{t("tutorial.selectUploadHeader")}</h2>
                             <p>{t("tutorial.selectUploadParagraph")}</p>
+                            <div className="window__divider center">
+                                <img
+                                    src="/img/menu2-1.png"
+                                    className="outline-blue-4 center"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                         <div className="window__divider">
                             <h2>{t("tutorial.splitLocationHeader")}</h2>
                             <p>{t("tutorial.splitLocationParagraph")}</p>
+                            <div className="window__divider center">
+                                <img
+                                    src="/img/menu2-2.png"
+                                    className="outline-blue-4 center"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                     </div>
                 </Window>
@@ -133,7 +147,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             <i className="sidebar__select bi bi-chat"></i>{" "}
                             {t("tutorial.textMenuHeader")}
                         </h1>
-                        <div className="window__divider center">
+                        <div className="window__divider center padding-top-bottom-10">
                             <img
                                 src="/img/menu3.png"
                                 className="outline-blue-4"
@@ -149,10 +163,24 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                         <div className="window__divider">
                             <h2>{t("tutorial.dialogueHeader")}</h2>
                             <p>{t("tutorial.dialogueParagraph")}</p>
+                            <div className="window__divider center">
+                                <img
+                                    src="/img/menu3-1.png"
+                                    className="outline-blue-4 center"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                         <div className="window__divider">
                             <h2>{t("tutorial.sceneTextHeader")}</h2>
                             <p>{t("tutorial.sceneTextParagraph")}</p>
+                            <div className="window__divider center">
+                                <img
+                                    src="/img/menu3-2.png"
+                                    className="outline-blue-4 center"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                     </div>
                 </Window>
@@ -170,7 +198,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             <i className="sidebar__select bi bi-person-fill"></i>{" "}
                             {t("tutorial.modelMenuHeader")}
                         </h1>
-                        <div className="window__divider center">
+                        <div className="window__divider center padding-top-bottom-10">
                             <img
                                 src="/img/menu4.png"
                                 className="outline-blue-4"
@@ -195,6 +223,13 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                                 {t("tutorial.removeLayerHeader")}
                             </h3>
                             <p>{t("tutorial.removeLayerParagraph")}</p>
+                            <div className="window__divider center">
+                                <img
+                                    src="/img/menu4-1.png"
+                                    className="outline-blue-4 center"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                         <div className="window__divider">
                             <h2>{t("tutorial.transformHeader")}</h2>
@@ -213,7 +248,14 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             <h3>{t("tutorial.poseHeader")}</h3>
                             <p>{t("tutorial.poseParagraph")}</p>
                             <h3>{t("tutorial.expressionHeader")}</h3>
-                            <p>{t("tutorial.expressionParagraph")}</p>
+                                <p>{t("tutorial.expressionParagraph")}</p>
+                            <div className="window__divider center">
+                                <img
+                                    src="/img/menu4-2.png"
+                                    className="outline-blue-4 center"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                         <div className="window__divider">
                             <h2>{t("tutorial.mouthHeader")}</h2>
@@ -224,6 +266,13 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             <p>{t("tutorial.live2dParagraph")}</p>
                             <h3>{t("tutorial.importExportHeader")}</h3>
                             <p>{t("tutorial.importExportParagraph")}</p>
+                            <div className="window__divider center">
+                                <img
+                                    src="/img/menu4-3.png"
+                                    className="outline-blue-4 center"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                     </div>
                 </Window>
@@ -240,7 +289,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                         <h1 className="text-center">
                             {t("tutorial.saveHeader")}
                         </h1>
-                        <div className="window__divider center">
+                        <div className="window__divider center padding-top-bottom-10">
                             <img
                                 src="/img/menu5.png"
                                 className="outline-blue-4"

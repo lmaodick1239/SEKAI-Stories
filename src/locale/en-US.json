@@ -188,7 +188,7 @@
         "sceneTextParagraph": "The time and location of the scene you're making, usually seen at the start of every PJSK story.",
         "modelMenuHeader": "Model & Sprites Menu",
         "selectedLayerHeader": "Selected Layer",
-        "selectedLayerParagraph": "All the models shown on the scene are located here. You can select and do some tweaking.",
+        "selectedLayerParagraph": "All the models shown on your work are located here. You can select and do some tweaking.",
         "addModelHeader": "Add Model",
         "addModelParagraph": "You can add a new Live2D model character.",
         "uploadSpriteHeader": "Upload PNG Sprite",
