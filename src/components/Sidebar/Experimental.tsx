@@ -9,7 +9,7 @@ const Experimental: React.FC = () => {
     const scene = useContext(SceneContext);
     const [crash, setCrash] = useState(false);
 
-    if (!scene) return;
+    if (!scene) throw new Error("Context not found");
 
     const handleRefresh = () => {
         refreshCanvas(scene);

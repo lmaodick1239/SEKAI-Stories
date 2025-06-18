@@ -79,6 +79,26 @@ const ModelSidebar: React.FC = () => {
     const scene = useContext(SceneContext);
     const sidebar = useContext(SidebarContext);
 
+    if (!scene || !sidebar ) {
+        throw new Error("Context not found");
+    }
+
+    const {
+        models,
+        setModels,
+        modelContainer,
+        nextLayer,
+        setNextLayer,
+        layers,
+        setLayers,
+        currentKey,
+        setCurrentKey,
+        currentModel,
+        setCurrentModel,
+    } = scene;
+
+    const { openAll } = sidebar;
+
     const [openTab, setOpenTab] = useState<string>("select-layer");
 
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
@@ -111,17 +131,17 @@ const ModelSidebar: React.FC = () => {
     const live2dSelect = useRef<null | HTMLSelectElement>(null);
 
     useEffect(() => {
-        if (!scene?.models || !scene.currentKey || !scene.currentModel) return;
+        if (!models || !currentKey || !currentModel) return;
         const modelKeys = Object.keys(models);
         const currentKeyIndex = modelKeys.indexOf(currentKey);
         const model = models[currentKey];
         setLayerIndex(currentKeyIndex);
         setCurrentModel(model);
         setCurrentSelectedCharacter(model?.character ?? "none");
-    }, [scene?.models]);
+    }, [models]);
 
     useEffect(() => {
-        if (!scene?.models || !scene.currentKey || !scene.currentModel) return;
+        if (!models || !currentKey || !currentModel) return;
         if (currentModel?.model instanceof Live2DModel && !loading) {
             setCoreModel(
                 currentModel.model.internalModel
@@ -130,7 +150,7 @@ const ModelSidebar: React.FC = () => {
         } else {
             setCoreModel(null);
         }
-    }, [scene?.currentModel, loading]);
+    }, [currentModel, loading]);
 
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
@@ -175,25 +195,7 @@ const ModelSidebar: React.FC = () => {
         return () => document.removeEventListener("keydown", handler);
     }, [openTab, selectedParameter]);
 
-    if (!scene || !sidebar || !scene.models) {
-        return t("please-wait");
-    }
-
-    const {
-        models,
-        setModels,
-        modelContainer,
-        nextLayer,
-        setNextLayer,
-        layers,
-        setLayers,
-        currentKey,
-        setCurrentKey,
-        currentModel,
-        setCurrentModel,
-    } = scene;
-
-    const { openAll } = sidebar;
+    if (!models) return t("please-wait")
 
     const updateModelState = (updates: Partial<IModel>) => {
         setModels((prevModels) => ({
@@ -1329,9 +1331,7 @@ const ModelSidebar: React.FC = () => {
                     danger
                 >
                     <div className="window__content">
-                        <p>
-                            {t("model.live2d-changed-warn")}
-                        </p>
+                        <p>{t("model.live2d-changed-warn")}</p>
                     </div>
                 </Window>
             )}

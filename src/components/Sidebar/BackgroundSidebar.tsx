@@ -10,12 +10,10 @@ const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();
     const context = useContext(SceneContext);
 
-    if (
-        !context ||
-        !context.background ||
-        !context.background.backgroundContainer
-    )
-        return t("please-wait");
+    if (!context) throw new Error("Context not found");
+
+    if (!context.background ||
+        !context.background.backgroundContainer) return t("please-wait")
 
     const { background, setBackground, splitBackground, setSplitBackground } =
         context;

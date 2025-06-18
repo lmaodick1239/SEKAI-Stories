@@ -43,17 +43,14 @@ const TextSidebar: React.FC = () => {
         lockFontSize === "true" ? true : false
     );
 
-    if (!scene || !sidebar || !scene.text || !scene.sceneText) {
-        return t("please-wait");
+    if (!scene || !sidebar) {
+        throw new Error("Context not found");
     }
 
-    const {
-        text,
-        setText,
-        sceneText,
-        setSceneText
-    } = scene;
+    const { text, setText, sceneText, setSceneText } = scene;
     const { openTextOption, setOpenTextOption, openAll } = sidebar;
+
+    if (!text || !sceneText) return t("please-wait");
 
     const handleTab = (tab: string) => {
         setOpenTextOption(tab);
