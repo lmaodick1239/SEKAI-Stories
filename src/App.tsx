@@ -36,6 +36,7 @@ function App() {
             const target = e.target as HTMLElement;
             if (
                 target.closest(".close-button") ||
+                target.closest(".middle-information-div") ||
                 target.closest("label") ||
                 target.closest("input[type='file']") ||
                 target.closest("a")

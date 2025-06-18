@@ -6,6 +6,7 @@ import { SceneContext } from "../contexts/SceneContext";
 import { SidebarContext } from "../contexts/SidebarContext";
 import Window from "./UI/Window";
 import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
+import { SoftErrorContext } from "../contexts/SoftErrorContext";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -14,8 +15,9 @@ const SettingsButton: React.FC = () => {
 
     const scene = useContext(SceneContext);
     const sidebar = useContext(SidebarContext);
+    const softError = useContext(SoftErrorContext);
 
-    if (!scene || !sidebar) {
+    if (!scene || !sidebar || !softError) {
         throw new Error("Context not provided.");
     }
 
@@ -27,13 +29,12 @@ const SettingsButton: React.FC = () => {
         setShowExperimental,
         setShowTutorial,
     } = sidebar;
-
-    
+    const { setErrorInformation } = softError;
 
     const handleGetAutoSaveData = () => {
         const data = localStorage.getItem("autoSave");
         if (!data) {
-            alert("No auto-save data found.");
+            setErrorInformation("No auto-save data found.");
             return;
         }
         const jsonParsed = JSON.parse(data);

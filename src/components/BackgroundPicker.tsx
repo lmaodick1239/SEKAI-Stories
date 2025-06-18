@@ -8,11 +8,11 @@ import React, {
     // useEffect,
     // useMemo,
 } from "react";
-import { SceneContext } from "../contexts/SceneContext";
 import data from "../background.json";
 import { getBackground } from "../utils/GetBackground";
 import { useTranslation } from "react-i18next";
 import IBackground from "../types/IBackground";
+import { SoftErrorContext } from "../contexts/SoftErrorContext";
 // import { fuzzy } from "fast-fuzzy";
 
 interface IBackgroundList {
@@ -37,9 +37,10 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
     const [show, setShow] = useState<boolean>(false);
     const [filterValue, setFilterValue] = useState<string>("all");
 
-    const context = useContext(SceneContext);
+    const softError = useContext(SoftErrorContext);
 
-    if (!context) throw new Error("Context not found");
+    if (!softError) throw new Error("Context not found");
+    const { setErrorInformation } = softError;
 
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
@@ -51,18 +52,25 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
     }, []);
 
     const handleChangeBackground = async (bg: string) => {
-        const backgroundSprite = await getBackground(
-            `/background_compressed/${bg}.jpg`
-        );
+        try {
 
-        background?.backgroundContainer.removeChildAt(0);
-        background?.backgroundContainer.addChildAt(backgroundSprite, 0);
-        setFunction(`/background_compressed/${bg}.jpg`);
-
-        setFilterValue("all");
+            const backgroundSprite = await getBackground(
+                `/background_compressed/${bg}.jpg`
+            );
+    
+            background?.backgroundContainer.removeChildAt(0);
+            background?.backgroundContainer.addChildAt(backgroundSprite, 0);
+            setFunction(`/background_compressed/${bg}.jpg`);
+    
+            setFilterValue("all");
+        }
+        catch (error) {
+            setErrorInformation(String(error))
+            console.error(error)
+        }
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (show && background?.filename) {
             const selectedBackground = document.querySelector(
                 `img[src="${background.filename.replace(

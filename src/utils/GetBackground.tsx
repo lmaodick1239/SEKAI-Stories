@@ -13,6 +13,6 @@ export const getBackground = async (file: string): Promise<PIXI.Sprite> => {
         backgroundSprite.y = 1080 / 2;
         return backgroundSprite;
     } catch {
-        throw new Error(`Failed to load background image: ${file}`);
+        throw new Error(`Failed to load background image: ${file}.`);
     }
 };

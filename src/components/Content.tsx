@@ -7,11 +7,14 @@ import FlavorText from "./FlavorText";
 import SettingsButton from "./SettingsButton";
 import { SidebarContext } from "../contexts/SidebarContext";
 import Tutorial from "./Tutorial";
+import { SoftErrorContext } from "../contexts/SoftErrorContext";
+import SoftError from "./UI/SoftError";
 
 const Content: React.FC = () => {
     const contentBackground = useRef<HTMLDivElement | null>(null);
     const scene = useContext(SceneContext);
     const sidebar = useContext(SidebarContext);
+    const softError = useContext(SoftErrorContext);
 
     useEffect(() => {
         if (!scene || !scene.background) return;
@@ -59,10 +62,11 @@ const Content: React.FC = () => {
         }
     });
 
-    if (!scene || !sidebar) {
+    if (!scene || !sidebar || !softError) {
         throw new Error("Context is not loaded properly.");
     }
     const { hide, setHide, showTutorial, setShowTutorial } = sidebar;
+    const { showErrorInformation } = softError;
 
     return (
         <div id="content" className="center" style={{ position: "relative" }}>
@@ -87,7 +91,7 @@ const Content: React.FC = () => {
             <div className="absolute top-left" id="settings">
                 <SettingsButton />
             </div>
-
+            {showErrorInformation && <SoftError />}
             <Canvas />
             <FlavorText />
         </div>

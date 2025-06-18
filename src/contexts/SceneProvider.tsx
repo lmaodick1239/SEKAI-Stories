@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SceneContext } from "./SceneContext";
 import * as PIXI from "pixi.js";
 import { useEffect } from "react";
@@ -10,12 +10,18 @@ import IGuideline from "../types/IGuideline";
 import { IJsonSave } from "../types/IJsonSave";
 import { ISplitBackground } from "../types/ISplitBackground";
 import { LoadScene } from "../utils/GetDefaultScene";
+import { SoftErrorContext } from "./SoftErrorContext";
 
 interface SceneProviderProps {
     children: React.ReactNode;
 }
 
 export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
+    const softError = useContext(SoftErrorContext);
+
+    if (!softError) throw new Error("Context not loaded");
+
+    const { setErrorInformation } = softError;
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel> | undefined>(
         undefined
@@ -51,35 +57,46 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const runCanvas = async () => {
         console.log(`Load Scene = ${reset}`);
 
-        const {
-            app: initApplication,
-            model,
-            currentKey,
-            currentModel,
-            modelContainer,
-            background,
-            splitBackground,
-            text,
-            sceneText,
-            guideline,
-        } = await LoadScene({ app, setStartingMessage });
+        try {
+            const {
+                app: initApplication,
+                model,
+                currentKey,
+                currentModel,
+                modelContainer,
+                background,
+                splitBackground,
+                text,
+                sceneText,
+                guideline,
+            } = await LoadScene({ app, setStartingMessage });
 
-        setApp(initApplication);
-        setModels(model);
-        setCurrentKey(currentKey);
-        setCurrentModel(currentModel);
-        setModelContainer(modelContainer);
-        setBackground(background);
-        setSplitBackground(splitBackground);
-        setText(text);
-        setSceneText(sceneText);
-        setGuideline(guideline);
-        setStartingMessage("");
-        setLayers(1);
+            setApp(initApplication);
+            setModels(model);
+            setCurrentKey(currentKey);
+            setCurrentModel(currentModel);
+            setModelContainer(modelContainer);
+            setBackground(background);
+            setSplitBackground(splitBackground);
+            setText(text);
+            setSceneText(sceneText);
+            setGuideline(guideline);
+            setStartingMessage("");
+            setLayers(1);
+        } catch {
+            throw new Error();
+        }
     };
 
     useEffect(() => {
-        runCanvas();
+        runCanvas().catch((error) => {
+            setErrorInformation(
+                `An error has occurred while loading the default scene. 
+                Please click the clear button, refresh your browser, or clear your cookies. 
+                If the problem persists, please report this bug on GitHub.`
+            );
+            console.error(error);
+        });
     }, [reset]);
 
     return (

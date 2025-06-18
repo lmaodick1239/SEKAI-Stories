@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Window from "./Window";
+import { SoftErrorContext } from "../../contexts/SoftErrorContext";
 
 interface UploadImageButtonProps {
     id: string;
@@ -16,11 +17,16 @@ const UploadImageButton: React.FC<UploadImageButtonProps> = ({
     alertMsg,
     type = "button",
 }) => {
+    const softError = useContext(SoftErrorContext);
+    if (!softError) throw new Error("Context not loaded");
+
+    const { setErrorInformation } = softError;
+
     const uploadElement = useRef<HTMLInputElement | null>(null);
     const checkFile = (file: File) => {
         const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
         if (!validImageTypes.includes(file["type"])) {
-            alert("This is not an image!");
+            setErrorInformation("This is not an image!");
             return false;
         }
         return true;

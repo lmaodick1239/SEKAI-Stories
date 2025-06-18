@@ -16,16 +16,19 @@ import { ILive2DModelData } from "../types/ILive2DModelData";
 import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
 import Window from "./UI/Window";
 import { SidebarContext } from "../contexts/SidebarContext";
+import { SoftErrorContext } from "../contexts/SoftErrorContext";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
     const scene = useContext(SceneContext);
     const sidebar = useContext(SidebarContext);
+    const softError = useContext(SoftErrorContext);
 
     const { t } = useTranslation();
 
     const [show, setShow] = useState<boolean>(false);
-    if (!scene || !sidebar) throw new Error("Context not prepared.");
+    if (!scene || !sidebar || !softError)
+        throw new Error("Context not prepared.");
 
     const {
         background,
@@ -45,6 +48,7 @@ const ExportButton: React.FC = () => {
         setSceneJson,
     } = scene;
     const { setAllowRefresh } = sidebar;
+    const { setErrorInformation } = softError;
     const jsonRef = useRef<IJsonSave | undefined>(sceneJson);
 
     useEffect(() => {
@@ -346,17 +350,13 @@ const ExportButton: React.FC = () => {
                             await loadScene(data);
                             setSceneJson(data);
                         } catch (error) {
-                            alert(
-                                "Error loading scene: " +
-                                    error +
-                                    "\nResetting canvas."
-                            );
+                            setErrorInformation(`${String(error)} The canvas has been reset.`);
                             console.error("Error loading scene:", error);
                             setReset(reset + 1);
                             setLoadingMsg("");
                         }
                     } else {
-                        alert("Invalid JSON file format.");
+                        setErrorInformation("Invalid JSON format.");
                         throw new Error("Invalid valid JSON");
                     }
                 }

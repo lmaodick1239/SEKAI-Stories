@@ -8,19 +8,18 @@ import { Checkbox } from "../UI/Checkbox";
 
 const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();
-    const context = useContext(SceneContext);
-
-    if (!context) throw new Error("Context not found");
-
-    if (!context.background ||
-        !context.background.backgroundContainer) return t("please-wait")
+    const scene = useContext(SceneContext);
+    
+    if (!scene) throw new Error("Context not found");
 
     const { background, setBackground, splitBackground, setSplitBackground } =
-        context;
+        scene;
+
+    if (!background || !background.backgroundContainer) return t("please-wait");
 
     const handleUploadImage = async (file: File) => {
         const imgSrc = URL.createObjectURL(file);
-        const backgroundImage = await getBackground(imgSrc);
+        const backgroundImage = await getBackground(imgSrc).catch();
         background.backgroundContainer.removeChildAt(0);
         background.backgroundContainer.addChildAt(backgroundImage, 0);
         if (background?.backgroundContainer) {

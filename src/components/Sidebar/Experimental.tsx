@@ -3,13 +3,16 @@ import { useTranslation } from "react-i18next";
 import { refreshCanvas } from "../../utils/RefreshCanvas";
 import { SceneContext } from "../../contexts/SceneContext";
 import Crash from "../Crash";
+import { SoftErrorContext } from "../../contexts/SoftErrorContext";
 
 const Experimental: React.FC = () => {
     const { t, i18n } = useTranslation();
     const scene = useContext(SceneContext);
+    const softError = useContext(SoftErrorContext);
     const [crash, setCrash] = useState(false);
 
-    if (!scene) throw new Error("Context not found");
+    if (!scene || !softError) throw new Error("Context not found");
+    const { setErrorInformation } = softError;
 
     const handleRefresh = () => {
         refreshCanvas(scene);
@@ -37,15 +40,28 @@ const Experimental: React.FC = () => {
                         value={i18n.language}
                         onChange={(e) => i18n.changeLanguage(e.target.value)}
                     >
-                        {Object.keys(i18n.options.resources || {}).map((lng) => (
-                            <option key={lng} value={lng}>
-                                {lng}
-                            </option>
-                        ))}
+                        {Object.keys(i18n.options.resources || {}).map(
+                            (lng) => (
+                                <option key={lng} value={lng}>
+                                    {lng}
+                                </option>
+                            )
+                        )}
                     </select>
                 </div>
             </div>
             <div className="option">
+                <div className="option__content">
+                    <button
+                        className="btn-regular btn-100 btn-white"
+                        onClick={() => {
+                            setErrorInformation("Room disbanded.");
+                            throw new Error("Room disbanded.")
+                        }}
+                    >
+                        Soft error
+                    </button>
+                </div>
                 <div className="option__content">
                     <button
                         className="btn-regular btn-100 btn-red"

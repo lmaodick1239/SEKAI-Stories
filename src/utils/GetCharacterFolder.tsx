@@ -7,5 +7,5 @@ export const GetCharacterFolder = async (
     } else if (parts.length === 2) {
         return [parts[0], parts[0]];
     }
-    throw new Error("Invalid model name format");
+    throw new Error(`Invalid model name format. Model is ${modelName}.`);
 };

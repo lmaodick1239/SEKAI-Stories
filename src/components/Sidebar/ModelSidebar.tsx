@@ -23,6 +23,7 @@ import { SidebarContext } from "../../contexts/SidebarContext";
 import Window from "../UI/Window";
 import { ILive2DParameterJsonSave } from "../../types/ILive2DParameterJsonSave";
 import { ValidateLive2DParameterJsonSave } from "../../utils/ValidateJsonSave";
+import { SoftErrorContext } from "../../contexts/SoftErrorContext";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -78,8 +79,9 @@ const ModelSidebar: React.FC = () => {
 
     const scene = useContext(SceneContext);
     const sidebar = useContext(SidebarContext);
+    const softError = useContext(SoftErrorContext);
 
-    if (!scene || !sidebar ) {
+    if (!scene || !sidebar || !softError) {
         throw new Error("Context not found");
     }
 
@@ -96,8 +98,8 @@ const ModelSidebar: React.FC = () => {
         currentModel,
         setCurrentModel,
     } = scene;
-
     const { openAll } = sidebar;
+    const { setErrorInformation } = softError;
 
     const [openTab, setOpenTab] = useState<string>("select-layer");
 
@@ -195,7 +197,7 @@ const ModelSidebar: React.FC = () => {
         return () => document.removeEventListener("keydown", handler);
     }, [openTab, selectedParameter]);
 
-    if (!models) return t("please-wait")
+    if (!models) return t("please-wait");
 
     const updateModelState = (updates: Partial<IModel>) => {
         setModels((prevModels) => ({
@@ -235,6 +237,7 @@ const ModelSidebar: React.FC = () => {
         }
 
         if (!modelData) {
+            setErrorInformation("Model data is undefined");
             throw new Error("Model data is undefined");
         }
 
@@ -401,6 +404,9 @@ const ModelSidebar: React.FC = () => {
                   ];
 
             if (!characterData || characterData.length === 0) {
+                setErrorInformation(
+                    "No models found for the selected character."
+                );
                 throw new Error("No models found for the selected character.");
             }
 
@@ -429,7 +435,8 @@ const ModelSidebar: React.FC = () => {
             });
             setLoading(false);
             setSelectedParameter({ idx: -1, param: "_" });
-        } catch {
+        } catch (error) {
+            setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
         } finally {
             if (characterSelect.current && modelSelect.current) {
@@ -466,6 +473,9 @@ const ModelSidebar: React.FC = () => {
                     );
 
                     if (!model) {
+                        setErrorInformation(
+                            `No model found for ${modelBase} in sekai data`
+                        );
                         throw new Error(
                             `No model found for ${modelBase} in sekai data`
                         );
@@ -478,6 +488,7 @@ const ModelSidebar: React.FC = () => {
                     break;
                 }
                 default:
+                    setErrorInformation("Invalid model source");
                     throw new Error("Invalid model source");
             }
 
@@ -495,7 +506,8 @@ const ModelSidebar: React.FC = () => {
             });
             setLoading(false);
             setSelectedParameter({ idx: -1, param: "_" });
-        } catch {
+        } catch (error) {
+            setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
         } finally {
             if (characterSelect.current && modelSelect.current) {
@@ -718,7 +730,7 @@ const ModelSidebar: React.FC = () => {
                             },
                         });
                     } else {
-                        alert("Invalid JSON Save");
+                        setErrorInformation("Invalid JSON Save");
                     }
                 }
             };
