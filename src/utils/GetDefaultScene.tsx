@@ -65,6 +65,17 @@ const randomInitialScene: InitialScene[] = [
         pngName: "mizuki",
         sceneText: "Shrine",
     },
+    {
+        background: "/background_compressed/bg_a001801.jpg",
+        model: "04shiho_cloth01",
+        text: "...",
+        nameTag: "Shiho",
+        character: "shiho",
+        modelX: 960,
+        modelY: 610,
+        pngName: "shiho",
+        sceneText: "Music Shop",
+    },
 ];
 
 const LoadInitialScene = (scene?: string): InitialScene => {
@@ -333,7 +344,7 @@ export const LoadScene = async ({
     app,
     setStartingMessage,
 }: GetDefaultSceneProps) => {
-    const initialScene: InitialScene = LoadInitialScene("junes");
+    const initialScene: InitialScene = LoadInitialScene();
 
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
