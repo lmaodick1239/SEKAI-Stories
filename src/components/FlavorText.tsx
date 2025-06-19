@@ -59,7 +59,7 @@ const FlavorText: React.FC = () => {
             ]
         );
     }, [lng]);
-    return <div id="flavor-text">{text}</div>;
+    return <p id="flavor-text">{text}</p>;
 };
 
 export default FlavorText;
