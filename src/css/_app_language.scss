@@ -1,11 +1,46 @@
-.app-en {
-    font-family: "Noto Sans JP", sans-serif;
+.app-en,
+.app-jp {
+    
+    h1,
+    h2,
+    h3 {
+        font-family: "FOT-RodinNTLGPro-EB";
+        font-weight: normal;
+    }
+
+    p,
+    label,
+    button,
+    select {
+        font-family: "FOT-RodinNTLGPro-DB", sans-serif;
+        font-weight: normal;
+    }
+
+    h1 {
+        line-height: 48px;
+    }
+    h2,
+    h3 {
+        line-height: 36px;
+    }
+    p,
+    label {
+        line-height: 24px;
+    }
+
+    font-family: "FOT-RodinNTLGPro-DB", sans-serif;
     button,
     select {
         font-family: "FOT-RodinNTLGPro-EB", sans-serif;
         p {
-            font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC",
-                "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
+            font-family: "FOT-RodinNTLGPro-DB", sans-serif;
+            line-height: 24px;
+        }
+    }
+
+    #sidebar {
+        h3 {
+            font-family: "FOT-RodinNTLGPro-DB", sans-serif;
         }
     }
 }

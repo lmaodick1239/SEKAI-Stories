@@ -10,16 +10,62 @@
   font-weight: normal;
   font-style: normal;
 }
-.app-en {
-  font-family: "Noto Sans JP", sans-serif;
+.app-en,
+.app-jp {
+  font-family: "FOT-RodinNTLGPro-DB", sans-serif;
+}
+.app-en h1,
+.app-en h2,
+.app-en h3,
+.app-jp h1,
+.app-jp h2,
+.app-jp h3 {
+  font-family: "FOT-RodinNTLGPro-EB";
+  font-weight: normal;
+}
+.app-en p,
+.app-en label,
+.app-en button,
+.app-en select,
+.app-jp p,
+.app-jp label,
+.app-jp button,
+.app-jp select {
+  font-family: "FOT-RodinNTLGPro-DB", sans-serif;
+  font-weight: normal;
+}
+.app-en h1,
+.app-jp h1 {
+  line-height: 48px;
+}
+.app-en h2,
+.app-en h3,
+.app-jp h2,
+.app-jp h3 {
+  line-height: 36px;
+}
+.app-en p,
+.app-en label,
+.app-jp p,
+.app-jp label {
+  line-height: 24px;
 }
 .app-en button,
-.app-en select {
+.app-en select,
+.app-jp button,
+.app-jp select {
   font-family: "FOT-RodinNTLGPro-EB", sans-serif;
 }
 .app-en button p,
-.app-en select p {
-  font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
+.app-en select p,
+.app-jp button p,
+.app-jp select p {
+  font-family: "FOT-RodinNTLGPro-DB", sans-serif;
+  line-height: 24px;
+}
+.app-en #sidebar h3,
+.app-jp #sidebar h3 {
+  font-family: "FOT-RodinNTLGPro-DB", sans-serif;
 }
 
 [class^=app-]:not(.app-en) {
@@ -331,7 +377,6 @@ input[type=range]::-moz-range-thumb {
 }
 
 select {
-  font-family: "FOT-RodinNTLGPro-EB";
   border: none;
   padding: 8px 50px 8px 20px;
   font-size: 20px;
