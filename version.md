@@ -1,3 +1,8 @@
+# 5.3.0
+Release date: June 19, 2025
+- Added initial setup for Y-offset
+- Show error on screen if something wrong happened (different from crash)
+
 # 5.2.0
 Release date: June 16, 2025
 - Added sound effects
