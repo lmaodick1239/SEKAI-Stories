@@ -1,19 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+KR:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+KR:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
 @font-face {
     font-family: "FOT-RodinNTLGPro-DB";
-    src: url("https://lezzthanthree.github.io/fonts/FOT-RodinNTLGPro-DB.otf")
-            format("opentype"),
-        url("/fonts/FOT-RodinNTLGPro-DB.otf") format("opentype");
-    font-weight: normal;
+    src: url("/fonts/FOT-RodinNTLGPro-DB.otf") format("opentype");
     font-style: normal;
 }
 
 @font-face {
     font-family: "FOT-RodinNTLGPro-EB";
-    src: url("https://lezzthanthree.github.io/fonts/FOT-RodinNTLGPro-EB.otf")
-            format("opentype"),
-        url("/fonts/FOT-RodinNTLGPro-EB.otf") format("opentype");
+    src: url("/fonts/FOT-RodinNTLGPro-EB.otf") format("opentype");
     font-weight: normal;
     font-style: normal;
 }
