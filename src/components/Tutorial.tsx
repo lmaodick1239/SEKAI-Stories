@@ -1,20 +1,108 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, {
+    Dispatch,
+    SetStateAction,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import Window from "./UI/Window";
 import { useTranslation } from "react-i18next";
 import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
+import * as PIXI from "pixi.js";
+import { SceneContext } from "../contexts/SceneContext";
 
 interface TutorialProps {
     show: Dispatch<SetStateAction<boolean>>;
 }
 
 const Tutorial: React.FC<TutorialProps> = ({ show }) => {
-    const [page, setPage] = useState<number>(-1);
+    const scene = useContext(SceneContext);
+    if (!scene) throw new Error("Context not found");
+    const { text, setText } = scene;
+    const [textContainer, setTextContainer] = useState<PIXI.Container | null>(
+        null
+    );
+    const [yOffset, setYOffset] = useState<number>(text?.yOffset ?? 0);
+    const [page, setPage] = useState<number>(-2);
     const { t, i18n } = useTranslation();
     const lng = i18n.language;
+    const offsetCanvas = useRef<HTMLCanvasElement | null>(null);
+
+    const handleYOffsetChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = Number(event.target.value);
+        localStorage.setItem("textAlignment", String(value));
+
+        if (textContainer) {
+            textContainer.y = 0 + value;
+        }
+        if (text) {
+            text.nameTag.y = 780 + value;
+            text.dialogue.y = 845 + value;
+            setText({
+                ...text,
+                yOffset: value,
+            });
+        }
+        setYOffset(value);
+    };
+
+    useEffect(() => {
+        const render = async () => {
+            const initApplication = new PIXI.Application({
+                view: offsetCanvas.current as HTMLCanvasElement,
+                autoStart: true,
+                width: 660,
+                height: 250,
+                backgroundColor: 0x000000,
+            });
+            const testContainer = new PIXI.Container();
+            const testTexture = await PIXI.Texture.fromURL(
+                "/img/canvas-test.png"
+            );
+            const testSprite = new PIXI.Sprite(testTexture);
+            testContainer.addChild(testSprite);
+            initApplication.stage.addChildAt(testContainer, 0);
+
+            const textContainer = new PIXI.Container();
+            const textNameTag = new PIXI.Text("Align me here!", {
+                fontFamily: "FOT-RodinNTLGPro-EB",
+                fontSize: 44,
+                fill: 0xebebef,
+                stroke: 0x5d5d79,
+                strokeThickness: 8,
+            });
+            textNameTag.position.set(46, 54);
+            const textDialogue = new PIXI.Text("Lorem ipsum dolor", {
+                fontFamily: "FOT-RodinNTLGPro-DB",
+                fontSize: 44,
+                fill: 0xffffff,
+                stroke: 0x5d5d79,
+                strokeThickness: 8,
+                wordWrap: true,
+                wordWrapWidth: 1300,
+                breakWords: true,
+                lineHeight: 55,
+            });
+            textDialogue.position.set(67, 119);
+
+            textContainer.addChildAt(textNameTag, 0);
+            textContainer.addChildAt(textDialogue, 1);
+            textContainer.y = 0 + yOffset;
+            setTextContainer(textContainer);
+
+            initApplication.stage.addChildAt(textContainer, 1);
+        };
+        if (page == -1 && offsetCanvas.current) {
+            render();
+        }
+    }, [page]);
 
     return (
         <>
-            {page == -1 && (
+            {page == -2 && (
                 <Window
                     show={show}
                     confirmLabel={t("next")}
@@ -39,6 +127,37 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                                 )
                             )}
                         </select>
+                    </div>
+                </Window>
+            )}
+            {page == -1 && (
+                <Window
+                    show={show}
+                    confirmLabel={t("next")}
+                    confirmFunction={() => setPage(page + 1)}
+                    skipCloseInConfirm
+                    className="window__90_width"
+                    hideClose
+                >
+                    <div className="window__content">
+                        <h1>{t("text.y-offset")}</h1>
+                        <p>
+                            Adjust the slider until you don't see any red spots.
+                        </p>
+                        <p>You can always change this back on the Text Menu.</p>
+                        <canvas
+                            height={250}
+                            width={660}
+                            ref={offsetCanvas}
+                            id="canvas-test"
+                        />
+                        <input
+                            type="range"
+                            min="-20"
+                            max="20"
+                            value={yOffset}
+                            onChange={handleYOffsetChange}
+                        />
                     </div>
                 </Window>
             )}
@@ -248,7 +367,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             <h3>{t("tutorial.poseHeader")}</h3>
                             <p>{t("tutorial.poseParagraph")}</p>
                             <h3>{t("tutorial.expressionHeader")}</h3>
-                                <p>{t("tutorial.expressionParagraph")}</p>
+                            <p>{t("tutorial.expressionParagraph")}</p>
                             <div className="window__divider center">
                                 <img
                                     src="/img/menu4-2.png"

@@ -43,7 +43,7 @@ img {
     object-fit: cover;
 }
 
-canvas {
+#canvas {
     width: 90%;
     font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
     border: $dark-miku 2px solid;
@@ -52,6 +52,12 @@ canvas {
         z-index: 1;
         top: 20px;
     }
+}
+
+#canvas-test {
+    height: 100%;
+    font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
+    width: 100%;
 }
 
 i {

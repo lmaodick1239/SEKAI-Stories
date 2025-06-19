@@ -29,14 +29,14 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
         if (openAllCookie === "true") {
             setOpenAll(true);
         }
-        const showTutorialCookie = localStorage.getItem("showTutorial");
+        const showTutorialCookie = localStorage.getItem("showTutorialAndSetup");
         if (!showTutorialCookie || showTutorialCookie === "true") {
             setShowTutorial(true);
         }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("showTutorial", String(showTutorial));
+        localStorage.setItem("showTutorialAndSetup", String(showTutorial));
     }, [showTutorial]);
 
     return (

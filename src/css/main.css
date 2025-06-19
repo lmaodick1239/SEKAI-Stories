@@ -936,17 +936,23 @@ img {
   object-fit: cover;
 }
 
-canvas {
+#canvas {
   width: 90%;
   font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
   border: #00ccbb 2px solid;
 }
 @media (width <= 768px) {
-  canvas {
+  #canvas {
     position: fixed;
     z-index: 1;
     top: 20px;
   }
+}
+
+#canvas-test {
+  height: 100%;
+  font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";
+  width: 100%;
 }
 
 i {
