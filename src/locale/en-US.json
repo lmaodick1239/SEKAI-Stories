@@ -166,6 +166,8 @@
         "export": "Export"
     },
     "tutorial": {
+        "initialSetup1": "Adjust the slider until you don't see any red spots.",
+        "initialSetup2": "You can always change this back on the Text Menu.",
         "welcomeHeader": "Welcome to SEKAI Stories!",
         "welcomeIntroHeader": "This window will guide you on how to use this site.",
         "welcomeIntroParagraph1": "If you are familiar with this application, you can close this window.",

@@ -51,6 +51,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
 
     useEffect(() => {
         const render = async () => {
+            console.log("Initial Setup Started");
             const initApplication = new PIXI.Application({
                 view: offsetCanvas.current as HTMLCanvasElement,
                 autoStart: true,
@@ -98,6 +99,8 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
         if (page == -1 && offsetCanvas.current) {
             render();
         }
+
+        
     }, [page]);
 
     return (
@@ -141,10 +144,8 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                 >
                     <div className="window__content">
                         <h1>{t("text.y-offset")}</h1>
-                        <p>
-                            Adjust the slider until you don't see any red spots.
-                        </p>
-                        <p>You can always change this back on the Text Menu.</p>
+                        <p>{t("tutorial.initialSetup1")}</p>
+                        <p>{t("tutorial.initialSetup2")}</p>
                         <canvas
                             height={250}
                             width={660}
