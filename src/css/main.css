@@ -18,83 +18,81 @@
   font-style: normal;
 }
 .app-en,
-.app-jp {
+.app-ja {
   font-family: "FOT-RodinNTLGPro-DB", sans-serif;
 }
 .app-en h1,
 .app-en h2,
 .app-en h3,
-.app-jp h1,
-.app-jp h2,
-.app-jp h3 {
+.app-ja h1,
+.app-ja h2,
+.app-ja h3 {
   font-family: "FOT-RodinNTLGPro-EB";
   font-weight: normal;
 }
 .app-en p,
 .app-en button,
 .app-en select,
-.app-jp p,
-.app-jp button,
-.app-jp select {
+.app-en label,
+.app-ja p,
+.app-ja button,
+.app-ja select,
+.app-ja label {
   font-family: "FOT-RodinNTLGPro-DB", sans-serif;
   font-weight: normal;
 }
-.app-en label,
-.app-jp label {
-  font-family: "FOT-RodinNTLGPro-DB", sans-serif;
-}
 .app-en h1,
-.app-jp h1 {
+.app-ja h1 {
   line-height: 3rem;
 }
 .app-en h2,
 .app-en h3,
-.app-jp h2,
-.app-jp h3 {
+.app-ja h2,
+.app-ja h3 {
   line-height: 2.25rem;
 }
 .app-en p,
 .app-en label,
-.app-jp p,
-.app-jp label {
+.app-ja p,
+.app-ja label {
   line-height: 1.5rem;
 }
 .app-en button,
 .app-en select,
-.app-jp button,
-.app-jp select {
+.app-ja button,
+.app-ja select {
   font-family: "FOT-RodinNTLGPro-EB", sans-serif;
 }
 .app-en button p,
 .app-en select p,
-.app-jp button p,
-.app-jp select p {
+.app-ja button p,
+.app-ja select p {
   font-family: "FOT-RodinNTLGPro-DB", sans-serif;
 }
 .app-en #sidebar h3,
 .app-en #sidebar p,
-.app-jp #sidebar h3,
-.app-jp #sidebar p {
+.app-ja #sidebar h3,
+.app-ja #sidebar p {
   font-family: "FOT-RodinNTLGPro-DB", sans-serif;
 }
 .app-en #flavor-text,
-.app-jp #flavor-text {
+.app-ja #flavor-text {
   font-family: "FOT-RodinNTLGPro-M", sans-serif;
 }
 
-[class^=app-]:not(.app-en) {
+[class^=app-]:not(.app-en):not(.app-ja) {
   font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
 }
-[class^=app-]:not(.app-en) button,
-[class^=app-]:not(.app-en) select {
+[class^=app-]:not(.app-en):not(.app-ja) button,
+[class^=app-]:not(.app-en):not(.app-ja) select {
   font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK", "Noto Sans KR", "Noto Sans", sans-serif;
   font-weight: 800;
 }
-[class^=app-]:not(.app-en) button p,
-[class^=app-]:not(.app-en) select p {
+[class^=app-]:not(.app-en):not(.app-ja) button p,
+[class^=app-]:not(.app-en):not(.app-ja) select p {
   font-weight: 400;
 }
-[class^=app-]:not(.app-en) button.btn-circle {
+[class^=app-]:not(.app-en):not(.app-ja) button.btn-circle {
   font-family: "Noto Sans", sans-serif;
 }
 

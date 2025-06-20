@@ -1,5 +1,5 @@
 .app-en,
-.app-jp {
+.app-ja {
     font-family: "FOT-RodinNTLGPro-DB", sans-serif;
     h1,
     h2,
@@ -45,9 +45,15 @@
     #flavor-text {
         font-family: "FOT-RodinNTLGPro-M", sans-serif;
     }
+
+    // .middle-information {
+    //     p {
+    //         font-family: "FOT-RodinNTLGPro-M", sans-serif;
+    //     }
+    // }
 }
 
-[class^="app-"]:not(.app-en) {
+[class^="app-"]:not(.app-en):not(.app-ja) {
     font-family: "Noto Sans JP", "Noto Sans TC", "Noto Sans SC", "Noto Sans HK",
         "Noto Sans KR", "Noto Sans", sans-serif;
     button,
