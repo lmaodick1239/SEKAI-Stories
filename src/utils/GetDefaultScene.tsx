@@ -22,15 +22,15 @@ interface InitialScene {
 
 const randomInitialScene: InitialScene[] = [
     {
-        background: "/background_special/Background_Uranohoshi.jpg",
-        model: "07airi_normal",
-        text: "No, I will not do Ai♡Scream on you.",
+        background: "/background_special/Background_Uranohoshi_Rooftop.jpg",
+        model: "07airi_qtnormal",
+        text: "I'm ○○○-sama's little demon number four...\nM-Momoi Airi...",
         nameTag: "Airi",
         character: "airi",
         modelX: 960,
-        modelY: 630,
-        pngName: "airi",
-        sceneText: "Uranohoshi High School Idol Club",
+        modelY: 590,
+        pngName: "airi_littledemon",
+        sceneText: "Uranohoshi High School Rooftop",
     },
     {
         background: "/background_compressed/bg_a001101.jpg",
