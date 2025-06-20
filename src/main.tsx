@@ -11,13 +11,13 @@ import { SoftErrorProvider } from "./contexts/SoftErrorProvider.tsx";
 i18nInit();
 
 createRoot(document.getElementById("root")!).render(
-    <SoftErrorProvider>
-        <SceneProvider>
-            <SidebarProvider>
-                <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={i18n}>
+        <SoftErrorProvider>
+            <SceneProvider>
+                <SidebarProvider>
                     <App />
-                </I18nextProvider>
-            </SidebarProvider>
-        </SceneProvider>
-    </SoftErrorProvider>
+                </SidebarProvider>
+            </SceneProvider>
+        </SoftErrorProvider>
+    </I18nextProvider>
 );

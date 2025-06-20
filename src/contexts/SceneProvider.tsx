@@ -11,6 +11,7 @@ import { IJsonSave } from "../types/IJsonSave";
 import { ISplitBackground } from "../types/ISplitBackground";
 import { LoadScene } from "../utils/GetDefaultScene";
 import { SoftErrorContext } from "./SoftErrorContext";
+import { useTranslation } from "react-i18next";
 
 interface SceneProviderProps {
     children: React.ReactNode;
@@ -18,6 +19,7 @@ interface SceneProviderProps {
 
 export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const softError = useContext(SoftErrorContext);
+    const { t } = useTranslation();
 
     if (!softError) throw new Error("Context not loaded");
 
@@ -57,44 +59,37 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const runCanvas = async () => {
         console.log(`Load Scene = ${reset}`);
 
-        try {
-            const {
-                app: initApplication,
-                model,
-                currentKey,
-                currentModel,
-                modelContainer,
-                background,
-                splitBackground,
-                text,
-                sceneText,
-                guideline,
-            } = await LoadScene({ app, setStartingMessage });
 
-            setApp(initApplication);
-            setModels(model);
-            setCurrentKey(currentKey);
-            setCurrentModel(currentModel);
-            setModelContainer(modelContainer);
-            setBackground(background);
-            setSplitBackground(splitBackground);
-            setText(text);
-            setSceneText(sceneText);
-            setGuideline(guideline);
-            setStartingMessage("");
-            setLayers(1);
-        } catch {
-            throw new Error();
-        }
+        const {
+            app: initApplication,
+            model,
+            currentKey,
+            currentModel,
+            modelContainer,
+            background,
+            splitBackground,
+            text,
+            sceneText,
+            guideline,
+        } = await LoadScene({ app, setStartingMessage });
+
+        setApp(initApplication);
+        setModels(model);
+        setCurrentKey(currentKey);
+        setCurrentModel(currentModel);
+        setModelContainer(modelContainer);
+        setBackground(background);
+        setSplitBackground(splitBackground);
+        setText(text);
+        setSceneText(sceneText);
+        setGuideline(guideline);
+        setStartingMessage("");
+        setLayers(1);
     };
 
     useEffect(() => {
         runCanvas().catch((error) => {
-            setErrorInformation(
-                `An error has occurred while loading the default scene. 
-                Please click the clear button, refresh your browser, or clear your cookies. 
-                If the problem persists, please report this bug on GitHub.`
-            );
+            setErrorInformation(t("error.default-scene-fail"));
             console.error(error);
         });
     }, [reset]);

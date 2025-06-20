@@ -730,7 +730,7 @@ const ModelSidebar: React.FC = () => {
                             },
                         });
                     } else {
-                        setErrorInformation("Invalid JSON Save");
+                        setErrorInformation(t("error.invalid-json"));
                     }
                 }
             };

@@ -55,8 +55,11 @@ const Experimental: React.FC = () => {
                     <button
                         className="btn-regular btn-100 btn-white"
                         onClick={() => {
-                            setErrorInformation("Room disbanded.");
-                            throw new Error("Room disbanded.")
+                            const msg = [
+                                "Authentication failure or unable to access server.\nPlease check your internet connection and try again later.\nIf this issue persists, please check the FAQ for solutions.",
+                                "Room disbanded. (103)",
+                            ];
+                            setErrorInformation(msg[Math.floor(Math.random()*msg.length)]);
                         }}
                     >
                         Soft error

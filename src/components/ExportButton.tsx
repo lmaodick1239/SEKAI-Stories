@@ -350,13 +350,13 @@ const ExportButton: React.FC = () => {
                             await loadScene(data);
                             setSceneJson(data);
                         } catch (error) {
-                            setErrorInformation(`${String(error)} The canvas has been reset.`);
+                            setErrorInformation(`${String(error)}\n${t("error.import-scene-fail")}`);
                             console.error("Error loading scene:", error);
                             setReset(reset + 1);
                             setLoadingMsg("");
                         }
                     } else {
-                        setErrorInformation("Invalid JSON format.");
+                        setErrorInformation(t("error.invalid-json"));
                         throw new Error("Invalid valid JSON");
                     }
                 }

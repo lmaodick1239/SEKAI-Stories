@@ -81,7 +81,7 @@
     "clear": "This will clear the whole canvas. Any progress will be lost!",
     "clear-ok": "Clear",
     "continue-ok": "Continue",
-    "next":"Next",
+    "next": "Next",
 
     "support": {
         "header": "Support",
@@ -218,5 +218,13 @@
         "sceneImportExportParagraph": "This will allow you to save and load your entire scene as an editable format.",
         "endHeader": "And that's it!",
         "endParagraph": "If you wish to repeat this, you can access them back on Settings."
+    },
+    "error": {
+        "header": "Error",
+        "import-scene-fail": "The canvas has been reset.",
+        "invalid-json": "Invalid JSON format",
+        "no-autosave": "No auto-save data found.",
+        "not-an-image": "This is not an image.",
+        "default-scene-fail": "An error has occurred while loading the default scene.\nPlease use the clear button, refresh your browser, or clear your cookies.\nIf the problem persists, please report this bug on GitHub."
     }
 }

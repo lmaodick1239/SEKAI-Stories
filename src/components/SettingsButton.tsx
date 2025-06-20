@@ -34,7 +34,7 @@ const SettingsButton: React.FC = () => {
     const handleGetAutoSaveData = () => {
         const data = localStorage.getItem("autoSave");
         if (!data) {
-            setErrorInformation("No auto-save data found.");
+            setErrorInformation(t("error.no-autosave"));
             return;
         }
         const jsonParsed = JSON.parse(data);

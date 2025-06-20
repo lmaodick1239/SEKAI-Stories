@@ -17,7 +17,7 @@ const SoftError: React.FC<SoftErrorProps> = () => {
         new Audio("/sound/open.wav").play();
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
-                // pass
+                handleClose()
             }
         };
         document.addEventListener("keydown", handleEsc);
@@ -63,8 +63,10 @@ const SoftError: React.FC<SoftErrorProps> = () => {
             }}
         >
             <div className="middle-information">
-                <h3>Error</h3>
-                <p>{errorInformation}</p>
+                {/* <h3>Error</h3> */}
+                {errorInformation.split('\n').map((line, idx) => (
+                    <p key={idx}>{line}</p>
+                ))}
             </div>
         </div>
     );
