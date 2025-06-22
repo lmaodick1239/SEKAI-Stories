@@ -1677,16 +1677,34 @@
             "modelFile": "v2_17kanade_casual_t06.model3.json"
         },
         {
+            "modelName": "v2_17kanade_casual_t08",
+            "modelBase": "v2_17kanade_casual",
+            "modelPath": "v2/main/17_kanade/v2_17kanade_casual",
+            "modelFile": "v2_17kanade_casual_t08.model3.json"
+        },
+        {
             "modelName": "17kanade_black_t01",
             "modelBase": "v2_17kanade_casualblack",
             "modelPath": "v2/main/17_kanade/v2_17kanade_casualblack",
             "modelFile": "17kanade_black_t01.model3.json"
         },
         {
+            "modelName": "v2_17kanade_school_wl2_t02",
+            "modelBase": "v2_17kanade_school",
+            "modelPath": "v2/main/17_kanade/v2_17kanade_school",
+            "modelFile": "v2_17kanade_school_wl2_t02.model3.json"
+        },
+        {
             "modelName": "17kanade_cloth001_3.0_f_t02",
             "modelBase": "v2_17kanade_school02",
             "modelPath": "v2/main/17_kanade/v2_17kanade_school02",
             "modelFile": "17kanade_cloth001_3.0_f_t02.model3.json"
+        },
+        {
+            "modelName": "17kanade_unit2_t06",
+            "modelBase": "v2_17kanade_unit",
+            "modelPath": "v2/main/17_kanade/v2_17kanade_unit",
+            "modelFile": "17kanade_unit2_t06.model3.json"
         },
         {
             "modelName": "17kanade_unit2_t04",
@@ -1819,16 +1837,34 @@
             "modelFile": "19ena_cloth001_3.1_f_t01.model3.json"
         },
         {
+            "modelName": "19ena_cloth001_3.1_f_t02",
+            "modelBase": "19ena_cloth001",
+            "modelPath": "v1/main/19_ena/19ena_cloth001",
+            "modelFile": "19ena_cloth001_3.1_f_t02.model3.json"
+        },
+        {
             "modelName": "19ena_jc_t04",
             "modelBase": "19ena_jc",
             "modelPath": "v1/main/19_ena/19ena_jc",
             "modelFile": "19ena_jc_t04.model3.json"
         },
         {
+            "modelName": "19ena_normal_3.0_f_t06",
+            "modelBase": "19ena_normal",
+            "modelPath": "v1/main/19_ena/19ena_normal",
+            "modelFile": "19ena_normal_3.0_f_t06.model3.json"
+        },
+        {
             "modelName": "19ena_normal_3.0_f_t05",
             "modelBase": "19ena_normal",
             "modelPath": "v1/main/19_ena/19ena_normal",
             "modelFile": "19ena_normal_3.0_f_t05.model3.json"
+        },
+        {
+            "modelName": "19ena_unit_3.0_f_t02",
+            "modelBase": "19ena_unit",
+            "modelPath": "v1/main/19_ena/19ena_unit",
+            "modelFile": "19ena_unit_3.0_f_t02.model3.json"
         },
         {
             "modelName": "19ena_unit_3.0_f_t01",
@@ -1855,6 +1891,12 @@
             "modelFile": "19ena_clathes2_4_t04.model3.json"
         },
         {
+            "modelName": "19ena_clathes2_4_t05",
+            "modelBase": "v2_19ena_casual",
+            "modelPath": "v2/main/19_ena/v2_19ena_casual",
+            "modelFile": "19ena_clathes2_4_t05.model3.json"
+        },
+        {
             "modelName": "v2_19ena_culture_t04",
             "modelBase": "v2_19ena_culture",
             "modelPath": "v2/main/19_ena/v2_19ena_culture",
@@ -1877,6 +1919,12 @@
             "modelBase": "v2_19ena_school_back",
             "modelPath": "v2/sub/v2_19ena_school_back",
             "modelFile": "v2_19ena_school_back_t06.model3.json"
+        },
+        {
+            "modelName": "19ena_unit2_t04",
+            "modelBase": "v2_19ena_unit",
+            "modelPath": "v2/main/19_ena/v2_19ena_unit",
+            "modelFile": "19ena_unit2_t04.model3.json"
         },
         {
             "modelName": "19ena_unit2_t03",
@@ -1999,6 +2047,12 @@
             "modelBase": "v2_20mizuki_school_back02",
             "modelPath": "v2/sub/v2_20mizuki_school_back02",
             "modelFile": "v2_20mizuki_school_back02_t12.model3.json"
+        },
+        {
+            "modelName": "v2_20mizuki_school_v1_back_t01",
+            "modelBase": "v2_20mizuki_school_v1_back",
+            "modelPath": "v2/sub/v2_20mizuki_school_v1_back",
+            "modelFile": "v2_20mizuki_school_v1_back_t01.model3.json"
         },
         {
             "modelName": "v2_20mizuki_still_nig19",
@@ -2931,6 +2985,12 @@
             "modelBase": "sub_kanadefather",
             "modelPath": "v1/sub/sub_kanadefather",
             "modelFile": "extra31_01_1031a_t02.model3.json"
+        },
+        {
+            "modelName": "extra31_01_1031a_wl2_t01",
+            "modelBase": "sub_kanadefather02",
+            "modelPath": "v1/sub/sub_kanadefather02",
+            "modelFile": "extra31_01_1031a_wl2_t01.model3.json"
         },
         {
             "modelName": "sub_kanademother_t02",
