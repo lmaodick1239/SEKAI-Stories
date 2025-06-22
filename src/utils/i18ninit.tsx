@@ -3,12 +3,10 @@ import en from "../locale/en-US.json";
 import pl from "../locale/pl-PL.json";
 import cn from "../locale/zh-CN.json";
 import es from "../locale/es-ES.json";
-import ja from "../locale/ja-JP.json";
 import fil from "../locale/fil-PH.json";
 
 export const languageNames = {
     en: "English",
-    ja: "日本語",
     es: "Español",
     cn: "简体中文",
     pl: "Polski",
@@ -30,7 +28,6 @@ const i18nInit = () => {
         lng: "en",
         resources: {
             en: { translation: en },
-            ja: { translation: ja },
             pl: { translation: pl },
             cn: { translation: cn },
             es: { translation: es },
