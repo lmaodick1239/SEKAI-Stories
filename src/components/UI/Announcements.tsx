@@ -10,31 +10,22 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("splitlocationupdate");
+        const cookie = localStorage.getItem("fewUpdates-5.3.1");
         if (!cookie) {
-            localStorage.setItem("splitlocationupdate", "0");
+            localStorage.setItem("fewUpdates-5.3.1", "0");
             return;
         }
-        localStorage.setItem("splitlocationupdate", `${Number(cookie) + 1}`);
+        localStorage.setItem("fewUpdates-5.3.1", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>New features has been added! See more information below.</p>
-
-            <button
-                className="btn-blue btn-regular"
-                onClick={() => {
-                    window.open(
-                        "https://ko-fi.com/Post/SEKAI-Stories-New-Features-M4M61GE1WD",
-
-                        "_blank"
-                    );
-                }}
-            >
-                Ko-fi Announcement
-            </button>
+            <p>Few updates have been pushed:</p>
+            <ul>
+                <li>Added new models from N25 WL.</li>
+                <li>Sound effects can now be disabled.</li>
+            </ul>
             <p>
                 Localization contributions are still welcome! You can check this
                 information on{" "}

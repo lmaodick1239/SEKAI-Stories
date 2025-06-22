@@ -52,9 +52,10 @@
   line-height: 2.25rem;
 }
 .app-en p,
-.app-en label,
+.app-en label, .app-en li,
 .app-ja p,
-.app-ja label {
+.app-ja label,
+.app-ja li {
   line-height: 1.5rem;
 }
 .app-en button,

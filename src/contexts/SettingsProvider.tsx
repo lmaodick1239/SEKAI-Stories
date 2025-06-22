@@ -18,7 +18,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [audio, setAudio] = useState<boolean>(false);
 
     useEffect(() => {
-        const announcementCookie = localStorage.getItem("splitlocationupdate");
+        const announcementCookie = localStorage.getItem("fewUpdates-5.3.1");
         if (Number(announcementCookie) < 1) {
             setHideAnnouncements(false);
         }

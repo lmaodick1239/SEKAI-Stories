@@ -1,3 +1,8 @@
+# 5.3.1
+Release date: June 22, 2025
+- Allow disabling the sound effects
+- Added new models
+
 # 5.3.0
 Release date: June 19, 2025
 - Added initial setup for Y-offset
