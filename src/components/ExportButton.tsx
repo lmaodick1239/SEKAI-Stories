@@ -15,19 +15,19 @@ import IModel from "../types/IModel";
 import { ILive2DModelData } from "../types/ILive2DModelData";
 import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
 import Window from "./UI/Window";
-import { SidebarContext } from "../contexts/SidebarContext";
+import { SettingsContext } from "../contexts/SettingsContext";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
     const scene = useContext(SceneContext);
-    const sidebar = useContext(SidebarContext);
+    const settings = useContext(SettingsContext);
     const softError = useContext(SoftErrorContext);
 
     const { t } = useTranslation();
 
     const [show, setShow] = useState<boolean>(false);
-    if (!scene || !sidebar || !softError)
+    if (!scene || !settings || !softError)
         throw new Error("Context not prepared.");
 
     const {
@@ -47,7 +47,7 @@ const ExportButton: React.FC = () => {
         setReset,
         setSceneJson,
     } = scene;
-    const { setAllowRefresh } = sidebar;
+    const { setAllowRefresh } = settings;
     const { setErrorInformation } = softError;
     const jsonRef = useRef<IJsonSave | undefined>(sceneJson);
 
@@ -350,7 +350,11 @@ const ExportButton: React.FC = () => {
                             await loadScene(data);
                             setSceneJson(data);
                         } catch (error) {
-                            setErrorInformation(`${String(error)}\n${t("error.import-scene-fail")}`);
+                            setErrorInformation(
+                                `${String(error)}\n${t(
+                                    "error.import-scene-fail"
+                                )}`
+                            );
                             console.error("Error loading scene:", error);
                             setReset(reset + 1);
                             setLoadingMsg("");

@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import { SidebarContext } from "../contexts/SidebarContext";
+import { SettingsContext } from "../contexts/SettingsContext";
 
 const SidebarSelect: React.FC = () => {
-    const sidebar = useContext(SidebarContext);
+    const settings = useContext(SettingsContext);
 
-    if (!sidebar) return;
+    if (!settings) return;
 
-    const { openedSidebar, setOpenedSidebar } = sidebar;
+    const { openedSidebar, setOpenedSidebar } = settings;
 
     return (
         <div className="absolute flex-vertical" id="sidebar-select">

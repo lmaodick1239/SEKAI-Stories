@@ -3,14 +3,16 @@ import Content from "./components/Content";
 import Sidebar from "./components/Sidebar";
 import Announcements from "./components/UI/Announcements";
 import { useTranslation } from "react-i18next";
-import { SidebarContext } from "./contexts/SidebarContext";
+import { SettingsContext } from "./contexts/SettingsContext";
+import { useAudioManager } from "./utils/useAudioManager";
 
 function App() {
-    const sidebar = useContext(SidebarContext);
-    if (!sidebar) {
+    const { playSound } = useAudioManager();
+    const settings = useContext(SettingsContext);
+    if (!settings) {
         throw new Error("Context is not loaded properly.");
     }
-    const { hide, hideAnnouncements, allowRefresh } = sidebar;
+    const { hide, hideAnnouncements, allowRefresh } = settings;
 
     const { i18n } = useTranslation();
     const lang = i18n.language;
@@ -40,7 +42,7 @@ function App() {
                 target.closest("a")
             )
                 return;
-            new Audio("/sound/select.wav").play();
+            playSound("/sound/select.wav")
         };
 
         document.addEventListener("click", handleButtonClick, true);

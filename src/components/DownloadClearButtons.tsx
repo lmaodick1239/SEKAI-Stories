@@ -5,21 +5,21 @@ import { refreshCanvas } from "../utils/RefreshCanvas";
 import { useTranslation } from "react-i18next";
 import ExportButton from "./ExportButton";
 import Window from "./UI/Window";
-import { SidebarContext } from "../contexts/SidebarContext";
+import { SettingsContext } from "../contexts/SettingsContext";
 
 const DownloadClearButtons: React.FC = () => {
     const [resetShow, setResetShow] = useState(false);
     const { t } = useTranslation();
 
     const scene = useContext(SceneContext);
-    const sidebar = useContext(SidebarContext);
+    const settings = useContext(SettingsContext);
 
-    if (!scene || !sidebar) {
+    if (!scene || !settings) {
         return;
     }
 
     const { app, reset, setReset, guideline, setGuideline } = scene;
-    const { setAllowRefresh } = sidebar;
+    const { setAllowRefresh } = settings;
 
     const handleSave = () => {
         if (guideline) {

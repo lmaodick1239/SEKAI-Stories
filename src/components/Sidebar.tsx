@@ -3,17 +3,17 @@ import TextSidebar from "./Sidebar/TextSidebar";
 import { SceneContext } from "../contexts/SceneContext";
 import BackgroundSidebar from "./Sidebar/BackgroundSidebar";
 import ModelSidebar from "./Sidebar/ModelSidebar";
-import { SidebarContext } from "../contexts/SidebarContext";
+import { SettingsContext } from "../contexts/SettingsContext";
 import Experimental from "./Sidebar/Experimental";
 
 const Sidebar: React.FC = () => {
     const scene = useContext(SceneContext);
-    const sidebar = useContext(SidebarContext);
+    const settings = useContext(SettingsContext);
 
-    if (!scene || !sidebar) return;
+    if (!scene || !settings) return;
 
     const { startingMessage } = scene;
-    const { openedSidebar, showExperimental } = sidebar;
+    const { openedSidebar, showExperimental } = settings;
 
     return (
         <div id="sidebar">

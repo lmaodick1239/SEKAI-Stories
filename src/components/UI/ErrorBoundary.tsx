@@ -1,13 +1,13 @@
 import { useContext, useEffect } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
-import { SidebarContext } from "../../contexts/SidebarContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 export function ErrorFallback({ error }: { error: Error }) {
     const scene = useContext(SceneContext);
-    const sidebar = useContext(SidebarContext);
-    if (!scene || !sidebar) throw new Error("Context not prepared.");
+    const settings = useContext(SettingsContext);
+    if (!scene || !settings) throw new Error("Context not prepared.");
     const { sceneJson } = scene;
-    const { setAllowRefresh } = sidebar;
+    const { setAllowRefresh } = settings;
 
     useEffect(() => {
         localStorage.setItem("autoSave", JSON.stringify(sceneJson));

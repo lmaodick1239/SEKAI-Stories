@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useAudioManager } from "../../utils/useAudioManager";
 
 interface WindowProps {
     show: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,8 +26,10 @@ const Window: React.FC<WindowProps> = ({
     buttons,
     children,
 }) => {
+    const { playSound } = useAudioManager();
+
     useEffect(() => {
-        new Audio("/sound/open.wav").play();
+        playSound("/sound/open.wav");
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
                 handleClose();
@@ -49,7 +52,7 @@ const Window: React.FC<WindowProps> = ({
     const { t } = useTranslation();
 
     const handleClose = () => {
-        new Audio("/sound/close.wav").play();
+        playSound("/sound/close.wav");
         if (window.current) {
             window.current.style.transition = "transform 0.05s linear";
             window.current.style.transform = "scale(0.5)";

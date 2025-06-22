@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { SidebarContext } from "../../contexts/SidebarContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 const Announcements: React.FC = () => {
-    const context = useContext(SidebarContext);
+    const context = useContext(SettingsContext);
 
     if (!context) return;
 

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import SupportButton from "./SupportButton";
 import { Checkbox } from "./UI/Checkbox";
 import { SceneContext } from "../contexts/SceneContext";
-import { SidebarContext } from "../contexts/SidebarContext";
+import { SettingsContext } from "../contexts/SettingsContext";
 import Window from "./UI/Window";
 import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
@@ -14,10 +14,10 @@ const SettingsButton: React.FC = () => {
     const [show, setShow] = useState<boolean>(false);
 
     const scene = useContext(SceneContext);
-    const sidebar = useContext(SidebarContext);
+    const settings = useContext(SettingsContext);
     const softError = useContext(SoftErrorContext);
 
-    if (!scene || !sidebar || !softError) {
+    if (!scene || !settings || !softError) {
         throw new Error("Context not provided.");
     }
 
@@ -28,7 +28,9 @@ const SettingsButton: React.FC = () => {
         showExperimental,
         setShowExperimental,
         setShowTutorial,
-    } = sidebar;
+        audio,
+        setAudio
+    } = settings;
     const { setErrorInformation } = softError;
 
     const handleGetAutoSaveData = () => {
@@ -77,6 +79,11 @@ const SettingsButton: React.FC = () => {
         const value = e.target.checked;
         localStorage.setItem("openAll", String(value));
         setOpenAll(value);
+    };
+    const handleAudio = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("audio", String(value));
+        setAudio(value);
     };
 
     return (
@@ -141,6 +148,12 @@ const SettingsButton: React.FC = () => {
                         </div>
                         <div className="window__divider">
                             <h2>{t("settings.toggles")}</h2>
+                            <Checkbox
+                                id="audio"
+                                label={t("settings.audio")}
+                                checked={audio}
+                                onChange={handleAudio}
+                            />
                             <Checkbox
                                 id="expand"
                                 label={t("settings.expand")}

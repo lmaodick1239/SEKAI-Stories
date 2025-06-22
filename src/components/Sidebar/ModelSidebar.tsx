@@ -19,11 +19,12 @@ import AddModelSelect from "../AddModelSelect";
 import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
 import { AdjustmentFilter, CRTFilter } from "pixi-filters";
-import { SidebarContext } from "../../contexts/SidebarContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 import Window from "../UI/Window";
 import { ILive2DParameterJsonSave } from "../../types/ILive2DParameterJsonSave";
 import { ValidateLive2DParameterJsonSave } from "../../utils/ValidateJsonSave";
 import { SoftErrorContext } from "../../contexts/SoftErrorContext";
+import { useAudioManager } from "../../utils/useAudioManager";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -76,12 +77,12 @@ const defaultModelBreath = [
 
 const ModelSidebar: React.FC = () => {
     const { t } = useTranslation();
-
+    const { playSound } = useAudioManager();
     const scene = useContext(SceneContext);
-    const sidebar = useContext(SidebarContext);
+    const settings = useContext(SettingsContext);
     const softError = useContext(SoftErrorContext);
 
-    if (!scene || !sidebar || !softError) {
+    if (!scene || !settings || !softError) {
         throw new Error("Context not found");
     }
 
@@ -98,7 +99,7 @@ const ModelSidebar: React.FC = () => {
         currentModel,
         setCurrentModel,
     } = scene;
-    const { openAll } = sidebar;
+    const { openAll } = settings;
     const { setErrorInformation } = softError;
 
     const [openTab, setOpenTab] = useState<string>("select-layer");
@@ -186,7 +187,7 @@ const ModelSidebar: React.FC = () => {
             if (toSelectIndex < 0 || toSelectIndex >= select.options.length) {
                 return;
             }
-            new Audio("/sound/slide.wav").play();
+            playSound("/sound/slide.wav");
             select.selectedIndex = toSelectIndex;
             select.dispatchEvent(new Event("change", { bubbles: true }));
         };

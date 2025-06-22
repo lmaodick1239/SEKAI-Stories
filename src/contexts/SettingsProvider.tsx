@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { SidebarContext } from "./SidebarContext";
+import { SettingsContext } from "./SettingsContext";
 
 interface SidebarProviderProps {
     children: React.ReactNode;
 }
-export const SidebarProvider: React.FC<SidebarProviderProps> = ({
+export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     children,
 }) => {
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
@@ -15,6 +15,7 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
     const [openAll, setOpenAll] = useState<boolean>(false);
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
     const [allowRefresh, setAllowRefresh] = useState<boolean>(false);
+    const [audio, setAudio] = useState<boolean>(false);
 
     useEffect(() => {
         const announcementCookie = localStorage.getItem("splitlocationupdate");
@@ -33,6 +34,11 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
         if (!showTutorialCookie || showTutorialCookie === "true") {
             setShowTutorial(true);
         }
+        const audioCookie = localStorage.getItem("audio");
+        if (!audioCookie || audioCookie === "true") {
+            console.log("SET TRUE")
+            setAudio(true);
+        }
     }, []);
 
     useEffect(() => {
@@ -40,7 +46,7 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
     }, [showTutorial]);
 
     return (
-        <SidebarContext.Provider
+        <SettingsContext.Provider
             value={{
                 openedSidebar,
                 setOpenedSidebar,
@@ -58,9 +64,11 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
                 setOpenTextOption,
                 allowRefresh,
                 setAllowRefresh,
+                audio,
+                setAudio
             }}
         >
             {children}
-        </SidebarContext.Provider>
+        </SettingsContext.Provider>
     );
 };

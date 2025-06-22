@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
-import { SidebarContext } from "../../contexts/SidebarContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 import { Checkbox } from "../UI/Checkbox";
 import RadioButton from "../UI/RadioButton";
 import { useTranslation } from "react-i18next";
@@ -24,7 +24,7 @@ const symbols = {
 const TextSidebar: React.FC = () => {
     const { t } = useTranslation();
     const scene = useContext(SceneContext);
-    const sidebar = useContext(SidebarContext);
+    const settings = useContext(SettingsContext);
 
     const nameTag1Cookie = localStorage.getItem("nameTag1");
     const nameTag2Cookie = localStorage.getItem("nameTag2");
@@ -43,12 +43,12 @@ const TextSidebar: React.FC = () => {
         lockFontSize === "true" ? true : false
     );
 
-    if (!scene || !sidebar) {
+    if (!scene || !settings) {
         throw new Error("Context not found");
     }
 
     const { text, setText, sceneText, setSceneText } = scene;
-    const { openTextOption, setOpenTextOption, openAll } = sidebar;
+    const { openTextOption, setOpenTextOption, openAll } = settings;
 
     if (!text || !sceneText) return t("please-wait");
 

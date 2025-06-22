@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-export default interface ISidebarContextType {
+export default interface ISettingsContextType {
     openedSidebar: string;
     setOpenedSidebar: Dispatch<SetStateAction<string>>;
     hide: boolean;
@@ -17,4 +17,6 @@ export default interface ISidebarContextType {
     setOpenTextOption: Dispatch<SetStateAction<string>>;
     allowRefresh: boolean;
     setAllowRefresh: Dispatch<SetStateAction<boolean>>;
+    audio: boolean;
+    setAudio: Dispatch<SetStateAction<boolean>>;
 }
