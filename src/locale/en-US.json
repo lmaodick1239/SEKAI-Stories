@@ -153,6 +153,7 @@
         "auto-save-description": "Your work is automatically saved every 3 minutes. If something goes wrong, you can download the latest backup as a JSON file.",
         "auto-save-button": "Get last save",
         "toggles": "Toggles",
+        "audio": "Enable audio",
         "guidelines": "Show guidelines",
         "experimental": "Show experimental",
         "expand": "Expand all menu options",
