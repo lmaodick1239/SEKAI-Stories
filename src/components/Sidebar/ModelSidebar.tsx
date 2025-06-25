@@ -242,6 +242,7 @@ const ModelSidebar: React.FC = () => {
             throw new Error("Model data is undefined");
         }
 
+        setLoadingMsg(`${t("loading-4")} ${modelName}...`);
         await axios.get(modelData.url + modelData.FileReferences.Textures[0]);
         setLoadingMsg(`${t("loading-5")} ${modelName}...`);
         await axios.get(modelData.url + modelData.FileReferences.Moc);
@@ -953,7 +954,19 @@ const ModelSidebar: React.FC = () => {
                         )}
                     </div>
 
-                    {loading && <div className="option">{loadingMsg}</div>}
+                    {loading && (
+                        <div className="option">
+                            <p>{loadingMsg}</p>
+                            {(currentModel.from === "sekai" && currentModel.character != "others") && (
+                                <p>
+                                    <br />
+                                    (If the model is taking too long to load,
+                                    consider getting models from SEKAI Stories
+                                    instead.)
+                                </p>
+                            )}
+                        </div>
+                    )}
                     <div
                         className="option"
                         onClick={() => {
