@@ -66,6 +66,7 @@
         "live2d-import-export-description": "You can save your Live2D adjustments as a JSON file and apply it on other models.",
         "live2d-tooltip": "You can use your arrow keys to select and adjust parameters.",
         "live2d-changed-warn": "You have custom Live2D parameter adjustments. Continuing will discard them!",
+        "long-wait": "If the model is taking too long to load, consider getting models from SEKAI Stories instead.",
         "advanced": "Advanced"
     },
 

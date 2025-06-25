@@ -98,6 +98,8 @@ const ModelSidebar: React.FC = () => {
         setCurrentKey,
         currentModel,
         setCurrentModel,
+        initialState,
+        setInitialState,
     } = scene;
     const { openAll } = settings;
     const { setErrorInformation } = softError;
@@ -108,9 +110,7 @@ const ModelSidebar: React.FC = () => {
         useState<string>("");
     const [layerIndex, setLayerIndex] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
-    const [loadingMsg, setLoadingMsg] = useState<string>(
-        "We are Project Sekai"
-    );
+    const [loadingMsg, setLoadingMsg] = useState<string>("");
     const [showAddModelScreen, setShowAddModelScreen] =
         useState<boolean>(false);
     const [selectedParameter, setSelectedParameter] = useState<{
@@ -253,9 +253,12 @@ const ModelSidebar: React.FC = () => {
         const live2DModel = await Live2DModel.from(modelData, {
             autoInteract: false,
         });
-        live2DModel.scale.set(currentModel?.modelScale);
+        live2DModel.scale.set(initialState ? 0.5 : currentModel?.modelScale);
         live2DModel.anchor.set(0.5, 0.5);
-        live2DModel.position.set(currentModel?.modelX, currentModel?.modelY);
+        live2DModel.position.set(
+            initialState ? 640 : currentModel?.modelX,
+            initialState ? 870 : currentModel?.modelY
+        );
         currentModel?.model.destroy();
         modelContainer?.addChildAt(live2DModel, layerIndex);
 
@@ -312,6 +315,7 @@ const ModelSidebar: React.FC = () => {
         setLayerIndex(layers);
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
+        setInitialState(false)
     };
 
     const handleUploadImage = async (file: File) => {
@@ -433,14 +437,18 @@ const ModelSidebar: React.FC = () => {
                 modelData,
                 visible: true,
                 idle: true,
+                modelX: initialState ? 640 : currentModel?.modelX,
+                modelY: initialState ? 870 : currentModel?.modelY,
+                modelScale: initialState ? 0.5 : currentModel?.modelScale,
                 parametersChanged: {},
             });
-            setLoading(false);
             setSelectedParameter({ idx: -1, param: "_" });
+            setInitialState(false)
         } catch (error) {
             setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
         } finally {
+            setLoading(false);
             if (characterSelect.current && modelSelect.current) {
                 characterSelect.current.disabled = false;
                 modelSelect.current.disabled = false;
@@ -506,12 +514,12 @@ const ModelSidebar: React.FC = () => {
                 idle: true,
                 parametersChanged: {},
             });
-            setLoading(false);
             setSelectedParameter({ idx: -1, param: "_" });
         } catch (error) {
             setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
         } finally {
+            setLoading(false);
             if (characterSelect.current && modelSelect.current) {
                 characterSelect.current.disabled = false;
                 modelSelect.current.disabled = false;
@@ -850,52 +858,63 @@ const ModelSidebar: React.FC = () => {
                     </div>
                 )}
             </div>
+            {loadingMsg && (
+                <div className="option">
+                    <p>{loadingMsg}</p>
+                    {currentModel?.from === "sekai" &&
+                        currentModel?.character != "others" && (
+                            <p>
+                                <br />
+                                {t("model.long-wait")}
+                            </p>
+                        )}
+                </div>
+            )}
+            <div className="option" onClick={() => setOpenTab("character")}>
+                <div className="space-between flex-horizontal center">
+                    <h2>{t("model.character")}</h2>
+                    {openAll || openTab === "character" ? (
+                        <i className="bi bi-caret-down-fill" />
+                    ) : (
+                        <i className="bi bi-caret-right-fill" />
+                    )}
+                </div>
+                {(openAll || openTab === "character") && (
+                    <div className="option__content">
+                        <select
+                            value={currentSelectedCharacter}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                handleLive2DChange(() =>
+                                    handleCharacterChange(value)
+                                );
+                            }}
+                            ref={characterSelect}
+                        >
+                            <option value="none" disabled>
+                                {t("model.select-character")}
+                            </option>
+                            {currentSelectedCharacter === "custom" && (
+                                <option value="custom" disabled>
+                                    {t("character.custom")}
+                                </option>
+                            )}
+                            {Object.keys(
+                                currentModel?.from === "static"
+                                    ? staticCharacterData
+                                    : sekaiCharacterData
+                            ).map((character) => (
+                                <option key={character} value={character}>
+                                    {t(`character.${character}`)}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+            </div>
             {(currentModel?.model instanceof Live2DModel ||
                 currentModel?.character == "none") && (
                 <>
-                    <div
-                        className="option"
-                        onClick={() => setOpenTab("character")}
-                    >
-                        <div className="space-between flex-horizontal center">
-                            <h2>{t("model.character")}</h2>
-                            {openAll || openTab === "character" ? (
-                                <i className="bi bi-caret-down-fill" />
-                            ) : (
-                                <i className="bi bi-caret-right-fill" />
-                            )}
-                        </div>
-                        {(openAll || openTab === "character") && (
-                            <div className="option__content">
-                                <select
-                                    value={currentSelectedCharacter}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        handleLive2DChange(() =>
-                                            handleCharacterChange(value)
-                                        );
-                                    }}
-                                    ref={characterSelect}
-                                >
-                                    <option value="none" disabled>
-                                        {t("model.select-character")}
-                                    </option>
-                                    {Object.keys(
-                                        currentModel.from === "static"
-                                            ? staticCharacterData
-                                            : sekaiCharacterData
-                                    ).map((character) => (
-                                        <option
-                                            key={character}
-                                            value={character}
-                                        >
-                                            {t(`character.${character}`)}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        )}
-                    </div>
                     <div
                         className="option"
                         onClick={() => setOpenTab("costume")}
@@ -954,19 +973,6 @@ const ModelSidebar: React.FC = () => {
                         )}
                     </div>
 
-                    {loading && (
-                        <div className="option">
-                            <p>{loadingMsg}</p>
-                            {(currentModel.from === "sekai" && currentModel.character != "others") && (
-                                <p>
-                                    <br />
-                                    (If the model is taking too long to load,
-                                    consider getting models from SEKAI Stories
-                                    instead.)
-                                </p>
-                            )}
-                        </div>
-                    )}
                     <div
                         className="option"
                         onClick={() => {

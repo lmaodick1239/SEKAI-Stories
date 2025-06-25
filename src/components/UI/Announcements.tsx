@@ -10,12 +10,12 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("fewUpdates-5.3.1");
+        const cookie = localStorage.getItem("fewUpdates-5.3.2");
         if (!cookie) {
-            localStorage.setItem("fewUpdates-5.3.1", "0");
+            localStorage.setItem("fewUpdates-5.3.2", "0");
             return;
         }
-        localStorage.setItem("fewUpdates-5.3.1", `${Number(cookie) + 1}`);
+        localStorage.setItem("fewUpdates-5.3.2", `${Number(cookie) + 1}`);
     };
 
     return (
@@ -23,8 +23,7 @@ const Announcements: React.FC = () => {
             <h2>Notice</h2>
             <p>Few updates have been pushed:</p>
             <ul>
-                <li>Added new models from N25 WL.</li>
-                <li>Sound effects can now be disabled.</li>
+                <li>You can now change the character of the initial sprite. No need to delete the first layer anymore!</li>
             </ul>
             <p>
                 Localization contributions are still welcome! You can check this

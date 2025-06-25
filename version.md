@@ -1,3 +1,7 @@
+# 5.3.2
+Release date: July 25, 2025
+- Allow user to change character on the initial sprite
+
 # 5.3.1
 Release date: June 22, 2025
 - Allow disabling the sound effects

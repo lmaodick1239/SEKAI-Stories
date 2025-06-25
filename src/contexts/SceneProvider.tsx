@@ -55,10 +55,10 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const [sceneJson, setSceneJson] = useState<IJsonSave | undefined>(
         undefined
     );
+    const [initialState, setInitialState] = useState<boolean>(true);
 
     const runCanvas = async () => {
         console.log(`Load Scene = ${reset}`);
-
 
         const {
             app: initApplication,
@@ -85,6 +85,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
         setGuideline(guideline);
         setStartingMessage("");
         setLayers(1);
+        setInitialState(true);
     };
 
     useEffect(() => {
@@ -127,6 +128,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 setReset,
                 startingMessage,
                 setStartingMessage,
+                initialState,
+                setInitialState,
             }}
         >
             {children}

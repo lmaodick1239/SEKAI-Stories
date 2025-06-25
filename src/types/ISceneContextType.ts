@@ -38,4 +38,6 @@ export default interface ISceneContextType {
     setReset: Dispatch<SetStateAction<number>>;
     startingMessage: string;
     setStartingMessage: Dispatch<SetStateAction<string>>;
+    initialState: boolean;
+    setInitialState: Dispatch<SetStateAction<boolean>>;
 }
