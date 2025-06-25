@@ -16,7 +16,7 @@ const randomText = {
         "Haruka becomes the wife of Minori.",
         "Airi lost her fang.",
         "Setsuna has been mistakenly called Kanade for the 1888th time.",
-        "Mizuki is programming her countdown website for そこに在る、光。",
+        "Mizuki is 18 kilometers away from your house.",
         "Mafuyu scares Emu to make her stop breaking the fourth wall.",
         "Ena threw a large basin at Akito.",
         "Ena fights against AI Art.",
@@ -41,7 +41,6 @@ const randomText = {
         "Meet SEKAI Stories's cousin, SIFAS Dialogue Sandbox!",
         "Untitled.",
     ],
-    fil: ["UY, PILIPINS!", "Jollibot para sa bagong cast ng WxS."],
 };
 
 const FlavorText: React.FC = () => {
