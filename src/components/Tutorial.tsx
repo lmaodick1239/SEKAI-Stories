@@ -16,6 +16,18 @@ interface TutorialProps {
     show: Dispatch<SetStateAction<boolean>>;
 }
 
+const randomMessage = [
+    "Just Mizuki.",
+    "Lorem ipsum dolor.",
+    "Kanade's Ramen.",
+    "Kitto todoku hazu.",
+    "Sample message.",
+    "missingno.",
+    "mizukey",
+    "SIFAS died for this.",
+    "null"
+]
+
 const Tutorial: React.FC<TutorialProps> = ({ show }) => {
     const scene = useContext(SceneContext);
     if (!scene) throw new Error("Context not found");
@@ -28,6 +40,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
     const { t, i18n } = useTranslation();
     const lng = i18n.language;
     const offsetCanvas = useRef<HTMLCanvasElement | null>(null);
+    const message = randomMessage[Math.floor(Math.random() * randomMessage.length)]
 
     const handleYOffsetChange = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -76,7 +89,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                 strokeThickness: 8,
             });
             textNameTag.position.set(46, 54);
-            const textDialogue = new PIXI.Text("Lorem ipsum dolor", {
+            const textDialogue = new PIXI.Text(message, {
                 fontFamily: "FOT-RodinNTLGPro-DB",
                 fontSize: 44,
                 fill: 0xffffff,
