@@ -425,6 +425,7 @@ const ModelSidebar: React.FC = () => {
                 layerIndex
             );
 
+
             updateModelState({
                 character,
                 model: live2DModel,
@@ -441,6 +442,10 @@ const ModelSidebar: React.FC = () => {
                 modelY: initialState ? 870 : currentModel?.modelY,
                 modelScale: initialState ? 0.5 : currentModel?.modelScale,
                 parametersChanged: {},
+                from:
+                    currentModel.from === "upload"
+                        ? "sekai"
+                        : currentModel.from,
             });
             setSelectedParameter({ idx: -1, param: "_" });
             setInitialState(false)
@@ -465,41 +470,33 @@ const ModelSidebar: React.FC = () => {
             characterSelect.current.disabled = true;
             modelSelect.current.disabled = true;
         }
+
         try {
             let live2DModel: Live2DModel;
             let modelData: ILive2DModelData;
+            const isStatic = currentModel.from === "static";
 
-            switch (currentModel.from) {
-                case "static":
-                    [live2DModel, modelData] = await loadModel(
-                        modelBase,
-                        layerIndex
-                    );
-                    break;
-                case "sekai": {
-                    const model = await GetCharacterDataFromSekai(
-                        currentSelectedCharacter,
-                        modelBase
-                    );
+            if (isStatic) {
+                [live2DModel, modelData] = await loadModel(
+                    modelBase,
+                    layerIndex
+                );
+            } else {
+                const model = await GetCharacterDataFromSekai(
+                    currentSelectedCharacter,
+                    modelBase
+                );
 
-                    if (!model) {
-                        setErrorInformation(
-                            `No model found for ${modelBase} in sekai data`
-                        );
-                        throw new Error(
-                            `No model found for ${modelBase} in sekai data`
-                        );
-                    }
-
-                    [live2DModel, modelData] = await loadModel(
-                        model,
-                        layerIndex
+                if (!model) {
+                    setErrorInformation(
+                        `No model found for ${modelBase} in sekai data`
                     );
-                    break;
+                    throw new Error(
+                        `No model found for ${modelBase} in sekai data`
+                    );
                 }
-                default:
-                    setErrorInformation("Invalid model source");
-                    throw new Error("Invalid model source");
+
+                [live2DModel, modelData] = await loadModel(model, layerIndex);
             }
 
             updateModelState({
@@ -513,6 +510,10 @@ const ModelSidebar: React.FC = () => {
                 visible: true,
                 idle: true,
                 parametersChanged: {},
+                from:
+                    currentModel.from === "upload"
+                        ? "sekai"
+                        : currentModel.from,
             });
             setSelectedParameter({ idx: -1, param: "_" });
         } catch (error) {
@@ -973,6 +974,7 @@ const ModelSidebar: React.FC = () => {
                         )}
                     </div>
 
+                    
                     <div
                         className="option"
                         onClick={() => {
