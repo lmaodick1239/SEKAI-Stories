@@ -18,14 +18,13 @@ To contribute to the localization of the project, please follow these steps:
          ja: { translation: ja },
     },
     ```
-5. Also at the same file, add the language name to the `languageNames` array:
+5. Also on the same file, add the language name to the `languageNames` array:
     ```ts
     export const languageNames = {
         en: "English",
-        pl: "Polski",
-        cn: "简体中文",
+        ja: "日本語",
         es: "Español",
-        fil: "Filipino",
+        ...
     };
     ```
 6. Open a pull request with your changes. 
@@ -37,7 +36,7 @@ For creativity, you can translate the flavor texts or add your own at [`src/comp
 | Language   | Locale Code | Translator/s  | Status           |
 |------------|-------------|---------------|------------------|
 | Polish     | pl-PL       | counter185    | Some are missing |
-| Spanish    | es-ES       | GatoMago      | Some are missing |
+| Spanish    | es-ES       | GatoMago      | Complete         |
 | S. Chinese | zh-CN       | MiddleRed     | Some are missing |
 | Filipino   | tl-PH       | lezzthanthree | Complete         | 
 
