@@ -30,10 +30,10 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
         if (openAllCookie === "true") {
             setOpenAll(true);
         }
-        // const showTutorialCookie = localStorage.getItem("showTutorialAndSetup");
-        // if (!showTutorialCookie || showTutorialCookie === "true") {
-        //     setShowTutorial(true);
-        // }
+        const showTutorialCookie = localStorage.getItem("showTutorialAndSetup");
+        if (!showTutorialCookie || showTutorialCookie === "true") {
+            setShowTutorial(true);
+        }
         const audioCookie = localStorage.getItem("audio");
         if (!audioCookie || audioCookie === "true") {
             console.log("SET TRUE");

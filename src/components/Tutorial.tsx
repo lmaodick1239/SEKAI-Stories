@@ -25,8 +25,7 @@ const randomMessage = [
     "missingno.",
     "mizukey",
     "SIFAS died for this.",
-    "null"
-]
+];
 
 const Tutorial: React.FC<TutorialProps> = ({ show }) => {
     const scene = useContext(SceneContext);
@@ -40,7 +39,8 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
     const { t, i18n } = useTranslation();
     const lng = i18n.language;
     const offsetCanvas = useRef<HTMLCanvasElement | null>(null);
-    const message = randomMessage[Math.floor(Math.random() * randomMessage.length)]
+    const message =
+        randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
     const handleYOffsetChange = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -112,8 +112,6 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
         if (page == -1 && offsetCanvas.current) {
             render();
         }
-
-        
     }, [page]);
 
     return (
