@@ -18,8 +18,8 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [audio, setAudio] = useState<boolean>(false);
 
     useEffect(() => {
-        const announcementCookie = localStorage.getItem("fewUpdates-5.3.2");
-        if (Number(announcementCookie) < 1) {
+        const announcementCookie = localStorage.getItem("feedbackII");
+        if (Number(announcementCookie) < 2) {
             setHideAnnouncements(false);
         }
         const experimentalCookie = localStorage.getItem("showExperimental");
@@ -30,13 +30,13 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
         if (openAllCookie === "true") {
             setOpenAll(true);
         }
-        const showTutorialCookie = localStorage.getItem("showTutorialAndSetup");
-        if (!showTutorialCookie || showTutorialCookie === "true") {
-            setShowTutorial(true);
-        }
+        // const showTutorialCookie = localStorage.getItem("showTutorialAndSetup");
+        // if (!showTutorialCookie || showTutorialCookie === "true") {
+        //     setShowTutorial(true);
+        // }
         const audioCookie = localStorage.getItem("audio");
         if (!audioCookie || audioCookie === "true") {
-            console.log("SET TRUE")
+            console.log("SET TRUE");
             setAudio(true);
         }
     }, []);
@@ -65,7 +65,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
                 allowRefresh,
                 setAllowRefresh,
                 audio,
-                setAudio
+                setAudio,
             }}
         >
             {children}

@@ -10,33 +10,30 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("fewUpdates-5.3.2");
+        const cookie = localStorage.getItem("feedbackII");
         if (!cookie) {
-            localStorage.setItem("fewUpdates-5.3.2", "0");
+            localStorage.setItem("feedbackII", "0");
             return;
         }
-        localStorage.setItem("fewUpdates-5.3.2", `${Number(cookie) + 1}`);
+        localStorage.setItem("feedbackII", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>Few updates have been pushed:</p>
-            <ul>
-                <li>You can now change the character of the initial sprite. No need to delete the first layer anymore!</li>
-            </ul>
-            <p>
-                Localization contributions are still welcome! You can check this
-                information on{" "}
-                <a
-                    href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
-                    className="text-orange"
-                    target="_blank"
-                >
-                    GitHub
-                </a>
-                .
-            </p>
+            <p>I'd love to hear about your experience using SEKAI Stories!</p>
+            <p>If you'd like to, please tap the Feedback form button!</p>
+            <button
+                className="btn-regular btn-blue"
+                onClick={() => {
+                    window.open(
+                        "https://forms.gle/G2J3gZnsSXSd2G5f6",
+                        "_blank"
+                    );
+                }}
+            >
+                Feedback
+            </button>
             <p>Tap this section to close.</p>
         </div>
     );
