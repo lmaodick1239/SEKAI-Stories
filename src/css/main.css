@@ -856,6 +856,10 @@ select:disabled {
     width: 70%;
   }
 }
+.window .width-100 {
+  width: 100%;
+  max-width: 100%;
+}
 
 .window__90_width .window {
   width: 90dvw;

@@ -11,6 +11,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
     const [showTutorial, setShowTutorial] = useState<boolean>(false);
+    const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false);
     const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [openAll, setOpenAll] = useState<boolean>(false);
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
@@ -36,8 +37,11 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
         }
         const audioCookie = localStorage.getItem("audio");
         if (!audioCookie || audioCookie === "true") {
-            console.log("SET TRUE");
             setAudio(true);
+        }
+        const saveDialogCookie = localStorage.getItem("saveDialog");
+        if (!saveDialogCookie || saveDialogCookie === "true") {
+            setShowSaveDialog(true);
         }
     }, []);
 
@@ -58,6 +62,8 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
                 setShowTutorial,
                 showExperimental,
                 setShowExperimental,
+                showSaveDialog,
+                setShowSaveDialog,
                 openAll,
                 setOpenAll,
                 openTextOption,

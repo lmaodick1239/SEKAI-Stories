@@ -11,6 +11,8 @@ export default interface ISettingsContextType {
     setShowTutorial: Dispatch<SetStateAction<boolean>>;
     showExperimental: boolean;
     setShowExperimental: Dispatch<SetStateAction<boolean>>;
+    showSaveDialog: boolean;
+    setShowSaveDialog: Dispatch<SetStateAction<boolean>>;
     openAll: boolean;
     setOpenAll: Dispatch<SetStateAction<boolean>>;
     openTextOption: string;
