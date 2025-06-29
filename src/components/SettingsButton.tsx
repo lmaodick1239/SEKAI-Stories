@@ -27,9 +27,11 @@ const SettingsButton: React.FC = () => {
         setOpenAll,
         showExperimental,
         setShowExperimental,
+        showSaveDialog,
+        setShowSaveDialog,
         setShowTutorial,
         audio,
-        setAudio
+        setAudio,
     } = settings;
     const { setErrorInformation } = softError;
 
@@ -84,6 +86,11 @@ const SettingsButton: React.FC = () => {
         const value = e.target.checked;
         localStorage.setItem("audio", String(value));
         setAudio(value);
+    };
+    const handleSaveDialog = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("saveDialog", String(value));
+        setShowSaveDialog(value);
     };
 
     return (
@@ -153,6 +160,12 @@ const SettingsButton: React.FC = () => {
                                 label={t("settings.audio")}
                                 checked={audio}
                                 onChange={handleAudio}
+                            />
+                            <Checkbox
+                                id="saveDialog"
+                                label={t("settings.saveDialog")}
+                                checked={showSaveDialog}
+                                onChange={handleSaveDialog}
                             />
                             <Checkbox
                                 id="expand"

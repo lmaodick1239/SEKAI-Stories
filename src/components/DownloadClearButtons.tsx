@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { SceneContext } from "../contexts/SceneContext";
 import * as PIXI from "pixi.js";
-import { refreshCanvas } from "../utils/RefreshCanvas";
 import { useTranslation } from "react-i18next";
 import ExportButton from "./ExportButton";
 import Window from "./UI/Window";
@@ -9,6 +8,8 @@ import { SettingsContext } from "../contexts/SettingsContext";
 
 const DownloadClearButtons: React.FC = () => {
     const [resetShow, setResetShow] = useState(false);
+    const [saveWindowShow, setSaveWindowShow] = useState(false);
+    const [saveData, setSaveData] = useState<string>("");
     const { t } = useTranslation();
 
     const scene = useContext(SceneContext);
@@ -19,7 +20,7 @@ const DownloadClearButtons: React.FC = () => {
     }
 
     const { app, reset, setReset, guideline, setGuideline } = scene;
-    const { setAllowRefresh } = settings;
+    const { setAllowRefresh, showSaveDialog } = settings;
 
     const handleSave = () => {
         if (guideline) {
@@ -32,6 +33,9 @@ const DownloadClearButtons: React.FC = () => {
         const region = new PIXI.Rectangle(0, 0, 1920, 1080);
         const texture = app?.renderer.generateTexture(app.stage, { region });
         const dataURL = app?.renderer.plugins.extract.image(texture).src;
+        setSaveData(dataURL);
+
+        if (showSaveDialog) setSaveWindowShow(true);
 
         const a = document.createElement("a");
         a.href = dataURL;
@@ -40,7 +44,6 @@ const DownloadClearButtons: React.FC = () => {
         a.click();
         a.remove();
 
-        refreshCanvas(scene);
         setAllowRefresh(true);
     };
 
@@ -68,6 +71,20 @@ const DownloadClearButtons: React.FC = () => {
                 >
                     <div className="window__content">
                         <p>{t("clear")}</p>
+                    </div>
+                </Window>
+            )}
+            {saveWindowShow && (
+                <Window show={setSaveWindowShow}>
+                    <div className="window__content">
+                        <h1>Save</h1>
+                        <p>
+                            {window.matchMedia("(pointer: fine)").matches
+                                ? t("save.note-1-desktop")
+                                : t("save.note-1-phone")}
+                        </p>
+                        <p>{t("save.note-2")}</p>
+                        <img src={saveData} className="width-100" />
                     </div>
                 </Window>
             )}

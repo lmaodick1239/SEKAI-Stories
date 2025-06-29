@@ -159,7 +159,8 @@
         "experimental": "Show experimental",
         "expand": "Expand all menu options",
         "tutorial": "Tutorial",
-        "show-tutorial": "Show one more time"
+        "show-tutorial": "Show one more time",
+        "saveDialog": "Show save dialog"
     },
     "import-export": {
         "header": "Import/Export",
@@ -220,6 +221,12 @@
         "sceneImportExportParagraph": "This will allow you to save and load your entire scene as an editable format.",
         "endHeader": "And that's it!",
         "endParagraph": "If you wish to repeat this, you can access them back on Settings."
+    },
+    "save": {
+        "header": "Save",
+        "note-1-desktop": "If the download hasn't started, right click the image below and save.",
+        "note-1-phone": "If the download hasn't started, tap and hold the image below and save.",
+        "note-2": "You can disable this window on Settings."
     },
     "error": {
         "header": "Error",
