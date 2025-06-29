@@ -18,7 +18,7 @@ const CONFIG = {
     TRIANGLE_SPAWN_AREA_X_FACTOR: 0.8,
     TRIANGLE_SPAWN_AREA_Y_FACTOR: 0.5,
 
-    MAX_ACTIVE_TRIANGLES: 20,
+    MAX_ACTIVE_TRIANGLES: 15,
 };
 
 class TriangleParticle extends PIXI.Graphics {
@@ -107,10 +107,83 @@ class TriangleParticle extends PIXI.Graphics {
     }
 }
 
+class HologramLightEffect extends PIXI.Container {
+    light: PIXI.Graphics;
+    gradientTexture: PIXI.Texture;
+    elapsed: number = 0;
+    color: number;
+
+    constructor(width: number, height: number, color: number = 0xffffff) {
+        super();
+        this.width = width;
+        this.height = height;
+        this.color = color;
+
+        this.gradientTexture = this.createGradientTexture(width, height, color);
+        this.light = new PIXI.Graphics();
+        this.light.beginTextureFill({ texture: this.gradientTexture });
+        // this.light.beginFill(color);
+        this.light.moveTo(width / 3, height);
+        this.light.lineTo(0, 0);
+        this.light.lineTo(width, 0);
+        this.light.lineTo((2 * width) / 3, height);
+        this.light.endFill();
+        this.light.alpha = 0.5;
+        this.addChild(this.light);
+    }
+
+    private createGradientTexture(
+        width: number,
+        height: number,
+        color: number
+    ): PIXI.Texture {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d")!;
+        const gradient = ctx.createLinearGradient(
+            width / 2,
+            height,
+            width / 2,
+            0
+        );
+        gradient.addColorStop(0, PIXI.utils.hex2string(color) + "ff"); // semi-transparent
+        gradient.addColorStop(0.5, PIXI.utils.hex2string(color) + "aa");
+        gradient.addColorStop(0.7, PIXI.utils.hex2string(color) + "00");
+        gradient.addColorStop(1, PIXI.utils.hex2string(color) + "00");
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.moveTo(width / 3, height);
+        ctx.lineTo(0, 0);
+        ctx.lineTo(width, 0);
+        ctx.lineTo((2 * width) / 3, height);
+        ctx.closePath();
+        ctx.fill();
+        return PIXI.Texture.from(canvas);
+    }
+
+    update(delta: number) {
+        this.elapsed += delta;
+        // Flicker and shimmer
+        this.light.alpha = 0.4 + 0.1 * Math.sin(this.elapsed * 0.1);
+        this.light.scale.x = 1 + 0.02 * Math.sin(this.elapsed * 0.13);
+        this.light.scale.y = 1 + 0.03 * Math.cos(this.elapsed * 0.17);
+        this.light.x = 2 * Math.sin(this.elapsed * 0.07);
+    }
+}
+
+const spawnHologram = (character: Live2DModel<InternalModel>) => {
+    const bounds = character.getLocalBounds();
+
+    const hologram = new HologramLightEffect(bounds.width, bounds.height);
+    character.addChild(hologram);
+
+    return hologram;
+};
+
 const spawnTriangle = (
     character: Live2DModel<InternalModel>,
-    activeTriangles: TriangleParticle[],
-    modelkey: string
+    activeTriangles: TriangleParticle[]
 ) => {
     if (activeTriangles.length >= CONFIG.MAX_ACTIVE_TRIANGLES) {
         return;
@@ -125,7 +198,6 @@ const spawnTriangle = (
     const centerY = (bounds.y + bounds.height) / 2;
     const scatterRangeY = bounds.height * CONFIG.TRIANGLE_SPAWN_AREA_Y_FACTOR;
     const spawnY = centerY + (Math.random() - 0.5) * scatterRangeY;
-    console.log(modelkey, bounds.height, bounds.width, spawnX, spawnY);
 
     const color =
         CONFIG.TRIANGLE_COLORS[
@@ -177,6 +249,7 @@ interface activeParticleTickerFunctionsInterface {
     activeTriangles: TriangleParticle[];
     particleFunction: ((delta: number) => void) | null;
     lastTriangleSpawnTime: number;
+    hologram: HologramLightEffect;
 }
 
 const activeParticleTickerList: Record<
@@ -200,7 +273,7 @@ const particleFunction = (
                 now - lastTriangleSpawnTime >
                 CONFIG.TRIANGLE_SPAWN_INTERVAL_MS
             ) {
-                spawnTriangle(model, activeTriangles, modelkey);
+                spawnTriangle(model, activeTriangles);
                 activeParticleTickerList[modelkey].lastTriangleSpawnTime = now;
             }
         }
@@ -233,6 +306,7 @@ export const virtualEffectParticles = (
 ) => {
     if (show) {
         const activeTriangles: TriangleParticle[] = [];
+        const hologram = spawnHologram(model);
         const lastTriangleSpawnTime = 1;
 
         const newParticleFunction = (delta: number) => {
@@ -246,6 +320,7 @@ export const virtualEffectParticles = (
                 activeTriangles: activeTriangles,
                 particleFunction: newParticleFunction,
                 lastTriangleSpawnTime: lastTriangleSpawnTime,
+                hologram: hologram,
             };
         }
 
@@ -268,6 +343,11 @@ export const virtualEffectParticles = (
                     triangle.destroy();
                 }
             }
+        }
+        if (activeParticleTickerList[modelkey]?.hologram) {
+            const hologram = activeParticleTickerList[modelkey]?.hologram;
+            hologram.parent.removeChild(hologram);
+            hologram.destroy();
         }
 
         // if (_particleTickerFunction) {
