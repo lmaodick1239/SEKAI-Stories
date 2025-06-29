@@ -263,6 +263,7 @@ const ModelSidebar: React.FC = () => {
             initialState ? 640 : currentModel?.modelX,
             initialState ? 870 : currentModel?.modelY
         );
+        live2DModel.angle = currentModel?.modelRotation ?? 0;
         currentModel?.model.destroy();
         modelContainer?.addChildAt(live2DModel, layerIndex);
 
@@ -298,6 +299,7 @@ const ModelSidebar: React.FC = () => {
                 model: sprite,
                 modelX: 640,
                 modelY: 870,
+                modelRotation: 0,
                 modelScale: 0.5,
                 virtualEffect: false,
                 expression: 99999,
@@ -337,6 +339,7 @@ const ModelSidebar: React.FC = () => {
                 model: sprite,
                 modelX: 960,
                 modelY: 540,
+                modelRotation: 0,
                 modelScale: sprite.scale.x,
                 virtualEffect: false,
                 expression: 99999,
@@ -614,6 +617,16 @@ const ModelSidebar: React.FC = () => {
         updateModelState({ modelScale: scale });
     };
 
+    const handleRotationTransform = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const rotation = Number(event?.target.value);
+        if (currentModel?.model) {
+            currentModel.model.angle = rotation;
+        }
+        updateModelState({ modelRotation: rotation });
+    };
+
     const handleVisible = (event: React.ChangeEvent<HTMLInputElement>) => {
         const visible = Boolean(event?.target.checked);
         if (currentModel?.model) {
@@ -625,6 +638,7 @@ const ModelSidebar: React.FC = () => {
     const handleTransformChange = async (type: string) => {
         const inputChange = prompt("Enter a value");
         if (inputChange == null || isNaN(Number(inputChange))) return;
+        if (!currentModel?.model) return;
         const toChange = Number(inputChange);
 
         switch (type) {
@@ -641,6 +655,11 @@ const ModelSidebar: React.FC = () => {
             case "scale": {
                 currentModel?.model.scale.set(toChange, toChange);
                 updateModelState({ modelScale: toChange });
+                break;
+            }
+            case "rotation": {
+                currentModel.model.angle = toChange;
+                updateModelState({ modelRotation: toChange });
                 break;
             }
         }
@@ -1157,13 +1176,39 @@ const ModelSidebar: React.FC = () => {
                             </div>
                             <input
                                 type="range"
-                                name="x-value"
-                                id="x-value"
+                                name="scale"
+                                id="scale"
                                 min={0}
                                 max={1}
                                 step={0.01}
                                 value={currentModel?.modelScale}
                                 onChange={handleScaleTransform}
+                            />
+                        </div>
+                        <div className="option__content">
+                            <div className="transform-icons">
+                                <h3>
+                                    {t("model.rotation")} (
+                                    {currentModel?.modelRotation})
+                                </h3>
+                                <div>
+                                    <i
+                                        className="bi bi-pencil-fill"
+                                        onClick={() =>
+                                            handleTransformChange("rotation")
+                                        }
+                                    ></i>
+                                </div>
+                            </div>
+                            <input
+                                type="range"
+                                name="rotation"
+                                id="rotation"
+                                min={0}
+                                max={360}
+                                step={1}
+                                value={currentModel?.modelRotation}
+                                onChange={handleRotationTransform}
                             />
                         </div>
                         <div className="option__content">

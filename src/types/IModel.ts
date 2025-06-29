@@ -9,6 +9,7 @@ export default interface IModel {
     modelX: number;
     modelY: number;
     modelScale: number;
+    modelRotation: number;
     virtualEffect: boolean;
     modelData: ILive2DModelData | undefined;
     expression: number | undefined;

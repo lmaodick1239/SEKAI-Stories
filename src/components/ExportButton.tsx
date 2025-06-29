@@ -253,6 +253,7 @@ const ExportButton: React.FC = () => {
                     modelX: live2DModel.x,
                     modelY: live2DModel.y,
                     modelScale: live2DModel.scale.x,
+                    modelRotation: 0,
                     modelData: modelData,
                     virtualEffect: false,
                     expression: model.modelExpression,

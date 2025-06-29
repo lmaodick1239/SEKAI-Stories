@@ -45,6 +45,7 @@
         "x-position": "X-Position",
         "y-position": "Y-Position",
         "scale": "Scale",
+        "rotation": "Rotation",
         "mouth": "Mouth",
         "ParamMouthForm": "Primary Shape",
         "ParamMouthOpenY": "Opening",

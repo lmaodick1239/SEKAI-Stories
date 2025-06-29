@@ -218,6 +218,7 @@ const LoadModel = async (
                 modelX: sprite.x,
                 modelY: sprite.y,
                 modelScale: sprite.scale.x,
+                modelRotation: 0,
                 modelData: undefined,
                 virtualEffect: false,
                 expression: 0,
