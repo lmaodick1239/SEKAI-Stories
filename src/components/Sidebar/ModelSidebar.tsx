@@ -18,13 +18,16 @@ import { ILive2DModelList } from "../../types/ILive2DModelList";
 import AddModelSelect from "../AddModelSelect";
 import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
-import { AdjustmentFilter, CRTFilter } from "pixi-filters";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import Window from "../UI/Window";
 import { ILive2DParameterJsonSave } from "../../types/ILive2DParameterJsonSave";
 import { ValidateLive2DParameterJsonSave } from "../../utils/ValidateJsonSave";
 import { SoftErrorContext } from "../../contexts/SoftErrorContext";
 import { useAudioManager } from "../../utils/useAudioManager";
+import {
+    virtualEffectParticles,
+    virtualEffectCRT,
+} from "../../utils/VirtualEffect";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -87,6 +90,7 @@ const ModelSidebar: React.FC = () => {
     }
 
     const {
+        app,
         models,
         setModels,
         modelContainer,
@@ -315,7 +319,7 @@ const ModelSidebar: React.FC = () => {
         setLayerIndex(layers);
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
-        setInitialState(false)
+        setInitialState(false);
     };
 
     const handleUploadImage = async (file: File) => {
@@ -425,7 +429,6 @@ const ModelSidebar: React.FC = () => {
                 layerIndex
             );
 
-
             updateModelState({
                 character,
                 model: live2DModel,
@@ -448,7 +451,7 @@ const ModelSidebar: React.FC = () => {
                         : currentModel.from,
             });
             setSelectedParameter({ idx: -1, param: "_" });
-            setInitialState(false)
+            setInitialState(false);
         } catch (error) {
             setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
@@ -463,6 +466,7 @@ const ModelSidebar: React.FC = () => {
 
     const handleCostumeChange = async (value: string) => {
         setLoading(true);
+
         const modelBase = value;
 
         if (!currentModel) return;
@@ -528,34 +532,19 @@ const ModelSidebar: React.FC = () => {
         }
     };
 
-    const handleVirtualEffect = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const value = event.target.checked;
+    const handleVirtualEffect = (value: boolean) => {
+        if (!currentModel) return;
+
+        virtualEffectParticles(
+            currentModel.model as Live2DModel,
+            currentKey,
+            app as PIXI.Application,
+            value
+        );
 
         if (value && currentModel?.model) {
-            const crtFilter = new CRTFilter({
-                time: 2,
-                lineWidth: 10,
-                lineContrast: 0.1,
-                vignetting: 0,
-            });
-            const animateCRT = () => {
-                crtFilter.time += 0.2;
-                crtFilter.lineWidth = 10 + 5 * Math.sin(crtFilter.time * 0.01);
-                crtFilter.seed = Math.random();
-                requestAnimationFrame(animateCRT);
-            };
+            const [crtFilter, adjustmentFilter] = virtualEffectCRT();
 
-            const adjustmentFilter = new AdjustmentFilter({
-                alpha: 0.8,
-                brightness: 1.2,
-                blue: 1,
-                green: 1,
-                red: 0.7,
-            });
-
-            animateCRT();
             currentModel.model.filters = [crtFilter, adjustmentFilter];
         } else {
             if (currentModel?.model) {
@@ -966,15 +955,17 @@ const ModelSidebar: React.FC = () => {
                                 </select>
                                 <Checkbox
                                     id="virtual-effect"
-                                    label="Virtual Effect"
+                                    label="Virtual Effect (beta)"
                                     checked={currentModel.virtualEffect}
-                                    onChange={handleVirtualEffect}
+                                    onChange={(event) => {
+                                        const value = event.target.checked;
+                                        handleVirtualEffect(value);
+                                    }}
                                 />
                             </div>
                         )}
                     </div>
 
-                    
                     <div
                         className="option"
                         onClick={() => {
