@@ -12,6 +12,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
     const [showTutorial, setShowTutorial] = useState<boolean>(false);
     const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false);
+    const [blankCanvas, setBlankCanvas] = useState<boolean>(false);
     const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [openAll, setOpenAll] = useState<boolean>(false);
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
@@ -43,6 +44,10 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
         if (!saveDialogCookie || saveDialogCookie === "true") {
             setShowSaveDialog(true);
         }
+        const blankCanvasCookie = localStorage.getItem("blankCanvas");
+        if (blankCanvasCookie === "true") {
+            setBlankCanvas(true);
+        }
     }, []);
 
     useEffect(() => {
@@ -60,6 +65,8 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
                 setHideAnnouncements,
                 showTutorial,
                 setShowTutorial,
+                blankCanvas,
+                setBlankCanvas,
                 showExperimental,
                 setShowExperimental,
                 showSaveDialog,

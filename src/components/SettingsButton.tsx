@@ -30,6 +30,8 @@ const SettingsButton: React.FC = () => {
         setShowExperimental,
         showSaveDialog,
         setShowSaveDialog,
+        blankCanvas,
+        setBlankCanvas,
         setShowTutorial,
         audio,
         setAudio,
@@ -92,6 +94,11 @@ const SettingsButton: React.FC = () => {
         const value = e.target.checked;
         localStorage.setItem("saveDialog", String(value));
         setShowSaveDialog(value);
+    };
+    const handleBlankCanvas = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("blankCanvas", String(value));
+        setBlankCanvas(value);
     };
 
     return (
@@ -167,6 +174,12 @@ const SettingsButton: React.FC = () => {
                                 label={t("settings.saveDialog")}
                                 checked={showSaveDialog}
                                 onChange={handleSaveDialog}
+                            />
+                            <Checkbox
+                                id="blankCanvas"
+                                label={t("settings.blankCanvas")}
+                                checked={blankCanvas}
+                                onChange={handleBlankCanvas}
                             />
                             <Checkbox
                                 id="expand"

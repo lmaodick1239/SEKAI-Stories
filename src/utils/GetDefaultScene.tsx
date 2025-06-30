@@ -7,6 +7,7 @@ import { Assets } from "@pixi/assets";
 interface GetDefaultSceneProps {
     app: PIXI.Application | undefined;
     setStartingMessage: Dispatch<SetStateAction<string>>;
+    scene?: string;
 }
 interface InitialScene {
     background: string;
@@ -81,6 +82,20 @@ const randomInitialScene: InitialScene[] = [
 const LoadInitialScene = (scene?: string): InitialScene => {
     const date = new Date();
     const month = date.getMonth() + 1;
+
+    if (scene === "blank") {
+        return {
+            background: "/background_compressed/bg00026.jpg",
+            model: "01ichika_cloth001",
+            text: "<insert text here>",
+            nameTag: "<name>",
+            character: "custom",
+            modelX: 960,
+            modelY: 550,
+            pngName: "blank",
+            sceneText: "<white>",
+        };
+    }
 
     if (month == 10) {
         return {
@@ -344,8 +359,9 @@ const LoadGuideline = async (app: PIXI.Application, childAt: number) => {
 export const LoadScene = async ({
     app,
     setStartingMessage,
+    scene,
 }: GetDefaultSceneProps) => {
-    const initialScene: InitialScene = LoadInitialScene();
+    const initialScene: InitialScene = LoadInitialScene(scene);
 
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
