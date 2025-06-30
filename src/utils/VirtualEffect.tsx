@@ -121,7 +121,7 @@ class HologramLightEffect extends PIXI.Container {
         this.color = color;
 
         this.light = new PIXI.Graphics();
-        this.light.alpha = 0.5;
+        this.light.alpha = 0.7;
         this.addChild(this.light);
         HologramLightEffect.addTexture(this.light, width, height);
     }
@@ -133,27 +133,28 @@ class HologramLightEffect extends PIXI.Container {
     ): Promise<void> {
         const sprite = await getBackground("/img/hologram_texture.png", false);
         light.clear();
-        light.beginTextureFill({ texture: sprite.texture,
+        light.beginTextureFill({
+            texture: sprite.texture,
             matrix: new PIXI.Matrix().scale(
                 width / sprite.texture.width,
                 height / sprite.texture.height
-            )
-         });
+            ),
+        });
         light.moveTo(width / 3, height);
         light.lineTo(0, 0);
         light.lineTo(width, 0);
         light.lineTo((2 * width) / 3, height);
         light.closePath();
         light.endFill();
+        light.pivot.set(width / 2, height / 2);
+        light.position.set(width / 2, height / 2);
     }
 
     update(delta: number) {
         this.elapsed += delta;
-        // Flicker and shimmer
-        this.light.alpha = 0.4 + 0.1 * Math.sin(this.elapsed * 0.1);
-        this.light.scale.x = 1 + 0.02 * Math.sin(this.elapsed * 0.13);
-        this.light.scale.y = 1 + 0.03 * Math.cos(this.elapsed * 0.17);
-        this.light.x = 2 * Math.sin(this.elapsed * 0.07);
+        this.light.alpha = 0.9 + 0.1 * Math.sin(this.elapsed * 0.1);
+        this.light.scale.x = 1 + 0.01 * Math.sin(this.elapsed * 0.1);
+        // this.light.scale.y = 1 + 0.03 * Math.cos(this.elapsed * 0.17);
     }
 }
 
@@ -162,6 +163,13 @@ const spawnHologram = (character: Live2DModel<InternalModel>) => {
 
     const hologram = new HologramLightEffect(bounds.width, bounds.height);
     character.addChild(hologram);
+
+    const animateHologram = () => {
+        hologram.update(0.1);
+        requestAnimationFrame(animateHologram);
+    };
+
+    animateHologram();
 
     return hologram;
 };
@@ -351,7 +359,7 @@ export const virtualEffectCRT = () => {
     });
     const animateCRT = () => {
         crtFilter.time += 0.2;
-        crtFilter.lineWidth = 10 + 5 * Math.sin(crtFilter.time * 0.01);
+        crtFilter.lineWidth = 7 + 5 * Math.sin(crtFilter.time * 0.01);
         crtFilter.seed = Math.random();
         requestAnimationFrame(animateCRT);
     };
