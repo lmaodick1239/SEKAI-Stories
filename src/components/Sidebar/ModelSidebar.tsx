@@ -129,6 +129,8 @@ const ModelSidebar: React.FC = () => {
     const [deleteWarnWindow, setDeleteWarnWindow] = useState<boolean>(false);
     const [live2DChangedWarnWindow, setLive2DChangedWarnWindow] =
         useState<boolean>(false);
+    const [copiedParametersWindow, setCopiedParametersWindow] =
+        useState<boolean>(false);
     const [live2DChangedFunction, setLive2DChangedFunction] = useState<
         (() => void) | undefined
     >(undefined);
@@ -216,6 +218,15 @@ const ModelSidebar: React.FC = () => {
             ...prevModel!,
             ...updates,
         }));
+    };
+
+    const copyEmotionParameters = () => {
+        if (!coreModel || !currentModel) return;
+        coreModel["_parameterIds"].map((param: string) => {
+            const value = coreModel.getParameterValueById(param);
+            currentModel.parametersChanged[param] = value;
+        });
+        setCopiedParametersWindow(true);
     };
 
     const loadModel = async (
@@ -1373,7 +1384,7 @@ const ModelSidebar: React.FC = () => {
                                             "model.live2d-import-export-description"
                                         )}
                                     </p>
-                                    <div className="padding-top-bottom-10">
+                                    <div>
                                         <button
                                             className="btn-regular btn-100 btn-blue"
                                             onClick={handleImportLive2DParams}
@@ -1385,6 +1396,21 @@ const ModelSidebar: React.FC = () => {
                                             onClick={handleExportLive2DParams}
                                         >
                                             {t("model.export")}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="option__content">
+                                    <h3>Emotions</h3>
+                                    <p>
+                                        This will copy all parameters from the
+                                        expression and pose you set.
+                                    </p>
+                                    <div>
+                                        <button
+                                            className="btn-regular btn-100 btn-blue"
+                                            onClick={copyEmotionParameters}
+                                        >
+                                            Copy
                                         </button>
                                     </div>
                                 </div>
@@ -1409,6 +1435,25 @@ const ModelSidebar: React.FC = () => {
                 <Window show={setDeleteWarnWindow}>
                     <div className="window__content">
                         <p>{t("model.delete-model-warn")}</p>
+                    </div>
+                </Window>
+            )}
+            {copiedParametersWindow && (
+                <Window show={setCopiedParametersWindow} id="export-screen">
+                    <div className="window__content">
+                        <h1>Parameters</h1>
+                        <p>
+                            The emotion parameters have successfully been
+                            copied.
+                        </p>
+                        <textarea
+                            name=""
+                            id=""
+                            value={JSON.stringify(
+                                currentModel?.parametersChanged, null,2
+                            )}
+                            readOnly
+                        ></textarea>
                     </div>
                 </Window>
             )}
