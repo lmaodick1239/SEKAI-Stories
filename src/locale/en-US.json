@@ -167,7 +167,8 @@
         "expand": "Expand all menu options",
         "tutorial": "Tutorial",
         "show-tutorial": "Show one more time",
-        "saveDialog": "Show save dialog"
+        "saveDialog": "Show save dialog",
+        "blankCanvas": "Start with a blank canvas"
     },
     "import-export": {
         "header": "Import/Export",

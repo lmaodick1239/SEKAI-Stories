@@ -15,15 +15,15 @@ i18nInit();
 createRoot(document.getElementById("root")!).render(
     <I18nextProvider i18n={i18n}>
         <SoftErrorProvider>
-            <SceneProvider>
-                <SettingsProvider>
+            <SettingsProvider>
+                <SceneProvider>
                     <ErrorBoundary
                         fallbackRender={(props) => <ErrorFallback {...props} />}
                     >
                         <App />
                     </ErrorBoundary>
-                </SettingsProvider>
-            </SceneProvider>
+                </SceneProvider>
+            </SettingsProvider>
         </SoftErrorProvider>
     </I18nextProvider>
 );
