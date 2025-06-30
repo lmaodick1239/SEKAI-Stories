@@ -64,10 +64,16 @@
         "import-export": "Import/Export",
         "import": "Import",
         "export": "Export",
-        "live2d-import-export-description": "You can save your Live2D adjustments as a JSON file and apply it on other models.",
+        "copy": "Copy",
+        "live2d-import-export-description": "You can save the adjustments you made and load it to another model.",
         "live2d-tooltip": "You can use your arrow keys to select and adjust parameters.",
         "live2d-changed-warn": "You have custom Live2D parameter adjustments. Continuing will discard them!",
+        "emotion-copy": "Emotion Copy",
+        "emotion-copy-description": "This will copy all parameters from the expression and pose you set.",
+        "emotion-copy-confirm-header": "Copied!",
+        "emotion-copy-confirm-description": "The emotion parameters have successfully been copied.",
         "long-wait": "If the model is taking too long to load, consider getting models from SEKAI Stories instead.",
+
         "advanced": "Advanced"
     },
 

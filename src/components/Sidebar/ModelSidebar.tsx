@@ -1400,17 +1400,14 @@ const ModelSidebar: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="option__content">
-                                    <h3>Emotions</h3>
-                                    <p>
-                                        This will copy all parameters from the
-                                        expression and pose you set.
-                                    </p>
+                                    <h3>{t("model.emotion-copy")}</h3>
+                                    <p>{t("model.emotion-copy-description")}</p>
                                     <div>
                                         <button
                                             className="btn-regular btn-100 btn-blue"
                                             onClick={copyEmotionParameters}
                                         >
-                                            Copy
+                                            {t("model.copy")}
                                         </button>
                                     </div>
                                 </div>
@@ -1441,16 +1438,15 @@ const ModelSidebar: React.FC = () => {
             {copiedParametersWindow && (
                 <Window show={setCopiedParametersWindow} id="export-screen">
                     <div className="window__content">
-                        <h1>Parameters</h1>
-                        <p>
-                            The emotion parameters have successfully been
-                            copied.
-                        </p>
+                        <h1>{t("model.emotion-copy-confirm-header")}</h1>
+                        <p>{t("model.emotion-copy-confirm-description")}</p>
                         <textarea
                             name=""
                             id=""
                             value={JSON.stringify(
-                                currentModel?.parametersChanged, null,2
+                                currentModel?.parametersChanged,
+                                null,
+                                2
                             )}
                             readOnly
                         ></textarea>
