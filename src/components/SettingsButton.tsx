@@ -7,6 +7,7 @@ import { SettingsContext } from "../contexts/SettingsContext";
 import Window from "./UI/Window";
 import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
+import packageJson from "../../package.json";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -185,6 +186,9 @@ const SettingsButton: React.FC = () => {
                                 checked={showExperimental}
                                 onChange={handleExperimental}
                             />
+                        </div>
+                        <div className="window__divider center">
+                            <p>{"v" + packageJson.version}</p>
                         </div>
                     </div>
                 </Window>
