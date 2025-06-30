@@ -1,5 +1,12 @@
+# 5.4.0
+Release date: July 4, 2025
+- Revamped Virtual Effect
+- Added ability to rotate model
+- Allow copying of emotion parameters
+- Show window dialog when saving
+
 # 5.3.2
-Release date: July 25, 2025
+Release date: June 25, 2025
 - Allow user to change character on the initial sprite
 
 # 5.3.1
