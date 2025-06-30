@@ -1,6 +1,7 @@
 import { AdjustmentFilter, CRTFilter } from "pixi-filters";
 import { InternalModel, Live2DModel } from "pixi-live2d-display";
 import * as PIXI from "pixi.js";
+import { getBackground } from "./GetBackground";
 
 const CONFIG = {
     TRIANGLE_COLORS: [0xff00ff, 0x00ffff, 0xffff00],
@@ -109,57 +110,41 @@ class TriangleParticle extends PIXI.Graphics {
 
 class HologramLightEffect extends PIXI.Container {
     light: PIXI.Graphics;
-    gradientTexture: PIXI.Texture;
     elapsed: number = 0;
     color: number;
 
     constructor(width: number, height: number, color: number = 0xffffff) {
         super();
+
         this.width = width;
         this.height = height;
         this.color = color;
 
-        this.gradientTexture = this.createGradientTexture(width, height, color);
         this.light = new PIXI.Graphics();
-        this.light.beginTextureFill({ texture: this.gradientTexture });
-        // this.light.beginFill(color);
-        this.light.moveTo(width / 3, height);
-        this.light.lineTo(0, 0);
-        this.light.lineTo(width, 0);
-        this.light.lineTo((2 * width) / 3, height);
-        this.light.endFill();
         this.light.alpha = 0.5;
         this.addChild(this.light);
+        HologramLightEffect.addTexture(this.light, width, height);
     }
 
-    private createGradientTexture(
+    private static async addTexture(
+        light: PIXI.Graphics,
         width: number,
-        height: number,
-        color: number
-    ): PIXI.Texture {
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d")!;
-        const gradient = ctx.createLinearGradient(
-            width / 2,
-            height,
-            width / 2,
-            0
-        );
-        gradient.addColorStop(0, PIXI.utils.hex2string(color) + "ff"); // semi-transparent
-        gradient.addColorStop(0.5, PIXI.utils.hex2string(color) + "aa");
-        gradient.addColorStop(0.7, PIXI.utils.hex2string(color) + "00");
-        gradient.addColorStop(1, PIXI.utils.hex2string(color) + "00");
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.moveTo(width / 3, height);
-        ctx.lineTo(0, 0);
-        ctx.lineTo(width, 0);
-        ctx.lineTo((2 * width) / 3, height);
-        ctx.closePath();
-        ctx.fill();
-        return PIXI.Texture.from(canvas);
+        height: number
+    ): Promise<void> {
+        const sprite = await getBackground("/img/hologram_texture.png", false);
+        light.clear();
+        light.beginTextureFill({ texture: sprite.texture,
+            matrix: new PIXI.Matrix().scale(
+                width / sprite.texture.width,
+                height / sprite.texture.height
+            )
+         });
+        light.moveTo(width / 3, height);
+        light.lineTo(0, 0);
+        light.lineTo(width, 0);
+        light.lineTo((2 * width) / 3, height);
+        light.closePath();
+        light.endFill();
     }
 
     update(delta: number) {
