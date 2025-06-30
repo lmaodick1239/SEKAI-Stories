@@ -218,6 +218,8 @@
         "live2dParagraph": "You can customize your own poses by tweaking the Live2D parameters and pause the idle animation.",
         "importExportHeader": "Import/Export",
         "importExportParagraph": "You can also save the adjustments you made and load it to another model.",
+        "emotionCopyHeader": "Emotion Copy",
+        "emotionCopyParagraph": "Copies the Live2D Parameters of the current expression and pose you set.",
         "saveHeader": "Once you're done, save your work!",
         "sceneImportExportParagraph": "This will allow you to save and load your entire scene as an editable format.",
         "endHeader": "And that's it!",
