@@ -45,6 +45,7 @@
         "x-position": "X-Position",
         "y-position": "Y-Position",
         "scale": "Scale",
+        "rotation": "Rotation",
         "mouth": "Mouth",
         "ParamMouthForm": "Primary Shape",
         "ParamMouthOpenY": "Opening",
@@ -63,10 +64,16 @@
         "import-export": "Import/Export",
         "import": "Import",
         "export": "Export",
-        "live2d-import-export-description": "You can save your Live2D adjustments as a JSON file and apply it on other models.",
+        "copy": "Copy",
+        "live2d-import-export-description": "You can save the adjustments you made and load it to another model.",
         "live2d-tooltip": "You can use your arrow keys to select and adjust parameters.",
         "live2d-changed-warn": "You have custom Live2D parameter adjustments. Continuing will discard them!",
+        "emotion-copy": "Emotion Copy",
+        "emotion-copy-description": "This will copy all parameters from the expression and pose you set.",
+        "emotion-copy-confirm-header": "Copied!",
+        "emotion-copy-confirm-description": "The emotion parameters have successfully been copied.",
         "long-wait": "If the model is taking too long to load, consider getting models from SEKAI Stories instead.",
+
         "advanced": "Advanced"
     },
 
@@ -159,7 +166,9 @@
         "experimental": "Show experimental",
         "expand": "Expand all menu options",
         "tutorial": "Tutorial",
-        "show-tutorial": "Show one more time"
+        "show-tutorial": "Show one more time",
+        "saveDialog": "Show save dialog",
+        "blankCanvas": "Start with a blank canvas"
     },
     "import-export": {
         "header": "Import/Export",
@@ -216,10 +225,18 @@
         "live2dParagraph": "You can customize your own poses by tweaking the Live2D parameters and pause the idle animation.",
         "importExportHeader": "Import/Export",
         "importExportParagraph": "You can also save the adjustments you made and load it to another model.",
+        "emotionCopyHeader": "Emotion Copy",
+        "emotionCopyParagraph": "Copies the Live2D Parameters of the current expression and pose you set.",
         "saveHeader": "Once you're done, save your work!",
         "sceneImportExportParagraph": "This will allow you to save and load your entire scene as an editable format.",
         "endHeader": "And that's it!",
         "endParagraph": "If you wish to repeat this, you can access them back on Settings."
+    },
+    "save": {
+        "header": "Save",
+        "note-1-desktop": "If the download hasn't started, right click the image below and save.",
+        "note-1-phone": "If the download hasn't started, tap and hold the image below and save.",
+        "note-2": "You can disable this window on Settings."
     },
     "error": {
         "header": "Error",

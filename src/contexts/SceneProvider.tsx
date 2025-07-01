@@ -12,6 +12,7 @@ import { ISplitBackground } from "../types/ISplitBackground";
 import { LoadScene } from "../utils/GetDefaultScene";
 import { SoftErrorContext } from "./SoftErrorContext";
 import { useTranslation } from "react-i18next";
+import { SettingsContext } from "./SettingsContext";
 
 interface SceneProviderProps {
     children: React.ReactNode;
@@ -19,11 +20,13 @@ interface SceneProviderProps {
 
 export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const softError = useContext(SoftErrorContext);
+    const settings = useContext(SettingsContext);
     const { t } = useTranslation();
 
-    if (!softError) throw new Error("Context not loaded");
+    if (!softError || !settings) throw new Error("Context not loaded");
 
     const { setErrorInformation } = softError;
+    const { blankCanvas } = settings;
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel> | undefined>(
         undefined
@@ -58,7 +61,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const [initialState, setInitialState] = useState<boolean>(true);
 
     const runCanvas = async () => {
-        console.log(`Load Scene = ${reset}`);
+        const blankCanvasCookie = localStorage.getItem("blankCanvas");
 
         const {
             app: initApplication,
@@ -71,7 +74,13 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             text,
             sceneText,
             guideline,
-        } = await LoadScene({ app, setStartingMessage });
+        } = await LoadScene({
+            app,
+            setStartingMessage,
+            ...(blankCanvas || blankCanvasCookie === "true"
+                ? { scene: "blank" }
+                : {}),
+        });
 
         setApp(initApplication);
         setModels(model);

@@ -9,8 +9,12 @@ export default interface ISettingsContextType {
     setHideAnnouncements: Dispatch<SetStateAction<boolean>>;
     showTutorial: boolean;
     setShowTutorial: Dispatch<SetStateAction<boolean>>;
+    blankCanvas: boolean;
+    setBlankCanvas: Dispatch<SetStateAction<boolean>>;
     showExperimental: boolean;
     setShowExperimental: Dispatch<SetStateAction<boolean>>;
+    showSaveDialog: boolean;
+    setShowSaveDialog: Dispatch<SetStateAction<boolean>>;
     openAll: boolean;
     setOpenAll: Dispatch<SetStateAction<boolean>>;
     openTextOption: string;

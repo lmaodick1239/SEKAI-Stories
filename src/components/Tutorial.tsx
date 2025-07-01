@@ -404,6 +404,15 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                                     alt=""
                                 />
                             </div>
+                            <h3>{t("tutorial.emotionCopyHeader")}</h3>
+                            <p>{t("tutorial.emotionCopyParagraph")}</p>
+                            <div className="window__divider center">
+                                <img
+                                    src="/img/menu4-4.png"
+                                    className="outline-blue-4 center"
+                                    alt=""
+                                />
+                            </div>
                         </div>
                     </div>
                 </Window>

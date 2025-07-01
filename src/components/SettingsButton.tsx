@@ -7,6 +7,7 @@ import { SettingsContext } from "../contexts/SettingsContext";
 import Window from "./UI/Window";
 import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
+import packageJson from "../../package.json";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -27,9 +28,13 @@ const SettingsButton: React.FC = () => {
         setOpenAll,
         showExperimental,
         setShowExperimental,
+        showSaveDialog,
+        setShowSaveDialog,
+        blankCanvas,
+        setBlankCanvas,
         setShowTutorial,
         audio,
-        setAudio
+        setAudio,
     } = settings;
     const { setErrorInformation } = softError;
 
@@ -84,6 +89,16 @@ const SettingsButton: React.FC = () => {
         const value = e.target.checked;
         localStorage.setItem("audio", String(value));
         setAudio(value);
+    };
+    const handleSaveDialog = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("saveDialog", String(value));
+        setShowSaveDialog(value);
+    };
+    const handleBlankCanvas = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("blankCanvas", String(value));
+        setBlankCanvas(value);
     };
 
     return (
@@ -155,6 +170,18 @@ const SettingsButton: React.FC = () => {
                                 onChange={handleAudio}
                             />
                             <Checkbox
+                                id="saveDialog"
+                                label={t("settings.saveDialog")}
+                                checked={showSaveDialog}
+                                onChange={handleSaveDialog}
+                            />
+                            <Checkbox
+                                id="blankCanvas"
+                                label={t("settings.blankCanvas")}
+                                checked={blankCanvas}
+                                onChange={handleBlankCanvas}
+                            />
+                            <Checkbox
                                 id="expand"
                                 label={t("settings.expand")}
                                 checked={openAll}
@@ -172,6 +199,9 @@ const SettingsButton: React.FC = () => {
                                 checked={showExperimental}
                                 onChange={handleExperimental}
                             />
+                        </div>
+                        <div className="window__divider center">
+                            <p>{"v" + packageJson.version}</p>
                         </div>
                     </div>
                 </Window>

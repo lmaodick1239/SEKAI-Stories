@@ -18,13 +18,16 @@ import { ILive2DModelList } from "../../types/ILive2DModelList";
 import AddModelSelect from "../AddModelSelect";
 import { useTranslation } from "react-i18next";
 import { GetCharacterDataFromSekai } from "../../utils/GetCharacterDataFromSekai";
-import { AdjustmentFilter, CRTFilter } from "pixi-filters";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import Window from "../UI/Window";
 import { ILive2DParameterJsonSave } from "../../types/ILive2DParameterJsonSave";
 import { ValidateLive2DParameterJsonSave } from "../../utils/ValidateJsonSave";
 import { SoftErrorContext } from "../../contexts/SoftErrorContext";
 import { useAudioManager } from "../../utils/useAudioManager";
+import {
+    virtualEffectParticles,
+    virtualEffectCRT,
+} from "../../utils/VirtualEffect";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -87,6 +90,7 @@ const ModelSidebar: React.FC = () => {
     }
 
     const {
+        app,
         models,
         setModels,
         modelContainer,
@@ -124,6 +128,8 @@ const ModelSidebar: React.FC = () => {
 
     const [deleteWarnWindow, setDeleteWarnWindow] = useState<boolean>(false);
     const [live2DChangedWarnWindow, setLive2DChangedWarnWindow] =
+        useState<boolean>(false);
+    const [copiedParametersWindow, setCopiedParametersWindow] =
         useState<boolean>(false);
     const [live2DChangedFunction, setLive2DChangedFunction] = useState<
         (() => void) | undefined
@@ -214,6 +220,15 @@ const ModelSidebar: React.FC = () => {
         }));
     };
 
+    const copyEmotionParameters = () => {
+        if (!coreModel || !currentModel) return;
+        coreModel["_parameterIds"].map((param: string) => {
+            const value = coreModel.getParameterValueById(param);
+            currentModel.parametersChanged[param] = value;
+        });
+        setCopiedParametersWindow(true);
+    };
+
     const loadModel = async (
         model: string | ILive2DModelList,
         layerIndex: number
@@ -259,6 +274,7 @@ const ModelSidebar: React.FC = () => {
             initialState ? 640 : currentModel?.modelX,
             initialState ? 870 : currentModel?.modelY
         );
+        live2DModel.angle = currentModel?.modelRotation ?? 0;
         currentModel?.model.destroy();
         modelContainer?.addChildAt(live2DModel, layerIndex);
 
@@ -294,6 +310,7 @@ const ModelSidebar: React.FC = () => {
                 model: sprite,
                 modelX: 640,
                 modelY: 870,
+                modelRotation: 0,
                 modelScale: 0.5,
                 virtualEffect: false,
                 expression: 99999,
@@ -315,7 +332,7 @@ const ModelSidebar: React.FC = () => {
         setLayerIndex(layers);
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
-        setInitialState(false)
+        setInitialState(false);
     };
 
     const handleUploadImage = async (file: File) => {
@@ -333,6 +350,7 @@ const ModelSidebar: React.FC = () => {
                 model: sprite,
                 modelX: 960,
                 modelY: 540,
+                modelRotation: 0,
                 modelScale: sprite.scale.x,
                 virtualEffect: false,
                 expression: 99999,
@@ -425,7 +443,6 @@ const ModelSidebar: React.FC = () => {
                 layerIndex
             );
 
-
             updateModelState({
                 character,
                 model: live2DModel,
@@ -448,7 +465,7 @@ const ModelSidebar: React.FC = () => {
                         : currentModel.from,
             });
             setSelectedParameter({ idx: -1, param: "_" });
-            setInitialState(false)
+            setInitialState(false);
         } catch (error) {
             setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
@@ -463,6 +480,7 @@ const ModelSidebar: React.FC = () => {
 
     const handleCostumeChange = async (value: string) => {
         setLoading(true);
+
         const modelBase = value;
 
         if (!currentModel) return;
@@ -528,34 +546,19 @@ const ModelSidebar: React.FC = () => {
         }
     };
 
-    const handleVirtualEffect = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const value = event.target.checked;
+    const handleVirtualEffect = (value: boolean) => {
+        if (!currentModel) return;
+
+        virtualEffectParticles(
+            currentModel.model as Live2DModel,
+            currentKey,
+            app as PIXI.Application,
+            value
+        );
 
         if (value && currentModel?.model) {
-            const crtFilter = new CRTFilter({
-                time: 2,
-                lineWidth: 10,
-                lineContrast: 0.1,
-                vignetting: 0,
-            });
-            const animateCRT = () => {
-                crtFilter.time += 0.2;
-                crtFilter.lineWidth = 10 + 5 * Math.sin(crtFilter.time * 0.01);
-                crtFilter.seed = Math.random();
-                requestAnimationFrame(animateCRT);
-            };
+            const [crtFilter, adjustmentFilter] = virtualEffectCRT();
 
-            const adjustmentFilter = new AdjustmentFilter({
-                alpha: 0.8,
-                brightness: 1.2,
-                blue: 1,
-                green: 1,
-                red: 0.7,
-            });
-
-            animateCRT();
             currentModel.model.filters = [crtFilter, adjustmentFilter];
         } else {
             if (currentModel?.model) {
@@ -625,6 +628,16 @@ const ModelSidebar: React.FC = () => {
         updateModelState({ modelScale: scale });
     };
 
+    const handleRotationTransform = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const rotation = Number(event?.target.value);
+        if (currentModel?.model) {
+            currentModel.model.angle = rotation;
+        }
+        updateModelState({ modelRotation: rotation });
+    };
+
     const handleVisible = (event: React.ChangeEvent<HTMLInputElement>) => {
         const visible = Boolean(event?.target.checked);
         if (currentModel?.model) {
@@ -636,6 +649,7 @@ const ModelSidebar: React.FC = () => {
     const handleTransformChange = async (type: string) => {
         const inputChange = prompt("Enter a value");
         if (inputChange == null || isNaN(Number(inputChange))) return;
+        if (!currentModel?.model) return;
         const toChange = Number(inputChange);
 
         switch (type) {
@@ -652,6 +666,11 @@ const ModelSidebar: React.FC = () => {
             case "scale": {
                 currentModel?.model.scale.set(toChange, toChange);
                 updateModelState({ modelScale: toChange });
+                break;
+            }
+            case "rotation": {
+                currentModel.model.angle = toChange;
+                updateModelState({ modelRotation: toChange });
                 break;
             }
         }
@@ -966,15 +985,17 @@ const ModelSidebar: React.FC = () => {
                                 </select>
                                 <Checkbox
                                     id="virtual-effect"
-                                    label="Virtual Effect"
+                                    label="Virtual Effect (beta)"
                                     checked={currentModel.virtualEffect}
-                                    onChange={handleVirtualEffect}
+                                    onChange={(event) => {
+                                        const value = event.target.checked;
+                                        handleVirtualEffect(value);
+                                    }}
                                 />
                             </div>
                         )}
                     </div>
 
-                    
                     <div
                         className="option"
                         onClick={() => {
@@ -1166,13 +1187,39 @@ const ModelSidebar: React.FC = () => {
                             </div>
                             <input
                                 type="range"
-                                name="x-value"
-                                id="x-value"
+                                name="scale"
+                                id="scale"
                                 min={0}
                                 max={1}
                                 step={0.01}
                                 value={currentModel?.modelScale}
                                 onChange={handleScaleTransform}
+                            />
+                        </div>
+                        <div className="option__content">
+                            <div className="transform-icons">
+                                <h3>
+                                    {t("model.rotation")} (
+                                    {currentModel?.modelRotation})
+                                </h3>
+                                <div>
+                                    <i
+                                        className="bi bi-pencil-fill"
+                                        onClick={() =>
+                                            handleTransformChange("rotation")
+                                        }
+                                    ></i>
+                                </div>
+                            </div>
+                            <input
+                                type="range"
+                                name="rotation"
+                                id="rotation"
+                                min={0}
+                                max={360}
+                                step={1}
+                                value={currentModel?.modelRotation}
+                                onChange={handleRotationTransform}
                             />
                         </div>
                         <div className="option__content">
@@ -1337,7 +1384,7 @@ const ModelSidebar: React.FC = () => {
                                             "model.live2d-import-export-description"
                                         )}
                                     </p>
-                                    <div className="padding-top-bottom-10">
+                                    <div>
                                         <button
                                             className="btn-regular btn-100 btn-blue"
                                             onClick={handleImportLive2DParams}
@@ -1349,6 +1396,18 @@ const ModelSidebar: React.FC = () => {
                                             onClick={handleExportLive2DParams}
                                         >
                                             {t("model.export")}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="option__content">
+                                    <h3>{t("model.emotion-copy")}</h3>
+                                    <p>{t("model.emotion-copy-description")}</p>
+                                    <div>
+                                        <button
+                                            className="btn-regular btn-100 btn-blue"
+                                            onClick={copyEmotionParameters}
+                                        >
+                                            {t("model.copy")}
                                         </button>
                                     </div>
                                 </div>
@@ -1373,6 +1432,24 @@ const ModelSidebar: React.FC = () => {
                 <Window show={setDeleteWarnWindow}>
                     <div className="window__content">
                         <p>{t("model.delete-model-warn")}</p>
+                    </div>
+                </Window>
+            )}
+            {copiedParametersWindow && (
+                <Window show={setCopiedParametersWindow} id="export-screen">
+                    <div className="window__content">
+                        <h1>{t("model.emotion-copy-confirm-header")}</h1>
+                        <p>{t("model.emotion-copy-confirm-description")}</p>
+                        <textarea
+                            name=""
+                            id=""
+                            value={JSON.stringify(
+                                currentModel?.parametersChanged,
+                                null,
+                                2
+                            )}
+                            readOnly
+                        ></textarea>
                     </div>
                 </Window>
             )}
