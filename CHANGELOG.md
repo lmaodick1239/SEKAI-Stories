@@ -1,5 +1,5 @@
 # 5.4.0
-Release date: July 4, 2025
+Release date: July 1, 2025
 - Revamped Virtual Effect
 - Added ability to rotate model
 - Allow copying of emotion parameters
