@@ -29,14 +29,23 @@ export const GetMotionData = async (
     return [motionBaseName, motionRes];
 };
 
-const getUrl = async (url: string): Promise<string> => {
+const getUrl = async (url: string): Promise<[number, string]> => {
     const headRes = await axios.head(url, {
-        validateStatus: (status) => status < 500,
+        validateStatus: (status) => {
+            if (status >= 500) {
+                console.warn(
+                    `SEKAI Stories received a ${status} code from sekai.best! Skipping ahead.`
+                );
+            }
+            return true;
+        },
     });
-    if (headRes.status <= 400) {
-        return url;
+
+    const status = headRes.status
+    if (status <= 400) {
+        return [status, url];
     }
-    return "";
+    return [status, ""];
 };
 
 async function GetMotionUrl(
@@ -48,11 +57,14 @@ async function GetMotionUrl(
     if (modelDir.indexOf("v2/collabo/21_miku") !== -1) {
         modelDir = modelDir.replace("collabo", "main");
     }
+    const statusCodeCounts: { [key: number]: number } = {};
 
     // case 1: get directly from model path + motion_base
-    let modelUrl = await getUrl(
+    let [code, modelUrl] = await getUrl(
         `${sekaiUrl}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
     );
+
+    statusCodeCounts[code] = (statusCodeCounts[code] || 0) + 1;
 
     // case 2: check if the motion name is in the map
     if (!modelUrl) {
@@ -64,9 +76,10 @@ async function GetMotionUrl(
                 modelBaseName = processor(modelItem.modelBase);
 
                 // try to get url
-                modelUrl = await getUrl(
+                [code, modelUrl] = await getUrl(
                     `${sekaiUrl}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
                 );
+                statusCodeCounts[code] = (statusCodeCounts[code] || 0) + 1;
                 break;
             }
         }
@@ -75,15 +88,18 @@ async function GetMotionUrl(
     // case 3: reduce the name until base name
     while (!modelUrl && modelBaseName.split("_").length > 1) {
         modelBaseName = modelBaseName.split("_").slice(0, -1).join("_");
-        modelUrl = await getUrl(
+        [code, modelUrl] = await getUrl(
             `${sekaiUrl}/motion/${modelDir}/${modelBaseName}_motion_base/BuildMotionData.json`
         );
+        statusCodeCounts[code] = (statusCodeCounts[code] || 0) + 1;
     }
 
     // case 4: if not found, throw error
     if (!modelUrl) {
         throw new Error(
-            `Motion data not found for ${modelItem.modelBase}/${modelItem.modelName}`
+            `Motion data not found for ${modelItem.modelBase}/${
+                modelItem.modelName
+            }\nStatus codes encountered: ${JSON.stringify(statusCodeCounts)}`
         );
     }
 
