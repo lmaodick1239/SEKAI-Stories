@@ -1,9 +1,11 @@
 # 5.4.0
-Release date: July 4, 2025
+Release date: July 1, 2025
 - Revamped Virtual Effect
 - Added ability to rotate model
 - Allow copying of emotion parameters
 - Show window dialog when saving
+- Allow bookmarking of emotions 
+- Fixed sekai-viewer's issue in 503 errors
 
 # 5.3.2
 Release date: June 25, 2025

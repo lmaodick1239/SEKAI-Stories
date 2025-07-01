@@ -12,8 +12,8 @@ export default interface IModel {
     modelRotation: number;
     virtualEffect: boolean;
     modelData: ILive2DModelData | undefined;
-    expression: number | undefined;
-    pose: number | undefined;
+    expression: number;
+    pose: number;
     idle: boolean;
     visible: boolean;
     from: string;
