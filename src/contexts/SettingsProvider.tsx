@@ -20,7 +20,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [audio, setAudio] = useState<boolean>(false);
 
     useEffect(() => {
-        const announcementCookie = localStorage.getItem("feedbackII");
+        const announcementCookie = localStorage.getItem("5.4.0-announcements");
         if (Number(announcementCookie) < 2) {
             setHideAnnouncements(false);
         }
