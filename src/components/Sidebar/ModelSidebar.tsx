@@ -28,6 +28,7 @@ import {
     virtualEffectParticles,
     virtualEffectCRT,
 } from "../../utils/VirtualEffect";
+import IEmotionBookmark from "../../types/IEmotionBookmark";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -126,7 +127,6 @@ const ModelSidebar: React.FC = () => {
         Cubism4InternalModel["coreModel"] | null
     >(null);
 
-    const [deleteWarnWindow, setDeleteWarnWindow] = useState<boolean>(false);
     const [live2DChangedWarnWindow, setLive2DChangedWarnWindow] =
         useState<boolean>(false);
     const [copiedParametersWindow, setCopiedParametersWindow] =
@@ -134,6 +134,9 @@ const ModelSidebar: React.FC = () => {
     const [live2DChangedFunction, setLive2DChangedFunction] = useState<
         (() => void) | undefined
     >(undefined);
+    const [bookmarkEmotions, setBookmarkEmotion] = useState<IEmotionBookmark>(
+        {}
+    );
 
     const characterSelect = useRef<null | HTMLSelectElement>(null);
     const modelSelect = useRef<null | HTMLSelectElement>(null);
@@ -160,6 +163,17 @@ const ModelSidebar: React.FC = () => {
             setCoreModel(null);
         }
     }, [currentModel, loading]);
+
+    useEffect(() => {
+        const bookmarkEmotionsCookie = localStorage.getItem(
+            "bookmarkEmotionsCookie"
+        );
+        const bookmarkEmotionsJson = bookmarkEmotionsCookie
+            ? JSON.parse(bookmarkEmotionsCookie)
+            : {};
+
+        setBookmarkEmotion(bookmarkEmotionsJson);
+    }, []);
 
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
@@ -377,7 +391,7 @@ const ModelSidebar: React.FC = () => {
     const handleDeleteLayer = async () => {
         const modelsObjects = Object.entries(scene.models ?? {});
         if (modelsObjects.length == 1) {
-            setDeleteWarnWindow(true);
+            setErrorInformation(t("model.delete-model-warn"));
             return;
         }
         setLoading(true);
@@ -602,6 +616,62 @@ const ModelSidebar: React.FC = () => {
                 setLoading(true);
             }
         }
+    };
+
+    const handleBookmarkEmotion = async (type: string) => {
+        if (!currentModel) return;
+
+        if (
+            !bookmarkEmotions[
+                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+            ]
+        ) {
+            bookmarkEmotions[
+                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+            ] = {
+                pose: [],
+                expression: [],
+            };
+        }
+
+        console.log(bookmarkEmotions);
+
+        switch (type) {
+            case "pose": {
+                const poseArray =
+                    bookmarkEmotions[
+                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                    ].pose;
+                if (poseArray.includes(currentModel.pose)) {
+                    const index = poseArray.indexOf(currentModel.pose);
+                    if (index !== -1) poseArray.splice(index, 1);
+                } else {
+                    poseArray.push(currentModel.pose);
+                }
+                break;
+            }
+            case "expression": {
+                const expressionArray =
+                    bookmarkEmotions[
+                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                    ].expression;
+                if (expressionArray.includes(currentModel.expression)) {
+                    const index = expressionArray.indexOf(
+                        currentModel.expression
+                    );
+                    if (index !== -1) expressionArray.splice(index, 1);
+                } else {
+                    expressionArray.push(currentModel.expression);
+                }
+                break;
+            }
+        }
+
+        localStorage.setItem(
+            "bookmarkEmotionsCookie",
+            JSON.stringify(bookmarkEmotions)
+        );
+        setBookmarkEmotion({ ...bookmarkEmotions });
     };
 
     const handleXTransform = async (
@@ -1014,25 +1084,71 @@ const ModelSidebar: React.FC = () => {
                             <>
                                 <div className="option__content">
                                     <h3>{t("model.pose")}</h3>
-                                    <select
-                                        value={currentModel?.pose}
-                                        onChange={handlePoseChange}
-                                    >
-                                        <option value={99999} disabled>
-                                            {t("model.select-pose")}
-                                        </option>
-                                        {currentModel &&
-                                            currentModel.modelData?.FileReferences.Motions.Motion.map(
-                                                (o, idx) => (
+                                    <div className="space-between flex-horizontal relative">
+                                        <select
+                                            value={currentModel?.pose}
+                                            onChange={handlePoseChange}
+                                        >
+                                            <option value={99999} disabled>
+                                                {t("model.select-pose")}
+                                            </option>
+                                            {bookmarkEmotions[
+                                                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                            ] &&
+                                                bookmarkEmotions[
+                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                                ].pose.map((idx) => (
                                                     <option
-                                                        key={idx}
+                                                        key={`faved-${idx}`}
                                                         value={idx}
                                                     >
-                                                        {o.Name}
+                                                        ★{" "}
+                                                        {
+                                                            currentModel
+                                                                .modelData
+                                                                ?.FileReferences
+                                                                .Motions.Motion[
+                                                                idx
+                                                            ].Name
+                                                        }
                                                     </option>
-                                                )
-                                            )}
-                                    </select>
+                                                ))}
+                                            {currentModel &&
+                                                currentModel.modelData?.FileReferences.Motions.Motion.map(
+                                                    (o, idx) => (
+                                                        <option
+                                                            key={idx}
+                                                            value={idx}
+                                                        >
+                                                            {o.Name}
+                                                        </option>
+                                                    )
+                                                )}
+                                        </select>
+                                        {currentModel?.pose !== 99999 && (
+                                            <button
+                                                className="btn-circle btn-white absolute right"
+                                                onClick={() =>
+                                                    handleBookmarkEmotion(
+                                                        "pose"
+                                                    )
+                                                }
+                                            >
+                                                {bookmarkEmotions[
+                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                                ] &&
+                                                bookmarkEmotions[
+                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                                ].pose.includes(
+                                                    currentModel.pose
+                                                ) ? (
+                                                    <i className="bi bi-star-fill sidebar__select" />
+                                                ) : (
+                                                    <i className="bi bi-star sidebar__select" />
+                                                )}
+                                            </button>
+                                        )}
+                                    </div>
                                     <button
                                         className="btn-regular btn-blue btn-extend-width"
                                         onClick={async () => {
@@ -1054,25 +1170,71 @@ const ModelSidebar: React.FC = () => {
                                 </div>
                                 <div className="option__content">
                                     <h3>{t("model.expression")}</h3>
-                                    <select
-                                        value={currentModel?.expression}
-                                        onChange={handleExpressionChange}
-                                    >
-                                        <option value={99999} disabled>
-                                            {t("model.select-expression")}
-                                        </option>
-                                        {currentModel &&
-                                            currentModel.modelData?.FileReferences.Motions.Expression.map(
-                                                (o, idx) => (
+                                    <div className="space-between flex-horizontal relative">
+                                        <select
+                                            value={currentModel?.expression}
+                                            onChange={handleExpressionChange}
+                                        >
+                                            <option value={99999} disabled>
+                                                {t("model.select-expression")}
+                                            </option>
+                                            {bookmarkEmotions[
+                                                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                            ] &&
+                                                bookmarkEmotions[
+                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                                ].expression.map((idx) => (
                                                     <option
-                                                        key={idx}
+                                                        key={`faved-${idx}`}
                                                         value={idx}
                                                     >
-                                                        {o.Name}
+                                                        ★{" "}
+                                                        {
+                                                            currentModel
+                                                                .modelData
+                                                                ?.FileReferences
+                                                                .Motions
+                                                                .Expression[idx]
+                                                                .Name
+                                                        }
                                                     </option>
-                                                )
-                                            )}
-                                    </select>
+                                                ))}
+                                            {currentModel &&
+                                                currentModel.modelData?.FileReferences.Motions.Expression.map(
+                                                    (o, idx) => (
+                                                        <option
+                                                            key={idx}
+                                                            value={idx}
+                                                        >
+                                                            {o.Name}
+                                                        </option>
+                                                    )
+                                                )}
+                                        </select>
+                                        {currentModel?.expression !== 99999 && (
+                                            <button
+                                                className="btn-circle btn-white absolute right"
+                                                onClick={() =>
+                                                    handleBookmarkEmotion(
+                                                        "expression"
+                                                    )
+                                                }
+                                            >
+                                                {bookmarkEmotions[
+                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                                ] &&
+                                                bookmarkEmotions[
+                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                                ].expression.includes(
+                                                    currentModel.expression
+                                                ) ? (
+                                                    <i className="bi bi-star-fill sidebar__select" />
+                                                ) : (
+                                                    <i className="bi bi-star sidebar__select" />
+                                                )}
+                                            </button>
+                                        )}
+                                    </div>
                                     <button
                                         className="btn-regular btn-blue btn-extend-width"
                                         onClick={async () => {
@@ -1428,13 +1590,7 @@ const ModelSidebar: React.FC = () => {
                     </div>
                 </Window>
             )}
-            {deleteWarnWindow && (
-                <Window show={setDeleteWarnWindow}>
-                    <div className="window__content">
-                        <p>{t("model.delete-model-warn")}</p>
-                    </div>
-                </Window>
-            )}
+
             {copiedParametersWindow && (
                 <Window show={setCopiedParametersWindow} id="export-screen">
                     <div className="window__content">
