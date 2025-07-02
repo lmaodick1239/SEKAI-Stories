@@ -5,7 +5,8 @@
         "header": "Likuran",
         "select": "Pumili",
         "upload": "Mag-Upload",
-        "upload-info": "Upang masigurong tama ang hitsura ng larawan, gumamit ng larawang may 16:9 na laki."
+        "upload-info": "Upang masigurong tama ang hitsura ng larawan, gumamit ng larawang may 16:9 na laki.",
+        "split-location": "Split Location"
     },
 
     "text": {
@@ -43,6 +44,7 @@
         "transform": "Pagbago",
         "x-position": "X-Posisyon",
         "y-position": "Y-Posisyon",
+        "rotation": "Rotasyon",
         "scale": "Sukat",
         "mouth": "Bibig",
         "ParamMouthForm": "Pangunahing Hugis",
@@ -62,9 +64,15 @@
         "import-export": "Import/Export",
         "import": "Mag-import",
         "export": "Mag-export",
+        "copy": "Kopyahin",
         "live2d-import-export-description": "Ang mga ginawa mong pagbabago sa Live2D adjustments ay puwede mong i-save at i-load.",
         "live2d-tooltip": "Puwede mong gamitin ang mga arrow keys upang pumili ng parameter at ayusin.",
         "live2d-changed-warn": "May binago kang mga Live2D parameter. Mawawala ang mga ito kapag ipinagpatuloy mo!",
+        "emotion-copy": "Kopya ng Emosyon",
+        "emotion-copy-description": "Kokopyahin nito ang lahat ng parameter mula sa ekspresyon at posisyon na nilagay mo.",
+        "emotion-copy-confirm-header": "Nakopya!",
+        "emotion-copy-confirm-description": "Nakopya ang mga parameter ng emosyon.",
+        "long-wait": "Kung masyadong matagal ang paglo-load ng modelo, mas mabuting kumuha ng mga modelo sa SEKAI Stories muna.",
         "advanced": "Advanced"
     },
 
@@ -152,11 +160,14 @@
         "auto-save-description": "Awtomatikong naisa-save ang iyong gawa kada tatlong minuto. Kung may problema, maaari mong i-download ang pinakabagong backup bilang JSON file.",
         "auto-save-button": "Kunin ang huling save",
         "toggles": "Mga Toggle",
+        "audio": "Paganahin ang audio",
         "guidelines": "Ipakita ang guideline",
         "experimental": "Ipakita ang eksperimental",
+        "saveDialog": "Ipakita ang save dialog",
         "expand": "Buksan lahat ng opsyon sa menu",
         "tutorial": "Tutorial",
-        "show-tutorial": "Ulitin muli"
+        "show-tutorial": "Ulitin muli",
+        "blankCanvas": "Magsimula sa blangkong canvas"
     },
     "import-export": {
         "header": "Import/Export",
@@ -165,6 +176,8 @@
         "export": "Mag-export"
     },
     "tutorial": {
+        "initialSetup1": "Ayusin ang slider hanggang wala ka nang makitang pulang kulay.",
+        "initialSetup2": "Maaari mo itong ayusin uli sa Text Menu.",
         "welcomeHeader": "Musta sa SEKAI Stories!",
         "welcomeIntroHeader": "Ang bahaging ito ay maggagabay sa'yo kung paano gamitin ang site.",
         "welcomeIntroParagraph1": "Kung alam mo na paano gamitin ang application na ito, puwede mong isara ito.",
@@ -212,9 +225,25 @@
         "live2dParagraph": "Puwede mong i-customize ang posisyon gamit ang mga parameter ng Live2D at ihinto ang idle animation.",
         "importExportHeader": "Import/Export",
         "importExportParagraph": "Puwede mong i-save ang mga pagbabago at i-load ito sa ibang modelo.",
+        "emotionCopyHeader": "Kopya ng Emosyon",
+        "emotionCopyParagraph": "Kokopyahin ang mga Live2D Parameter ng ekspresyon at posisyon na nilagay mo.",
         "saveHeader": "Kapag tapos ka na, i-save ang iyong gawa!",
         "sceneImportExportParagraph": "Puwede mong i-save at i-load ang gawa mo bilang JSON upang ma-edit mo ito uli.",
         "endHeader": "Iyon lang!",
         "endParagraph": "Kung gusto mong ulitin ito, maaari mo buksan ito muli sa Settings."
+    },
+    "save": {
+        "header": "Save",
+        "note-1-desktop": "Kung hindi pa nagsisimula ang pag-download, i-right click ang imahe sa ibaba at i-save.",
+        "note-1-phone": "Kung hindi pa nagsisimula ang pag-download, i-tap at hawakan ang imahe sa ibaba at i-save.",
+        "note-2": "Maaari mong i-disable ang window na ito sa Settings."
+    },
+    "error": {
+        "header": "Error",
+        "import-scene-fail": "The canvas has been reset.",
+        "invalid-json": "Invalid JSON format",
+        "no-autosave": "Walang auto-save data ang nakita.",
+        "not-an-image": "Hindi ito image.",
+        "default-scene-fail": "Nagkaroon ng error habang inaayos ang default scene.\nPaki click ang clear button, i-refresh ang browser, o i-clear ang cookies.\nKung ang problema ay hindi naresolba, paki-report ito sa GitHub.."
     }
 }
