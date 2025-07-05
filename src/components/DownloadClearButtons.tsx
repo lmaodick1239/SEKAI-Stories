@@ -62,8 +62,8 @@ const DownloadClearButtons: React.FC = () => {
 
     const handleBlankCanvas = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.checked;
-        localStorage.setItem("blankCanvas", String(!value));
-        setBlankCanvas(!value);
+        localStorage.setItem("blankCanvas", String(value));
+        setBlankCanvas(value);
     };
 
     return (
@@ -96,7 +96,7 @@ const DownloadClearButtons: React.FC = () => {
                             <Checkbox
                                 id="stop-show"
                                 label={t("start-blank")}
-                                checked={!blankCanvas}
+                                checked={blankCanvas}
                                 onChange={handleBlankCanvas}
                             />
                         </div>
