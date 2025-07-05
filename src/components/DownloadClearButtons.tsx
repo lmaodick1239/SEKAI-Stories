@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import ExportButton from "./ExportButton";
 import Window from "./UI/Window";
 import { SettingsContext } from "../contexts/SettingsContext";
+import { Checkbox } from "./UI/Checkbox";
 
 const DownloadClearButtons: React.FC = () => {
     const [resetShow, setResetShow] = useState(false);
@@ -20,7 +21,7 @@ const DownloadClearButtons: React.FC = () => {
     }
 
     const { app, reset, setReset, guideline, setGuideline } = scene;
-    const { setAllowRefresh, showSaveDialog } = settings;
+    const { setAllowRefresh, showSaveDialog, setShowSaveDialog } = settings;
 
     const handleSave = () => {
         if (guideline) {
@@ -77,14 +78,27 @@ const DownloadClearButtons: React.FC = () => {
             {saveWindowShow && (
                 <Window show={setSaveWindowShow}>
                     <div className="window__content">
-                        <h1>Save</h1>
-                        <p>
-                            {window.matchMedia("(pointer: fine)").matches
-                                ? t("save.note-1-desktop")
-                                : t("save.note-1-phone")}
-                        </p>
-                        <p>{t("save.note-2")}</p>
-                        <img src={saveData} className="width-100" />
+                        <div className="windown__divider">
+                            <h1>Save</h1>
+                            <p>
+                                {window.matchMedia("(pointer: fine)").matches
+                                    ? t("save.note-1-desktop")
+                                    : t("save.note-1-phone")}
+                            </p>
+                            <p>{t("save.note-2")}</p>
+                            <img src={saveData} className="width-100" />
+                        </div>
+                        <div className="windown__divider center">
+                            <Checkbox
+                                id="stop-show"
+                                label="Don't show dialog next time."
+                                checked={!showSaveDialog}
+                                onChange={(e) => {
+                                    const value = e.currentTarget.value;
+                                    setShowSaveDialog(!value);
+                                }}
+                            />
+                        </div>
                     </div>
                 </Window>
             )}
