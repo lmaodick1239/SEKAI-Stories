@@ -47,6 +47,11 @@ const DownloadClearButtons: React.FC = () => {
 
         setAllowRefresh(true);
     };
+    const handleSaveDialog = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("saveDialog", String(!value));
+        setShowSaveDialog(!value);
+    };
 
     return (
         <div
@@ -93,10 +98,7 @@ const DownloadClearButtons: React.FC = () => {
                                 id="stop-show"
                                 label="Don't show dialog next time."
                                 checked={!showSaveDialog}
-                                onChange={(e) => {
-                                    const value = e.currentTarget.value;
-                                    setShowSaveDialog(!value);
-                                }}
+                                onChange={handleSaveDialog  }
                             />
                         </div>
                     </div>
