@@ -47,6 +47,17 @@ const FlavorText: React.FC = () => {
     const [text, setText] = useState<string>("");
     const { i18n } = useTranslation();
     const lng = i18n.language as keyof typeof randomText;
+    const daysLeft = Math.ceil(
+        (new Date("October 13, 2025 04:00:00 UTC").getTime() -
+            new Date().getTime()) /
+            (1000 * 60 * 60 * 24)
+    );
+
+    randomText.en.push(
+        `About ${daysLeft < 0 ? 0 : daysLeft} ${
+            daysLeft === 1 ? "day remains" : "days remain"
+        }...`
+    );
 
     useEffect(() => {
         const languageRandomText = randomText[lng]
