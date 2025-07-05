@@ -1,6 +1,7 @@
 # 5.4.1
 Release date: July 5, 2025
 - Added checkbox to stop save dialog from showing
+- Added checkbox to start from a blank canvas
 
 # 5.4.0
 Release date: July 1, 2025

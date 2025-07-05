@@ -1591,7 +1591,9 @@ const ModelSidebar: React.FC = () => {
                     danger
                 >
                     <div className="window__content">
-                        <p>{t("model.live2d-changed-warn")}</p>
+                        <div className="window__divider">
+                            <h3 className="text-center">{t("model.live2d-changed-warn")}</h3>
+                        </div>
                     </div>
                 </Window>
             )}

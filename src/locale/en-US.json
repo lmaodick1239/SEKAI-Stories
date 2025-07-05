@@ -87,6 +87,7 @@
 
     "close": "Close",
     "clear": "This will clear the whole canvas. Any progress will be lost!",
+    "start-blank": "Start with a blank canvas next time.",
     "clear-ok": "Clear",
     "continue-ok": "Continue",
     "next": "Next",
@@ -236,7 +237,8 @@
         "header": "Save",
         "note-1-desktop": "If the download hasn't started, right click the image below and save.",
         "note-1-phone": "If the download hasn't started, tap and hold the image below and save.",
-        "note-2": "You can disable this window on Settings."
+        "note-2": "You can disable this window on Settings.",
+        "disable-dialog": "Don't show dialog next time."
     },
     "error": {
         "header": "Error",

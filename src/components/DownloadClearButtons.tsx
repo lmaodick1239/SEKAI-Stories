@@ -21,7 +21,13 @@ const DownloadClearButtons: React.FC = () => {
     }
 
     const { app, reset, setReset, guideline, setGuideline } = scene;
-    const { setAllowRefresh, showSaveDialog, setShowSaveDialog } = settings;
+    const {
+        setAllowRefresh,
+        showSaveDialog,
+        setShowSaveDialog,
+        blankCanvas,
+        setBlankCanvas,
+    } = settings;
 
     const handleSave = () => {
         if (guideline) {
@@ -47,10 +53,17 @@ const DownloadClearButtons: React.FC = () => {
 
         setAllowRefresh(true);
     };
+
     const handleSaveDialog = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.checked;
         localStorage.setItem("saveDialog", String(!value));
         setShowSaveDialog(!value);
+    };
+
+    const handleBlankCanvas = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.checked;
+        localStorage.setItem("blankCanvas", String(!value));
+        setBlankCanvas(!value);
     };
 
     return (
@@ -76,14 +89,24 @@ const DownloadClearButtons: React.FC = () => {
                     danger={true}
                 >
                     <div className="window__content">
-                        <p>{t("clear")}</p>
+                        <div className="window__divider center">
+                            <h3 className="text-center">{t("clear")}</h3>
+                        </div>
+                        <div className="windown__divider center">
+                            <Checkbox
+                                id="stop-show"
+                                label={t("start-blank")}
+                                checked={!blankCanvas}
+                                onChange={handleBlankCanvas}
+                            />
+                        </div>
                     </div>
                 </Window>
             )}
             {saveWindowShow && (
                 <Window show={setSaveWindowShow}>
                     <div className="window__content">
-                        <div className="windown__divider">
+                        <div className="window__divider">
                             <h1>Save</h1>
                             <p>
                                 {window.matchMedia("(pointer: fine)").matches
@@ -96,9 +119,9 @@ const DownloadClearButtons: React.FC = () => {
                         <div className="windown__divider center">
                             <Checkbox
                                 id="stop-show"
-                                label="Don't show dialog next time."
+                                label={t("save.disable-dialog")}
                                 checked={!showSaveDialog}
-                                onChange={handleSaveDialog  }
+                                onChange={handleSaveDialog}
                             />
                         </div>
                     </div>

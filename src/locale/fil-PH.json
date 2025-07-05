@@ -86,6 +86,7 @@
 
     "close": "Isara",
     "clear": "Mawawala LAHAT ng nilalaman sa canvas. Ang lahat ng ginawa mo ay mawawala!",
+    "start-blank": "Magsimula sa blangkong canvas sa susunod.",
     "clear-ok": "Ipagpatuloy",
     "continue-ok": "Ipagpatuloy",
     "next": "Sunod",
@@ -236,7 +237,8 @@
         "header": "Save",
         "note-1-desktop": "Kung hindi pa nagsisimula ang pag-download, i-right click ang imahe sa ibaba at i-save.",
         "note-1-phone": "Kung hindi pa nagsisimula ang pag-download, i-tap at hawakan ang imahe sa ibaba at i-save.",
-        "note-2": "Maaari mong i-disable ang window na ito sa Settings."
+        "note-2": "Maaari mong i-disable ang window na ito sa Settings.",
+        "disable-dialog": "Huwag ipakita ang dialog na ito sa susunod."
     },
     "error": {
         "header": "Error",
