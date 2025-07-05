@@ -79,6 +79,8 @@ const defaultModelBreath = [
     },
 ];
 
+const SNAP = 50;
+
 const ModelSidebar: React.FC = () => {
     const { t } = useTranslation();
     const { playSound } = useAudioManager();
@@ -677,15 +679,29 @@ const ModelSidebar: React.FC = () => {
     const handleXTransform = async (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        const x = Number(event?.target.value);
+        let x = Number(event?.target.value);
+        if (x > 640 - SNAP && x < 640 + SNAP) {
+            x = 640;
+        } else if (x > 960 - SNAP && x < 960 + SNAP) {
+            x = 960;
+        } else if (x > 1280 - SNAP && x < 1280 + SNAP) {
+            x = 1280;
+        }
         currentModel?.model.position.set(x, currentModel.modelY);
+
         updateModelState({ modelX: x });
     };
 
     const handleYTransform = async (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        const y = Number(event?.target.value);
+        let y = Number(event?.target.value);
+        if (y > 540 - SNAP && y < 540 + SNAP) {
+            y = 540;
+        } else if (y > 865 - SNAP && y < 865 + SNAP) {
+            y = 865;
+        }
+
         currentModel?.model.position.set(currentModel.modelX, y);
         updateModelState({ modelY: y });
     };
@@ -1294,13 +1310,7 @@ const ModelSidebar: React.FC = () => {
                                 max={1920}
                                 value={currentModel?.modelX}
                                 onChange={handleXTransform}
-                                list="x-value-snap"
                             />
-                            <datalist id="x-value-snap">
-                                <option value={640} />
-                                <option value={960} />
-                                <option value={1280} />
-                            </datalist>
                         </div>
                         <div className="option__content">
                             <div className="transform-icons">
@@ -1325,12 +1335,7 @@ const ModelSidebar: React.FC = () => {
                                 max={1080}
                                 value={currentModel?.modelY}
                                 onChange={handleYTransform}
-                                list="y-value-snap"
                             />
-                            <datalist id="y-value-snap">
-                                <option value={540} />
-                                <option value={865} />
-                            </datalist>
                         </div>
                         <div className="option__content">
                             <div className="transform-icons">

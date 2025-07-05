@@ -1,3 +1,7 @@
+# 5.4.1
+Release date: July 5, 2025
+- Added checkbox to stop save dialog from showing
+
 # 5.4.0
 Release date: July 1, 2025
 - Revamped Virtual Effect
