@@ -503,6 +503,10 @@ select:disabled {
   color: #ffffff;
 }
 
+.orange {
+  color: #ffbb00;
+}
+
 .width-100 {
   width: 100%;
 }
@@ -540,6 +544,10 @@ select:disabled {
 
 .padding-left-right-10 {
   padding: 0px 10px;
+}
+
+.padding-10 {
+  padding: 10px 10px;
 }
 
 .link {
@@ -650,6 +658,15 @@ select:disabled {
   border-radius: 10px;
   border: 2px #ffffff solid;
   cursor: pointer;
+}
+
+.background-bookmark {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: #ffbb00;
+  font-size: 2em;
+  padding: 5px 10px;
 }
 
 #picker {

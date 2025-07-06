@@ -636,7 +636,6 @@ const ModelSidebar: React.FC = () => {
             };
         }
 
-        console.log(bookmarkEmotions);
 
         switch (type) {
             case "pose": {
