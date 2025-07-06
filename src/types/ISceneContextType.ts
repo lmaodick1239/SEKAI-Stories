@@ -7,6 +7,7 @@ import ISceneText from "./ISceneText";
 import IGuideline from "./IGuideline";
 import { IJsonSave } from "./IJsonSave";
 import { ISplitBackground } from "./ISplitBackground";
+import { IFilter } from "./IFilter";
 export default interface ISceneContextType {
     app: PIXI.Application | undefined;
     setApp: Dispatch<SetStateAction<PIXI.Application | undefined>>;
@@ -30,6 +31,8 @@ export default interface ISceneContextType {
     setText: Dispatch<SetStateAction<IText | undefined>>;
     sceneText: ISceneText | undefined;
     setSceneText: Dispatch<SetStateAction<ISceneText | undefined>>;
+    filter: IFilter | undefined;
+    setFilter: Dispatch<SetStateAction<IFilter | undefined>>;
     sceneJson: IJsonSave | undefined;
     setSceneJson: Dispatch<SetStateAction<IJsonSave | undefined>>;
     guideline: IGuideline | undefined;
