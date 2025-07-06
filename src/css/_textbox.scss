@@ -35,3 +35,8 @@ textarea {
     margin: 10px 0px;
     word-wrap: break-word;
 }
+
+textarea:read-only {
+    background-image: none
+
+}

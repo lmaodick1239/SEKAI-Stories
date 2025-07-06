@@ -330,6 +330,10 @@ textarea {
   word-wrap: break-word;
 }
 
+textarea:read-only {
+  background-image: none;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   -moz-appearance: none;
