@@ -1,3 +1,10 @@
+# 5.5.0
+Release date: July 8, 2025
+- Added flashback filter
+- Added background bookmark function
+- Allow 2 to 6 easy switch inputs
+- Allow hiding of models and dialogue temporarily for scene text
+
 # 5.4.1
 Release date: July 5, 2025
 - Added checkbox to stop save dialog from showing

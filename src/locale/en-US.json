@@ -20,7 +20,8 @@
         "add-symbol": "Add a symbol",
         "scene-text": "Scene Text",
         "y-offset": "Y-Offset",
-        "y-offset-details": "If the text in the canvas do not line up properly, adjustments may be necessary."
+        "y-offset-details": "If the text in the canvas do not line up properly, adjustments may be necessary.",
+        "hide-everything": "Hide models and dialogue"
     },
 
     "model": {
@@ -146,6 +147,7 @@
 
     "group": {
         "all": "All",
+        "bookmarks": "Bookmarks",
         "general": "General",
         "mmj": "MORE MORE JUMP!",
         "vbs": "Vivid BAD SQUAD",
@@ -248,6 +250,9 @@
         "invalid-json": "Invalid JSON format",
         "no-autosave": "No auto-save data found.",
         "not-an-image": "This is not an image.",
-        "default-scene-fail": "An error has occurred while loading the default scene.\nPlease use the clear button, refresh your browser, or clear your cookies.\nIf the problem persists, please report this bug on GitHub."
+        "default-scene-fail": "An error has occurred while loading the default scene.\nPlease use the clear button, refresh your browser, or clear your cookies.\nIf the problem persists, please report this bug on GitHub.",
+        "name-tag-inputs-limit": "The limit is 2 to 6 inputs per name tag.",
+        "background-bookmark": "You cannot set a bookmark for a custom background.",
+        "hide-everything-warning": "The \"Hide models and dialogue\" option under Scene Text is enabled.\nPlease disable this option on Text Menu."
     }
 }

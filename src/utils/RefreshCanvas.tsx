@@ -16,9 +16,7 @@ export const refreshCanvas = async (context: ISceneContextType) => {
         app,
         setApp,
         text,
-        background,
-        splitBackground,
-        modelContainer,
+        filter,
         sceneText,
         guideline,
     } = context;
@@ -45,30 +43,21 @@ export const refreshCanvas = async (context: ISceneContextType) => {
     initApplication.stage.addChildAt(transparentContainer, 0);
     await new Promise((resolve) => setTimeout(resolve, 200));
 
-    if (background.backgroundContainer) {
-        initApplication.stage.addChildAt(background.backgroundContainer, 1);
-    }
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    if (splitBackground?.splitContainer) {
-        initApplication.stage.addChildAt(splitBackground?.splitContainer, 2);
-    }
-    await new Promise((resolve) => setTimeout(resolve, 200));
-
-    if (modelContainer) {
-        initApplication.stage.addChildAt(modelContainer, 3);
+    if (filter?.container) {
+        initApplication.stage.addChildAt(filter.container, 1);
     }
     await new Promise((resolve) => setTimeout(resolve, 200));
 
     if (text.textContainer) {
-        initApplication.stage.addChildAt(text.textContainer, 4);
+        initApplication.stage.addChildAt(text.textContainer, 2);
     }
 
     if (sceneText.sceneTextContainer) {
-        initApplication.stage.addChildAt(sceneText.sceneTextContainer, 5);
+        initApplication.stage.addChildAt(sceneText.sceneTextContainer, 3);
     }
 
     if (guideline) {
-        initApplication.stage.addChildAt(guideline.container, 6);
+        initApplication.stage.addChildAt(guideline.container, 4);
     }
 
     setApp(initApplication);

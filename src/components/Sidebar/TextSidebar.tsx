@@ -1,9 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import { Checkbox } from "../UI/Checkbox";
 import RadioButton from "../UI/RadioButton";
 import { useTranslation } from "react-i18next";
+import { IEasyNameTag } from "../../types/IEasyNameTag";
+import { SoftErrorContext } from "../../contexts/SoftErrorContext";
 
 const symbols = {
     star: "☆",
@@ -21,13 +23,21 @@ const symbols = {
     "japanese-cross": "×",
 };
 
+const easyNameTagPlaceholders = [
+    "Miku",
+    "Rin",
+    "Len",
+    "Luka",
+    "MEIKO",
+    "KAITO",
+];
+
 const TextSidebar: React.FC = () => {
     const { t } = useTranslation();
     const scene = useContext(SceneContext);
     const settings = useContext(SettingsContext);
+    const error = useContext(SoftErrorContext);
 
-    const nameTag1Cookie = localStorage.getItem("nameTag1");
-    const nameTag2Cookie = localStorage.getItem("nameTag2");
     const lockFontSize = localStorage.getItem("lockFontSize");
     const easySwitchEnabled = localStorage.getItem("easySwitchEnabled");
 
@@ -35,20 +45,30 @@ const TextSidebar: React.FC = () => {
     const [easySwitch, setEasySwitch] = useState<boolean>(
         easySwitchEnabled === "true" ? true : false
     );
-    const [nameTags, setNameTags] = useState<Record<string, string>>({
-        nameTag1: nameTag1Cookie ? nameTag1Cookie : "",
-        nameTag2: nameTag2Cookie ? nameTag2Cookie : "",
-    });
+    const [nameTags, setNameTags] = useState<IEasyNameTag>({});
+    const [nameTagInputs, setNameTagInputs] = useState<number>(2);
     const [lockFontSizeState, setLockFontSizeState] = useState<boolean>(
         lockFontSize === "true" ? true : false
     );
 
-    if (!scene || !settings) {
+    useEffect(() => {
+        const storedNameTags = localStorage.getItem("nameTags");
+        if (storedNameTags) {
+            setNameTags(JSON.parse(storedNameTags));
+        }
+        const storedNameTagInputs = localStorage.getItem("nameTagInputs");
+        if (storedNameTagInputs) {
+            setNameTagInputs(Number(storedNameTagInputs));
+        }
+    }, []);
+
+    if (!scene || !settings || !error) {
         throw new Error("Context not found");
     }
 
-    const { text, setText, sceneText, setSceneText } = scene;
+    const { text, setText, sceneText, setSceneText, modelContainer } = scene;
     const { openTextOption, setOpenTextOption, openAll } = settings;
+    const { setErrorInformation } = error;
 
     if (!text || !sceneText) return t("please-wait");
 
@@ -84,9 +104,36 @@ const TextSidebar: React.FC = () => {
         if (sceneText?.sceneTextContainer) {
             sceneText.sceneTextContainer.visible = visible;
         }
+        if (!visible && text.hideEverything) {
+            if (modelContainer) {
+                modelContainer.visible = true;
+            }
+            text.textContainer.visible = true;
+        }
         setSceneText({
             ...sceneText,
             visible: visible,
+        });
+        setText({
+            ...text,
+            hideEverything: false,
+        });
+    };
+
+    const handleHideEverything = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        if (!modelContainer) {
+            return;
+        }
+        const hide = Boolean(event?.target.checked);
+
+        modelContainer.visible = !hide;
+        text.textContainer.visible = !hide;
+
+        setText({
+            ...text,
+            hideEverything: hide,
         });
     };
 
@@ -181,14 +228,12 @@ const TextSidebar: React.FC = () => {
         const radio = document.querySelector(
             `input[name="name-tag"][value="${nameTag}"]`
         ) as HTMLInputElement;
-        setNameTags({
-            ...nameTags,
-            [nameTag]: name,
-        });
+        const changeEasyNameTags = { ...nameTags, [nameTag]: name };
+        setNameTags(changeEasyNameTags);
         if (radio.checked) {
             handleNameTagChange(name);
         }
-        localStorage.setItem(nameTag, name);
+        localStorage.setItem("nameTags", JSON.stringify(changeEasyNameTags));
     };
 
     const handleEasyNameTagSelect = (
@@ -214,6 +259,21 @@ const TextSidebar: React.FC = () => {
             ...text,
             yOffset: value,
         });
+    };
+
+    const handleEasyNameTagInputs = (action: "add" | "remove") => {
+        if (action === "add" && nameTagInputs < 6) {
+            setNameTagInputs((prev) => prev + 1);
+            localStorage.setItem("nameTagInputs", String(nameTagInputs + 1));
+            return;
+        }
+        if (action === "remove" && nameTagInputs > 2) {
+            setNameTagInputs((prev) => prev - 1);
+            localStorage.setItem("nameTagInputs", String(nameTagInputs - 1));
+            return;
+        }
+
+        setErrorInformation(t("error.name-tag-inputs-limit"));
     };
 
     return (
@@ -245,44 +305,59 @@ const TextSidebar: React.FC = () => {
                             />
                         ) : (
                             <>
-                                <div className="flex-horizontal center">
-                                    <RadioButton
-                                        name="name-tag"
-                                        value="nameTag1"
-                                        onChange={handleEasyNameTagSelect}
-                                    />
-
-                                    <input
-                                        type="text"
-                                        name="name-tag"
-                                        value={nameTags["nameTag1"]}
-                                        onChange={(e) => {
-                                            handleEasyNameTagChange(
-                                                e,
-                                                "nameTag1"
-                                            );
-                                        }}
-                                        placeholder="Miku"
-                                    />
-                                </div>
-                                <div className="flex-horizontal center">
-                                    <RadioButton
-                                        name="name-tag"
-                                        value="nameTag2"
-                                        onChange={handleEasyNameTagSelect}
-                                    />
-                                    <input
-                                        type="text"
-                                        name="name-tag"
-                                        value={nameTags["nameTag2"]}
-                                        onChange={(e) => {
-                                            handleEasyNameTagChange(
-                                                e,
-                                                "nameTag2"
-                                            );
-                                        }}
-                                        placeholder="Teto"
-                                    />
+                                {Array.from({ length: nameTagInputs }).map(
+                                    (_, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex-horizontal center"
+                                        >
+                                            <RadioButton
+                                                name="name-tag"
+                                                value={`nameTag${index + 1}`}
+                                                onChange={
+                                                    handleEasyNameTagSelect
+                                                }
+                                            />
+                                            <input
+                                                type="text"
+                                                name="name-tag"
+                                                value={
+                                                    nameTags[
+                                                        `nameTag${index + 1}`
+                                                    ]
+                                                }
+                                                onChange={(e) => {
+                                                    handleEasyNameTagChange(
+                                                        e,
+                                                        `nameTag${index + 1}`
+                                                    );
+                                                }}
+                                                placeholder={
+                                                    easyNameTagPlaceholders[
+                                                        index
+                                                    ] || ""
+                                                }
+                                            />
+                                        </div>
+                                    )
+                                )}
+                                <div className="layer-buttons">
+                                    <button
+                                        className="btn-circle btn-white"
+                                        onClick={() =>
+                                            handleEasyNameTagInputs("add")
+                                        }
+                                    >
+                                        <i className="bi bi-plus-circle"></i>
+                                    </button>
+                                    <button
+                                        className="btn-circle btn-white"
+                                        onClick={() =>
+                                            handleEasyNameTagInputs("remove")
+                                        }
+                                    >
+                                        <i className="bi bi-x-circle"></i>
+                                    </button>
                                 </div>
                             </>
                         )}
@@ -414,6 +489,14 @@ const TextSidebar: React.FC = () => {
                             checked={sceneText.visible}
                             onChange={handleSceneTextVisible}
                         />
+                        {sceneText.visible && (
+                            <Checkbox
+                                id="hide-everything"
+                                label={t("text.hide-everything")}
+                                checked={text.hideEverything}
+                                onChange={handleHideEverything}
+                            />
+                        )}
                     </div>
                 )}
             </div>
