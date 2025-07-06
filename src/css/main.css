@@ -292,7 +292,8 @@ input[type=checkbox]:checked::before {
   display: none;
 }
 
-input[type=text] {
+input[type=text],
+input[type=number] {
   font-family: inherit;
   border: none;
   border-radius: 10px;
