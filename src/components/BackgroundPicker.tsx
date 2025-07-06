@@ -100,7 +100,7 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
 
         if (!background.filename.startsWith("/background_compressed/")) {
             setErrorInformation(
-                "You cannot set a bookmark for a custom background."
+                t("error.background-bookmark")
             );
             return;
         }
