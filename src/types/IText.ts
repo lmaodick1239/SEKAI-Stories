@@ -9,4 +9,5 @@ export default interface IText {
     yOffset: number;
     fontSize: number;
     visible: boolean;
+    hideEverything: boolean;
 }

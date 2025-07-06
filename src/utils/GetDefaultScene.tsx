@@ -306,6 +306,7 @@ const LoadText = async (
         fontSize: 44,
         visible: true,
         yOffset: textAlignmentCookie,
+        hideEverything: false,
     };
 };
 
@@ -427,7 +428,11 @@ export const LoadScene = async ({
     );
 
     // Load Scene Setting Text
-    const sceneText = await LoadSceneText(initApplication, 3, initialScene.sceneText);
+    const sceneText = await LoadSceneText(
+        initApplication,
+        3,
+        initialScene.sceneText
+    );
 
     // Load Guideline Tools
     const guideline = await LoadGuideline(initApplication, 4);

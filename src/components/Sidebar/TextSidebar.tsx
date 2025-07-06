@@ -66,7 +66,7 @@ const TextSidebar: React.FC = () => {
         throw new Error("Context not found");
     }
 
-    const { text, setText, sceneText, setSceneText } = scene;
+    const { text, setText, sceneText, setSceneText, modelContainer } = scene;
     const { openTextOption, setOpenTextOption, openAll } = settings;
     const { setErrorInformation } = error;
 
@@ -104,9 +104,36 @@ const TextSidebar: React.FC = () => {
         if (sceneText?.sceneTextContainer) {
             sceneText.sceneTextContainer.visible = visible;
         }
+        if (!visible && text.hideEverything) {
+            if (modelContainer) {
+                modelContainer.visible = true;
+            }
+            text.textContainer.visible = true;
+        }
         setSceneText({
             ...sceneText,
             visible: visible,
+        });
+        setText({
+            ...text,
+            hideEverything: false,
+        });
+    };
+
+    const handleHideEverything = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        if (!modelContainer) {
+            return;
+        }
+        const hide = Boolean(event?.target.checked);
+
+        modelContainer.visible = !hide;
+        text.textContainer.visible = !hide;
+
+        setText({
+            ...text,
+            hideEverything: hide,
         });
     };
 
@@ -246,7 +273,7 @@ const TextSidebar: React.FC = () => {
             return;
         }
 
-        setErrorInformation("The limit is 2 to 6 inputs per name tag.");
+        setErrorInformation(t("error.name-tag-inputs-limit"));
     };
 
     return (
@@ -462,6 +489,14 @@ const TextSidebar: React.FC = () => {
                             checked={sceneText.visible}
                             onChange={handleSceneTextVisible}
                         />
+                        {sceneText.visible && (
+                            <Checkbox
+                                id="hide-everything"
+                                label={t("text.hide-everything")}
+                                checked={text.hideEverything}
+                                onChange={handleHideEverything}
+                            />
+                        )}
                     </div>
                 )}
             </div>

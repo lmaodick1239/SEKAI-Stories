@@ -20,7 +20,8 @@
         "add-symbol": "Add a symbol",
         "scene-text": "Scene Text",
         "y-offset": "Y-Offset",
-        "y-offset-details": "If the text in the canvas do not line up properly, adjustments may be necessary."
+        "y-offset-details": "If the text in the canvas do not line up properly, adjustments may be necessary.",
+        "hide-everything": "Hide models and dialogue"
     },
 
     "model": {
