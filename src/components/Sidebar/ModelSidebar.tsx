@@ -95,6 +95,7 @@ const ModelSidebar: React.FC = () => {
     const {
         app,
         models,
+        text,
         setModels,
         modelContainer,
         nextLayer,
@@ -175,6 +176,12 @@ const ModelSidebar: React.FC = () => {
             : {};
 
         setBookmarkEmotion(bookmarkEmotionsJson);
+
+        if (text?.hideEverything) {
+            setErrorInformation(
+                t("error.hide-everything-warning")
+            );
+        }
     }, []);
 
     useEffect(() => {
@@ -635,7 +642,6 @@ const ModelSidebar: React.FC = () => {
                 expression: [],
             };
         }
-
 
         switch (type) {
             case "pose": {
@@ -1591,7 +1597,9 @@ const ModelSidebar: React.FC = () => {
                 >
                     <div className="window__content">
                         <div className="window__divider">
-                            <h3 className="text-center">{t("model.live2d-changed-warn")}</h3>
+                            <h3 className="text-center">
+                                {t("model.live2d-changed-warn")}
+                            </h3>
                         </div>
                     </div>
                 </Window>
