@@ -55,6 +55,12 @@
             "modelFile": "01ichika_2025aprilfool_t01.model3.json"
         },
         {
+            "modelName": "01ichika_clothes2_4_t09",
+            "modelBase": "v2_01ichika_casual",
+            "modelPath": "v2/main/01_ichika/v2_01ichika_casual",
+            "modelFile": "01ichika_clothes2_4_t09.model3.json"
+        },
+        {
             "modelName": "01ichika_clothes2_4_t06",
             "modelBase": "v2_01ichika_casual",
             "modelPath": "v2/main/01_ichika/v2_01ichika_casual",
@@ -71,6 +77,18 @@
             "modelBase": "v2_01ichika_school01",
             "modelPath": "v2/main/01_ichika/v2_01ichika_school01",
             "modelFile": "v2_01ichika_school_t03.model3.json"
+        },
+        {
+            "modelName": "v2_01ichika_school_t06",
+            "modelBase": "v2_01ichika_school01",
+            "modelPath": "v2/main/01_ichika/v2_01ichika_school01",
+            "modelFile": "v2_01ichika_school_t06.model3.json"
+        },
+        {
+            "modelName": "01ichika_unit2_t05",
+            "modelBase": "v2_01ichika_unit",
+            "modelPath": "v2/main/01_ichika/v2_01ichika_unit",
+            "modelFile": "01ichika_unit2_t05.model3.json"
         },
         {
             "modelName": "01ichika_unit2_t02",
@@ -183,6 +201,12 @@
             "modelFile": "v2_02saki_uniform_t04.model3.json"
         },
         {
+            "modelName": "v2_02saki_tenniswear_t02",
+            "modelBase": "v2_02saki_tenniswear",
+            "modelPath": "v2/main/02_saki/v2_02saki_tenniswear",
+            "modelFile": "v2_02saki_tenniswear_t02.model3.json"
+        },
+        {
             "modelName": "v2_02saki_unit_t04",
             "modelBase": "v2_02saki_unit",
             "modelPath": "v2/main/02_saki/v2_02saki_unit",
@@ -269,10 +293,22 @@
             "modelFile": "03honami_clothes2_4_t03.model3.json"
         },
         {
+            "modelName": "03honami_clothes2_4_t04",
+            "modelBase": "v2_03honami_casual",
+            "modelPath": "v2/main/03_honami/v2_03honami_casual",
+            "modelFile": "03honami_clothes2_4_t04.model3.json"
+        },
+        {
             "modelName": "03honami_clothes2_4_t03_black",
             "modelBase": "v2_03honami_casual_black",
             "modelPath": "v2/main/03_honami/v2_03honami_casual_black",
             "modelFile": "03honami_clothes2_4_t03_black.model3.json"
+        },
+        {
+            "modelName": "v2_03honami_school_t04",
+            "modelBase": "v2_03honami_school01",
+            "modelPath": "v2/main/03_honami/v2_03honami_school01",
+            "modelFile": "v2_03honami_school_t04.model3.json"
         },
         {
             "modelName": "v2_03honami_school_t03",
@@ -285,6 +321,12 @@
             "modelBase": "v2_03honami_unit",
             "modelPath": "v2/main/03_honami/v2_03honami_unit",
             "modelFile": "03honami_unit2_t05.model3.json"
+        },
+        {
+            "modelName": "03honami_unit2_t06",
+            "modelBase": "v2_03honami_unit",
+            "modelPath": "v2/main/03_honami/v2_03honami_unit",
+            "modelFile": "03honami_unit2_t06.model3.json"
         }
     ],
     "shiho": [
@@ -355,6 +397,12 @@
             "modelFile": "v2_04shiho_2025aprilfool_t01.model3.json"
         },
         {
+            "modelName": "v2_04shiho_casual_t03",
+            "modelBase": "v2_04shiho_casual",
+            "modelPath": "v2/main/04_shiho/v2_04shiho_casual",
+            "modelFile": "v2_04shiho_casual_t03.model3.json"
+        },
+        {
             "modelName": "v2_04shiho_casual_t02",
             "modelBase": "v2_04shiho_casual",
             "modelPath": "v2/main/04_shiho/v2_04shiho_casual",
@@ -367,10 +415,22 @@
             "modelFile": "04shiho_uniform2_4_t02.model3.json"
         },
         {
+            "modelName": "04shiho_uniform2_4_t03",
+            "modelBase": "v2_04shiho_school01",
+            "modelPath": "v2/main/04_shiho/v2_04shiho_school01",
+            "modelFile": "04shiho_uniform2_4_t03.model3.json"
+        },
+        {
             "modelName": "v2_04shiho_sports02",
             "modelBase": "v2_04shiho_sports02",
             "modelPath": "v2/main/04_shiho/v2_04shiho_sports02",
             "modelFile": "v2_04shiho_sports02.model3.json"
+        },
+        {
+            "modelName": "04shiho_unit2_t05",
+            "modelBase": "v2_04shiho_unit",
+            "modelPath": "v2/main/04_shiho/v2_04shiho_unit",
+            "modelFile": "04shiho_unit2_t05.model3.json"
         },
         {
             "modelName": "04shiho_unit2_t03",
@@ -2879,6 +2939,12 @@
             "modelFile": "sub_troupemember_t02.model3.json"
         },
         {
+            "modelName": "sub_troupemember_t04",
+            "modelBase": "sub_asahi",
+            "modelPath": "v1/sub/sub_asahi",
+            "modelFile": "sub_troupemember_t04.model3.json"
+        },
+        {
             "modelName": "sub_asrunp_t08",
             "modelBase": "sub_asrunp",
             "modelPath": "v1/sub/sub_asrunp",
@@ -3311,6 +3377,12 @@
             "modelFile": "sub_sakaki_t03.model3.json"
         },
         {
+            "modelName": "sub_sakaki02_t03",
+            "modelBase": "sub_sakaki02",
+            "modelPath": "v1/sub/sub_sakaki02",
+            "modelFile": "sub_sakaki02_t03.model3.json"
+        },
+        {
             "modelName": "sub_sakichild_t02",
             "modelBase": "sub_sakichild",
             "modelPath": "v1/sub/sub_sakichild",
@@ -3459,6 +3531,12 @@
             "modelBase": "v2_sub_child_airi",
             "modelPath": "v2/sub/v2_sub_child_airi",
             "modelFile": "v2_sub_airichild02_t03.model3.json"
+        },
+        {
+            "modelName": "sub_enachild_t03",
+            "modelBase": "v2_sub_child_ena",
+            "modelPath": "v2/sub/v2_sub_child_ena",
+            "modelFile": "sub_enachild_t03.model3.json"
         },
         {
             "modelName": "sub_honamichild02_t08",
