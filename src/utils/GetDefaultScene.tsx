@@ -325,32 +325,59 @@ const LoadSceneText = async (
     scene: string
 ): Promise<ISceneText> => {
     const sceneTextContainer = new PIXI.Container();
-    const sceneTextBackgroundTexture = await Assets.load(
+
+    // Middle Texture
+    const sceneTextMiddleTexture = await Assets.load(
         "/img/SceneText_Background.png"
     );
-    const sceneTextBackgroundSprite = new PIXI.Sprite(
-        sceneTextBackgroundTexture
-    );
-    const sceneText = new PIXI.Text(scene, {
+    const sceneTextMiddleSprite = new PIXI.Sprite(sceneTextMiddleTexture);
+    const sceneTextMiddle = new PIXI.Text(scene, {
         fontFamily: "FOT-RodinNTLGPro-DB",
         fontSize: 44,
         fill: 0xffffff,
         align: "center",
     });
-    sceneText.anchor.set(0.5, 0.5);
-    sceneText.position.set(960, 540);
+    sceneTextMiddle.anchor.set(0.5, 0.5);
+    sceneTextMiddle.position.set(960, 540);
 
-    sceneTextContainer.addChildAt(sceneTextBackgroundSprite, 0);
-    sceneTextContainer.addChildAt(sceneText, 1);
+    const sceneTextMiddleContainer = new PIXI.Container();
+    sceneTextMiddleContainer.addChildAt(sceneTextMiddleSprite, 0);
+    sceneTextMiddleContainer.addChildAt(sceneTextMiddle, 1);
+
+    // Top-left Texture
+    const sceneTextTopLeftTexture = await Assets.load(
+        "/img/SceneText_TopLeft.png"
+    );
+    const sceneTextTopLeftSprite = new PIXI.Sprite(sceneTextTopLeftTexture);
+    const sceneTextTopLeft = new PIXI.Text(scene, {
+        fontFamily: "FOT-RodinNTLGPro-DB",
+        fontSize: 39,
+        fill: 0xffffff,
+        align: "center",
+    });
+    sceneTextTopLeft.anchor.set(0, 0.5);
+    sceneTextTopLeft.position.set(120, 62);
+
+    const sceneTextTopLeftContainer = new PIXI.Container();
+    sceneTextTopLeftContainer.addChildAt(sceneTextTopLeftSprite, 0);
+    sceneTextTopLeftContainer.addChildAt(sceneTextTopLeft, 1);
+    sceneTextTopLeftContainer.visible = false;
+
+    sceneTextContainer.addChildAt(sceneTextMiddleContainer, 0);
+    sceneTextContainer.addChildAt(sceneTextTopLeftContainer, 1);
 
     app.stage.addChildAt(sceneTextContainer, childAt);
+
     sceneTextContainer.visible = false;
 
     return {
         sceneTextContainer: sceneTextContainer,
-        text: sceneText,
+        middle: sceneTextMiddleContainer,
+        topLeft: sceneTextTopLeftContainer,
+        text: [sceneTextMiddle, sceneTextTopLeft],
         textString: scene,
         visible: false,
+        variant: "middle",
     };
 };
 

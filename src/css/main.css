@@ -293,6 +293,11 @@ input[type=checkbox]:checked::before {
   display: none;
 }
 
+.radio__label {
+  font-size: 20px;
+  color: #444466;
+}
+
 input[type=text],
 input[type=number] {
   font-family: inherit;

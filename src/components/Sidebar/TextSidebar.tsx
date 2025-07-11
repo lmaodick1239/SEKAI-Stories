@@ -50,6 +50,7 @@ const TextSidebar: React.FC = () => {
     const [lockFontSizeState, setLockFontSizeState] = useState<boolean>(
         lockFontSize === "true" ? true : false
     );
+    const [easyNameTagSelected, setEasyNameTagSelected] = useState<string>("");
 
     useEffect(() => {
         const storedNameTags = localStorage.getItem("nameTags");
@@ -167,12 +168,37 @@ const TextSidebar: React.FC = () => {
         const changedSceneText = event.target.value
             .replace(/“|”/g, '"')
             .replace(/‘|’/g, "'");
-        sceneText.text.text = changedSceneText;
-        sceneText.text.updateText(true);
+
+        sceneText.text.forEach((t) => {
+            t.text = changedSceneText;
+            t.updateText(true);
+        });
 
         setSceneText({
             ...sceneText,
             textString: changedSceneText,
+        });
+    };
+
+    const handleSceneTextVariantChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = event.target.value;
+
+        switch (value) {
+            case "top-left":
+                sceneText.middle.visible = false;
+                sceneText.topLeft.visible = true;
+                break;
+            case "middle":
+                sceneText.middle.visible = true;
+                sceneText.topLeft.visible = false;
+                break;
+        }
+
+        setSceneText({
+            ...sceneText,
+            variant: value,
         });
     };
 
@@ -248,6 +274,7 @@ const TextSidebar: React.FC = () => {
             ...text,
             nameTagString: changedNameTag,
         });
+        setEasyNameTagSelected(value);
     };
 
     const handleYOffset = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -317,6 +344,7 @@ const TextSidebar: React.FC = () => {
                                                 onChange={
                                                     handleEasyNameTagSelect
                                                 }
+                                                data={easyNameTagSelected}
                                             />
                                             <input
                                                 type="text"
@@ -475,29 +503,67 @@ const TextSidebar: React.FC = () => {
                     )}
                 </div>
                 {(openAll || openTextOption === "scene-text") && (
-                    <div className="option__content">
-                        <input
-                            type="text"
-                            name="name-tag"
-                            id="name-tag"
-                            value={sceneText.textString}
-                            onChange={handleSceneTextChange}
-                        />
-                        <Checkbox
-                            id="visible"
-                            label={t("visible")}
-                            checked={sceneText.visible}
-                            onChange={handleSceneTextVisible}
-                        />
-                        {sceneText.visible && (
-                            <Checkbox
-                                id="hide-everything"
-                                label={t("text.hide-everything")}
-                                checked={text.hideEverything}
-                                onChange={handleHideEverything}
+                    <>
+                        <div className="option__content">
+                            <input
+                                type="text"
+                                name="name-tag"
+                                id="name-tag"
+                                value={sceneText.textString}
+                                onChange={handleSceneTextChange}
                             />
-                        )}
-                    </div>
+                        </div>
+                        <div className="option__content">
+                            <h3>Variant</h3>
+                            <div className="flex-horizontal center padding-top-bottom-10">
+                                <RadioButton
+                                    name="scene-text-variant"
+                                    value="middle"
+                                    onChange={handleSceneTextVariantChange}
+                                    id="middle"
+                                    data={sceneText.variant}
+                                />
+                                <label
+                                    className="width-100 radio__label"
+                                    htmlFor="middle"
+                                >
+                                    Middle
+                                </label>
+                            </div>
+                            <div className="flex-horizontal center padding-top-bottom-10">
+                                <RadioButton
+                                    name="scene-text-variant"
+                                    value="top-left"
+                                    id="top-left"
+                                    onChange={handleSceneTextVariantChange}
+                                    data={sceneText.variant}
+                                />
+                                <label
+                                    className="width-100 radio__label"
+                                    htmlFor="top-left"
+                                >
+                                    Top-Left
+                                </label>
+                            </div>
+                        </div>
+                        <div className="option__content">
+                            <h3>Toggles</h3>
+                            <Checkbox
+                                id="visible"
+                                label={t("visible")}
+                                checked={sceneText.visible}
+                                onChange={handleSceneTextVisible}
+                            />
+                            {sceneText.visible && (
+                                <Checkbox
+                                    id="hide-everything"
+                                    label={t("text.hide-everything")}
+                                    checked={text.hideEverything}
+                                    onChange={handleHideEverything}
+                                />
+                            )}
+                        </div>
+                    </>
                 )}
             </div>
             <div
