@@ -29,6 +29,7 @@ import {
     virtualEffectCRT,
 } from "../../utils/VirtualEffect";
 import IEmotionBookmark from "../../types/IEmotionBookmark";
+import Live2DInputSlider from "../Live2DInputSlider";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -178,9 +179,7 @@ const ModelSidebar: React.FC = () => {
         setBookmarkEmotion(bookmarkEmotionsJson);
 
         if (text?.hideEverything) {
-            setErrorInformation(
-                t("error.hide-everything-warning")
-            );
+            setErrorInformation(t("error.hide-everything-warning"));
         }
     }, []);
 
@@ -593,16 +592,23 @@ const ModelSidebar: React.FC = () => {
         });
     };
 
-    const handlePoseChange = async (
-        event: React.ChangeEvent<HTMLSelectElement>
+    const handleEmotionChange = async (
+        event: React.ChangeEvent<HTMLSelectElement>,
+        type: "expression" | "pose"
     ) => {
         if (currentModel?.model instanceof Live2DModel) {
-            const pose = Number(event?.target.value);
+            const value = Number(event?.target.value);
+            const group =
+                type === "expression"
+                    ? "Expression"
+                    : type === "pose"
+                    ? "Motion"
+                    : "";
             const selectedOption =
                 event.target.options[event.target.selectedIndex].text;
             try {
-                currentModel?.model.motion("Motion", pose);
-                updateModelState({ pose });
+                currentModel?.model.motion(group, value);
+                updateModelState({ [type]: value });
             } catch {
                 setLoadingMsg(`Fail to load ${selectedOption}!`);
                 setLoading(true);
@@ -610,68 +616,27 @@ const ModelSidebar: React.FC = () => {
         }
     };
 
-    const handleExpressionChange = async (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        if (currentModel?.model instanceof Live2DModel) {
-            const expression = Number(event?.target.value);
-            const selectedOption =
-                event.target.options[event.target.selectedIndex].text;
-            try {
-                currentModel?.model.motion("Expression", expression);
-                updateModelState({ expression });
-            } catch {
-                setLoadingMsg(`Fail to load ${selectedOption}!`);
-                setLoading(true);
-            }
-        }
-    };
-
-    const handleBookmarkEmotion = async (type: string) => {
+    const handleBookmarkEmotion = async (type: "pose" | "expression") => {
         if (!currentModel) return;
 
-        if (
-            !bookmarkEmotions[
-                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-            ]
-        ) {
-            bookmarkEmotions[
-                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-            ] = {
+        const key = `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`;
+        const emotionValue =
+            type === "pose" ? currentModel.pose : currentModel.expression;
+
+        if (!bookmarkEmotions[key]) {
+            bookmarkEmotions[key] = {
                 pose: [],
                 expression: [],
             };
         }
 
-        switch (type) {
-            case "pose": {
-                const poseArray =
-                    bookmarkEmotions[
-                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                    ].pose;
-                if (poseArray.includes(currentModel.pose)) {
-                    const index = poseArray.indexOf(currentModel.pose);
-                    if (index !== -1) poseArray.splice(index, 1);
-                } else {
-                    poseArray.push(currentModel.pose);
-                }
-                break;
-            }
-            case "expression": {
-                const expressionArray =
-                    bookmarkEmotions[
-                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                    ].expression;
-                if (expressionArray.includes(currentModel.expression)) {
-                    const index = expressionArray.indexOf(
-                        currentModel.expression
-                    );
-                    if (index !== -1) expressionArray.splice(index, 1);
-                } else {
-                    expressionArray.push(currentModel.expression);
-                }
-                break;
-            }
+        const emotionArray = bookmarkEmotions[key][type];
+
+        const index = emotionArray.indexOf(emotionValue);
+        if (index !== -1) {
+            emotionArray.splice(index, 1);
+        } else {
+            emotionArray.push(emotionValue);
         }
 
         localStorage.setItem(
@@ -875,38 +840,6 @@ const ModelSidebar: React.FC = () => {
         a.remove();
     };
 
-    const live2DInputSlider = (idx: number, param: string, filter?: string) => {
-        if (filter && !param.includes(filter)) {
-            return null;
-        }
-
-        if (idx == -1) return null;
-
-        if (!coreModel || !currentModel) return null;
-
-        const min = coreModel.getParameterMinimumValue(idx);
-        const max = coreModel.getParameterMaximumValue(idx);
-        const value = coreModel.getParameterValueById(param);
-
-        return (
-            <div className="option__content" key={param}>
-                {filter && <h3>{t(`model.${param}`)}</h3>}
-                <input
-                    type="range"
-                    name={param}
-                    id={param}
-                    min={min}
-                    max={max}
-                    step={0.01}
-                    value={currentModel.parametersChanged[param] ?? value}
-                    onChange={(e) => {
-                        handleLive2DParamsChange(e, param);
-                    }}
-                />
-            </div>
-        );
-    };
-
     return (
         <div>
             <h1>{t("model.header")}</h1>
@@ -1108,7 +1041,9 @@ const ModelSidebar: React.FC = () => {
                                     <div className="space-between flex-horizontal relative">
                                         <select
                                             value={currentModel?.pose}
-                                            onChange={handlePoseChange}
+                                            onChange={(e) => {
+                                                handleEmotionChange(e, "pose");
+                                            }}
                                         >
                                             <option value={99999} disabled>
                                                 {t("model.select-pose")}
@@ -1194,7 +1129,12 @@ const ModelSidebar: React.FC = () => {
                                     <div className="space-between flex-horizontal relative">
                                         <select
                                             value={currentModel?.expression}
-                                            onChange={handleExpressionChange}
+                                            onChange={(e) => {
+                                                handleEmotionChange(
+                                                    e,
+                                                    "expression"
+                                                );
+                                            }}
                                         >
                                             <option value={99999} disabled>
                                                 {t("model.select-expression")}
@@ -1427,10 +1367,19 @@ const ModelSidebar: React.FC = () => {
                                 {coreModel &&
                                     coreModel["_parameterIds"]
                                         .map((param: string, idx: number) => {
-                                            return live2DInputSlider(
-                                                idx,
-                                                param,
-                                                "Mouth"
+                                            if (!param.includes("Mouth"))
+                                                return;
+                                            return (
+                                                <Live2DInputSlider
+                                                    idx={idx}
+                                                    param={param}
+                                                    coreModel={coreModel}
+                                                    onChange={
+                                                        handleLive2DParamsChange
+                                                    }
+                                                    currentModel={currentModel}
+                                                    filter
+                                                />
                                             );
                                         })
                                         .filter(Boolean)}
@@ -1497,10 +1446,22 @@ const ModelSidebar: React.FC = () => {
                                         {selectedParameter &&
                                             selectedParameter.idx != -1 && (
                                                 <>
-                                                    {live2DInputSlider(
-                                                        selectedParameter?.idx,
-                                                        selectedParameter?.param
-                                                    )}
+                                                    <Live2DInputSlider
+                                                        idx={
+                                                            selectedParameter?.idx
+                                                        }
+                                                        param={
+                                                            selectedParameter?.param
+                                                        }
+                                                        coreModel={coreModel}
+                                                        onChange={
+                                                            handleLive2DParamsChange
+                                                        }
+                                                        currentModel={
+                                                            currentModel
+                                                        }
+                                                    />
+
                                                     <div className="layer-buttons">
                                                         <button
                                                             className="btn-circle btn-white"
