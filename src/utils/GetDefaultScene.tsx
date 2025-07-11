@@ -3,6 +3,12 @@ import { getBackground } from "../utils/GetBackground";
 import { Live2DModel } from "pixi-live2d-display";
 import { Dispatch, SetStateAction } from "react";
 import { Assets } from "@pixi/assets";
+import IBackground from "../types/IBackground";
+import { ISplitBackground } from "../types/ISplitBackground";
+import IText from "../types/IText";
+import ISceneText from "../types/ISceneText";
+import IGuideline from "../types/IGuideline";
+import IModel from "../types/IModel";
 
 interface GetDefaultSceneProps {
     app: PIXI.Application | undefined;
@@ -137,7 +143,7 @@ const LoadBackground = async (
     container: PIXI.Container,
     childAt: number,
     fileName: string
-) => {
+): Promise<IBackground> => {
     const backgroundContainer = new PIXI.Container();
     const backgroundSprite = await getBackground(fileName);
     backgroundContainer.addChild(backgroundSprite);
@@ -153,7 +159,7 @@ const LoadBackground = async (
 const LoadSplitBackground = async (
     container: PIXI.Container,
     childAt: number
-) => {
+): Promise<ISplitBackground> => {
     const splitBackgroundContainer = new PIXI.Container();
     const firstBackground = new PIXI.Container();
     const firstBackgroundSprite = await getBackground(
@@ -218,7 +224,10 @@ const LoadModel = async (
     model: string,
     x: number,
     y: number
-) => {
+): Promise<{
+    model: Record<string, IModel>;
+    modelContainer: PIXI.Container;
+}> => {
     const modelContainer = new PIXI.Container();
     const texture = await PIXI.Texture.fromURL(`/img/${file}.png`);
     const sprite = new PIXI.Sprite(texture);
@@ -256,7 +265,7 @@ const LoadText = async (
     childAt: number,
     nameTag: string,
     dialogue: string
-) => {
+): Promise<IText> => {
     const textAlignmentCookie = Number(
         localStorage.getItem("textAlignment") ?? 0
     );
@@ -314,7 +323,7 @@ const LoadSceneText = async (
     app: PIXI.Application,
     childAt: number,
     scene: string
-) => {
+): Promise<ISceneText> => {
     const sceneTextContainer = new PIXI.Container();
     const sceneTextBackgroundTexture = await Assets.load(
         "/img/SceneText_Background.png"
@@ -345,7 +354,10 @@ const LoadSceneText = async (
     };
 };
 
-const LoadGuideline = async (app: PIXI.Application, childAt: number) => {
+const LoadGuideline = async (
+    app: PIXI.Application,
+    childAt: number
+): Promise<IGuideline> => {
     const guidelineContainer = new PIXI.Container();
     const gridTexture = await Assets.load("/img/grid.png");
     const gridSprite = new PIXI.Sprite(gridTexture);
