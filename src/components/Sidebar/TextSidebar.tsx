@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,  useState } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import { Checkbox } from "../UI/Checkbox";
 import RadioButton from "../UI/RadioButton";
 import { useTranslation } from "react-i18next";
-import { IEasyNameTag } from "../../types/IEasyNameTag";
 import { SoftErrorContext } from "../../contexts/SoftErrorContext";
 
 const symbols = {
@@ -39,36 +38,32 @@ const TextSidebar: React.FC = () => {
     const error = useContext(SoftErrorContext);
 
     const lockFontSize = localStorage.getItem("lockFontSize");
-    const easySwitchEnabled = localStorage.getItem("easySwitchEnabled");
 
     const [bell, setBell] = useState<boolean>(false);
-    const [easySwitch, setEasySwitch] = useState<boolean>(
-        easySwitchEnabled === "true" ? true : false
-    );
-    const [nameTags, setNameTags] = useState<IEasyNameTag>({});
-    const [nameTagInputs, setNameTagInputs] = useState<number>(2);
+
     const [lockFontSizeState, setLockFontSizeState] = useState<boolean>(
         lockFontSize === "true" ? true : false
     );
     const [easyNameTagSelected, setEasyNameTagSelected] = useState<string>("");
 
-    useEffect(() => {
-        const storedNameTags = localStorage.getItem("nameTags");
-        if (storedNameTags) {
-            setNameTags(JSON.parse(storedNameTags));
-        }
-        const storedNameTagInputs = localStorage.getItem("nameTagInputs");
-        if (storedNameTagInputs) {
-            setNameTagInputs(Number(storedNameTagInputs));
-        }
-    }, []);
+  
 
     if (!scene || !settings || !error) {
         throw new Error("Context not found");
     }
 
     const { text, setText, sceneText, setSceneText, modelContainer } = scene;
-    const { openTextOption, setOpenTextOption, openAll } = settings;
+    const {
+        openTextOption,
+        setOpenTextOption,
+        openAll,
+        easySwitch,
+        setEasySwitch,
+        nameTags,
+        setNameTags,
+        nameTagInputs,
+        setNameTagInputs,
+    } = settings;
     const { setErrorInformation } = error;
 
     if (!text || !sceneText) return t("please-wait");
