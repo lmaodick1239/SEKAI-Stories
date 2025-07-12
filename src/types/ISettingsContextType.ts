@@ -30,4 +30,6 @@ export default interface ISettingsContextType {
     setAllowRefresh: Dispatch<SetStateAction<boolean>>;
     audio: boolean;
     setAudio: Dispatch<SetStateAction<boolean>>;
+    loading: number;
+    setLoading: Dispatch<SetStateAction<number>>;
 }

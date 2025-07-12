@@ -5,6 +5,7 @@ import Announcements from "./components/UI/Announcements";
 import { useTranslation } from "react-i18next";
 import { SettingsContext } from "./contexts/SettingsContext";
 import { useAudioManager } from "./utils/useAudioManager";
+import Loading from "./components/UI/Loading";
 
 function App() {
     const { playSound } = useAudioManager();
@@ -42,7 +43,7 @@ function App() {
                 target.closest("a")
             )
                 return;
-            playSound("/sound/select.wav")
+            playSound("/sound/select.wav");
         };
 
         document.addEventListener("click", handleButtonClick, true);
@@ -57,6 +58,7 @@ function App() {
             <Content />
             {!hide && <Sidebar />}
             {!hideAnnouncements && <Announcements />}
+            <Loading />
         </main>
     );
 }

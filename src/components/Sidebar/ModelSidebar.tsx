@@ -110,7 +110,7 @@ const ModelSidebar: React.FC = () => {
         initialState,
         setInitialState,
     } = scene;
-    const { openAll } = settings;
+    const { openAll, setLoading } = settings;
     const { setErrorInformation } = softError;
 
     const [openTab, setOpenTab] = useState<string>("select-layer");
@@ -118,7 +118,7 @@ const ModelSidebar: React.FC = () => {
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
     const [layerIndex, setLayerIndex] = useState<number>(0);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [loadingMsg, setLoadingMsg] = useState<string>("");
     const [showAddModelScreen, setShowAddModelScreen] =
         useState<boolean>(false);
@@ -158,7 +158,7 @@ const ModelSidebar: React.FC = () => {
 
     useEffect(() => {
         if (!models || !currentKey || !currentModel) return;
-        if (currentModel?.model instanceof Live2DModel && !loading) {
+        if (currentModel?.model instanceof Live2DModel && !isLoading) {
             setCoreModel(
                 currentModel.model.internalModel
                     .coreModel as Cubism4InternalModel["coreModel"]
@@ -166,7 +166,7 @@ const ModelSidebar: React.FC = () => {
         } else {
             setCoreModel(null);
         }
-    }, [currentModel, loading]);
+    }, [currentModel, isLoading]);
 
     useEffect(() => {
         const bookmarkEmotionsCookie = localStorage.getItem(
@@ -255,6 +255,7 @@ const ModelSidebar: React.FC = () => {
         model: string | ILive2DModelList,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
+        setLoading(0);
         let modelData: ILive2DModelData | undefined = undefined;
         let modelName: string | undefined = undefined;
         if (typeof model === "string") {
@@ -279,13 +280,17 @@ const ModelSidebar: React.FC = () => {
             throw new Error("Model data is undefined");
         }
 
+        setLoading(20);
         setLoadingMsg(`${t("loading-4")} ${modelName}...`);
         await axios.get(modelData.url + modelData.FileReferences.Textures[0]);
+        setLoading(40);
         setLoadingMsg(`${t("loading-5")} ${modelName}...`);
         await axios.get(modelData.url + modelData.FileReferences.Moc);
+        setLoading(60);
         setLoadingMsg(`${t("loading-6")} ${modelName}...`);
         await axios.get(modelData.url + modelData.FileReferences.Physics);
 
+        setLoading(80);
         setLoadingMsg(`${t("loading-7")}...`);
         const live2DModel = await Live2DModel.from(modelData, {
             autoInteract: false,
@@ -300,6 +305,7 @@ const ModelSidebar: React.FC = () => {
         currentModel?.model.destroy();
         modelContainer?.addChildAt(live2DModel, layerIndex);
 
+        setLoading(100);
         setLoadingMsg(``);
 
         return [live2DModel, modelData];
@@ -402,7 +408,7 @@ const ModelSidebar: React.FC = () => {
             setErrorInformation(t("model.delete-model-warn"));
             return;
         }
-        setLoading(true);
+        setIsLoading(true);
         setCoreModel(null);
         currentModel?.model.destroy();
         delete models[currentKey];
@@ -412,7 +418,7 @@ const ModelSidebar: React.FC = () => {
         setCurrentSelectedCharacter(models[firstKey].character);
         setLayerIndex(0);
         setLayers(layers - 1);
-        setLoading(false);
+        setIsLoading(false);
         setSelectedParameter({ idx: -1, param: "_" });
     };
 
@@ -430,7 +436,7 @@ const ModelSidebar: React.FC = () => {
     };
 
     const handleCharacterChange = async (value: string) => {
-        setLoading(true);
+        setIsLoading(true);
         const character = value;
         setCurrentSelectedCharacter(character);
         if (characterSelect.current && modelSelect.current) {
@@ -491,8 +497,9 @@ const ModelSidebar: React.FC = () => {
         } catch (error) {
             setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
+            setLoading(100);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
             if (characterSelect.current && modelSelect.current) {
                 characterSelect.current.disabled = false;
                 modelSelect.current.disabled = false;
@@ -501,7 +508,7 @@ const ModelSidebar: React.FC = () => {
     };
 
     const handleCostumeChange = async (value: string) => {
-        setLoading(true);
+        setIsLoading(true);
 
         const modelBase = value;
 
@@ -559,8 +566,9 @@ const ModelSidebar: React.FC = () => {
         } catch (error) {
             setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
+            setLoading(100);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
             if (characterSelect.current && modelSelect.current) {
                 characterSelect.current.disabled = false;
                 modelSelect.current.disabled = false;
@@ -611,7 +619,7 @@ const ModelSidebar: React.FC = () => {
                 updateModelState({ [type]: value });
             } catch {
                 setLoadingMsg(`Fail to load ${selectedOption}!`);
-                setLoading(true);
+                setIsLoading(true);
             }
         }
     };
@@ -1346,7 +1354,7 @@ const ModelSidebar: React.FC = () => {
                 )}
             </div>
 
-            {currentModel?.model instanceof Live2DModel && !loading && (
+            {currentModel?.model instanceof Live2DModel && !isLoading && (
                 <>
                     <div
                         className="option"

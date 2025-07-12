@@ -22,6 +22,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [easySwitch, setEasySwitch] = useState<boolean>(false);
     const [allowRefresh, setAllowRefresh] = useState<boolean>(false);
     const [audio, setAudio] = useState<boolean>(false);
+    const [loading, setLoading] = useState<number>(0);
 
     useEffect(() => {
         const announcementCookie = localStorage.getItem(
@@ -103,6 +104,8 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
                 setAllowRefresh,
                 audio,
                 setAudio,
+                loading,
+                setLoading,
             }}
         >
             {children}

@@ -13,6 +13,7 @@ import IModel from "../types/IModel";
 interface GetDefaultSceneProps {
     app: PIXI.Application | undefined;
     setStartingMessage: Dispatch<SetStateAction<string>>;
+    setLoading: Dispatch<SetStateAction<number>>;
     scene?: string;
 }
 interface InitialScene {
@@ -402,8 +403,10 @@ const LoadGuideline = async (
 export const LoadScene = async ({
     app,
     setStartingMessage,
+    setLoading,
     scene,
 }: GetDefaultSceneProps) => {
+    setLoading(0);
     const initialScene: InitialScene = LoadInitialScene(scene);
 
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -412,6 +415,7 @@ export const LoadScene = async ({
         app.stop();
     }
 
+    setLoading(10);
     const initApplication = new PIXI.Application({
         view: canvas,
         autoStart: true,
@@ -422,6 +426,7 @@ export const LoadScene = async ({
 
     Live2DModel.registerTicker(PIXI.Ticker);
 
+    setLoading(20);
     // Load Transparent (for development. idk why it causes issues before production)
     const transparentContainer = new PIXI.Container();
     const transparentSprite = await getBackground(
@@ -430,11 +435,13 @@ export const LoadScene = async ({
     transparentContainer.addChildAt(transparentSprite, 0);
     initApplication.stage.addChildAt(transparentContainer, 0);
 
+    setLoading(30);
     // Load Filter Container
     const filterContainer = new PIXI.Container();
     initApplication.stage.addChildAt(filterContainer, 1);
     const filter = { container: filterContainer, flashback: false };
 
+    setLoading(40);
     // Load Background
     setStartingMessage("Adding background...");
     const background = await LoadBackground(
@@ -443,9 +450,11 @@ export const LoadScene = async ({
         initialScene["background"]
     );
 
+    setLoading(50);
     // Load Split Background
     const splitBackground = await LoadSplitBackground(filterContainer, 1);
 
+    setLoading(60);
     // Load Sample PNG Sprite
     const { model, modelContainer } = await LoadModel(
         filterContainer,
@@ -457,6 +466,7 @@ export const LoadScene = async ({
         initialScene.modelY
     );
 
+    setLoading(70);
     // Load Text
     setStartingMessage("Adding text...");
     const text = await LoadText(
@@ -466,6 +476,7 @@ export const LoadScene = async ({
         initialScene.text
     );
 
+    setLoading(80);
     // Load Scene Setting Text
     const sceneText = await LoadSceneText(
         initApplication,
@@ -473,9 +484,11 @@ export const LoadScene = async ({
         initialScene.sceneText
     );
 
+    setLoading(90);
     // Load Guideline Tools
     const guideline = await LoadGuideline(initApplication, 4);
 
+    setLoading(100);
     return {
         app: initApplication,
         model: model,

@@ -27,7 +27,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     if (!softError || !settings) throw new Error("Context not loaded");
 
     const { setErrorInformation } = softError;
-    const { blankCanvas } = settings;
+    const { blankCanvas, setLoading } = settings;
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel> | undefined>(
         undefined
@@ -80,6 +80,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
         } = await LoadScene({
             app,
             setStartingMessage,
+            setLoading,
             ...(blankCanvas || blankCanvasCookie === "true"
                 ? { scene: "blank" }
                 : {}),

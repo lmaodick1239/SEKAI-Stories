@@ -442,6 +442,14 @@ select:disabled {
   position: absolute;
 }
 
+.sticky {
+  position: sticky;
+}
+
+.fixed {
+  position: fixed;
+}
+
 .top-left {
   top: 0;
   left: 0;
@@ -996,6 +1004,24 @@ select:disabled {
 .middle-information h3 {
   color: #ffffff;
   text-align: center;
+}
+
+.loading-container {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  opacity: 100%;
+  transition: opacity 0.1s;
+  pointer-events: none;
+  user-select: none;
+}
+
+.loading-fill {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
 }
 
 * {
