@@ -47,7 +47,7 @@ const ExportButton: React.FC = () => {
         setReset,
         setSceneJson,
     } = scene;
-    const { setAllowRefresh } = settings;
+    const { setAllowRefresh, setLoading } = settings;
     const { setErrorInformation } = softError;
     const jsonRef = useRef<IJsonSave | undefined>(sceneJson);
 
@@ -114,12 +114,16 @@ const ExportButton: React.FC = () => {
     }, []);
 
     const loadScene = async (data: IJsonSave) => {
+        setLoading(0);
         setLoadingMsg("Fetching background...");
         const backgroundData = data.background;
+        setLoading(5);
         const backgroundSprite = await getBackground(backgroundData);
         const firstBackgroundData = data.splitBackground.first;
         const secondBackgroundData = data.splitBackground.second;
+        setLoading(10);
         const firstBackgroundSprite = await getBackground(firstBackgroundData);
+        setLoading(15);
         const secondBackgroundSprite = await getBackground(
             secondBackgroundData
         );
@@ -134,6 +138,7 @@ const ExportButton: React.FC = () => {
             );
         }
 
+        setLoading(20);
         setLoadingMsg("Fetching text...");
         const textNameTag = data.text.nameTag;
         const textDialogue = data.text.dialogue;
@@ -146,8 +151,12 @@ const ExportButton: React.FC = () => {
         let modelTextures: Record<string, IModel> = {};
 
         modelContainer?.removeChildren();
+        let steps = 0;
+        const totalSteps = modelJson.length * 5;
         for (const [idx, model] of modelJson.entries()) {
             let modelData: ILive2DModelData | undefined = undefined;
+            steps++;
+            setLoading(20 + 60 * (steps / totalSteps));
             setLoadingMsg(
                 `(${idx + 1}/${modelJson.length}): ${t("loading-1")} ${
                     model.modelName
@@ -175,6 +184,8 @@ const ExportButton: React.FC = () => {
                 throw new Error(`Model data not found for ${model.modelName}.`);
             }
 
+            steps++;
+            setLoading(20 + 60 * (steps / totalSteps));
             setLoadingMsg(
                 `(${idx + 1}/${modelJson.length}): ${t("loading-4")} ${
                     model.modelName
@@ -183,6 +194,8 @@ const ExportButton: React.FC = () => {
             await axios.get(
                 modelData.url + modelData.FileReferences.Textures[0]
             );
+            steps++;
+            setLoading(20 + 60 * (steps / totalSteps));
             setLoadingMsg(
                 `(${idx + 1}/${modelJson.length}): ${t("loading-5")} ${
                     model.modelName
@@ -191,11 +204,15 @@ const ExportButton: React.FC = () => {
             await axios.get(modelData.url + modelData.FileReferences.Moc, {
                 responseType: "arraybuffer",
             });
+            steps++;
+            setLoading(20 + 60 * (steps / totalSteps));
             setLoadingMsg(
                 `(${idx + 1}/${modelJson.length}): ${t("loading-6")} ${
                     model.modelName
                 }`
             );
+            steps++;
+            setLoading(20 + 60 * (steps / totalSteps));
             await axios.get(modelData.url + modelData.FileReferences.Physics);
             setLoadingMsg(
                 `(${idx + 1}/${modelJson.length}): ${t("loading-7")} ${
@@ -268,6 +285,7 @@ const ExportButton: React.FC = () => {
             };
         }
 
+        setLoading(80);
         background?.backgroundContainer.removeChildAt(0);
         background?.backgroundContainer.addChildAt(backgroundSprite, 0);
         if (background?.backgroundContainer) {
@@ -317,6 +335,7 @@ const ExportButton: React.FC = () => {
         setLayers(Object.keys(modelTextures).length);
         setNextLayer(Object.keys(modelTextures).length);
         setLoadingMsg("");
+        setLoading(100);
     };
 
     const handleExport = () => {
@@ -358,6 +377,7 @@ const ExportButton: React.FC = () => {
                             );
                             console.error("Error loading scene:", error);
                             setReset(reset + 1);
+                            setLoading(100);
                             setLoadingMsg("");
                         }
                     } else {
