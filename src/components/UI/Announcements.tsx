@@ -10,12 +10,12 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("5.4.0-announcements-II");
+        const cookie = localStorage.getItem("5.5.0-announcements");
         if (!cookie) {
-            localStorage.setItem("5.4.0-announcements-II", "0");
+            localStorage.setItem("5.5.0-announcements", "0");
             return;
         }
-        localStorage.setItem("5.4.0-announcements-II", `${Number(cookie) + 1}`);
+        localStorage.setItem("5.5.0-announcements", `${Number(cookie) + 1}`);
     };
 
     return (
@@ -27,23 +27,14 @@ const Announcements: React.FC = () => {
                 className="btn-regular btn-blue"
                 onClick={() => {
                     window.open(
-                        "https://ko-fi.com/post/SEKAI-Stories-New-Features-Y8Y31HA0RW",
+                        "https://ko-fi.com/post/SEKAI-Stories-New-Features-U6U01HYONB",
                         "_blank"
                     );
                 }}
             >
                 Ko-fi Announcement
             </button>
-            <p>
-                You can still give feedback on this{" "}
-                <a href="https://forms.gle/G2J3gZnsSXSd2G5f6" target="_blank">
-                    Feedback form
-                </a>{" "}
-                if you have any issues or suggestions.
-            </p>
-            <p>
-                I also created a <a href="https://twitter.com/lezzthanthree">new Twitter account</a>.
-            </p>
+            
             <p>Tap this section to close.</p>
         </div>
     );
