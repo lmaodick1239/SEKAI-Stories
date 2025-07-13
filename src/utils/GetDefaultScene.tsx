@@ -9,6 +9,7 @@ import IText from "../types/IText";
 import ISceneText from "../types/ISceneText";
 import IGuideline from "../types/IGuideline";
 import IModel from "../types/IModel";
+import { IFilter } from "../types/IFilter";
 
 interface GetDefaultSceneProps {
     app: PIXI.Application | undefined;
@@ -439,7 +440,7 @@ export const LoadScene = async ({
     // Load Filter Container
     const filterContainer = new PIXI.Container();
     initApplication.stage.addChildAt(filterContainer, 1);
-    const filter = { container: filterContainer, flashback: false };
+    const filter: IFilter = { container: filterContainer };
 
     setLoading(40);
     // Load Background

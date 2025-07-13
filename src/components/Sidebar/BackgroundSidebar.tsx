@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Checkbox } from "../UI/Checkbox";
 import { AdjustmentFilter } from "pixi-filters";
 import { SettingsContext } from "../../contexts/SettingsContext";
+import { sickEffect } from "../../utils/SickEffect";
 
 const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();
@@ -17,6 +18,7 @@ const BackgroundSidebar: React.FC = () => {
     if (!scene || !settings) throw new Error("Context not found");
 
     const {
+        app,
         background,
         setBackground,
         splitBackground,
@@ -77,6 +79,36 @@ const BackgroundSidebar: React.FC = () => {
             ...filter,
             flashback: value,
         });
+    };
+
+    const handleSick = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!filter?.container) return;
+
+        const value = event.target.checked;
+
+        if (value) {
+            const sickContainer = await sickEffect(app, filter.container);
+            filter.container.addChildAt(sickContainer, 3);
+
+            setFilter({
+                ...filter,
+                sick: {
+                    container: sickContainer,
+                    show: true,
+                },
+            });
+        } else {
+            if (!filter.sick) return;
+            const sickContainer = filter.sick.container;
+            sickContainer?.destroy();
+            setFilter({
+                ...filter,
+                sick: {
+                    container: null,
+                    show: false,
+                },
+            });
+        }
     };
 
     return (
@@ -175,7 +207,12 @@ const BackgroundSidebar: React.FC = () => {
                             checked={filter?.flashback}
                             onChange={handleFlashback}
                         />
-                        <p>More filters to come...</p>
+                        <Checkbox
+                            id="sick"
+                            label={t("background.sick")}
+                            checked={filter?.sick?.show}
+                            onChange={handleSick}
+                        />
                     </div>
                 )}
             </div>
