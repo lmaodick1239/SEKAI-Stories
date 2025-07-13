@@ -29,7 +29,7 @@
 }
 
 .option__background {
-    padding-top: 10px
+    padding-top: 10px;
 }
 
 #background-picker {
@@ -40,6 +40,15 @@
     border-radius: 10px;
     border: 2px $white solid;
     cursor: pointer;
+}
+
+.background-bookmark {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: $orange;
+    font-size: 2em;
+    padding: 5px 10px;
 }
 
 #picker {
@@ -95,7 +104,8 @@
     animation: flash 1s infinite;
 
     @keyframes flash {
-        0%, 100% {
+        0%,
+        100% {
             border-color: $dark-pink;
             outline-color: $dark-pink;
         }

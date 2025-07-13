@@ -13,6 +13,7 @@ import { LoadScene } from "../utils/GetDefaultScene";
 import { SoftErrorContext } from "./SoftErrorContext";
 import { useTranslation } from "react-i18next";
 import { SettingsContext } from "./SettingsContext";
+import { IFilter } from "../types/IFilter";
 
 interface SceneProviderProps {
     children: React.ReactNode;
@@ -26,7 +27,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     if (!softError || !settings) throw new Error("Context not loaded");
 
     const { setErrorInformation } = softError;
-    const { blankCanvas } = settings;
+    const { blankCanvas, setLoading } = settings;
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel> | undefined>(
         undefined
@@ -50,6 +51,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const [sceneText, setSceneText] = useState<ISceneText | undefined>(
         undefined
     );
+    const [filter, setFilter] = useState<IFilter | undefined>(undefined);
     const [guideline, setGuideline] = useState<IGuideline | undefined>(
         undefined
     );
@@ -73,10 +75,12 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             splitBackground,
             text,
             sceneText,
+            filter,
             guideline,
         } = await LoadScene({
             app,
             setStartingMessage,
+            setLoading,
             ...(blankCanvas || blankCanvasCookie === "true"
                 ? { scene: "blank" }
                 : {}),
@@ -91,6 +95,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
         setSplitBackground(splitBackground);
         setText(text);
         setSceneText(sceneText);
+        setFilter(filter);
         setGuideline(guideline);
         setStartingMessage("");
         setLayers(1);
@@ -129,6 +134,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 setText,
                 sceneText,
                 setSceneText,
+                filter,
+                setFilter,
                 sceneJson,
                 setSceneJson,
                 guideline,

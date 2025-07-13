@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { SettingsContext } from "./SettingsContext";
+import { IEasyNameTag } from "../types/IEasyNameTag";
 
 interface SidebarProviderProps {
     children: React.ReactNode;
@@ -16,11 +17,17 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [openAll, setOpenAll] = useState<boolean>(false);
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
+    const [nameTags, setNameTags] = useState<IEasyNameTag>({});
+    const [nameTagInputs, setNameTagInputs] = useState<number>(2);
+    const [easySwitch, setEasySwitch] = useState<boolean>(false);
     const [allowRefresh, setAllowRefresh] = useState<boolean>(false);
     const [audio, setAudio] = useState<boolean>(false);
+    const [loading, setLoading] = useState<number>(0);
 
     useEffect(() => {
-        const announcementCookie = localStorage.getItem("5.4.0-announcements-II");
+        const announcementCookie = localStorage.getItem(
+            "5.4.0-announcements-II"
+        );
         if (Number(announcementCookie) < 2) {
             setHideAnnouncements(false);
         }
@@ -47,6 +54,18 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
         const blankCanvasCookie = localStorage.getItem("blankCanvas");
         if (blankCanvasCookie === "true") {
             setBlankCanvas(true);
+        }
+        const easySwitchEnabled = localStorage.getItem("easySwitchEnabled");
+        if (easySwitchEnabled === "true") {
+            setEasySwitch(true);
+        }
+        const storedNameTags = localStorage.getItem("nameTags");
+        if (storedNameTags) {
+            setNameTags(JSON.parse(storedNameTags));
+        }
+        const storedNameTagInputs = localStorage.getItem("nameTagInputs");
+        if (storedNameTagInputs) {
+            setNameTagInputs(Number(storedNameTagInputs));
         }
     }, []);
 
@@ -75,10 +94,18 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
                 setOpenAll,
                 openTextOption,
                 setOpenTextOption,
+                easySwitch,
+                setEasySwitch,
+                nameTags,
+                setNameTags,
+                nameTagInputs,
+                setNameTagInputs,
                 allowRefresh,
                 setAllowRefresh,
                 audio,
                 setAudio,
+                loading,
+                setLoading,
             }}
         >
             {children}

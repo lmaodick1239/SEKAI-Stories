@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { IEasyNameTag } from "./IEasyNameTag";
 
 export default interface ISettingsContextType {
     openedSidebar: string;
@@ -17,10 +18,18 @@ export default interface ISettingsContextType {
     setShowSaveDialog: Dispatch<SetStateAction<boolean>>;
     openAll: boolean;
     setOpenAll: Dispatch<SetStateAction<boolean>>;
+    easySwitch: boolean;
+    setEasySwitch: Dispatch<SetStateAction<boolean>>;
+    nameTags: IEasyNameTag;
+    setNameTags: Dispatch<SetStateAction<IEasyNameTag>>;
+    nameTagInputs: number;
+    setNameTagInputs: Dispatch<SetStateAction<number>>;
     openTextOption: string;
     setOpenTextOption: Dispatch<SetStateAction<string>>;
     allowRefresh: boolean;
     setAllowRefresh: Dispatch<SetStateAction<boolean>>;
     audio: boolean;
     setAudio: Dispatch<SetStateAction<boolean>>;
+    loading: number;
+    setLoading: Dispatch<SetStateAction<number>>;
 }

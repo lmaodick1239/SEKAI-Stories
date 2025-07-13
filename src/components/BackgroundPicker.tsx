@@ -13,6 +13,7 @@ import { getBackground } from "../utils/GetBackground";
 import { useTranslation } from "react-i18next";
 import IBackground from "../types/IBackground";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
+import { IBackgroundBookmark } from "../types/IBackgroundBookmark";
 // import { fuzzy } from "fast-fuzzy";
 
 interface IBackgroundList {
@@ -32,10 +33,13 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
     background,
     setFunction,
 }) => {
+    const backgroundBookmarkCookie = localStorage.getItem("backgroundBookmark");
     const { t } = useTranslation();
 
     const [show, setShow] = useState<boolean>(false);
     const [filterValue, setFilterValue] = useState<string>("all");
+    const [backgroundBookmarks, setBackgroundBookmarks] =
+        useState<IBackgroundBookmark>([]);
 
     const softError = useContext(SoftErrorContext);
 
@@ -49,26 +53,16 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
             }
         };
         document.addEventListener("keydown", handleEsc);
-    }, []);
 
-    const handleChangeBackground = async (bg: string) => {
-        try {
-
-            const backgroundSprite = await getBackground(
-                `/background_compressed/${bg}.jpg`
+        if (!backgroundBookmarkCookie) {
+            localStorage.setItem("backgroundBookmark", JSON.stringify([]));
+        } else {
+            const bookmarks: IBackgroundBookmark = JSON.parse(
+                backgroundBookmarkCookie
             );
-    
-            background?.backgroundContainer.removeChildAt(0);
-            background?.backgroundContainer.addChildAt(backgroundSprite, 0);
-            setFunction(`/background_compressed/${bg}.jpg`);
-    
-            setFilterValue("all");
+            setBackgroundBookmarks(bookmarks);
         }
-        catch (error) {
-            setErrorInformation(String(error))
-            console.error(error)
-        }
-    };
+    }, []);
 
     useEffect(() => {
         if (show && background?.filename) {
@@ -84,35 +78,100 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
             });
         }
     }, [show, background?.filename]);
+    const handleChangeBackground = async (bg: string) => {
+        try {
+            const backgroundSprite = await getBackground(
+                `/background_compressed/${bg}.jpg`
+            );
 
-    const renderBackgroundType = (type: string) => (
-        <div
-            className="flex-wrap center flex-vertical picker-type-div"
-            key={type}
-        >
-            <div className="width-100 center text-center">
-                <h1 className="white">{t(`group.${type}`)}</h1>
+            background?.backgroundContainer.removeChildAt(0);
+            background?.backgroundContainer.addChildAt(backgroundSprite, 0);
+            setFunction(`/background_compressed/${bg}.jpg`);
+
+            setFilterValue("all");
+        } catch (error) {
+            setErrorInformation(String(error));
+            console.error(error);
+        }
+    };
+
+    const handleBackgroundBookmark = async () => {
+        if (!background) return;
+
+        if (!background.filename.startsWith("/background_compressed/")) {
+            setErrorInformation(
+                t("error.background-bookmark")
+            );
+            return;
+        }
+
+        const currentBackground = background.filename
+            .replace("/background_compressed/", "")
+            .replace(".jpg", "");
+        if (backgroundBookmarks.includes(currentBackground)) {
+            const index = backgroundBookmarks.indexOf(currentBackground);
+            if (index > -1) {
+                backgroundBookmarks.splice(index, 1);
+            }
+        } else {
+            backgroundBookmarks.push(currentBackground);
+        }
+        setBackgroundBookmarks([...backgroundBookmarks]);
+        localStorage.setItem(
+            "backgroundBookmark",
+            JSON.stringify(backgroundBookmarks)
+        );
+    };
+
+    const renderBackgroundType = (type: string) => {
+        if (type === "bookmarks" && backgroundBookmarks.length === 0) return;
+
+        return (
+            <div
+                className="flex-wrap center flex-vertical picker-type-div"
+                key={type}
+            >
+                <div className="width-100 center text-center">
+                    <h1 className="white">{t(`group.${type}`)}</h1>
+                </div>
+                <div className="flex-wrap center width-100">
+                    {type === "bookmarks"
+                        ? backgroundBookmarks.map((bg) => (
+                              <img
+                                  key={bg}
+                                  className={`picker-item background-picker-item ${
+                                      background?.filename ===
+                                      `/background_compressed/${bg}.jpg`
+                                          ? "picker-item-selected"
+                                          : ""
+                                  }`}
+                                  src={`/background_low_jpg/${bg}.jpg`}
+                                  onClick={async () => {
+                                      handleChangeBackground(bg);
+                                      setShow(false);
+                                  }}
+                              />
+                          ))
+                        : backgroundList.background[type].map((bg) => (
+                              <img
+                                  key={bg}
+                                  className={`picker-item background-picker-item ${
+                                      background?.filename ===
+                                      `/background_compressed/${bg}.jpg`
+                                          ? "picker-item-selected"
+                                          : ""
+                                  }`}
+                                  src={`/background_low_jpg/${bg}.jpg`}
+                                  onClick={async () => {
+                                      handleChangeBackground(bg);
+                                      setShow(false);
+                                  }}
+                              />
+                          ))}
+                </div>
             </div>
-            <div className="flex-wrap center width-100">
-                {backgroundList.background[type].map((bg) => (
-                    <img
-                        key={bg}
-                        className={`picker-item background-picker-item ${
-                            background?.filename ===
-                            `/background_compressed/${bg}.jpg`
-                                ? "picker-item-selected"
-                                : ""
-                        }`}
-                        src={`/background_low_jpg/${bg}.jpg`}
-                        onClick={async () => {
-                            handleChangeBackground(bg);
-                            setShow(false);
-                        }}
-                    />
-                ))}
-            </div>
-        </div>
-    );
+        );
+    };
 
     return (
         <>
@@ -147,6 +206,9 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
                     </select>
 
                     <div className="flex-wrap relative center">
+                        {backgroundBookmarks &&
+                            filterValue === "all" &&
+                            renderBackgroundType("bookmarks")}
                         {filterValue === "all"
                             ? Object.keys(backgroundList.background).map(
                                   renderBackgroundType
@@ -156,14 +218,29 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
                 </div>
             )}
             <div className="option__background">
-                <img
-                    src={background?.filename}
-                    alt="background-selected"
-                    id="background-picker"
-                    onClick={() => {
-                        setShow(!show);
-                    }}
-                />
+                <div className="relative">
+                    <img
+                        src={background?.filename}
+                        alt="background-selected"
+                        id="background-picker"
+                        onClick={() => {
+                            setShow(!show);
+                        }}
+                    />
+                    <i
+                        className={
+                            backgroundBookmarks.includes(
+                                background?.filename
+                                    .replace("/background_compressed/", "")
+                                    .replace(".jpg", "")
+                            )
+                                ? "bi bi-star-fill background-bookmark"
+                                : "bi bi-star background-bookmark"
+                        }
+                        onClick={handleBackgroundBookmark}
+                    />
+                </div>
+
                 <button
                     className="btn-regular btn-extend-width btn-blue"
                     onClick={() => {

@@ -1,4 +1,5 @@
-input[type="text"] {
+input[type="text"],
+input[type="number"] {
     font-family: inherit;
     border: none;
     border-radius: 10px;
@@ -34,4 +35,8 @@ textarea {
     resize: vertical;
     margin: 10px 0px;
     word-wrap: break-word;
+}
+
+textarea:read-only {
+    background-image: none;
 }

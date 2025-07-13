@@ -144,6 +144,7 @@ button.btn-regular {
   border-radius: 30px;
   box-shadow: 0px 0px 8px 0px rgba(68, 68, 102, 0.5);
   min-width: 200px;
+  min-height: 60px;
 }
 
 button.btn-circle {
@@ -292,7 +293,13 @@ input[type=checkbox]:checked::before {
   display: none;
 }
 
-input[type=text] {
+.radio__label {
+  font-size: 20px;
+  color: #444466;
+}
+
+input[type=text],
+input[type=number] {
   font-family: inherit;
   border: none;
   border-radius: 10px;
@@ -328,6 +335,10 @@ textarea {
   resize: vertical;
   margin: 10px 0px;
   word-wrap: break-word;
+}
+
+textarea:read-only {
+  background-image: none;
 }
 
 input[type=range] {
@@ -431,6 +442,14 @@ select:disabled {
   position: absolute;
 }
 
+.sticky {
+  position: sticky;
+}
+
+.fixed {
+  position: fixed;
+}
+
 .top-left {
   top: 0;
   left: 0;
@@ -499,6 +518,10 @@ select:disabled {
   color: #ffffff;
 }
 
+.orange {
+  color: #ffbb00;
+}
+
 .width-100 {
   width: 100%;
 }
@@ -536,6 +559,10 @@ select:disabled {
 
 .padding-left-right-10 {
   padding: 0px 10px;
+}
+
+.padding-10 {
+  padding: 10px 10px;
 }
 
 .link {
@@ -646,6 +673,15 @@ select:disabled {
   border-radius: 10px;
   border: 2px #ffffff solid;
   cursor: pointer;
+}
+
+.background-bookmark {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: #ffbb00;
+  font-size: 2em;
+  padding: 5px 10px;
 }
 
 #picker {
@@ -968,6 +1004,24 @@ select:disabled {
 .middle-information h3 {
   color: #ffffff;
   text-align: center;
+}
+
+.loading-container {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  opacity: 100%;
+  transition: opacity 0.1s;
+  pointer-events: none;
+  user-select: none;
+}
+
+.loading-fill {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
 }
 
 * {

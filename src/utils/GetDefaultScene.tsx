@@ -3,10 +3,18 @@ import { getBackground } from "../utils/GetBackground";
 import { Live2DModel } from "pixi-live2d-display";
 import { Dispatch, SetStateAction } from "react";
 import { Assets } from "@pixi/assets";
+import IBackground from "../types/IBackground";
+import { ISplitBackground } from "../types/ISplitBackground";
+import IText from "../types/IText";
+import ISceneText from "../types/ISceneText";
+import IGuideline from "../types/IGuideline";
+import IModel from "../types/IModel";
+import { IFilter } from "../types/IFilter";
 
 interface GetDefaultSceneProps {
     app: PIXI.Application | undefined;
     setStartingMessage: Dispatch<SetStateAction<string>>;
+    setLoading: Dispatch<SetStateAction<number>>;
     scene?: string;
 }
 interface InitialScene {
@@ -134,14 +142,14 @@ const firstSplitBackgroundFilename = "/background_compressed/bg_e000303.jpg";
 const secondSplitBackgroundFilename = "/background_compressed/bg_e000403.jpg";
 
 const LoadBackground = async (
-    app: PIXI.Application,
+    container: PIXI.Container,
     childAt: number,
     fileName: string
-) => {
+): Promise<IBackground> => {
     const backgroundContainer = new PIXI.Container();
     const backgroundSprite = await getBackground(fileName);
     backgroundContainer.addChild(backgroundSprite);
-    app.stage.addChildAt(backgroundContainer, childAt);
+    container.addChildAt(backgroundContainer, childAt);
 
     return {
         backgroundContainer: backgroundContainer,
@@ -150,7 +158,10 @@ const LoadBackground = async (
     };
 };
 
-const LoadSplitBackground = async (app: PIXI.Application, childAt: number) => {
+const LoadSplitBackground = async (
+    container: PIXI.Container,
+    childAt: number
+): Promise<ISplitBackground> => {
     const splitBackgroundContainer = new PIXI.Container();
     const firstBackground = new PIXI.Container();
     const firstBackgroundSprite = await getBackground(
@@ -188,7 +199,7 @@ const LoadSplitBackground = async (app: PIXI.Application, childAt: number) => {
     splitBackgroundContainer.addChildAt(firstBackground, 0);
     splitBackgroundContainer.addChildAt(secondBackground, 1);
     splitBackgroundContainer.addChildAt(line, 2);
-    app.stage.addChildAt(splitBackgroundContainer, childAt);
+    container.addChildAt(splitBackgroundContainer, childAt);
     splitBackgroundContainer.visible = false;
 
     return {
@@ -208,14 +219,17 @@ const LoadSplitBackground = async (app: PIXI.Application, childAt: number) => {
 };
 
 const LoadModel = async (
-    app: PIXI.Application,
+    container: PIXI.Container,
     childAt: number,
     file: string,
     character: string,
     model: string,
     x: number,
     y: number
-) => {
+): Promise<{
+    model: Record<string, IModel>;
+    modelContainer: PIXI.Container;
+}> => {
     const modelContainer = new PIXI.Container();
     const texture = await PIXI.Texture.fromURL(`/img/${file}.png`);
     const sprite = new PIXI.Sprite(texture);
@@ -223,7 +237,7 @@ const LoadModel = async (
     sprite.anchor.set(0.5, 0.5);
     sprite.position.set(x, y);
 
-    app.stage.addChildAt(modelContainer, childAt);
+    container.addChildAt(modelContainer, childAt);
     return {
         model: {
             character1: {
@@ -253,7 +267,7 @@ const LoadText = async (
     childAt: number,
     nameTag: string,
     dialogue: string
-) => {
+): Promise<IText> => {
     const textAlignmentCookie = Number(
         localStorage.getItem("textAlignment") ?? 0
     );
@@ -303,6 +317,7 @@ const LoadText = async (
         fontSize: 44,
         visible: true,
         yOffset: textAlignmentCookie,
+        hideEverything: false,
     };
 };
 
@@ -310,38 +325,68 @@ const LoadSceneText = async (
     app: PIXI.Application,
     childAt: number,
     scene: string
-) => {
+): Promise<ISceneText> => {
     const sceneTextContainer = new PIXI.Container();
-    const sceneTextBackgroundTexture = await Assets.load(
+
+    // Middle Texture
+    const sceneTextMiddleTexture = await Assets.load(
         "/img/SceneText_Background.png"
     );
-    const sceneTextBackgroundSprite = new PIXI.Sprite(
-        sceneTextBackgroundTexture
-    );
-    const sceneText = new PIXI.Text(scene, {
+    const sceneTextMiddleSprite = new PIXI.Sprite(sceneTextMiddleTexture);
+    const sceneTextMiddle = new PIXI.Text(scene, {
         fontFamily: "FOT-RodinNTLGPro-DB",
         fontSize: 44,
         fill: 0xffffff,
         align: "center",
     });
-    sceneText.anchor.set(0.5, 0.5);
-    sceneText.position.set(960, 540);
+    sceneTextMiddle.anchor.set(0.5, 0.5);
+    sceneTextMiddle.position.set(960, 540);
 
-    sceneTextContainer.addChildAt(sceneTextBackgroundSprite, 0);
-    sceneTextContainer.addChildAt(sceneText, 1);
+    const sceneTextMiddleContainer = new PIXI.Container();
+    sceneTextMiddleContainer.addChildAt(sceneTextMiddleSprite, 0);
+    sceneTextMiddleContainer.addChildAt(sceneTextMiddle, 1);
+
+    // Top-left Texture
+    const sceneTextTopLeftTexture = await Assets.load(
+        "/img/SceneText_TopLeft.png"
+    );
+    const sceneTextTopLeftSprite = new PIXI.Sprite(sceneTextTopLeftTexture);
+    const sceneTextTopLeft = new PIXI.Text(scene, {
+        fontFamily: "FOT-RodinNTLGPro-DB",
+        fontSize: 39,
+        fill: 0xffffff,
+        align: "center",
+    });
+    sceneTextTopLeft.anchor.set(0, 0.5);
+    sceneTextTopLeft.position.set(120, 62);
+
+    const sceneTextTopLeftContainer = new PIXI.Container();
+    sceneTextTopLeftContainer.addChildAt(sceneTextTopLeftSprite, 0);
+    sceneTextTopLeftContainer.addChildAt(sceneTextTopLeft, 1);
+    sceneTextTopLeftContainer.visible = false;
+
+    sceneTextContainer.addChildAt(sceneTextMiddleContainer, 0);
+    sceneTextContainer.addChildAt(sceneTextTopLeftContainer, 1);
 
     app.stage.addChildAt(sceneTextContainer, childAt);
+
     sceneTextContainer.visible = false;
 
     return {
         sceneTextContainer: sceneTextContainer,
-        text: sceneText,
+        middle: sceneTextMiddleContainer,
+        topLeft: sceneTextTopLeftContainer,
+        text: [sceneTextMiddle, sceneTextTopLeft],
         textString: scene,
         visible: false,
+        variant: "middle",
     };
 };
 
-const LoadGuideline = async (app: PIXI.Application, childAt: number) => {
+const LoadGuideline = async (
+    app: PIXI.Application,
+    childAt: number
+): Promise<IGuideline> => {
     const guidelineContainer = new PIXI.Container();
     const gridTexture = await Assets.load("/img/grid.png");
     const gridSprite = new PIXI.Sprite(gridTexture);
@@ -359,8 +404,10 @@ const LoadGuideline = async (app: PIXI.Application, childAt: number) => {
 export const LoadScene = async ({
     app,
     setStartingMessage,
+    setLoading,
     scene,
 }: GetDefaultSceneProps) => {
+    setLoading(0);
     const initialScene: InitialScene = LoadInitialScene(scene);
 
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -369,6 +416,7 @@ export const LoadScene = async ({
         app.stop();
     }
 
+    setLoading(10);
     const initApplication = new PIXI.Application({
         view: canvas,
         autoStart: true,
@@ -379,6 +427,7 @@ export const LoadScene = async ({
 
     Live2DModel.registerTicker(PIXI.Ticker);
 
+    setLoading(20);
     // Load Transparent (for development. idk why it causes issues before production)
     const transparentContainer = new PIXI.Container();
     const transparentSprite = await getBackground(
@@ -387,21 +436,30 @@ export const LoadScene = async ({
     transparentContainer.addChildAt(transparentSprite, 0);
     initApplication.stage.addChildAt(transparentContainer, 0);
 
+    setLoading(30);
+    // Load Filter Container
+    const filterContainer = new PIXI.Container();
+    initApplication.stage.addChildAt(filterContainer, 1);
+    const filter: IFilter = { container: filterContainer };
+
+    setLoading(40);
     // Load Background
     setStartingMessage("Adding background...");
     const background = await LoadBackground(
-        initApplication,
-        1,
+        filterContainer,
+        0,
         initialScene["background"]
     );
 
+    setLoading(50);
     // Load Split Background
-    const splitBackground = await LoadSplitBackground(initApplication, 2);
+    const splitBackground = await LoadSplitBackground(filterContainer, 1);
 
+    setLoading(60);
     // Load Sample PNG Sprite
     const { model, modelContainer } = await LoadModel(
-        initApplication,
-        3,
+        filterContainer,
+        2,
         initialScene.pngName,
         initialScene.character,
         initialScene.model,
@@ -409,25 +467,29 @@ export const LoadScene = async ({
         initialScene.modelY
     );
 
+    setLoading(70);
     // Load Text
     setStartingMessage("Adding text...");
     const text = await LoadText(
         initApplication,
-        4,
+        2,
         initialScene.nameTag,
         initialScene.text
     );
 
+    setLoading(80);
     // Load Scene Setting Text
     const sceneText = await LoadSceneText(
         initApplication,
-        5,
+        3,
         initialScene.sceneText
     );
 
+    setLoading(90);
     // Load Guideline Tools
-    const guideline = await LoadGuideline(initApplication, 6);
+    const guideline = await LoadGuideline(initApplication, 4);
 
+    setLoading(100);
     return {
         app: initApplication,
         model: model,
@@ -438,6 +500,7 @@ export const LoadScene = async ({
         splitBackground: splitBackground,
         text: text,
         sceneText: sceneText,
+        filter: filter,
         guideline: guideline,
     };
 };

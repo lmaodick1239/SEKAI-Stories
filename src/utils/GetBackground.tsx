@@ -18,6 +18,7 @@ export const getBackground = async (
         }
         return backgroundSprite;
     } catch {
+        console.log(`Failed to load background image: ${file}.`);
         throw new Error(`Failed to load background image: ${file}.`);
     }
 };

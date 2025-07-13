@@ -29,6 +29,7 @@ import {
     virtualEffectCRT,
 } from "../../utils/VirtualEffect";
 import IEmotionBookmark from "../../types/IEmotionBookmark";
+import Live2DInputSlider from "../Live2DInputSlider";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -95,6 +96,7 @@ const ModelSidebar: React.FC = () => {
     const {
         app,
         models,
+        text,
         setModels,
         modelContainer,
         nextLayer,
@@ -108,7 +110,7 @@ const ModelSidebar: React.FC = () => {
         initialState,
         setInitialState,
     } = scene;
-    const { openAll } = settings;
+    const { openAll, setLoading } = settings;
     const { setErrorInformation } = softError;
 
     const [openTab, setOpenTab] = useState<string>("select-layer");
@@ -116,7 +118,7 @@ const ModelSidebar: React.FC = () => {
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
     const [layerIndex, setLayerIndex] = useState<number>(0);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [loadingMsg, setLoadingMsg] = useState<string>("");
     const [showAddModelScreen, setShowAddModelScreen] =
         useState<boolean>(false);
@@ -156,7 +158,7 @@ const ModelSidebar: React.FC = () => {
 
     useEffect(() => {
         if (!models || !currentKey || !currentModel) return;
-        if (currentModel?.model instanceof Live2DModel && !loading) {
+        if (currentModel?.model instanceof Live2DModel && !isLoading) {
             setCoreModel(
                 currentModel.model.internalModel
                     .coreModel as Cubism4InternalModel["coreModel"]
@@ -164,7 +166,7 @@ const ModelSidebar: React.FC = () => {
         } else {
             setCoreModel(null);
         }
-    }, [currentModel, loading]);
+    }, [currentModel, isLoading]);
 
     useEffect(() => {
         const bookmarkEmotionsCookie = localStorage.getItem(
@@ -175,6 +177,10 @@ const ModelSidebar: React.FC = () => {
             : {};
 
         setBookmarkEmotion(bookmarkEmotionsJson);
+
+        if (text?.hideEverything) {
+            setErrorInformation(t("error.hide-everything-warning"));
+        }
     }, []);
 
     useEffect(() => {
@@ -249,6 +255,7 @@ const ModelSidebar: React.FC = () => {
         model: string | ILive2DModelList,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
+        setLoading(0);
         let modelData: ILive2DModelData | undefined = undefined;
         let modelName: string | undefined = undefined;
         if (typeof model === "string") {
@@ -273,13 +280,17 @@ const ModelSidebar: React.FC = () => {
             throw new Error("Model data is undefined");
         }
 
+        setLoading(20);
         setLoadingMsg(`${t("loading-4")} ${modelName}...`);
         await axios.get(modelData.url + modelData.FileReferences.Textures[0]);
+        setLoading(40);
         setLoadingMsg(`${t("loading-5")} ${modelName}...`);
         await axios.get(modelData.url + modelData.FileReferences.Moc);
+        setLoading(60);
         setLoadingMsg(`${t("loading-6")} ${modelName}...`);
         await axios.get(modelData.url + modelData.FileReferences.Physics);
 
+        setLoading(80);
         setLoadingMsg(`${t("loading-7")}...`);
         const live2DModel = await Live2DModel.from(modelData, {
             autoInteract: false,
@@ -294,6 +305,7 @@ const ModelSidebar: React.FC = () => {
         currentModel?.model.destroy();
         modelContainer?.addChildAt(live2DModel, layerIndex);
 
+        setLoading(100);
         setLoadingMsg(``);
 
         return [live2DModel, modelData];
@@ -396,7 +408,7 @@ const ModelSidebar: React.FC = () => {
             setErrorInformation(t("model.delete-model-warn"));
             return;
         }
-        setLoading(true);
+        setIsLoading(true);
         setCoreModel(null);
         currentModel?.model.destroy();
         delete models[currentKey];
@@ -406,7 +418,7 @@ const ModelSidebar: React.FC = () => {
         setCurrentSelectedCharacter(models[firstKey].character);
         setLayerIndex(0);
         setLayers(layers - 1);
-        setLoading(false);
+        setIsLoading(false);
         setSelectedParameter({ idx: -1, param: "_" });
     };
 
@@ -424,7 +436,7 @@ const ModelSidebar: React.FC = () => {
     };
 
     const handleCharacterChange = async (value: string) => {
-        setLoading(true);
+        setIsLoading(true);
         const character = value;
         setCurrentSelectedCharacter(character);
         if (characterSelect.current && modelSelect.current) {
@@ -485,8 +497,9 @@ const ModelSidebar: React.FC = () => {
         } catch (error) {
             setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
+            setLoading(100);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
             if (characterSelect.current && modelSelect.current) {
                 characterSelect.current.disabled = false;
                 modelSelect.current.disabled = false;
@@ -495,7 +508,7 @@ const ModelSidebar: React.FC = () => {
     };
 
     const handleCostumeChange = async (value: string) => {
-        setLoading(true);
+        setIsLoading(true);
 
         const modelBase = value;
 
@@ -553,8 +566,9 @@ const ModelSidebar: React.FC = () => {
         } catch (error) {
             setErrorInformation(String(error));
             setLoadingMsg("Failed to load model!");
+            setLoading(100);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
             if (characterSelect.current && modelSelect.current) {
                 characterSelect.current.disabled = false;
                 modelSelect.current.disabled = false;
@@ -586,87 +600,51 @@ const ModelSidebar: React.FC = () => {
         });
     };
 
-    const handlePoseChange = async (
-        event: React.ChangeEvent<HTMLSelectElement>
+    const handleEmotionChange = async (
+        event: React.ChangeEvent<HTMLSelectElement>,
+        type: "expression" | "pose"
     ) => {
         if (currentModel?.model instanceof Live2DModel) {
-            const pose = Number(event?.target.value);
+            const value = Number(event?.target.value);
+            const group =
+                type === "expression"
+                    ? "Expression"
+                    : type === "pose"
+                    ? "Motion"
+                    : "";
             const selectedOption =
                 event.target.options[event.target.selectedIndex].text;
             try {
-                currentModel?.model.motion("Motion", pose);
-                updateModelState({ pose });
+                currentModel?.model.motion(group, value);
+                updateModelState({ [type]: value });
             } catch {
                 setLoadingMsg(`Fail to load ${selectedOption}!`);
-                setLoading(true);
+                setIsLoading(true);
             }
         }
     };
 
-    const handleExpressionChange = async (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        if (currentModel?.model instanceof Live2DModel) {
-            const expression = Number(event?.target.value);
-            const selectedOption =
-                event.target.options[event.target.selectedIndex].text;
-            try {
-                currentModel?.model.motion("Expression", expression);
-                updateModelState({ expression });
-            } catch {
-                setLoadingMsg(`Fail to load ${selectedOption}!`);
-                setLoading(true);
-            }
-        }
-    };
-
-    const handleBookmarkEmotion = async (type: string) => {
+    const handleBookmarkEmotion = async (type: "pose" | "expression") => {
         if (!currentModel) return;
 
-        if (
-            !bookmarkEmotions[
-                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-            ]
-        ) {
-            bookmarkEmotions[
-                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-            ] = {
+        const key = `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`;
+        const emotionValue =
+            type === "pose" ? currentModel.pose : currentModel.expression;
+
+        if (!bookmarkEmotions[key]) {
+            bookmarkEmotions[key] = {
                 pose: [],
                 expression: [],
             };
         }
 
-        console.log(bookmarkEmotions);
+        const emotionArray = bookmarkEmotions[key][type];
 
-        switch (type) {
-            case "pose": {
-                const poseArray =
-                    bookmarkEmotions[
-                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                    ].pose;
-                if (poseArray.includes(currentModel.pose)) {
-                    const index = poseArray.indexOf(currentModel.pose);
-                    if (index !== -1) poseArray.splice(index, 1);
-                } else {
-                    poseArray.push(currentModel.pose);
-                }
-                break;
-            }
-            case "expression": {
-                const expressionArray =
-                    bookmarkEmotions[
-                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                    ].expression;
-                if (expressionArray.includes(currentModel.expression)) {
-                    const index = expressionArray.indexOf(
-                        currentModel.expression
-                    );
-                    if (index !== -1) expressionArray.splice(index, 1);
-                } else {
-                    expressionArray.push(currentModel.expression);
-                }
-                break;
-            }
+        const index = emotionArray.indexOf(emotionValue);
+        if (index !== -1) {
+            emotionArray.splice(index, 1);
+        } else {
+            emotionArray.push(emotionValue);
         }
 
         localStorage.setItem(
@@ -870,38 +848,6 @@ const ModelSidebar: React.FC = () => {
         a.remove();
     };
 
-    const live2DInputSlider = (idx: number, param: string, filter?: string) => {
-        if (filter && !param.includes(filter)) {
-            return null;
-        }
-
-        if (idx == -1) return null;
-
-        if (!coreModel || !currentModel) return null;
-
-        const min = coreModel.getParameterMinimumValue(idx);
-        const max = coreModel.getParameterMaximumValue(idx);
-        const value = coreModel.getParameterValueById(param);
-
-        return (
-            <div className="option__content" key={param}>
-                {filter && <h3>{t(`model.${param}`)}</h3>}
-                <input
-                    type="range"
-                    name={param}
-                    id={param}
-                    min={min}
-                    max={max}
-                    step={0.01}
-                    value={currentModel.parametersChanged[param] ?? value}
-                    onChange={(e) => {
-                        handleLive2DParamsChange(e, param);
-                    }}
-                />
-            </div>
-        );
-    };
-
     return (
         <div>
             <h1>{t("model.header")}</h1>
@@ -1103,7 +1049,9 @@ const ModelSidebar: React.FC = () => {
                                     <div className="space-between flex-horizontal relative">
                                         <select
                                             value={currentModel?.pose}
-                                            onChange={handlePoseChange}
+                                            onChange={(e) => {
+                                                handleEmotionChange(e, "pose");
+                                            }}
                                         >
                                             <option value={99999} disabled>
                                                 {t("model.select-pose")}
@@ -1189,7 +1137,12 @@ const ModelSidebar: React.FC = () => {
                                     <div className="space-between flex-horizontal relative">
                                         <select
                                             value={currentModel?.expression}
-                                            onChange={handleExpressionChange}
+                                            onChange={(e) => {
+                                                handleEmotionChange(
+                                                    e,
+                                                    "expression"
+                                                );
+                                            }}
                                         >
                                             <option value={99999} disabled>
                                                 {t("model.select-expression")}
@@ -1401,7 +1354,7 @@ const ModelSidebar: React.FC = () => {
                 )}
             </div>
 
-            {currentModel?.model instanceof Live2DModel && !loading && (
+            {currentModel?.model instanceof Live2DModel && !isLoading && (
                 <>
                     <div
                         className="option"
@@ -1422,10 +1375,19 @@ const ModelSidebar: React.FC = () => {
                                 {coreModel &&
                                     coreModel["_parameterIds"]
                                         .map((param: string, idx: number) => {
-                                            return live2DInputSlider(
-                                                idx,
-                                                param,
-                                                "Mouth"
+                                            if (!param.includes("Mouth"))
+                                                return;
+                                            return (
+                                                <Live2DInputSlider
+                                                    idx={idx}
+                                                    param={param}
+                                                    coreModel={coreModel}
+                                                    onChange={
+                                                        handleLive2DParamsChange
+                                                    }
+                                                    currentModel={currentModel}
+                                                    filter
+                                                />
                                             );
                                         })
                                         .filter(Boolean)}
@@ -1492,10 +1454,22 @@ const ModelSidebar: React.FC = () => {
                                         {selectedParameter &&
                                             selectedParameter.idx != -1 && (
                                                 <>
-                                                    {live2DInputSlider(
-                                                        selectedParameter?.idx,
-                                                        selectedParameter?.param
-                                                    )}
+                                                    <Live2DInputSlider
+                                                        idx={
+                                                            selectedParameter?.idx
+                                                        }
+                                                        param={
+                                                            selectedParameter?.param
+                                                        }
+                                                        coreModel={coreModel}
+                                                        onChange={
+                                                            handleLive2DParamsChange
+                                                        }
+                                                        currentModel={
+                                                            currentModel
+                                                        }
+                                                    />
+
                                                     <div className="layer-buttons">
                                                         <button
                                                             className="btn-circle btn-white"
@@ -1592,7 +1566,9 @@ const ModelSidebar: React.FC = () => {
                 >
                     <div className="window__content">
                         <div className="window__divider">
-                            <h3 className="text-center">{t("model.live2d-changed-warn")}</h3>
+                            <h3 className="text-center">
+                                {t("model.live2d-changed-warn")}
+                            </h3>
                         </div>
                     </div>
                 </Window>
