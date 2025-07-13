@@ -22,7 +22,7 @@ const Announcements: React.FC = () => {
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
             <p></p>
-            <p>New features has been added! See more information below.</p>
+            <p>New features have been added! See more information below.</p>
             <button
                 className="btn-regular btn-blue"
                 onClick={() => {
