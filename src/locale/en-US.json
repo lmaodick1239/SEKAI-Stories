@@ -20,6 +20,9 @@
         "font-size": "Font Size",
         "add-symbol": "Add a symbol",
         "scene-text": "Scene Text",
+        "scene-text-variant": "Variant",
+        "scene-text-middle": "Middle",
+        "scene-text-top-left": "Top-left",
         "y-offset": "Y-Offset",
         "y-offset-details": "If the text in the canvas do not line up properly, adjustments may be necessary.",
         "hide-everything": "Hide models and dialogue"

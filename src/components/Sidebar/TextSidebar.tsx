@@ -509,7 +509,7 @@ const TextSidebar: React.FC = () => {
                             />
                         </div>
                         <div className="option__content">
-                            <h3>Variant</h3>
+                            <h3>{t("text.scene-text-variant")}</h3>
                             <div className="flex-horizontal center padding-top-bottom-10">
                                 <RadioButton
                                     name="scene-text-variant"
@@ -522,7 +522,7 @@ const TextSidebar: React.FC = () => {
                                     className="width-100 radio__label"
                                     htmlFor="middle"
                                 >
-                                    Middle
+                                    {t("text.scene-text-middle")}
                                 </label>
                             </div>
                             <div className="flex-horizontal center padding-top-bottom-10">
@@ -537,7 +537,7 @@ const TextSidebar: React.FC = () => {
                                     className="width-100 radio__label"
                                     htmlFor="top-left"
                                 >
-                                    Top-Left
+                                    {t("text.scene-text-top-left")}
                                 </label>
                             </div>
                         </div>
