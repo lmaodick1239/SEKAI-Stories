@@ -64,17 +64,6 @@ const randomInitialScene: InitialScene[] = [
         sceneText: "Kanade's Room",
     },
     {
-        background: "/background_special/Background_SELF_CONTROL.jpg",
-        model: "v2_20mizuki_school_back02",
-        text: "I feel like I've heard this song before...",
-        nameTag: "Mizuki",
-        character: "mizuki",
-        modelX: 1265,
-        modelY: 630,
-        pngName: "mizuki",
-        sceneText: "Shrine",
-    },
-    {
         background: "/background_compressed/bg_a001801.jpg",
         model: "04shiho_cloth01",
         text: "...",
