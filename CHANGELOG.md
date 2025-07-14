@@ -1,3 +1,7 @@
+# 5.5.1
+Release date: July 14, 2025
+- Updated Chinese (Simplified) localization
+
 # 5.5.0
 Release date: July 13, 2025
 - Added filters (Flashback and Nausea)

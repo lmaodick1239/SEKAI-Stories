@@ -107,7 +107,7 @@ const DownloadClearButtons: React.FC = () => {
                 <Window show={setSaveWindowShow}>
                     <div className="window__content">
                         <div className="window__divider">
-                            <h1>Save</h1>
+                            <h1>{t("save.header")}</h1>
                             <p>
                                 {window.matchMedia("(pointer: fine)").matches
                                     ? t("save.note-1-desktop")

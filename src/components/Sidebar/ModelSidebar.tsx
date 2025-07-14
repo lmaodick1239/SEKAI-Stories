@@ -1017,7 +1017,7 @@ const ModelSidebar: React.FC = () => {
                                 </select>
                                 <Checkbox
                                     id="virtual-effect"
-                                    label="Virtual Effect (beta)"
+                                    label={t("model.virtual")}
                                     checked={currentModel.virtualEffect}
                                     onChange={(event) => {
                                         const value = event.target.checked;
