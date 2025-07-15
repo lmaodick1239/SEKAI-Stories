@@ -1,3 +1,7 @@
+# 5.5.2
+Release date: 
+- Added layer reordering buttons
+
 # 5.5.1
 Release date: July 14, 2025
 - Updated Chinese (Simplified) localization

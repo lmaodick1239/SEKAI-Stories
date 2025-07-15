@@ -422,6 +422,28 @@ const ModelSidebar: React.FC = () => {
         setSelectedParameter({ idx: -1, param: "_" });
     };
 
+    const handleMoveLayer = async (type: string) => {
+        if (!modelContainer || !currentModel) return;
+
+        const layerIndex = modelContainer.getChildIndex(currentModel.model);
+        switch (type) {
+            case "forward":
+                if (layerIndex + 1 >= layers) return;
+                modelContainer.setChildIndex(
+                    currentModel.model,
+                    layerIndex + 1
+                );
+                break;
+            case "backward":
+                if (layerIndex - 1 < 0) return;
+                modelContainer.setChildIndex(
+                    currentModel.model,
+                    layerIndex - 1
+                );
+                break;
+        }
+    };
+
     const handleLive2DChange = async (fn: () => void) => {
         if (
             currentModel?.parametersChanged &&
@@ -905,6 +927,28 @@ const ModelSidebar: React.FC = () => {
                                 }}
                             >
                                 <i className="bi bi-x-circle"></i>
+                            </button>
+                        </div>
+                        <div className="layer-buttons">
+                            <button
+                                className="btn-circle btn-white"
+                                onClick={() => {
+                                    handleLive2DChange(() =>
+                                        handleMoveLayer("forward")
+                                    );
+                                }}
+                            >
+                                <i className="bi bi-front"></i>
+                            </button>
+                            <button
+                                className="btn-circle btn-white"
+                                onClick={() => {
+                                    handleLive2DChange(() =>
+                                        handleMoveLayer("backward")
+                                    );
+                                }}
+                            >
+                                <i className="bi bi-back"></i>
                             </button>
                         </div>
                     </div>
