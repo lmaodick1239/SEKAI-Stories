@@ -9,6 +9,7 @@ interface UploadImageButtonProps {
     text: string | React.ReactNode;
     alertMsg?: string;
     type?: string;
+    disabled?: boolean;
 }
 
 const UploadImageButton: React.FC<UploadImageButtonProps> = ({
@@ -17,9 +18,10 @@ const UploadImageButton: React.FC<UploadImageButtonProps> = ({
     text,
     alertMsg,
     type = "button",
+    disabled = false,
 }) => {
     const softError = useContext(SoftErrorContext);
-    const { t } = useTranslation()
+    const { t } = useTranslation();
     if (!softError) throw new Error("Context not loaded");
 
     const { setErrorInformation } = softError;
@@ -65,6 +67,7 @@ const UploadImageButton: React.FC<UploadImageButtonProps> = ({
                         uploadElement.current.click();
                     }
                 }}
+                disabled={disabled}
             >
                 {text}
             </button>

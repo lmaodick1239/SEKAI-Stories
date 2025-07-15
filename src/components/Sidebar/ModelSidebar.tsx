@@ -458,7 +458,7 @@ const ModelSidebar: React.FC = () => {
         setIsLoading(true);
         const character = value;
         setCurrentSelectedCharacter(character);
-        
+
         try {
             if (!currentModel) return;
 
@@ -516,7 +516,6 @@ const ModelSidebar: React.FC = () => {
             setLoading(100);
         } finally {
             setIsLoading(false);
-            
         }
     };
 
@@ -526,7 +525,6 @@ const ModelSidebar: React.FC = () => {
         const modelBase = value;
 
         if (!currentModel) return;
-        
 
         try {
             let live2DModel: Live2DModel;
@@ -579,7 +577,6 @@ const ModelSidebar: React.FC = () => {
             setLoading(100);
         } finally {
             setIsLoading(false);
-            
         }
     };
 
@@ -885,6 +882,7 @@ const ModelSidebar: React.FC = () => {
                         <div className="layer-buttons">
                             <button
                                 className="btn-circle btn-white"
+                                disabled={isLoading}
                                 onClick={() => {
                                     setShowAddModelScreen(!showAddModelScreen);
                                 }}
@@ -902,6 +900,7 @@ const ModelSidebar: React.FC = () => {
                                 uploadFunction={handleUploadImage}
                                 text={<i className="bi bi-upload"></i>}
                                 type="round"
+                                disabled={isLoading}
                             />
                             <button
                                 className="btn-circle btn-white"
