@@ -929,28 +929,6 @@ const ModelSidebar: React.FC = () => {
                                 <i className="bi bi-x-circle"></i>
                             </button>
                         </div>
-                        <div className="layer-buttons">
-                            <button
-                                className="btn-circle btn-white"
-                                onClick={() => {
-                                    handleLive2DChange(() =>
-                                        handleMoveLayer("forward")
-                                    );
-                                }}
-                            >
-                                <i className="bi bi-front"></i>
-                            </button>
-                            <button
-                                className="btn-circle btn-white"
-                                onClick={() => {
-                                    handleLive2DChange(() =>
-                                        handleMoveLayer("backward")
-                                    );
-                                }}
-                            >
-                                <i className="bi bi-back"></i>
-                            </button>
-                        </div>
                     </div>
                 )}
             </div>
@@ -1387,12 +1365,38 @@ const ModelSidebar: React.FC = () => {
                             />
                         </div>
                         <div className="option__content">
+                            <h3>{t("model.toggles")}</h3>
                             <Checkbox
                                 id="visible"
                                 label={t("visible")}
                                 checked={currentModel?.visible}
                                 onChange={handleVisible}
                             />
+                        </div>
+                        <div className="option__conten">
+                            <h3>{t("model.layering")}</h3>
+                            <div className="layer-buttons">
+                                <button
+                                    className="btn-circle btn-white"
+                                    onClick={() => {
+                                        handleLive2DChange(() =>
+                                            handleMoveLayer("forward")
+                                        );
+                                    }}
+                                >
+                                    <i className="bi bi-front"></i>
+                                </button>
+                                <button
+                                    className="btn-circle btn-white"
+                                    onClick={() => {
+                                        handleLive2DChange(() =>
+                                            handleMoveLayer("backward")
+                                        );
+                                    }}
+                                >
+                                    <i className="bi bi-back"></i>
+                                </button>
+                            </div>
                         </div>
                     </>
                 )}

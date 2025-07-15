@@ -82,6 +82,7 @@
         "emotion-copy-confirm-header": "Copied!",
         "emotion-copy-confirm-description": "The emotion parameters have successfully been copied.",
         "long-wait": "If the model is taking too long to load, consider getting models from SEKAI Stories instead.",
+        "layering":"Layer Order",
 
         "advanced": "Advanced"
     },
