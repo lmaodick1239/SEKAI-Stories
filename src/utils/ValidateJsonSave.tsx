@@ -16,12 +16,6 @@ export const ValidateJsonSave = (parsedJson: IJsonSave) => {
                 typeof model.from === "string" &&
                 typeof model.character === "string" &&
                 typeof model.modelName === "string" &&
-                typeof model.modelTransform === "object" &&
-                typeof model.modelTransform.x === "number" &&
-                typeof model.modelTransform.y === "number" &&
-                typeof model.modelTransform.scale === "number" &&
-                typeof model.modelExpression === "number" &&
-                typeof model.modelPose === "number" &&
                 typeof model.modelParametersChanged === "object" &&
                 Object.entries(model.modelParametersChanged).every(
                     ([name, value]) => {
@@ -39,7 +33,6 @@ export const ValidateJsonSave = (parsedJson: IJsonSave) => {
 export const ValidateLive2DParameterJsonSave = (
     parsedJson: ILive2DParameterJsonSave
 ) => {
-
     return Object.entries(parsedJson).every(([name, value]) => {
         return typeof name === "string" && typeof value === "number";
     });

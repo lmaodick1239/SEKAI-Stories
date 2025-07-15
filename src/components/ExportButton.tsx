@@ -83,6 +83,7 @@ const ExportButton: React.FC = () => {
                         x: model.modelX,
                         y: model.modelY,
                         scale: model.modelScale,
+                        rotation: model.modelRotation,
                     },
                     modelExpression: model.expression,
                     modelPose: model.pose,
@@ -222,12 +223,13 @@ const ExportButton: React.FC = () => {
             const live2DModel = await Live2DModel.from(modelData, {
                 autoInteract: false,
             });
-            live2DModel.scale.set(model?.modelTransform.scale);
             live2DModel.anchor.set(0.5, 0.5);
+            live2DModel.scale.set(model.modelTransform?.scale ?? 0.5);
             live2DModel.position.set(
-                model?.modelTransform.x,
-                model?.modelTransform.y
+                model.modelTransform?.x ?? 640,
+                model.modelTransform?.y ?? 870
             );
+            live2DModel.angle = model.modelTransform?.rotation ?? 0;
             modelContainer?.addChildAt(live2DModel, idx);
             if (
                 model?.modelExpression !== 99999 ||
@@ -270,11 +272,11 @@ const ExportButton: React.FC = () => {
                     modelX: live2DModel.x,
                     modelY: live2DModel.y,
                     modelScale: live2DModel.scale.x,
-                    modelRotation: 0,
+                    modelRotation: live2DModel.angle,
                     modelData: modelData,
                     virtualEffect: false,
-                    expression: model.modelExpression,
-                    pose: model.modelPose,
+                    expression: model.modelExpression ?? 99999,
+                    pose: model.modelPose ?? 99999,
                     idle: model.modelIdle,
                     visible: true,
                     from: model.from,

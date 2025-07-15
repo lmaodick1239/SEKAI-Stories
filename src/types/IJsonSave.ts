@@ -13,9 +13,14 @@ export interface IJsonSave {
         from: string;
         character: string;
         modelName: string;
-        modelTransform: { x: number; y: number; scale: number };
-        modelExpression: number;
-        modelPose: number;
+        modelTransform?: {
+            x?: number;
+            y?: number;
+            scale?: number;
+            rotation?: number;
+        };
+        modelExpression?: number;
+        modelPose?: number;
         modelParametersChanged: Record<string, number> | undefined;
         modelIdle: boolean;
     }[];

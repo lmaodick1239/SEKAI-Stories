@@ -5,6 +5,11 @@ button {
     user-select: none;
 }
 
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed
+}
+
 button.btn-regular {
     padding: 8px 50px;
     font-size: 20px;
