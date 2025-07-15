@@ -141,9 +141,6 @@ const ModelSidebar: React.FC = () => {
     const [bookmarkEmotions, setBookmarkEmotion] = useState<IEmotionBookmark>(
         {}
     );
-
-    const characterSelect = useRef<null | HTMLSelectElement>(null);
-    const modelSelect = useRef<null | HTMLSelectElement>(null);
     const live2dSelect = useRef<null | HTMLSelectElement>(null);
 
     useEffect(() => {
@@ -461,10 +458,7 @@ const ModelSidebar: React.FC = () => {
         setIsLoading(true);
         const character = value;
         setCurrentSelectedCharacter(character);
-        if (characterSelect.current && modelSelect.current) {
-            characterSelect.current.disabled = true;
-            modelSelect.current.disabled = true;
-        }
+        
         try {
             if (!currentModel) return;
 
@@ -522,10 +516,7 @@ const ModelSidebar: React.FC = () => {
             setLoading(100);
         } finally {
             setIsLoading(false);
-            if (characterSelect.current && modelSelect.current) {
-                characterSelect.current.disabled = false;
-                modelSelect.current.disabled = false;
-            }
+            
         }
     };
 
@@ -535,10 +526,7 @@ const ModelSidebar: React.FC = () => {
         const modelBase = value;
 
         if (!currentModel) return;
-        if (characterSelect.current && modelSelect.current) {
-            characterSelect.current.disabled = true;
-            modelSelect.current.disabled = true;
-        }
+        
 
         try {
             let live2DModel: Live2DModel;
@@ -591,10 +579,7 @@ const ModelSidebar: React.FC = () => {
             setLoading(100);
         } finally {
             setIsLoading(false);
-            if (characterSelect.current && modelSelect.current) {
-                characterSelect.current.disabled = false;
-                modelSelect.current.disabled = false;
-            }
+            
         }
     };
 
@@ -925,6 +910,7 @@ const ModelSidebar: React.FC = () => {
                                         handleDeleteLayer()
                                     );
                                 }}
+                                disabled={isLoading}
                             >
                                 <i className="bi bi-x-circle"></i>
                             </button>
@@ -963,7 +949,7 @@ const ModelSidebar: React.FC = () => {
                                     handleCharacterChange(value)
                                 );
                             }}
-                            ref={characterSelect}
+                            disabled={isLoading}
                         >
                             <option value="none" disabled>
                                 {t("model.select-character")}
@@ -1012,7 +998,7 @@ const ModelSidebar: React.FC = () => {
                                             handleCostumeChange(value)
                                         );
                                     }}
-                                    ref={modelSelect}
+                                    disabled={isLoading}
                                 >
                                     {(currentModel.from === "static"
                                         ? typedStaticCharacterData[
