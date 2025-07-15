@@ -4,4 +4,5 @@ export interface IFilter {
     container: PIXI.Container;
     flashback?: boolean;
     sick?: { container?: PIXI.Container | null; show?: boolean };
+    droop?: { container?: PIXI.Container | null; show?: boolean };
 }

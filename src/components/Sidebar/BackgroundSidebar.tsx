@@ -8,6 +8,7 @@ import { Checkbox } from "../UI/Checkbox";
 import { AdjustmentFilter } from "pixi-filters";
 import { SettingsContext } from "../../contexts/SettingsContext";
 import { sickEffect } from "../../utils/SickEffect";
+import * as PIXI from "pixi.js";
 
 const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();
@@ -104,6 +105,38 @@ const BackgroundSidebar: React.FC = () => {
             setFilter({
                 ...filter,
                 sick: {
+                    container: null,
+                    show: false,
+                },
+            });
+        }
+    };
+
+    const handleDroop = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!filter?.container) return;
+
+        const value = event.target.checked;
+
+        if (value) {
+            const droopLines = await getBackground("/img/droop.png");
+            const droopContainer = new PIXI.Container();
+
+            droopContainer.addChildAt(droopLines, 0);
+
+            filter.container.addChildAt(droopContainer, 3);
+
+            setFilter({
+                ...filter,
+                droop: {
+                    container: droopContainer,
+                    show: true,
+                },
+            });
+        } else {
+            filter.droop?.container?.destroy();
+            setFilter({
+                ...filter,
+                droop: {
                     container: null,
                     show: false,
                 },
@@ -212,6 +245,12 @@ const BackgroundSidebar: React.FC = () => {
                             label={t("background.sick")}
                             checked={filter?.sick?.show}
                             onChange={handleSick}
+                        />
+                        <Checkbox
+                            id="drooping-lines"
+                            label={t("background.drooping-lines")}
+                            checked={filter?.droop?.show}
+                            onChange={handleDroop}
                         />
                     </div>
                 )}
