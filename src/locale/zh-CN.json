@@ -6,7 +6,10 @@
         "select": "选择",
         "upload": "上传",
         "split-location": "拆分位置",
-        "upload-info": "为确保图像看起来是正确的，并且不会被拉伸或裁剪，请使用16:9的图片"
+        "upload-info": "为确保图像看起来是正确的，并且不会被拉伸或裁剪，请使用16:9的图片",
+        "filters": "滤镜",
+        "flashback": "倒叙",
+        "sick": "镜头摇晃"
     },
 
     "text": {
@@ -17,8 +20,13 @@
         "font-size": "文字大小",
         "add-symbol": "添加",
         "scene-text": "场景名称",
+        "scene-text-variant": "显示位置",
+        "scene-text-middle": "中间",
+        "scene-text-top-left": "顶部左侧",
         "y-offset": "Y轴偏移",
-        "y-offset-details": "如果画布中文字的位置不正确，那么你可能需要调整这个选项"
+        "y-offset-details": "如果画布中文字的位置不正确，那么你可能需要调整这个选项",
+        "hide-everything": "隐藏所有文字与人物模型",
+        "toggles": "切换"
     },
 
     "model": {
@@ -34,6 +42,7 @@
         "character": "角色",
         "select-character": "选择一个角色",
         "costume": "服装",
+        "virtual": "虚拟",
         "emotion": "神态",
         "pose": "动作",
         "select-pose": "选择一个动作",
@@ -144,6 +153,7 @@
 
     "group": {
         "all": "全部",
+        "bookmarks": "收藏",
         "general": "通用",
         "mmj": "MORE MORE JUMP!",
         "vbs": "Vivid BAD SQUAD",
@@ -163,7 +173,7 @@
         "auto-save-button": "获取最新的存档",
         "toggles": "更多设置",
         "audio": "打开声音",
-        "guidelines": "打开教程",
+        "guidelines": "打开网格",
         "experimental": "显示实验性功能",
         "expand": "自动展开所有菜单选项",
         "tutorial": "教程",
@@ -236,7 +246,7 @@
     "save": {
         "header": "保存",
         "note-1-desktop": "如果下载还没有开始，你可以右键点击下面的图像并保存",
-        "note-1-phone": "如果下载尚未开始，请按住下面的图像并保存。",
+        "note-1-phone": "如果下载尚未开始，你可以按住下面的图像并保存。",
         "note-2": "你之后可以在设置里永久地关掉这个提示",
         "disable-dialog": "不要再显示这个提示"
     },
@@ -246,6 +256,9 @@
         "invalid-json": "JSON文件无效，检查后再上传吧",
         "no-autosave": "未找到自动保存数据，下次记得自己保存一遍再关掉",
         "not-an-image": "这也不是个图片啊",
-        "default-scene-fail": "加载默认场景时出错。\n请点击“清除”按钮、刷新浏览器或清除Cookies信息。\n如果问题仍然存在，请在我的GitHub仓库里报告这个问题，谢谢！"
+        "default-scene-fail": "如果在加载默认场景时出错，\n请点击“清除”按钮、刷新浏览器或清除Cookies信息。\n如果问题仍然存在，请在我的GitHub仓库里报告这个问题，谢谢！",
+        "name-tag-inputs-limit": "名称输入的字数超过了限制",
+        "background-bookmark": "你不能收藏你自己上传的背景",
+        "hide-everything-warning": "在“场景名称”菜单下的“隐藏所有文字与人物模型”选项已经被打开了\n请先把这个选项关闭掉再进行操作"
     }
 }
