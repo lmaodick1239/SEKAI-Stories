@@ -542,7 +542,7 @@ const TextSidebar: React.FC = () => {
                             </div>
                         </div>
                         <div className="option__content">
-                            <h3>Toggles</h3>
+                            <h3>{t("text.toggles")}</h3>
                             <Checkbox
                                 id="visible"
                                 label={t("visible")}
