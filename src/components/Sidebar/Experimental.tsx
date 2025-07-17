@@ -4,15 +4,18 @@ import { refreshCanvas } from "../../utils/RefreshCanvas";
 import { SceneContext } from "../../contexts/SceneContext";
 import Crash from "../Crash";
 import { SoftErrorContext } from "../../contexts/SoftErrorContext";
+import { SettingsContext } from "../../contexts/SettingsContext";
 
 const Experimental: React.FC = () => {
     const { t, i18n } = useTranslation();
     const scene = useContext(SceneContext);
+    const settings = useContext(SettingsContext);
     const softError = useContext(SoftErrorContext);
     const [crash, setCrash] = useState(false);
 
-    if (!scene || !softError) throw new Error("Context not found");
+    if (!scene || !softError || !settings) throw new Error("Context not found");
     const { setErrorInformation } = softError;
+    const { loading, setLoading } = settings;
 
     const handleRefresh = () => {
         refreshCanvas(scene);
@@ -23,6 +26,7 @@ const Experimental: React.FC = () => {
             <p>This experimental section is only used for testing.</p>
             <p>You can disable this on Settings.</p>
             <div className="option">
+                <h2>Refresh</h2>
                 <div className="option__content">
                     <button
                         className="btn-regular btn-blue btn-100"
@@ -51,6 +55,22 @@ const Experimental: React.FC = () => {
                 </div>
             </div>
             <div className="option">
+                <h2>Loading</h2>
+                <p>{loading}</p>
+                <input
+                    type="range"
+                    name="loading"
+                    id="loading"
+                    min={0}
+                    max={100}
+                    value={loading}
+                    onChange={(e) => {
+                        setLoading(Number(e.target.value));
+                    }}
+                />
+            </div>
+            <div className="option">
+                <h2>Error</h2>
                 <div className="option__content">
                     <button
                         className="btn-regular btn-100 btn-white"
@@ -59,7 +79,9 @@ const Experimental: React.FC = () => {
                                 "Authentication failure or unable to access server.\nPlease check your internet connection and try again later.\nIf this issue persists, please check the FAQ for solutions.",
                                 "Room disbanded. (103)",
                             ];
-                            setErrorInformation(msg[Math.floor(Math.random()*msg.length)]);
+                            setErrorInformation(
+                                msg[Math.floor(Math.random() * msg.length)]
+                            );
                         }}
                     >
                         Soft error
