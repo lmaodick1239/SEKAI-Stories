@@ -6,17 +6,16 @@ import { getBackground } from "../../utils/GetBackground";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "../UI/Checkbox";
 import { AdjustmentFilter } from "pixi-filters";
-import { SettingsContext } from "../../contexts/SettingsContext";
 import { sickEffect } from "../../utils/SickEffect";
 import * as PIXI from "pixi.js";
+import SidebarOption from "../UI/SidebarOption";
 
 const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();
     const scene = useContext(SceneContext);
-    const settings = useContext(SettingsContext);
     const [openTab, setOpenTab] = useState<string>("select");
 
-    if (!scene || !settings) throw new Error("Context not found");
+    if (!scene ) throw new Error("Context not found");
 
     const {
         app,
@@ -28,7 +27,6 @@ const BackgroundSidebar: React.FC = () => {
         setFilter,
     } = scene;
 
-    const { openAll } = settings;
 
     if (!background || !background.backgroundContainer) return t("please-wait");
 
@@ -147,114 +145,90 @@ const BackgroundSidebar: React.FC = () => {
     return (
         <div>
             <h1>{t("background.header")}</h1>
-            <div
-                className="option"
-                onClick={() => {
-                    setOpenTab("select");
-                }}
+            <SidebarOption
+                header={t("background.select")}
+                option={openTab}
+                setOption={setOpenTab}
+                optionName="select"
             >
-                <div className="space-between flex-horizontal center">
-                    <h2>{t("background.select")}</h2>
-                    {openAll || openTab === "select" ? (
-                        <i className="bi bi-caret-down-fill" />
-                    ) : (
-                        <i className="bi bi-caret-right-fill" />
-                    )}
-                </div>
-                {(openAll || openTab === "select") && (
-                    <div className="option__content">
-                        {splitBackground?.visible ? (
-                            <>
-                                <BackgroundPicker
-                                    background={splitBackground.first}
-                                    setFunction={(bg) => {
-                                        setSplitBackground({
-                                            ...splitBackground,
-                                            first: {
-                                                ...splitBackground.first,
-                                                filename: bg,
-                                            },
-                                        });
-                                    }}
-                                />
-                                <BackgroundPicker
-                                    background={splitBackground.second}
-                                    setFunction={(bg) => {
-                                        setSplitBackground({
-                                            ...splitBackground,
-                                            second: {
-                                                ...splitBackground.second,
-                                                filename: bg,
-                                            },
-                                        });
-                                    }}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <BackgroundPicker
-                                    background={background}
-                                    setFunction={(bg) => {
-                                        setBackground({
-                                            ...background,
-                                            filename: bg,
-                                        });
-                                    }}
-                                />
-                                <UploadImageButton
-                                    id="background-upload"
-                                    uploadFunction={handleUploadImage}
-                                    text={t("background.upload")}
-                                    alertMsg={t("background.upload-info")}
-                                />
-                            </>
-                        )}
-                        <Checkbox
-                            id="split"
-                            label={t("background.split-location")}
-                            checked={splitBackground?.visible}
-                            onChange={handleSplitImage}
+                {splitBackground?.visible ? (
+                    <>
+                        <BackgroundPicker
+                            background={splitBackground.first}
+                            setFunction={(bg) => {
+                                setSplitBackground({
+                                    ...splitBackground,
+                                    first: {
+                                        ...splitBackground.first,
+                                        filename: bg,
+                                    },
+                                });
+                            }}
                         />
-                    </div>
+                        <BackgroundPicker
+                            background={splitBackground.second}
+                            setFunction={(bg) => {
+                                setSplitBackground({
+                                    ...splitBackground,
+                                    second: {
+                                        ...splitBackground.second,
+                                        filename: bg,
+                                    },
+                                });
+                            }}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <BackgroundPicker
+                            background={background}
+                            setFunction={(bg) => {
+                                setBackground({
+                                    ...background,
+                                    filename: bg,
+                                });
+                            }}
+                        />
+                        <UploadImageButton
+                            id="background-upload"
+                            uploadFunction={handleUploadImage}
+                            text={t("background.upload")}
+                            alertMsg={t("background.upload-info")}
+                        />
+                    </>
                 )}
-            </div>
-            <div
-                className="option"
-                onClick={() => {
-                    setOpenTab("filters");
-                }}
+                <Checkbox
+                    id="split"
+                    label={t("background.split-location")}
+                    checked={splitBackground?.visible}
+                    onChange={handleSplitImage}
+                />
+            </SidebarOption>
+            <SidebarOption
+                header={t("background.filters")}
+                option={openTab}
+                setOption={setOpenTab}
+                optionName="filters"
             >
-                <div className="space-between flex-horizontal center">
-                    <h2>{t("background.filters")}</h2>
-                    {openAll || openTab === "filters" ? (
-                        <i className="bi bi-caret-down-fill" />
-                    ) : (
-                        <i className="bi bi-caret-right-fill" />
-                    )}
-                </div>
-                {(openAll || openTab === "filters") && (
-                    <div className="option__content">
-                        <Checkbox
-                            id="flashback"
-                            label={t("background.flashback")}
-                            checked={filter?.flashback}
-                            onChange={handleFlashback}
-                        />
-                        <Checkbox
-                            id="sick"
-                            label={t("background.sick")}
-                            checked={filter?.sick?.show}
-                            onChange={handleSick}
-                        />
-                        <Checkbox
-                            id="drooping-lines"
-                            label={t("background.drooping-lines")}
-                            checked={filter?.droop?.show}
-                            onChange={handleDroop}
-                        />
-                    </div>
-                )}
-            </div>
+                <Checkbox
+                    id="flashback"
+                    label={t("background.flashback")}
+                    checked={filter?.flashback}
+                    onChange={handleFlashback}
+                />
+                <Checkbox
+                    id="sick"
+                    label={t("background.sick")}
+                    checked={filter?.sick?.show}
+                    onChange={handleSick}
+                />
+                <Checkbox
+                    id="drooping-lines"
+                    label={t("background.drooping-lines")}
+                    checked={filter?.droop?.show}
+                    onChange={handleDroop}
+                />
+            </SidebarOption>
         </div>
     );
 };

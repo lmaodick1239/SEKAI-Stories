@@ -30,6 +30,7 @@ import {
 } from "../../utils/VirtualEffect";
 import IEmotionBookmark from "../../types/IEmotionBookmark";
 import Live2DInputSlider from "../Live2DInputSlider";
+import SidebarOption from "../UI/SidebarOption";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -110,7 +111,7 @@ const ModelSidebar: React.FC = () => {
         initialState,
         setInitialState,
     } = scene;
-    const { openAll, setLoading } = settings;
+    const { setLoading } = settings;
     const { setErrorInformation } = softError;
 
     const [openTab, setOpenTab] = useState<string>("select-layer");
@@ -855,68 +856,56 @@ const ModelSidebar: React.FC = () => {
     return (
         <div>
             <h1>{t("model.header")}</h1>
-            <div
-                className="option"
-                onClick={() => {
-                    setOpenTab("select-layer");
-                }}
+
+            <SidebarOption
+                header={t("model.selected-layer")}
+                option={openTab}
+                setOption={setOpenTab}
+                optionName="select-layer"
             >
-                <div className="space-between flex-horizontal center">
-                    <h2>{t("model.selected-layer")}</h2>
-                    {openAll || openTab === "select-layer" ? (
-                        <i className="bi bi-caret-down-fill" />
-                    ) : (
-                        <i className="bi bi-caret-right-fill" />
+                <select value={currentKey} onChange={handleLayerChange}>
+                    {Object.keys(models).map((model, idx) => (
+                        <option key={model} value={model}>
+                            {t("model.layer")} {idx + 1}:{" "}
+                            {t(`character.${models[model].character}`)}
+                        </option>
+                    ))}
+                </select>
+                <div className="layer-buttons">
+                    <button
+                        className="btn-circle btn-white"
+                        disabled={isLoading}
+                        onClick={() => {
+                            setShowAddModelScreen(!showAddModelScreen);
+                        }}
+                    >
+                        <i className="bi bi-plus-circle"></i>
+                    </button>
+                    {showAddModelScreen && (
+                        <AddModelSelect
+                            addModel={handleAddLayer}
+                            setShow={setShowAddModelScreen}
+                        />
                     )}
+                    <UploadImageButton
+                        id="background-upload"
+                        uploadFunction={handleUploadImage}
+                        text={<i className="bi bi-upload"></i>}
+                        type="round"
+                        disabled={isLoading}
+                    />
+                    <button
+                        className="btn-circle btn-white"
+                        onClick={() => {
+                            handleLive2DChange(() => handleDeleteLayer());
+                        }}
+                        disabled={isLoading}
+                    >
+                        <i className="bi bi-x-circle"></i>
+                    </button>
                 </div>
-                {(openAll || openTab === "select-layer") && (
-                    <div className="option__content">
-                        <select value={currentKey} onChange={handleLayerChange}>
-                            {Object.keys(models).map((model, idx) => (
-                                <option key={model} value={model}>
-                                    {t("model.layer")} {idx + 1}:{" "}
-                                    {t(`character.${models[model].character}`)}
-                                </option>
-                            ))}
-                        </select>
-                        <div className="layer-buttons">
-                            <button
-                                className="btn-circle btn-white"
-                                disabled={isLoading}
-                                onClick={() => {
-                                    setShowAddModelScreen(!showAddModelScreen);
-                                }}
-                            >
-                                <i className="bi bi-plus-circle"></i>
-                            </button>
-                            {showAddModelScreen && (
-                                <AddModelSelect
-                                    addModel={handleAddLayer}
-                                    setShow={setShowAddModelScreen}
-                                />
-                            )}
-                            <UploadImageButton
-                                id="background-upload"
-                                uploadFunction={handleUploadImage}
-                                text={<i className="bi bi-upload"></i>}
-                                type="round"
-                                disabled={isLoading}
-                            />
-                            <button
-                                className="btn-circle btn-white"
-                                onClick={() => {
-                                    handleLive2DChange(() =>
-                                        handleDeleteLayer()
-                                    );
-                                }}
-                                disabled={isLoading}
-                            >
-                                <i className="bi bi-x-circle"></i>
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
+            </SidebarOption>
+
             {loadingMsg && (
                 <div className="option">
                     <p>{loadingMsg}</p>
@@ -929,665 +918,553 @@ const ModelSidebar: React.FC = () => {
                         )}
                 </div>
             )}
-            <div className="option" onClick={() => setOpenTab("character")}>
-                <div className="space-between flex-horizontal center">
-                    <h2>{t("model.character")}</h2>
-                    {openAll || openTab === "character" ? (
-                        <i className="bi bi-caret-down-fill" />
-                    ) : (
-                        <i className="bi bi-caret-right-fill" />
+            <SidebarOption
+                header={t("model.character")}
+                option={openTab}
+                setOption={setOpenTab}
+                optionName="character"
+            >
+                <select
+                    value={currentSelectedCharacter}
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        handleLive2DChange(() => handleCharacterChange(value));
+                    }}
+                    disabled={isLoading}
+                >
+                    <option value="none" disabled>
+                        {t("model.select-character")}
+                    </option>
+                    {currentSelectedCharacter === "custom" && (
+                        <option value="custom" disabled>
+                            {t("character.custom")}
+                        </option>
                     )}
-                </div>
-                {(openAll || openTab === "character") && (
-                    <div className="option__content">
+                    {Object.keys(
+                        currentModel?.from === "static"
+                            ? staticCharacterData
+                            : sekaiCharacterData
+                    ).map((character) => (
+                        <option key={character} value={character}>
+                            {t(`character.${character}`)}
+                        </option>
+                    ))}
+                </select>
+            </SidebarOption>
+
+            {(currentModel?.model instanceof Live2DModel ||
+                currentModel?.character == "none") && (
+                <>
+                    <SidebarOption
+                        header={t("model.costume")}
+                        option={openTab}
+                        setOption={setOpenTab}
+                        optionName="costume"
+                    >
                         <select
-                            value={currentSelectedCharacter}
+                            value={currentModel?.modelName}
                             onChange={(e) => {
                                 const value = e.target.value;
                                 handleLive2DChange(() =>
-                                    handleCharacterChange(value)
+                                    handleCostumeChange(value)
                                 );
                             }}
                             disabled={isLoading}
                         >
-                            <option value="none" disabled>
-                                {t("model.select-character")}
-                            </option>
-                            {currentSelectedCharacter === "custom" && (
-                                <option value="custom" disabled>
-                                    {t("character.custom")}
-                                </option>
-                            )}
-                            {Object.keys(
-                                currentModel?.from === "static"
-                                    ? staticCharacterData
-                                    : sekaiCharacterData
-                            ).map((character) => (
-                                <option key={character} value={character}>
-                                    {t(`character.${character}`)}
-                                </option>
-                            ))}
+                            {(currentModel.from === "static"
+                                ? typedStaticCharacterData[
+                                      currentSelectedCharacter
+                                  ]
+                                : typedSekaiCharacterData[
+                                      currentSelectedCharacter
+                                  ]
+                            )?.map((model, idx) => {
+                                const value =
+                                    currentModel.from === "static"
+                                        ? (model as string)
+                                        : (model as ILive2DModelList).modelBase;
+                                return (
+                                    <option
+                                        key={`${value}${idx}`}
+                                        value={value}
+                                    >
+                                        {value}
+                                    </option>
+                                );
+                            })}
                         </select>
-                    </div>
-                )}
-            </div>
-            {(currentModel?.model instanceof Live2DModel ||
-                currentModel?.character == "none") && (
-                <>
-                    <div
-                        className="option"
-                        onClick={() => setOpenTab("costume")}
+                        <Checkbox
+                            id="virtual-effect"
+                            label={t("model.virtual")}
+                            checked={currentModel.virtualEffect}
+                            onChange={(event) => {
+                                const value = event.target.checked;
+                                handleVirtualEffect(value);
+                            }}
+                        />
+                    </SidebarOption>
+                    <SidebarOption
+                        header={t("model.emotion")}
+                        option={openTab}
+                        setOption={setOpenTab}
+                        optionName="emotion"
                     >
-                        <div className="space-between flex-horizontal center">
-                            <h2>{t("model.costume")}</h2>
-                            {openAll || openTab === "costume" ? (
-                                <i className="bi bi-caret-down-fill" />
-                            ) : (
-                                <i className="bi bi-caret-right-fill" />
-                            )}
-                        </div>
-
-                        {(openAll || openTab === "costume") && (
-                            <div className="option__content">
+                        <div className="option__content">
+                            <h3>{t("model.pose")}</h3>
+                            <div className="space-between flex-horizontal relative">
                                 <select
-                                    value={currentModel?.modelName}
+                                    value={currentModel?.pose}
                                     onChange={(e) => {
-                                        const value = e.target.value;
-                                        handleLive2DChange(() =>
-                                            handleCostumeChange(value)
-                                        );
+                                        handleEmotionChange(e, "pose");
                                     }}
-                                    disabled={isLoading}
                                 >
-                                    {(currentModel.from === "static"
-                                        ? typedStaticCharacterData[
-                                              currentSelectedCharacter
-                                          ]
-                                        : typedSekaiCharacterData[
-                                              currentSelectedCharacter
-                                          ]
-                                    )?.map((model, idx) => {
-                                        const value =
-                                            currentModel.from === "static"
-                                                ? (model as string)
-                                                : (model as ILive2DModelList)
-                                                      .modelBase;
-                                        return (
+                                    <option value={99999} disabled>
+                                        {t("model.select-pose")}
+                                    </option>
+                                    {bookmarkEmotions[
+                                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                    ] &&
+                                        bookmarkEmotions[
+                                            `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                        ].pose.map((idx) => (
                                             <option
-                                                key={`${value}${idx}`}
-                                                value={value}
+                                                key={`faved-${idx}`}
+                                                value={idx}
                                             >
-                                                {value}
+                                                ★{" "}
+                                                {
+                                                    currentModel.modelData
+                                                        ?.FileReferences.Motions
+                                                        .Motion[idx].Name
+                                                }
                                             </option>
-                                        );
-                                    })}
+                                        ))}
+                                    {currentModel &&
+                                        currentModel.modelData?.FileReferences.Motions.Motion.map(
+                                            (o, idx) => (
+                                                <option key={idx} value={idx}>
+                                                    {o.Name}
+                                                </option>
+                                            )
+                                        )}
                                 </select>
-                                <Checkbox
-                                    id="virtual-effect"
-                                    label={t("model.virtual")}
-                                    checked={currentModel.virtualEffect}
-                                    onChange={(event) => {
-                                        const value = event.target.checked;
-                                        handleVirtualEffect(value);
-                                    }}
-                                />
+                                {currentModel?.pose !== 99999 && (
+                                    <button
+                                        className="btn-circle btn-white absolute right"
+                                        onClick={() =>
+                                            handleBookmarkEmotion("pose")
+                                        }
+                                    >
+                                        {bookmarkEmotions[
+                                            `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                        ] &&
+                                        bookmarkEmotions[
+                                            `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                        ].pose.includes(currentModel.pose) ? (
+                                            <i className="bi bi-star-fill sidebar__select" />
+                                        ) : (
+                                            <i className="bi bi-star sidebar__select" />
+                                        )}
+                                    </button>
+                                )}
                             </div>
-                        )}
-                    </div>
-
-                    <div
-                        className="option"
-                        onClick={() => {
-                            setOpenTab("emotion");
-                        }}
-                    >
-                        <div className="space-between flex-horizontal center">
-                            <h2>{t("model.emotion")}</h2>
-                            {openAll || openTab === "emotion" ? (
-                                <i className="bi bi-caret-down-fill" />
-                            ) : (
-                                <i className="bi bi-caret-right-fill" />
-                            )}
+                            <button
+                                className="btn-regular btn-blue btn-extend-width"
+                                onClick={async () => {
+                                    if (
+                                        currentModel &&
+                                        currentModel.model instanceof
+                                            Live2DModel &&
+                                        currentModel.pose !== 99999
+                                    ) {
+                                        currentModel.model.motion(
+                                            "Motion",
+                                            currentModel.pose
+                                        );
+                                    }
+                                }}
+                            >
+                                {t("model.re-apply")}
+                            </button>
                         </div>
-                        {(openAll || openTab === "emotion") && (
-                            <>
-                                <div className="option__content">
-                                    <h3>{t("model.pose")}</h3>
-                                    <div className="space-between flex-horizontal relative">
-                                        <select
-                                            value={currentModel?.pose}
-                                            onChange={(e) => {
-                                                handleEmotionChange(e, "pose");
-                                            }}
-                                        >
-                                            <option value={99999} disabled>
-                                                {t("model.select-pose")}
-                                            </option>
-                                            {bookmarkEmotions[
-                                                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                                            ] &&
-                                                bookmarkEmotions[
-                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                                                ].pose.map((idx) => (
-                                                    <option
-                                                        key={`faved-${idx}`}
-                                                        value={idx}
-                                                    >
-                                                        ★{" "}
-                                                        {
-                                                            currentModel
-                                                                .modelData
-                                                                ?.FileReferences
-                                                                .Motions.Motion[
-                                                                idx
-                                                            ].Name
-                                                        }
-                                                    </option>
-                                                ))}
-                                            {currentModel &&
-                                                currentModel.modelData?.FileReferences.Motions.Motion.map(
-                                                    (o, idx) => (
-                                                        <option
-                                                            key={idx}
-                                                            value={idx}
-                                                        >
-                                                            {o.Name}
-                                                        </option>
-                                                    )
-                                                )}
-                                        </select>
-                                        {currentModel?.pose !== 99999 && (
-                                            <button
-                                                className="btn-circle btn-white absolute right"
-                                                onClick={() =>
-                                                    handleBookmarkEmotion(
-                                                        "pose"
-                                                    )
-                                                }
+                        <div className="option__content">
+                            <h3>{t("model.expression")}</h3>
+                            <div className="space-between flex-horizontal relative">
+                                <select
+                                    value={currentModel?.expression}
+                                    onChange={(e) => {
+                                        handleEmotionChange(e, "expression");
+                                    }}
+                                >
+                                    <option value={99999} disabled>
+                                        {t("model.select-expression")}
+                                    </option>
+                                    {bookmarkEmotions[
+                                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                    ] &&
+                                        bookmarkEmotions[
+                                            `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                        ].expression.map((idx) => (
+                                            <option
+                                                key={`faved-${idx}`}
+                                                value={idx}
                                             >
-                                                {bookmarkEmotions[
-                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                                                ] &&
-                                                bookmarkEmotions[
-                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                                                ].pose.includes(
-                                                    currentModel.pose
-                                                ) ? (
-                                                    <i className="bi bi-star-fill sidebar__select" />
-                                                ) : (
-                                                    <i className="bi bi-star sidebar__select" />
-                                                )}
-                                            </button>
-                                        )}
-                                    </div>
-                                    <button
-                                        className="btn-regular btn-blue btn-extend-width"
-                                        onClick={async () => {
-                                            if (
-                                                currentModel &&
-                                                currentModel.model instanceof
-                                                    Live2DModel &&
-                                                currentModel.pose !== 99999
-                                            ) {
-                                                currentModel.model.motion(
-                                                    "Motion",
-                                                    currentModel.pose
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        {t("model.re-apply")}
-                                    </button>
-                                </div>
-                                <div className="option__content">
-                                    <h3>{t("model.expression")}</h3>
-                                    <div className="space-between flex-horizontal relative">
-                                        <select
-                                            value={currentModel?.expression}
-                                            onChange={(e) => {
-                                                handleEmotionChange(
-                                                    e,
-                                                    "expression"
-                                                );
-                                            }}
-                                        >
-                                            <option value={99999} disabled>
-                                                {t("model.select-expression")}
-                                            </option>
-                                            {bookmarkEmotions[
-                                                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                                            ] &&
-                                                bookmarkEmotions[
-                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                                                ].expression.map((idx) => (
-                                                    <option
-                                                        key={`faved-${idx}`}
-                                                        value={idx}
-                                                    >
-                                                        ★{" "}
-                                                        {
-                                                            currentModel
-                                                                .modelData
-                                                                ?.FileReferences
-                                                                .Motions
-                                                                .Expression[idx]
-                                                                .Name
-                                                        }
-                                                    </option>
-                                                ))}
-                                            {currentModel &&
-                                                currentModel.modelData?.FileReferences.Motions.Expression.map(
-                                                    (o, idx) => (
-                                                        <option
-                                                            key={idx}
-                                                            value={idx}
-                                                        >
-                                                            {o.Name}
-                                                        </option>
-                                                    )
-                                                )}
-                                        </select>
-                                        {currentModel?.expression !== 99999 && (
-                                            <button
-                                                className="btn-circle btn-white absolute right"
-                                                onClick={() =>
-                                                    handleBookmarkEmotion(
-                                                        "expression"
-                                                    )
+                                                ★{" "}
+                                                {
+                                                    currentModel.modelData
+                                                        ?.FileReferences.Motions
+                                                        .Expression[idx].Name
                                                 }
-                                            >
-                                                {bookmarkEmotions[
-                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                                                ] &&
-                                                bookmarkEmotions[
-                                                    `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                                                ].expression.includes(
-                                                    currentModel.expression
-                                                ) ? (
-                                                    <i className="bi bi-star-fill sidebar__select" />
-                                                ) : (
-                                                    <i className="bi bi-star sidebar__select" />
-                                                )}
-                                            </button>
+                                            </option>
+                                        ))}
+                                    {currentModel &&
+                                        currentModel.modelData?.FileReferences.Motions.Expression.map(
+                                            (o, idx) => (
+                                                <option key={idx} value={idx}>
+                                                    {o.Name}
+                                                </option>
+                                            )
                                         )}
-                                    </div>
+                                </select>
+                                {currentModel?.expression !== 99999 && (
                                     <button
-                                        className="btn-regular btn-blue btn-extend-width"
-                                        onClick={async () => {
-                                            if (
-                                                currentModel &&
-                                                currentModel.model instanceof
-                                                    Live2DModel &&
-                                                currentModel.expression !==
-                                                    99999
-                                            ) {
-                                                currentModel.model.motion(
-                                                    "Expression",
-                                                    currentModel.expression
-                                                );
-                                            }
-                                        }}
+                                        className="btn-circle btn-white absolute right"
+                                        onClick={() =>
+                                            handleBookmarkEmotion("expression")
+                                        }
                                     >
-                                        {t("model.re-apply")}
+                                        {bookmarkEmotions[
+                                            `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                        ] &&
+                                        bookmarkEmotions[
+                                            `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                                        ].expression.includes(
+                                            currentModel.expression
+                                        ) ? (
+                                            <i className="bi bi-star-fill sidebar__select" />
+                                        ) : (
+                                            <i className="bi bi-star sidebar__select" />
+                                        )}
                                     </button>
-                                </div>
-                            </>
-                        )}
-                    </div>
+                                )}
+                            </div>
+                            <button
+                                className="btn-regular btn-blue btn-extend-width"
+                                onClick={async () => {
+                                    if (
+                                        currentModel &&
+                                        currentModel.model instanceof
+                                            Live2DModel &&
+                                        currentModel.expression !== 99999
+                                    ) {
+                                        currentModel.model.motion(
+                                            "Expression",
+                                            currentModel.expression
+                                        );
+                                    }
+                                }}
+                            >
+                                {t("model.re-apply")}
+                            </button>
+                        </div>
+                    </SidebarOption>
                 </>
             )}
-            <div className="option" onClick={() => setOpenTab("transform")}>
-                <div className="space-between flex-horizontal center">
-                    <h2>{t("model.transform")}</h2>
-                    {openAll || openTab === "transform" ? (
-                        <i className="bi bi-caret-down-fill" />
-                    ) : (
-                        <i className="bi bi-caret-right-fill" />
-                    )}
+            <SidebarOption
+                header={t("model.transform")}
+                option={openTab}
+                setOption={setOpenTab}
+                optionName="transform"
+            >
+                <div className="option__content">
+                    <div className="transform-icons">
+                        <h3>
+                            {t("model.x-position")} ({currentModel?.modelX}px)
+                        </h3>
+                        <div>
+                            <i
+                                className="bi bi-pencil-fill"
+                                onClick={() => handleTransformChange("x")}
+                            ></i>
+                        </div>
+                    </div>
+                    <input
+                        type="range"
+                        name="x-value"
+                        id="x-value"
+                        min={0}
+                        max={1920}
+                        value={currentModel?.modelX}
+                        onChange={handleXTransform}
+                    />
                 </div>
-                {(openAll || openTab === "transform") && (
-                    <>
-                        <div className="option__content">
-                            <div className="transform-icons">
-                                <h3>
-                                    {t("model.x-position")} (
-                                    {currentModel?.modelX}px)
-                                </h3>
-                                <div>
-                                    <i
-                                        className="bi bi-pencil-fill"
-                                        onClick={() =>
-                                            handleTransformChange("x")
-                                        }
-                                    ></i>
-                                </div>
-                            </div>
-                            <input
-                                type="range"
-                                name="x-value"
-                                id="x-value"
-                                min={0}
-                                max={1920}
-                                value={currentModel?.modelX}
-                                onChange={handleXTransform}
-                            />
+                <div className="option__content">
+                    <div className="transform-icons">
+                        <h3>
+                            {t("model.y-position")} ({currentModel?.modelY}px)
+                        </h3>
+                        <div>
+                            <i
+                                className="bi bi-pencil-fill"
+                                onClick={() => handleTransformChange("y")}
+                            ></i>
                         </div>
-                        <div className="option__content">
-                            <div className="transform-icons">
-                                <h3>
-                                    {t("model.y-position")} (
-                                    {currentModel?.modelY}px)
-                                </h3>
-                                <div>
-                                    <i
-                                        className="bi bi-pencil-fill"
-                                        onClick={() =>
-                                            handleTransformChange("y")
-                                        }
-                                    ></i>
-                                </div>
-                            </div>
-                            <input
-                                type="range"
-                                name="y-value"
-                                id="y-value"
-                                min={0}
-                                max={1080}
-                                value={currentModel?.modelY}
-                                onChange={handleYTransform}
-                            />
+                    </div>
+                    <input
+                        type="range"
+                        name="y-value"
+                        id="y-value"
+                        min={0}
+                        max={1080}
+                        value={currentModel?.modelY}
+                        onChange={handleYTransform}
+                    />
+                </div>
+                <div className="option__content">
+                    <div className="transform-icons">
+                        <h3>
+                            {t("model.scale")} ({currentModel?.modelScale})
+                        </h3>
+                        <div>
+                            <i
+                                className="bi bi-pencil-fill"
+                                onClick={() => handleTransformChange("scale")}
+                            ></i>
                         </div>
-                        <div className="option__content">
-                            <div className="transform-icons">
-                                <h3>
-                                    {t("model.scale")} (
-                                    {currentModel?.modelScale})
-                                </h3>
-                                <div>
-                                    <i
-                                        className="bi bi-pencil-fill"
-                                        onClick={() =>
-                                            handleTransformChange("scale")
-                                        }
-                                    ></i>
-                                </div>
-                            </div>
-                            <input
-                                type="range"
-                                name="scale"
-                                id="scale"
-                                min={0}
-                                max={1}
-                                step={0.01}
-                                value={currentModel?.modelScale}
-                                onChange={handleScaleTransform}
-                            />
+                    </div>
+                    <input
+                        type="range"
+                        name="scale"
+                        id="scale"
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        value={currentModel?.modelScale}
+                        onChange={handleScaleTransform}
+                    />
+                </div>
+                <div className="option__content">
+                    <div className="transform-icons">
+                        <h3>
+                            {t("model.rotation")} ({currentModel?.modelRotation}
+                            )
+                        </h3>
+                        <div>
+                            <i
+                                className="bi bi-pencil-fill"
+                                onClick={() =>
+                                    handleTransformChange("rotation")
+                                }
+                            ></i>
                         </div>
-                        <div className="option__content">
-                            <div className="transform-icons">
-                                <h3>
-                                    {t("model.rotation")} (
-                                    {currentModel?.modelRotation})
-                                </h3>
-                                <div>
-                                    <i
-                                        className="bi bi-pencil-fill"
-                                        onClick={() =>
-                                            handleTransformChange("rotation")
-                                        }
-                                    ></i>
-                                </div>
-                            </div>
-                            <input
-                                type="range"
-                                name="rotation"
-                                id="rotation"
-                                min={0}
-                                max={360}
-                                step={1}
-                                value={currentModel?.modelRotation}
-                                onChange={handleRotationTransform}
-                            />
-                        </div>
-                        <div className="option__content">
-                            <h3>{t("model.toggles")}</h3>
-                            <Checkbox
-                                id="visible"
-                                label={t("visible")}
-                                checked={currentModel?.visible}
-                                onChange={handleVisible}
-                            />
-                        </div>
-                        <div className="option__conten">
-                            <h3>{t("model.layering")}</h3>
-                            <div className="layer-buttons">
-                                <button
-                                    className="btn-circle btn-white"
-                                    onClick={() => {
-                                        handleLive2DChange(() =>
-                                            handleMoveLayer("forward")
-                                        );
-                                    }}
-                                >
-                                    <i className="bi bi-front"></i>
-                                </button>
-                                <button
-                                    className="btn-circle btn-white"
-                                    onClick={() => {
-                                        handleLive2DChange(() =>
-                                            handleMoveLayer("backward")
-                                        );
-                                    }}
-                                >
-                                    <i className="bi bi-back"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                )}
-            </div>
+                    </div>
+                    <input
+                        type="range"
+                        name="rotation"
+                        id="rotation"
+                        min={0}
+                        max={360}
+                        step={1}
+                        value={currentModel?.modelRotation}
+                        onChange={handleRotationTransform}
+                    />
+                </div>
+                <div className="option__content">
+                    <h3>{t("model.toggles")}</h3>
+                    <Checkbox
+                        id="visible"
+                        label={t("visible")}
+                        checked={currentModel?.visible}
+                        onChange={handleVisible}
+                    />
+                </div>
+                <div className="option__conten">
+                    <h3>{t("model.layering")}</h3>
+                    <div className="layer-buttons">
+                        <button
+                            className="btn-circle btn-white"
+                            onClick={() => {
+                                handleLive2DChange(() =>
+                                    handleMoveLayer("forward")
+                                );
+                            }}
+                        >
+                            <i className="bi bi-front"></i>
+                        </button>
+                        <button
+                            className="btn-circle btn-white"
+                            onClick={() => {
+                                handleLive2DChange(() =>
+                                    handleMoveLayer("backward")
+                                );
+                            }}
+                        >
+                            <i className="bi bi-back"></i>
+                        </button>
+                    </div>
+                </div>
+            </SidebarOption>
 
             {currentModel?.model instanceof Live2DModel && !isLoading && (
                 <>
-                    <div
-                        className="option"
-                        onClick={() => {
-                            setOpenTab("mouth");
-                        }}
+                    <SidebarOption
+                        header={t("model.mouth")}
+                        option={openTab}
+                        setOption={setOpenTab}
+                        optionName="mouth"
                     >
-                        <div className="space-between flex-horizontal center">
-                            <h2>{t("model.mouth")}</h2>
-                            {openAll || openTab === "mouth" ? (
-                                <i className="bi bi-caret-down-fill" />
-                            ) : (
-                                <i className="bi bi-caret-right-fill" />
-                            )}
-                        </div>
-                        {(openAll || openTab === "mouth") && (
-                            <div className="option__content">
-                                {coreModel &&
-                                    coreModel["_parameterIds"]
-                                        .map((param: string, idx: number) => {
-                                            if (!param.includes("Mouth"))
-                                                return;
-                                            return (
-                                                <Live2DInputSlider
-                                                    idx={idx}
-                                                    param={param}
-                                                    coreModel={coreModel}
-                                                    onChange={
-                                                        handleLive2DParamsChange
-                                                    }
-                                                    currentModel={currentModel}
-                                                    filter
-                                                />
-                                            );
-                                        })
-                                        .filter(Boolean)}
-                            </div>
-                        )}
-                    </div>
-                    <div
-                        className="option"
-                        onClick={() => {
-                            setOpenTab("live2d");
-                        }}
+                        {coreModel &&
+                            coreModel["_parameterIds"]
+                                .map((param: string, idx: number) => {
+                                    if (!param.includes("Mouth")) return;
+                                    return (
+                                        <Live2DInputSlider
+                                            idx={idx}
+                                            param={param}
+                                            coreModel={coreModel}
+                                            onChange={handleLive2DParamsChange}
+                                            currentModel={currentModel}
+                                            filter
+                                        />
+                                    );
+                                })
+                                .filter(Boolean)}
+                    </SidebarOption>
+                    <SidebarOption
+                        header={t("model.live2d")}
+                        option={openTab}
+                        setOption={setOpenTab}
+                        optionName="live2d"
                     >
-                        <div className="space-between flex-horizontal center">
-                            <h2>{t("model.live2d")}</h2>
-                            {openAll || openTab === "live2d" ? (
-                                <i className="bi bi-caret-down-fill" />
-                            ) : (
-                                <i className="bi bi-caret-right-fill" />
+                        <h3>{t("model.parameters")}</h3>
+                        {window.matchMedia &&
+                            window.matchMedia("(pointer: fine)").matches && (
+                                <div>
+                                    <p>{t("model.live2d-tooltip")}</p>
+                                </div>
                             )}
-                        </div>
-                        {(openAll || openTab === "live2d") && (
-                            <div className="option__content">
-                                <h3>{t("model.parameters")}</h3>
-                                {window.matchMedia &&
-                                    window.matchMedia("(pointer: fine)")
-                                        .matches && (
-                                        <div>
-                                            <p>{t("model.live2d-tooltip")}</p>
-                                        </div>
-                                    )}
-                                {coreModel && (
-                                    <>
-                                        <select
-                                            name="parameters"
-                                            id="parameters"
-                                            onChange={(e) => {
-                                                const [param, idx] =
-                                                    e.target.value.split(",");
-                                                setSelectedParameter({
-                                                    idx: Number(idx),
-                                                    param,
-                                                });
-                                            }}
-                                            value={`${selectedParameter?.param},${selectedParameter?.idx}`}
-                                            ref={live2dSelect}
-                                        >
-                                            <option value="_,-1" disabled>
-                                                {t("model.select-parameter")}
+                        {coreModel && (
+                            <>
+                                <select
+                                    name="parameters"
+                                    id="parameters"
+                                    onChange={(e) => {
+                                        const [param, idx] =
+                                            e.target.value.split(",");
+                                        setSelectedParameter({
+                                            idx: Number(idx),
+                                            param,
+                                        });
+                                    }}
+                                    value={`${selectedParameter?.param},${selectedParameter?.idx}`}
+                                    ref={live2dSelect}
+                                >
+                                    <option value="_,-1" disabled>
+                                        {t("model.select-parameter")}
+                                    </option>
+                                    {coreModel["_parameterIds"].map(
+                                        (param: string, idx: number) => (
+                                            <option
+                                                value={`${param},${idx}`}
+                                                key={idx}
+                                            >
+                                                {param}
                                             </option>
-                                            {coreModel["_parameterIds"].map(
-                                                (
-                                                    param: string,
-                                                    idx: number
-                                                ) => (
-                                                    <option
-                                                        value={`${param},${idx}`}
-                                                        key={idx}
-                                                    >
-                                                        {param}
-                                                    </option>
-                                                )
-                                            )}
-                                        </select>
-                                        {selectedParameter &&
-                                            selectedParameter.idx != -1 && (
-                                                <>
-                                                    <Live2DInputSlider
-                                                        idx={
-                                                            selectedParameter?.idx
-                                                        }
-                                                        param={
-                                                            selectedParameter?.param
-                                                        }
-                                                        coreModel={coreModel}
-                                                        onChange={
-                                                            handleLive2DParamsChange
-                                                        }
-                                                        currentModel={
-                                                            currentModel
-                                                        }
-                                                    />
+                                        )
+                                    )}
+                                </select>
+                                {selectedParameter &&
+                                    selectedParameter.idx != -1 && (
+                                        <>
+                                            <Live2DInputSlider
+                                                idx={selectedParameter?.idx}
+                                                param={selectedParameter?.param}
+                                                coreModel={coreModel}
+                                                onChange={
+                                                    handleLive2DParamsChange
+                                                }
+                                                currentModel={currentModel}
+                                            />
 
-                                                    <div className="layer-buttons">
-                                                        <button
-                                                            className="btn-circle btn-white"
-                                                            onClick={() => {
-                                                                handleLive2DParamsStep(
-                                                                    "-",
-                                                                    selectedParameter?.param
-                                                                );
-                                                            }}
-                                                        >
-                                                            <i className="bi bi-caret-left-fill" />
-                                                        </button>
-                                                        <button
-                                                            className="btn-circle btn-white"
-                                                            onClick={() => {
-                                                                handleLive2DParamsStep(
-                                                                    "0",
-                                                                    selectedParameter?.param
-                                                                );
-                                                            }}
-                                                        >
-                                                            <i className="bi bi-arrow-clockwise" />
-                                                        </button>
-                                                        <button
-                                                            className="btn-circle btn-white"
-                                                            onClick={() => {
-                                                                handleLive2DParamsStep(
-                                                                    "+",
-                                                                    selectedParameter?.param
-                                                                );
-                                                            }}
-                                                        >
-                                                            <i className="bi bi-caret-right-fill" />
-                                                        </button>
-                                                    </div>
-                                                </>
-                                            )}
-                                    </>
-                                )}
-                                <div className="option__content">
-                                    <h3>{t("model.toggles")}</h3>
-                                    <Checkbox
-                                        label={t("model.idle")}
-                                        checked={currentModel.idle}
-                                        id="idle"
-                                        onChange={handleIdle}
-                                    />
-                                </div>
-                                <div className="option__content">
-                                    <h3>{t("model.import-export")}</h3>
-                                    <p>
-                                        {t(
-                                            "model.live2d-import-export-description"
-                                        )}
-                                    </p>
-                                    <div>
-                                        <button
-                                            className="btn-regular btn-100 btn-blue"
-                                            onClick={handleImportLive2DParams}
-                                        >
-                                            {t("model.import")}
-                                        </button>
-                                        <button
-                                            className="btn-regular btn-100 btn-blue"
-                                            onClick={handleExportLive2DParams}
-                                        >
-                                            {t("model.export")}
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="option__content">
-                                    <h3>{t("model.emotion-copy")}</h3>
-                                    <p>{t("model.emotion-copy-description")}</p>
-                                    <div>
-                                        <button
-                                            className="btn-regular btn-100 btn-blue"
-                                            onClick={copyEmotionParameters}
-                                        >
-                                            {t("model.copy")}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                                            <div className="layer-buttons">
+                                                <button
+                                                    className="btn-circle btn-white"
+                                                    onClick={() => {
+                                                        handleLive2DParamsStep(
+                                                            "-",
+                                                            selectedParameter?.param
+                                                        );
+                                                    }}
+                                                >
+                                                    <i className="bi bi-caret-left-fill" />
+                                                </button>
+                                                <button
+                                                    className="btn-circle btn-white"
+                                                    onClick={() => {
+                                                        handleLive2DParamsStep(
+                                                            "0",
+                                                            selectedParameter?.param
+                                                        );
+                                                    }}
+                                                >
+                                                    <i className="bi bi-arrow-clockwise" />
+                                                </button>
+                                                <button
+                                                    className="btn-circle btn-white"
+                                                    onClick={() => {
+                                                        handleLive2DParamsStep(
+                                                            "+",
+                                                            selectedParameter?.param
+                                                        );
+                                                    }}
+                                                >
+                                                    <i className="bi bi-caret-right-fill" />
+                                                </button>
+                                            </div>
+                                        </>
+                                    )}
+                            </>
                         )}
-                    </div>
+                        <div className="option__content">
+                            <h3>{t("model.toggles")}</h3>
+                            <Checkbox
+                                label={t("model.idle")}
+                                checked={currentModel.idle}
+                                id="idle"
+                                onChange={handleIdle}
+                            />
+                        </div>
+                        <div className="option__content">
+                            <h3>{t("model.import-export")}</h3>
+                            <p>{t("model.live2d-import-export-description")}</p>
+                            <div>
+                                <button
+                                    className="btn-regular btn-100 btn-blue"
+                                    onClick={handleImportLive2DParams}
+                                >
+                                    {t("model.import")}
+                                </button>
+                                <button
+                                    className="btn-regular btn-100 btn-blue"
+                                    onClick={handleExportLive2DParams}
+                                >
+                                    {t("model.export")}
+                                </button>
+                            </div>
+                        </div>
+                        <div className="option__content">
+                            <h3>{t("model.emotion-copy")}</h3>
+                            <p>{t("model.emotion-copy-description")}</p>
+                            <div>
+                                <button
+                                    className="btn-regular btn-100 btn-blue"
+                                    onClick={copyEmotionParameters}
+                                >
+                                    {t("model.copy")}
+                                </button>
+                            </div>
+                        </div>
+                    </SidebarOption>
                 </>
             )}
             {live2DChangedWarnWindow && (
