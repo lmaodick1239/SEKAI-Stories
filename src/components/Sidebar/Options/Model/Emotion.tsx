@@ -4,12 +4,15 @@ import { SceneContext } from "../../../../contexts/SceneContext";
 import { Live2DModel } from "pixi-live2d-display";
 import IModel from "../../../../types/IModel";
 import IEmotionBookmark from "../../../../types/IEmotionBookmark";
+import { IEmotionName } from "../../../../types/IEmotionName";
 
 interface EmotionProps {
     setIsLoading: Dispatch<SetStateAction<boolean>>;
     setLoadingMsg: Dispatch<SetStateAction<string>>;
     bookmarkEmotions: IEmotionBookmark;
     setBookmarkEmotion: Dispatch<SetStateAction<IEmotionBookmark>>;
+    nameEmotions: IEmotionName;
+    setNameEmotions: Dispatch<SetStateAction<IEmotionName>>;
     updateModelState: (updates: Partial<IModel>) => void;
 }
 
@@ -18,6 +21,8 @@ const Emotion: React.FC<EmotionProps> = ({
     setLoadingMsg,
     bookmarkEmotions,
     setBookmarkEmotion,
+    nameEmotions,
+    setNameEmotions,
     updateModelState,
 }) => {
     const { t } = useTranslation();
@@ -54,6 +59,40 @@ const Emotion: React.FC<EmotionProps> = ({
         }
     };
 
+    const handleNameEmotion = async (type: "pose" | "expression") => {
+        const key =
+            type === "pose"
+                ? currentModel.modelData?.FileReferences.Motions.Motion[
+                      currentModel.pose
+                  ].Name
+                : type === "expression"
+                ? currentModel.modelData?.FileReferences.Motions.Expression[
+                      currentModel.expression
+                  ].Name
+                : "";
+
+        if (!key) return;
+
+        const name = prompt(t("model.enter-emotion-name"));
+        if (!name || name.trim() === "") {
+            if (key in nameEmotions) {
+                const updated = { ...nameEmotions };
+                delete updated[key];
+                setNameEmotions(updated);
+                localStorage.setItem(
+                    "nameEmotionsCookie",
+                    JSON.stringify(updated)
+                );
+            }
+            return;
+        }
+        setNameEmotions({ ...nameEmotions, [key]: name });
+        localStorage.setItem(
+            "nameEmotionsCookie",
+            JSON.stringify({ ...nameEmotions, [key]: name })
+        );
+    };
+
     const handleBookmarkEmotion = async (type: "pose" | "expression") => {
         if (!currentModel) return;
 
@@ -88,42 +127,71 @@ const Emotion: React.FC<EmotionProps> = ({
         <>
             <div className="option__content">
                 <h3>{t("model.pose")}</h3>
-                <div className="space-between flex-horizontal relative">
-                    <select
-                        value={currentModel?.pose}
-                        onChange={(e) => {
-                            handleEmotionChange(e, "pose");
-                        }}
-                    >
-                        <option value={99999} disabled>
-                            {t("model.select-pose")}
-                        </option>
-                        {bookmarkEmotions[
+                <select
+                    value={currentModel?.pose}
+                    onChange={(e) => {
+                        handleEmotionChange(e, "pose");
+                    }}
+                >
+                    <option value={99999} disabled>
+                        {t("model.select-pose")}
+                    </option>
+                    {bookmarkEmotions[
+                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                    ] &&
+                        bookmarkEmotions[
                             `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                        ] &&
-                            bookmarkEmotions[
-                                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                            ].pose.map((idx) => (
-                                <option key={`faved-${idx}`} value={idx}>
-                                    ★{" "}
-                                    {
-                                        currentModel.modelData?.FileReferences
-                                            .Motions.Motion[idx].Name
-                                    }
+                        ].pose.map((idx) => (
+                            <option key={`faved-${idx}`} value={idx}>
+                                ★{" "}
+                                {currentModel.modelData?.FileReferences.Motions
+                                    .Motion[idx]?.Name &&
+                                    (nameEmotions[
+                                        currentModel.modelData.FileReferences
+                                            .Motions.Motion[idx].Name!
+                                    ] ??
+                                        currentModel.modelData.FileReferences
+                                            .Motions.Motion[idx].Name)}
+                            </option>
+                        ))}
+                    {currentModel &&
+                        currentModel.modelData?.FileReferences.Motions.Motion.map(
+                            (o, idx) => (
+                                <option key={idx} value={idx}>
+                                    {nameEmotions[o.Name] ?? o.Name}
                                 </option>
-                            ))}
-                        {currentModel &&
-                            currentModel.modelData?.FileReferences.Motions.Motion.map(
-                                (o, idx) => (
-                                    <option key={idx} value={idx}>
-                                        {o.Name}
-                                    </option>
-                                )
-                            )}
-                    </select>
-                    {currentModel?.pose !== 99999 && (
+                            )
+                        )}
+                </select>
+                {currentModel?.pose !== 99999 && (
+                    <div className="layer-buttons">
                         <button
-                            className="btn-circle btn-white absolute right"
+                            className="btn-circle btn-blue"
+                            onClick={async () => {
+                                if (
+                                    currentModel &&
+                                    currentModel.model instanceof Live2DModel &&
+                                    currentModel.pose !== 99999
+                                ) {
+                                    currentModel.model.motion(
+                                        "Motion",
+                                        currentModel.pose
+                                    );
+                                }
+                            }}
+                        >
+                            <i className="bi bi-arrow-clockwise" />
+                        </button>
+                        <button
+                            className="btn-circle btn-white"
+                            onClick={async () => {
+                                handleNameEmotion("pose");
+                            }}
+                        >
+                            <i className="bi bi-pencil" />
+                        </button>
+                        <button
+                            className="btn-circle btn-white"
                             onClick={() => handleBookmarkEmotion("pose")}
                         >
                             {bookmarkEmotions[
@@ -137,64 +205,76 @@ const Emotion: React.FC<EmotionProps> = ({
                                 <i className="bi bi-star sidebar__select" />
                             )}
                         </button>
-                    )}
-                </div>
-                <button
-                    className="btn-regular btn-blue btn-extend-width"
-                    onClick={async () => {
-                        if (
-                            currentModel &&
-                            currentModel.model instanceof Live2DModel &&
-                            currentModel.pose !== 99999
-                        ) {
-                            currentModel.model.motion(
-                                "Motion",
-                                currentModel.pose
-                            );
-                        }
-                    }}
-                >
-                    {t("model.re-apply")}
-                </button>
+                    </div>
+                )}
             </div>
             <div className="option__content">
                 <h3>{t("model.expression")}</h3>
-                <div className="space-between flex-horizontal relative">
-                    <select
-                        value={currentModel?.expression}
-                        onChange={(e) => {
-                            handleEmotionChange(e, "expression");
-                        }}
-                    >
-                        <option value={99999} disabled>
-                            {t("model.select-expression")}
-                        </option>
-                        {bookmarkEmotions[
+                <select
+                    value={currentModel?.expression}
+                    onChange={(e) => {
+                        handleEmotionChange(e, "expression");
+                    }}
+                >
+                    <option value={99999} disabled>
+                        {t("model.select-expression")}
+                    </option>
+                    {bookmarkEmotions[
+                        `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
+                    ] &&
+                        bookmarkEmotions[
                             `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                        ] &&
-                            bookmarkEmotions[
-                                `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
-                            ].expression.map((idx) => (
-                                <option key={`faved-${idx}`} value={idx}>
-                                    ★{" "}
-                                    {
-                                        currentModel.modelData?.FileReferences
-                                            .Motions.Expression[idx].Name
-                                    }
+                        ].expression.map((idx) => (
+                            <option key={`faved-${idx}`} value={idx}>
+                                ★{" "}
+                                {currentModel.modelData?.FileReferences.Motions
+                                    .Expression[idx]?.Name &&
+                                    (nameEmotions[
+                                        currentModel.modelData.FileReferences
+                                            .Motions.Expression[idx].Name!
+                                    ] ??
+                                        currentModel.modelData.FileReferences
+                                            .Motions.Expression[idx].Name)}
+                            </option>
+                        ))}
+                    {currentModel &&
+                        currentModel.modelData?.FileReferences.Motions.Expression.map(
+                            (o, idx) => (
+                                <option key={idx} value={idx}>
+                                    {nameEmotions[o.Name] ?? o.Name}
                                 </option>
-                            ))}
-                        {currentModel &&
-                            currentModel.modelData?.FileReferences.Motions.Expression.map(
-                                (o, idx) => (
-                                    <option key={idx} value={idx}>
-                                        {o.Name}
-                                    </option>
-                                )
-                            )}
-                    </select>
-                    {currentModel?.expression !== 99999 && (
+                            )
+                        )}
+                </select>
+                {currentModel?.expression !== 99999 && (
+                    <div className="layer-buttons">
                         <button
-                            className="btn-circle btn-white absolute right"
+                            className="btn-circle btn-blue"
+                            onClick={async () => {
+                                if (
+                                    currentModel &&
+                                    currentModel.model instanceof Live2DModel &&
+                                    currentModel.expression !== 99999
+                                ) {
+                                    currentModel.model.motion(
+                                        "Expression",
+                                        currentModel.expression
+                                    );
+                                }
+                            }}
+                        >
+                            <i className="bi bi-arrow-clockwise" />
+                        </button>
+                        <button
+                            className="btn-circle btn-white"
+                            onClick={async () => {
+                                handleNameEmotion("expression");
+                            }}
+                        >
+                            <i className="bi bi-pencil" />
+                        </button>
+                        <button
+                            className="btn-circle btn-white"
                             onClick={() => handleBookmarkEmotion("expression")}
                         >
                             {bookmarkEmotions[
@@ -203,30 +283,13 @@ const Emotion: React.FC<EmotionProps> = ({
                             bookmarkEmotions[
                                 `${currentModel.from}.${currentModel.character}.${currentModel.modelName}`
                             ].expression.includes(currentModel.expression) ? (
-                                <i className="bi bi-star-fill sidebar__select" />
+                                <i className="bi bi-star-fill " />
                             ) : (
-                                <i className="bi bi-star sidebar__select" />
+                                <i className="bi bi-star " />
                             )}
                         </button>
-                    )}
-                </div>
-                <button
-                    className="btn-regular btn-blue btn-extend-width"
-                    onClick={async () => {
-                        if (
-                            currentModel &&
-                            currentModel.model instanceof Live2DModel &&
-                            currentModel.expression !== 99999
-                        ) {
-                            currentModel.model.motion(
-                                "Expression",
-                                currentModel.expression
-                            );
-                        }
-                    }}
-                >
-                    {t("model.re-apply")}
-                </button>
+                    </div>
+                )}
             </div>
         </>
     );

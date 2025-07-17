@@ -18,6 +18,7 @@ import Emotion from "./Options/Model/Emotion";
 import Transform from "./Options/Model/Transform";
 import Mouth from "./Options/Model/Mouth";
 import Live2D from "./Options/Model/Live2D";
+import { IEmotionName } from "../../types/IEmotionName";
 
 const ModelSidebar: React.FC = () => {
     const { t } = useTranslation();
@@ -69,6 +70,7 @@ const ModelSidebar: React.FC = () => {
     const [bookmarkEmotions, setBookmarkEmotion] = useState<IEmotionBookmark>(
         {}
     );
+    const [nameEmotions, setNameEmotions] = useState<IEmotionName>({});
 
     useEffect(() => {
         if (!models || !currentKey || !currentModel) return;
@@ -101,6 +103,12 @@ const ModelSidebar: React.FC = () => {
             : {};
 
         setBookmarkEmotion(bookmarkEmotionsJson);
+
+        const nameEmotionsCookie = localStorage.getItem("nameEmotionsCookie");
+        const nameEmotionsJson = nameEmotionsCookie
+            ? JSON.parse(nameEmotionsCookie)
+            : {};
+        setNameEmotions(nameEmotionsJson);
 
         if (text?.hideEverything) {
             setErrorInformation(t("error.hide-everything-warning"));
@@ -262,6 +270,8 @@ const ModelSidebar: React.FC = () => {
                             setLoadingMsg={setLoadingMsg}
                             bookmarkEmotions={bookmarkEmotions}
                             setBookmarkEmotion={setBookmarkEmotion}
+                            nameEmotions={nameEmotions}
+                            setNameEmotions={setNameEmotions}
                             updateModelState={updateModelState}
                         />
                     </SidebarOption>
