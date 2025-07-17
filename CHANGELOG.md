@@ -1,6 +1,7 @@
 # 5.5.2
 Release date: 
-- Added layer reordering buttons
+- Implement layer reordering buttons
+- Added droopling lines filter
 
 # 5.5.1
 Release date: July 14, 2025
@@ -191,4 +192,3 @@ Release date: April 21, 2025
 
 # 1.0.0
 Release date: April 20, 2025
-* Initial release of SEKAI Stories on Netlify and Vercel
