@@ -1,19 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import staticCharacterData from "../../character.json";
 import sekaiCharacterData from "../../character_sekai.json";
-import axios from "axios";
 import { SceneContext } from "../../contexts/SceneContext";
 import IModel from "../../types/IModel";
 import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
 import UploadImageButton from "../UI/UploadButton";
 import * as PIXI from "pixi.js";
 import { Checkbox } from "../UI/Checkbox";
-import {
-    GetModelDataFromSekai,
-    GetModelDataFromStatic,
-} from "../../utils/GetModelData";
 import { ILive2DModelData } from "../../types/ILive2DModelData";
-import { GetCharacterFolder } from "../../utils/GetCharacterFolder";
 import { ILive2DModelList } from "../../types/ILive2DModelList";
 import AddModelSelect from "../AddModelSelect";
 import { useTranslation } from "react-i18next";
@@ -31,6 +25,7 @@ import {
 import IEmotionBookmark from "../../types/IEmotionBookmark";
 import Live2DInputSlider from "../Live2DInputSlider";
 import SidebarOption from "../UI/SidebarOption";
+import { loadModel } from "../../utils/LoadModel";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -249,50 +244,28 @@ const ModelSidebar: React.FC = () => {
         setCopiedParametersWindow(true);
     };
 
-    const loadModel = async (
+    const prepareModel = async (
+        character: string,
         model: string | ILive2DModelList,
         layerIndex: number
     ): Promise<[Live2DModel, ILive2DModelData]> => {
         setLoading(0);
-        let modelData: ILive2DModelData | undefined = undefined;
-        let modelName: string | undefined = undefined;
-        if (typeof model === "string") {
-            const [characterFolder] = await GetCharacterFolder(model);
-
-            setLoadingMsg(`${t("loading-1")} ${model}...`);
-            modelData = await GetModelDataFromStatic(characterFolder, model);
-            modelName = model;
-        } else if (
-            typeof model === "object" &&
-            "modelBase" in model &&
-            "modelPath" in model &&
-            "modelFile" in model
-        ) {
-            setLoadingMsg(`${t("loading-1")} ${model.modelBase}...`);
-            modelData = await GetModelDataFromSekai(model);
-            modelName = model.modelBase;
-        }
-
-        if (!modelData) {
-            setErrorInformation("Model data is undefined");
-            throw new Error("Model data is undefined");
-        }
-
-        setLoading(20);
-        setLoadingMsg(`${t("loading-4")} ${modelName}...`);
-        await axios.get(modelData.url + modelData.FileReferences.Textures[0]);
-        setLoading(40);
-        setLoadingMsg(`${t("loading-5")} ${modelName}...`);
-        await axios.get(modelData.url + modelData.FileReferences.Moc);
-        setLoading(60);
-        setLoadingMsg(`${t("loading-6")} ${modelName}...`);
-        await axios.get(modelData.url + modelData.FileReferences.Physics);
-
-        setLoading(80);
-        setLoadingMsg(`${t("loading-7")}...`);
-        const live2DModel = await Live2DModel.from(modelData, {
-            autoInteract: false,
-        });
+        if (!currentModel) throw new Error("No current model selected!");
+        const modelName: string =
+            typeof model === "object" && "modelBase" in model
+                ? model.modelBase
+                : model;
+        const [live2DModel, modelData] = await loadModel(
+            modelName,
+            currentModel?.from,
+            character,
+            setLoadingMsg,
+            setErrorInformation,
+            setLoading,
+            (x) => {
+                return x * 20;
+            }
+        );
         live2DModel.scale.set(initialState ? 0.5 : currentModel?.modelScale);
         live2DModel.anchor.set(0.5, 0.5);
         live2DModel.position.set(
@@ -483,7 +456,8 @@ const ModelSidebar: React.FC = () => {
                 ? characterData[0]
                 : (characterData[0] as ILive2DModelList);
 
-            const [live2DModel, modelData] = await loadModel(
+            const [live2DModel, modelData] = await prepareModel(
+                character,
                 firstFile,
                 layerIndex
             );
@@ -533,7 +507,8 @@ const ModelSidebar: React.FC = () => {
             const isStatic = currentModel.from === "static";
 
             if (isStatic) {
-                [live2DModel, modelData] = await loadModel(
+                [live2DModel, modelData] = await prepareModel(
+                    currentModel.character,
                     modelBase,
                     layerIndex
                 );
@@ -552,7 +527,11 @@ const ModelSidebar: React.FC = () => {
                     );
                 }
 
-                [live2DModel, modelData] = await loadModel(model, layerIndex);
+                [live2DModel, modelData] = await prepareModel(
+                    currentModel.character,
+                    model,
+                    layerIndex
+                );
             }
 
             updateModelState({

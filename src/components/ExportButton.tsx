@@ -4,19 +4,12 @@ import { SceneContext } from "../contexts/SceneContext";
 import { IJsonSave } from "../types/IJsonSave";
 import { ValidateJsonSave } from "../utils/ValidateJsonSave";
 import { getBackground } from "../utils/GetBackground";
-import { GetCharacterFolder } from "../utils/GetCharacterFolder";
-import {
-    GetModelDataFromSekai,
-    GetModelDataFromStatic,
-} from "../utils/GetModelData";
-import axios from "axios";
 import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
 import IModel from "../types/IModel";
-import { ILive2DModelData } from "../types/ILive2DModelData";
-import { GetCharacterDataFromSekai } from "../utils/GetCharacterDataFromSekai";
 import Window from "./UI/Window";
 import { SettingsContext } from "../contexts/SettingsContext";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
+import { loadModel } from "../utils/LoadModel";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
@@ -152,77 +145,22 @@ const ExportButton: React.FC = () => {
         let modelTextures: Record<string, IModel> = {};
 
         modelContainer?.removeChildren();
-        let steps = 0;
-        const totalSteps = modelJson.length * 5;
+
         for (const [idx, model] of modelJson.entries()) {
-            let modelData: ILive2DModelData | undefined = undefined;
-            steps++;
-            setLoading(20 + 60 * (steps / totalSteps));
-            setLoadingMsg(
-                `(${idx + 1}/${modelJson.length}): ${t("loading-1")} ${
-                    model.modelName
-                }`
+            const [live2DModel, modelData] = await loadModel(
+                model.modelName,
+                model.from,
+                model.character,
+                setLoadingMsg,
+                setErrorInformation,
+                setLoading,
+                (x) => {
+                    const totalSteps = modelJson.length * 5;
+                    const currentStep = idx * 5 + x;
+                    return 20 + (60 / (totalSteps - 1)) * currentStep;
+                }
             );
-            if (model.from === "static") {
-                const [characterFolder] = await GetCharacterFolder(
-                    model.modelName
-                );
 
-                modelData = await GetModelDataFromStatic(
-                    characterFolder,
-                    model.modelName
-                );
-            }
-            if (model.from === "sekai") {
-                const characterData = await GetCharacterDataFromSekai(
-                    model.character,
-                    model.modelName
-                );
-                modelData = await GetModelDataFromSekai(characterData);
-            }
-
-            if (!modelData) {
-                throw new Error(`Model data not found for ${model.modelName}.`);
-            }
-
-            steps++;
-            setLoading(20 + 60 * (steps / totalSteps));
-            setLoadingMsg(
-                `(${idx + 1}/${modelJson.length}): ${t("loading-4")} ${
-                    model.modelName
-                }`
-            );
-            await axios.get(
-                modelData.url + modelData.FileReferences.Textures[0]
-            );
-            steps++;
-            setLoading(20 + 60 * (steps / totalSteps));
-            setLoadingMsg(
-                `(${idx + 1}/${modelJson.length}): ${t("loading-5")} ${
-                    model.modelName
-                }`
-            );
-            await axios.get(modelData.url + modelData.FileReferences.Moc, {
-                responseType: "arraybuffer",
-            });
-            steps++;
-            setLoading(20 + 60 * (steps / totalSteps));
-            setLoadingMsg(
-                `(${idx + 1}/${modelJson.length}): ${t("loading-6")} ${
-                    model.modelName
-                }`
-            );
-            steps++;
-            setLoading(20 + 60 * (steps / totalSteps));
-            await axios.get(modelData.url + modelData.FileReferences.Physics);
-            setLoadingMsg(
-                `(${idx + 1}/${modelJson.length}): ${t("loading-7")} ${
-                    model.modelName
-                }`
-            );
-            const live2DModel = await Live2DModel.from(modelData, {
-                autoInteract: false,
-            });
             live2DModel.anchor.set(0.5, 0.5);
             live2DModel.scale.set(model.modelTransform?.scale ?? 0.5);
             live2DModel.position.set(
