@@ -1,41 +1,29 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAudioManager } from "../../utils/useAudioManager";
 
 interface WindowProps {
     show: React.Dispatch<React.SetStateAction<boolean>>;
-    confirmFunction?: () => void;
+    confirmFunction?: (x: string) => void;
     confirmLabel?: string;
-    danger?: boolean;
-    hideClose?: boolean;
-    skipCloseInConfirm?: boolean;
-    id?: string;
     className?: string;
-    buttons?: React.ReactNode;
-    children: React.ReactNode;
 }
-const Window: React.FC<WindowProps> = ({
+const InputWindow: React.FC<WindowProps> = ({
     show,
     confirmFunction,
     confirmLabel = "OK",
-    danger = false,
-    hideClose = false,
-    skipCloseInConfirm = false,
-    id = "",
     className = "",
-    buttons,
-    children,
 }) => {
     const { playSound } = useAudioManager();
+    const [data, setData] = useState<string>("");
 
     useEffect(() => {
-        playSound("/sound/open.wav");
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
                 handleClose();
             }
             if (e.key === "Enter" && confirmFunction) {
-                confirmFunction();
+                confirmFunction(data);
                 handleClose();
             }
         };
@@ -50,7 +38,12 @@ const Window: React.FC<WindowProps> = ({
             }
             document.removeEventListener("keydown", handleKey);
         };
-    }, []);
+    }, [data]);
+    
+    useEffect(() => {
+        playSound("/sound/open.wav");
+
+    }, [])
 
     const window = useRef<HTMLDivElement | null>(null);
     const { t } = useTranslation();
@@ -75,10 +68,8 @@ const Window: React.FC<WindowProps> = ({
     return (
         <div
             className={`screen ${className}`}
-            id={id ?? id}
             onClick={(e) => {
                 e.stopPropagation();
-                if (!hideClose) handleClose();
             }}
         >
             <div
@@ -86,34 +77,44 @@ const Window: React.FC<WindowProps> = ({
                 ref={window}
                 onClick={(e) => e.stopPropagation()}
             >
-                {children}
+                <div className="window__content">
+                    <h1 className="text-center">Input</h1>
+                    <p className="text-center">
+                        Enter a nice name for this emotion.
+                    </p>
+                    <p className="text-center">(Leave blank to remove)</p>
+                    <input
+                        type="text"
+                        value={data}
+                        onChange={(e) => {
+                            const input = e.target.value;
+                            setData(input);
+                        }}
+                        autoFocus
+                    />
+                </div>
                 <div className="window__buttons">
-                    {buttons}
                     {confirmFunction && (
                         <button
-                            className={`btn-regular ${
-                                danger ? "btn-red" : "btn-blue"
-                            } center`}
+                            className="btn-regular btn-blue center"
                             onClick={() => {
-                                confirmFunction();
-                                if (!skipCloseInConfirm) handleClose();
+                                confirmFunction(data);
+                                handleClose();
                             }}
                         >
                             {confirmLabel}
                         </button>
                     )}
-                    {!hideClose && (
-                        <button
-                            className="btn-regular btn-white center close-button"
-                            onClick={() => handleClose()}
-                        >
-                            {t("close")}
-                        </button>
-                    )}
+                    <button
+                        className="btn-regular btn-white center close-button"
+                        onClick={() => handleClose()}
+                    >
+                        {t("close")}
+                    </button>
                 </div>
             </div>
         </div>
     );
 };
 
-export default Window;
+export default InputWindow;

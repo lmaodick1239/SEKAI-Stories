@@ -1,10 +1,11 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SceneContext } from "../../../../contexts/SceneContext";
 import { Live2DModel } from "pixi-live2d-display";
 import IModel from "../../../../types/IModel";
 import IEmotionBookmark from "../../../../types/IEmotionBookmark";
 import { IEmotionName } from "../../../../types/IEmotionName";
+import InputWindow from "../../../UI/InputWindow";
 
 interface EmotionProps {
     setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -27,6 +28,9 @@ const Emotion: React.FC<EmotionProps> = ({
 }) => {
     const { t } = useTranslation();
     const scene = useContext(SceneContext);
+    const [showRenameEmotionInput, setShowRenameEmotionInput] =
+        useState<boolean>(false);
+    const [emotionType, setEmotionType] = useState<string>("")
 
     if (!scene) {
         throw new Error("Context not found");
@@ -59,13 +63,13 @@ const Emotion: React.FC<EmotionProps> = ({
         }
     };
 
-    const handleNameEmotion = async (type: "pose" | "expression") => {
+    const handleNameEmotion = async (name: string) => {
         const key =
-            type === "pose"
+            emotionType === "pose"
                 ? currentModel.modelData?.FileReferences.Motions.Motion[
                       currentModel.pose
                   ].Name
-                : type === "expression"
+                : emotionType === "expression"
                 ? currentModel.modelData?.FileReferences.Motions.Expression[
                       currentModel.expression
                   ].Name
@@ -73,7 +77,6 @@ const Emotion: React.FC<EmotionProps> = ({
 
         if (!key) return;
 
-        const name = prompt(t("model.enter-emotion-name"));
         if (!name || name.trim() === "") {
             if (key in nameEmotions) {
                 const updated = { ...nameEmotions };
@@ -185,7 +188,8 @@ const Emotion: React.FC<EmotionProps> = ({
                         <button
                             className="btn-circle btn-white"
                             onClick={async () => {
-                                handleNameEmotion("pose");
+                                setEmotionType("pose");
+                                setShowRenameEmotionInput(true)
                             }}
                         >
                             <i className="bi bi-pencil" />
@@ -268,7 +272,8 @@ const Emotion: React.FC<EmotionProps> = ({
                         <button
                             className="btn-circle btn-white"
                             onClick={async () => {
-                                handleNameEmotion("expression");
+                                setEmotionType("expression");
+                                setShowRenameEmotionInput(true)
                             }}
                         >
                             <i className="bi bi-pencil" />
@@ -291,6 +296,12 @@ const Emotion: React.FC<EmotionProps> = ({
                     </div>
                 )}
             </div>
+            {showRenameEmotionInput && (
+                <InputWindow
+                    show={setShowRenameEmotionInput}
+                    confirmFunction={(x: string) => handleNameEmotion(x)}
+                />
+            )}
         </>
     );
 };

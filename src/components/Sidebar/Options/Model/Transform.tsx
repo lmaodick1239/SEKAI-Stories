@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SceneContext } from "../../../../contexts/SceneContext";
 import IModel from "../../../../types/IModel";
 import { Checkbox } from "../../../UI/Checkbox";
+import InputWindow from "../../../UI/InputWindow";
 
 const SNAP = 50;
 interface TransformProps {
@@ -17,6 +18,9 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
         throw new Error("Context not found");
     }
     const { currentModel, modelContainer, layers } = scene;
+    const [showTransformInput, setShowTransformInput] =
+        useState<boolean>(false);
+    const [transformType, setTransformType] = useState<string>("");
 
     if (!currentModel) return;
     const handleMoveLayer = async (type: string) => {
@@ -96,13 +100,12 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
         updateModelState({ visible: visible });
     };
 
-    const handleTransformChange = async (type: string) => {
-        const inputChange = prompt("Enter a value");
+    const handleTransformChange = async (inputChange: string) => {
         if (inputChange == null || isNaN(Number(inputChange))) return;
         if (!currentModel?.model) return;
         const toChange = Number(inputChange);
 
-        switch (type) {
+        switch (transformType) {
             case "x": {
                 currentModel?.model.position.set(toChange, currentModel.modelY);
                 updateModelState({ modelX: toChange });
@@ -136,7 +139,10 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
                     <div>
                         <i
                             className="bi bi-pencil-fill"
-                            onClick={() => handleTransformChange("x")}
+                            onClick={() => {
+                                setTransformType("x");
+                                setShowTransformInput(true);
+                            }}
                         ></i>
                     </div>
                 </div>
@@ -158,7 +164,10 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
                     <div>
                         <i
                             className="bi bi-pencil-fill"
-                            onClick={() => handleTransformChange("y")}
+                            onClick={() => {
+                                setTransformType("y");
+                                setShowTransformInput(true);
+                            }}
                         ></i>
                     </div>
                 </div>
@@ -180,7 +189,10 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
                     <div>
                         <i
                             className="bi bi-pencil-fill"
-                            onClick={() => handleTransformChange("scale")}
+                            onClick={() => {
+                                setTransformType("scale");
+                                setShowTransformInput(true);
+                            }}
                         ></i>
                     </div>
                 </div>
@@ -203,7 +215,10 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
                     <div>
                         <i
                             className="bi bi-pencil-fill"
-                            onClick={() => handleTransformChange("rotation")}
+                            onClick={() => {
+                                setTransformType("rotation");
+                                setShowTransformInput(true);
+                            }}
                         ></i>
                     </div>
                 </div>
@@ -248,6 +263,12 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
                     </button>
                 </div>
             </div>
+            {showTransformInput && (
+                <InputWindow
+                    show={setShowTransformInput}
+                    confirmFunction={(x: string) => handleTransformChange(x)}
+                />
+            )}
         </>
     );
 };

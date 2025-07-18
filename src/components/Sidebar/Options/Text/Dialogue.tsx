@@ -1,7 +1,8 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { SceneContext } from "../../../../contexts/SceneContext";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "../../../UI/Checkbox";
+import InputWindow from "../../../UI/InputWindow";
 
 const symbols = {
     star: "☆",
@@ -37,6 +38,7 @@ const Dialogue: React.FC<DialogueProps> = ({
     const scene = useContext(SceneContext);
     if (!scene) throw new Error("Context not loaded");
     const { text, setText } = scene;
+    const [showFontSizeInput, setShowFontSizeInput] = useState<boolean>(false);
 
     if (!text) return t("please-wait");
 
@@ -108,8 +110,7 @@ const Dialogue: React.FC<DialogueProps> = ({
         });
     };
 
-    const handleInputFontSizeChange = async () => {
-        const inputChange = prompt("Enter a value");
+    const handleInputFontSizeChange = async (inputChange: string) => {
         if (inputChange == null || isNaN(Number(inputChange))) return;
         const changedFontSize = Number(inputChange);
         text.dialogue.style.fontSize = changedFontSize;
@@ -152,7 +153,7 @@ const Dialogue: React.FC<DialogueProps> = ({
                 <div>
                     <i
                         className="bi bi-pencil-fill"
-                        onClick={handleInputFontSizeChange}
+                        onClick={() => setShowFontSizeInput(true)}
                     ></i>
                     <i
                         className={
@@ -186,6 +187,14 @@ const Dialogue: React.FC<DialogueProps> = ({
                 checked={text.visible}
                 onChange={handleDialogueBoxVisible}
             />
+            {showFontSizeInput && (
+                <InputWindow
+                    show={setShowFontSizeInput}
+                    confirmFunction={(x: string) =>
+                        handleInputFontSizeChange(x)
+                    }
+                />
+            )}
         </>
     );
 };
