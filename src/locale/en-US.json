@@ -19,6 +19,7 @@
         "easy-switch": "Use easy switch",
         "dialogue": "Dialogue",
         "font-size": "Font Size",
+        "enter-font-size": "Enter a font size.",
         "add-symbol": "Add a symbol",
         "scene-text": "Scene Text",
         "scene-text-variant": "Variant",
@@ -45,6 +46,7 @@
         "costume": "Costume",
         "virtual": "Virtual Effect",
         "emotion": "Emotion",
+        "rename-emotion": "Enter a nice name for this emotion. Leave blank to reset.",
         "pose": "Pose",
         "select-pose": "Select a pose",
         "expression": "Expression",
@@ -83,7 +85,7 @@
         "emotion-copy-confirm-header": "Copied!",
         "emotion-copy-confirm-description": "The emotion parameters have successfully been copied.",
         "long-wait": "If the model is taking too long to load, consider getting models from SEKAI Stories instead.",
-        "layering":"Layer Order",
+        "layering": "Layer Order",
 
         "advanced": "Advanced"
     },
@@ -102,6 +104,8 @@
     "clear-ok": "Clear",
     "continue-ok": "Continue",
     "next": "Next",
+    "input": "Input",
+    "enter-value": "Enter a value.",
 
     "support": {
         "header": "Support",

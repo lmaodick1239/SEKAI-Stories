@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useAudioManager } from "../../utils/useAudioManager";
+import { t } from "i18next";
 
 interface WindowProps {
     show: React.Dispatch<React.SetStateAction<boolean>>;
     confirmFunction?: (x: string) => void;
     confirmLabel?: string;
+    description?: string;
     className?: string;
 }
 const InputWindow: React.FC<WindowProps> = ({
     show,
     confirmFunction,
+    description = t("enter-value"),
     confirmLabel = "OK",
     className = "",
 }) => {
@@ -39,14 +41,12 @@ const InputWindow: React.FC<WindowProps> = ({
             document.removeEventListener("keydown", handleKey);
         };
     }, [data]);
-    
+
     useEffect(() => {
         playSound("/sound/open.wav");
-
-    }, [])
+    }, []);
 
     const window = useRef<HTMLDivElement | null>(null);
-    const { t } = useTranslation();
 
     const handleClose = () => {
         playSound("/sound/close.wav");
@@ -78,11 +78,8 @@ const InputWindow: React.FC<WindowProps> = ({
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="window__content">
-                    <h1 className="text-center">Input</h1>
-                    <p className="text-center">
-                        Enter a nice name for this emotion.
-                    </p>
-                    <p className="text-center">(Leave blank to remove)</p>
+                    <h1 className="text-center">{t("input")}</h1>
+                    <p className="text-center">{description}</p>
                     <input
                         type="text"
                         value={data}

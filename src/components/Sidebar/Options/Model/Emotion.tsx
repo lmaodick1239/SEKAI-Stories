@@ -30,7 +30,7 @@ const Emotion: React.FC<EmotionProps> = ({
     const scene = useContext(SceneContext);
     const [showRenameEmotionInput, setShowRenameEmotionInput] =
         useState<boolean>(false);
-    const [emotionType, setEmotionType] = useState<string>("")
+    const [emotionType, setEmotionType] = useState<string>("");
 
     if (!scene) {
         throw new Error("Context not found");
@@ -189,7 +189,7 @@ const Emotion: React.FC<EmotionProps> = ({
                             className="btn-circle btn-white"
                             onClick={async () => {
                                 setEmotionType("pose");
-                                setShowRenameEmotionInput(true)
+                                setShowRenameEmotionInput(true);
                             }}
                         >
                             <i className="bi bi-pencil" />
@@ -273,7 +273,7 @@ const Emotion: React.FC<EmotionProps> = ({
                             className="btn-circle btn-white"
                             onClick={async () => {
                                 setEmotionType("expression");
-                                setShowRenameEmotionInput(true)
+                                setShowRenameEmotionInput(true);
                             }}
                         >
                             <i className="bi bi-pencil" />
@@ -300,6 +300,7 @@ const Emotion: React.FC<EmotionProps> = ({
                 <InputWindow
                     show={setShowRenameEmotionInput}
                     confirmFunction={(x: string) => handleNameEmotion(x)}
+                    description={t("model.rename-emotion")}
                 />
             )}
         </>

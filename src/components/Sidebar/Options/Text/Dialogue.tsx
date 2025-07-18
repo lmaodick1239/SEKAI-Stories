@@ -193,6 +193,7 @@ const Dialogue: React.FC<DialogueProps> = ({
                     confirmFunction={(x: string) =>
                         handleInputFontSizeChange(x)
                     }
+                    description={t("text.enter-font-size")}
                 />
             )}
         </>
