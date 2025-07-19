@@ -264,7 +264,7 @@
         "no-autosave": "No auto-save data found.",
         "not-an-image": "This is not an image.",
         "default-scene-fail": "An error has occurred while loading the default scene.\nPlease use the clear button, refresh your browser, or clear your cookies.\nIf the problem persists, please report this bug on GitHub.",
-        "name-tag-inputs-limit": "The limit is 2 to 6 inputs per name tag.",
+        "name-tag-inputs-limit": "The limit is 2 to 6 inputs for name tag.",
         "background-bookmark": "You cannot set a bookmark for a custom background.",
         "hide-everything-warning": "The \"Hide models and dialogue\" option under Scene Text is enabled.\nPlease disable this option on Text Menu."
     }

@@ -6,7 +6,11 @@
         "select": "Pumili",
         "upload": "Mag-Upload",
         "upload-info": "Upang masigurong tama ang hitsura ng larawan, gumamit ng larawang may 16:9 na laki.",
-        "split-location": "Split Location"
+        "split-location": "Split Location",
+        "filters": "Mga Filter",
+        "flashback": "Ala-ala",
+        "sick": "Nahihilo",
+        "drooping-lines": "Pagkabahala"
     },
 
     "text": {
@@ -15,10 +19,16 @@
         "easy-switch": "Madaliang salitan",
         "dialogue": "Dayalogo",
         "font-size": "Laki ng teksto",
+        "enter-font-size": "Maglagay ng laki ng teksto.",
         "add-symbol": "Magdagdag ng simbolo",
         "scene-text": "Eksena",
+        "scene-text-variant": "Mga Variant",
+        "scene-text-middle": "Gitna",
+        "scene-text-top-left": "Itaas't sa kaliwa",
         "y-offset": "Y-Offset",
-        "y-offset-details": "Kung ang teksto sa canvas ay hindi nakaayos ng mabuti, maaaring kailanganin ng pagsasaayos."
+        "y-offset-details": "Kung ang teksto sa canvas ay hindi nakaayos ng mabuti, maaaring kailanganin ng pagsasaayos.",
+        "hide-everything": "Itago ang mga modelo at dayalogo",
+        "toggles": "Toggles"
     },
 
     "model": {
@@ -34,7 +44,9 @@
         "character": "Karakter",
         "select-character": "Pumili ng karakter",
         "costume": "Kasuotan",
+        "virtual": "Birtuwal na epek",
         "emotion": "Emosyon",
+        "rename-emotion": "Maglagay ng maayos na pangalan para sa emosyon na ito. Iwanang wala upang i-reset.",
         "pose": "Posisyon",
         "select-pose": "Pumili ng posisyon",
         "expression": "Ekspresyon",
@@ -73,6 +85,8 @@
         "emotion-copy-confirm-header": "Nakopya!",
         "emotion-copy-confirm-description": "Nakopya ang mga parameter ng emosyon.",
         "long-wait": "Kung masyadong matagal ang paglo-load ng modelo, mas mabuting kumuha ng mga modelo sa SEKAI Stories muna.",
+        "layering": "Layer Order",
+
         "advanced": "Advanced"
     },
 
@@ -85,11 +99,14 @@
     },
 
     "close": "Isara",
+    "cancel": "I-kansela",
     "clear": "Mawawala LAHAT ng nilalaman sa canvas. Ang lahat ng ginawa mo ay mawawala!",
     "start-blank": "Magsimula sa blangkong canvas sa susunod.",
     "clear-ok": "Ipagpatuloy",
     "continue-ok": "Ipagpatuloy",
     "next": "Sunod",
+    "input": "Input",
+    "enter-value": "Maglagay ng value",
 
     "support": {
         "header": "Suporta",
@@ -143,6 +160,7 @@
 
     "group": {
         "all": "Lahat",
+        "bookmarks": "Mga Bookmark",
         "general": "General",
         "mmj": "MORE MORE JUMP!",
         "vbs": "Vivid BAD SQUAD",
@@ -246,6 +264,9 @@
         "invalid-json": "Invalid JSON format",
         "no-autosave": "Walang auto-save data ang nakita.",
         "not-an-image": "Hindi ito image.",
-        "default-scene-fail": "Nagkaroon ng error habang inaayos ang default scene.\nPaki click ang clear button, i-refresh ang browser, o i-clear ang cookies.\nKung ang problema ay hindi naresolba, paki-report ito sa GitHub.."
+        "default-scene-fail": "Nagkaroon ng error habang inaayos ang default scene.\nPaki click ang clear button, i-refresh ang browser, o i-clear ang cookies.\nKung ang problema ay hindi naresolba, paki-report ito sa GitHub..",
+        "name-tag-inputs-limit": "Ang limit ay 2 to 6 na pangalan.",
+        "background-bookmark": "Hindi puwede i-bookmark ang custom na likuran.",
+        "hide-everything-warning": "Ang \"Itago ang mga modelo at dayalogo\" na opsyon sa Eksena ay naka-enable.\nPaki disable itong opyson sa Text Menu."
     }
 }
