@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
 import IModel from "../../types/IModel";
 import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
@@ -43,6 +43,7 @@ const ModelSidebar: React.FC = () => {
     const { setLoading } = settings;
     const { setErrorInformation } = softError;
 
+    const abortController = useRef<AbortController | null>(null);
     const [openTab, setOpenTab] = useState<string>("select-layer");
 
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
@@ -138,6 +139,11 @@ const ModelSidebar: React.FC = () => {
     ): Promise<[Live2DModel, ILive2DModelData]> => {
         if (!currentModel) throw new Error("No current model selected!");
         setLoading(0);
+
+        abortController.current?.abort();
+        abortController.current = new AbortController();
+        const { signal } = abortController.current;
+
         const modelName: string =
             typeof model === "object" && "modelBase" in model
                 ? model.modelBase
@@ -151,8 +157,12 @@ const ModelSidebar: React.FC = () => {
             setLoading,
             (x) => {
                 return x * 20;
-            }
+            },
+            signal
         );
+
+        if (signal.aborted) throw new Error("Operation canceled.");
+
         live2DModel.scale.set(initialState ? 0.5 : currentModel?.modelScale);
         live2DModel.anchor.set(0.5, 0.5);
         live2DModel.position.set(
@@ -207,11 +217,24 @@ const ModelSidebar: React.FC = () => {
                 <div className="option">
                     <p>{loadingMsg}</p>
                     {currentModel?.from === "sekai" &&
-                        currentModel?.character != "others" && (
-                            <p>
-                                <br />
-                                {t("model.long-wait")}
-                            </p>
+                        currentModel?.character !== "others" && (
+                            <>
+                                <p>
+                                    <br />
+                                    {t("model.long-wait")}
+                                </p>
+                                <button
+                                    className="btn-regular btn-white btn-extend-width"
+                                    onClick={() =>
+                                        abortController.current?.abort()
+                                    }
+                                    disabled={
+                                        abortController.current?.signal.aborted
+                                    }
+                                >
+                                    {t("cancel")}
+                                </button>
+                            </>
                         )}
                 </div>
             )}
