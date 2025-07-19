@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
 import * as PIXI from "pixi.js";
 import { SceneContext } from "../contexts/SceneContext";
+import Translators from "./Translators";
 
 interface TutorialProps {
     show: Dispatch<SetStateAction<boolean>>;
@@ -141,6 +142,7 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                                 )
                             )}
                         </select>
+                        <Translators lng={lng} />
                     </div>
                 </Window>
             )}

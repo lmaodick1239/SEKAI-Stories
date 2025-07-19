@@ -8,6 +8,7 @@ import Window from "./UI/Window";
 import { handleChangeLanguage, languageNames } from "../utils/i18ninit";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
 import packageJson from "../../package.json";
+import Translators from "./Translators";
 
 const SettingsButton: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -132,11 +133,12 @@ const SettingsButton: React.FC = () => {
                                     )
                                 )}
                             </select>
+                            <Translators lng={lng} />
                             <a
                                 href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
                                 target="_blank"
                             >
-                                Contribute for localization!
+                                Contribute for translation!
                             </a>
                         </div>
                         <div className="window__divider">

@@ -33,12 +33,12 @@ To contribute to the localization of the project, please follow these steps:
 For creativity, you can translate the flavor texts or add your own at [`src/components/FlavorText.tsx`](./src/components/FlavorText.tsx). **Make sure not to add any offensive or inappropriate texts**.
 
 ## List of languages translated
-| Language   | Locale Code | Translator/s           | Status           |
-|------------|-------------|------------------------|------------------|
-| Polish     | pl-PL       | counter185             | Some are missing |
-| Spanish    | es-ES       | GatoMago               | Complete         |
-| S. Chinese | zh-CN       | MiddleRed, SteveLF     | Some are missing |
-| Filipino   | tl-PH       | lezzthanthree          | Complete         | 
+| Language   | Locale Code | Translator/s           | Status            |
+|------------|-------------|------------------------|-------------------|
+| Polish     | pl-PL       | counter185             | Mostly incomplete |
+| Spanish    | es-ES       | GatoMago               | Some are missing  |
+| S. Chinese | zh-CN       | MiddleRed, SteveLF     | Some are missing  |
+| Filipino   | tl-PH       | lezzthanthree          | Complete          | 
 
 ## About fonts
 Currently, the project uses Noto Sans via Google Fonts.

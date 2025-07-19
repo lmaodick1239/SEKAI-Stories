@@ -1,14 +1,14 @@
 import i18n from "i18next";
 import en from "../locale/en-US.json";
 import pl from "../locale/pl-PL.json";
-import cn from "../locale/zh-CN.json";
+import zh from "../locale/zh-CN.json";
 import es from "../locale/es-ES.json";
 import fil from "../locale/fil-PH.json";
 
 export const languageNames = {
     en: "English",
     es: "Español",
-    cn: "简体中文",
+    zh: "简体中文",
     fil: "Filipino",
     pl: "Polski (incomplete)",
 };
@@ -29,7 +29,7 @@ const i18nInit = () => {
         resources: {
             en: { translation: en },
             pl: { translation: pl },
-            cn: { translation: cn },
+            zh: { translation: zh },
             es: { translation: es },
             fil: { translation: fil },
         },
