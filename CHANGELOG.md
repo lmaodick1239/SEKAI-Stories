@@ -1,7 +1,12 @@
 # 5.5.2
 Release date: 
 - Implement layer reordering buttons
+- Implement renaming of emotions
 - Added droopling lines filter
+- Removed generic JS prompt
+- Added cancel when loading a model
+- Refactored sidebar component
+- Remember last model option opened
 
 # 5.5.1
 Release date: July 14, 2025

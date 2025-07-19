@@ -40,11 +40,10 @@ const ModelSidebar: React.FC = () => {
         setCurrentModel,
         initialState,
     } = scene;
-    const { setLoading } = settings;
+    const { setLoading, openModelOption, setOpenModelOption } = settings;
     const { setErrorInformation } = softError;
 
     const abortController = useRef<AbortController | null>(null);
-    const [openTab, setOpenTab] = useState<string>("select-layer");
 
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
@@ -198,8 +197,8 @@ const ModelSidebar: React.FC = () => {
 
             <SidebarOption
                 header={t("model.selected-layer")}
-                option={openTab}
-                setOption={setOpenTab}
+                option={openModelOption}
+                setOption={setOpenModelOption}
                 optionName="select-layer"
             >
                 <SelectedLayer
@@ -240,8 +239,8 @@ const ModelSidebar: React.FC = () => {
             )}
             <SidebarOption
                 header={t("model.character")}
-                option={openTab}
-                setOption={setOpenTab}
+                option={openModelOption}
+                setOption={setOpenModelOption}
                 optionName="character"
             >
                 <Character
@@ -263,8 +262,8 @@ const ModelSidebar: React.FC = () => {
                 <>
                     <SidebarOption
                         header={t("model.costume")}
-                        option={openTab}
-                        setOption={setOpenTab}
+                        option={openModelOption}
+                        setOption={setOpenModelOption}
                         optionName="costume"
                     >
                         <Costume
@@ -284,8 +283,8 @@ const ModelSidebar: React.FC = () => {
                     </SidebarOption>
                     <SidebarOption
                         header={t("model.emotion")}
-                        option={openTab}
-                        setOption={setOpenTab}
+                        option={openModelOption}
+                        setOption={setOpenModelOption}
                         optionName="emotion"
                     >
                         <Emotion
@@ -302,8 +301,8 @@ const ModelSidebar: React.FC = () => {
             )}
             <SidebarOption
                 header={t("model.transform")}
-                option={openTab}
-                setOption={setOpenTab}
+                option={openModelOption}
+                setOption={setOpenModelOption}
                 optionName="transform"
             >
                 <Transform updateModelState={updateModelState} />
@@ -313,8 +312,8 @@ const ModelSidebar: React.FC = () => {
                 <>
                     <SidebarOption
                         header={t("model.mouth")}
-                        option={openTab}
-                        setOption={setOpenTab}
+                        option={openModelOption}
+                        setOption={setOpenModelOption}
                         optionName="mouth"
                     >
                         <Mouth
@@ -324,8 +323,8 @@ const ModelSidebar: React.FC = () => {
                     </SidebarOption>
                     <SidebarOption
                         header={t("model.live2d")}
-                        option={openTab}
-                        setOption={setOpenTab}
+                        option={openModelOption}
+                        setOption={setOpenModelOption}
                         optionName="live2d"
                     >
                         <Live2D

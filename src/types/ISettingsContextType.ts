@@ -26,6 +26,8 @@ export default interface ISettingsContextType {
     setNameTagInputs: Dispatch<SetStateAction<number>>;
     openTextOption: string;
     setOpenTextOption: Dispatch<SetStateAction<string>>;
+    openModelOption: string;
+    setOpenModelOption: Dispatch<SetStateAction<string>>;
     allowRefresh: boolean;
     setAllowRefresh: Dispatch<SetStateAction<boolean>>;
     audio: boolean;

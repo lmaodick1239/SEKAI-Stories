@@ -17,6 +17,8 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [openAll, setOpenAll] = useState<boolean>(false);
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
+    const [openModelOption, setOpenModelOption] =
+        useState<string>("select-layer");
     const [nameTags, setNameTags] = useState<IEasyNameTag>({});
     const [nameTagInputs, setNameTagInputs] = useState<number>(2);
     const [easySwitch, setEasySwitch] = useState<boolean>(false);
@@ -92,6 +94,8 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
                 setOpenAll,
                 openTextOption,
                 setOpenTextOption,
+                openModelOption,
+                setOpenModelOption,
                 easySwitch,
                 setEasySwitch,
                 nameTags,
