@@ -222,19 +222,15 @@ const ModelSidebar: React.FC = () => {
                                     <br />
                                     {t("model.long-wait")}
                                 </p>
-                                <button
-                                    className="btn-regular btn-white btn-extend-width"
-                                    onClick={() =>
-                                        abortController.current?.abort()
-                                    }
-                                    disabled={
-                                        abortController.current?.signal.aborted
-                                    }
-                                >
-                                    {t("cancel")}
-                                </button>
                             </>
                         )}
+                    <button
+                        className="btn-regular btn-white btn-extend-width"
+                        onClick={() => abortController.current?.abort()}
+                        disabled={abortController.current?.signal.aborted}
+                    >
+                        {t("cancel")}
+                    </button>
                 </div>
             )}
             <SidebarOption
