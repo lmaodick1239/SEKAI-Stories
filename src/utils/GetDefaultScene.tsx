@@ -53,6 +53,17 @@ const randomInitialScene: InitialScene[] = [
         sceneText: "Diner",
     },
     {
+        background: "/background_compressed/bg_a000702.jpg",
+        model: "v2_19ena_casual",
+        text: "MIZUKI, NO.",
+        nameTag: "Ena",
+        character: "ena",
+        modelX: 960,
+        modelY: 700,
+        pngName: "mizuki-nui",
+        sceneText: "Kamiyama High School - Rooftop",
+    },
+    {
         background: "/background_special/Background_Nijigasaki.jpg",
         model: "v2_17kanade_casual",
         text: "A-am I doing it right?",
