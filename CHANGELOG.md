@@ -1,4 +1,4 @@
-# 5.5.2
+# 5.6.0
 Release date: 
 - Implement layer reordering buttons
 - Implement renaming of emotions
@@ -7,6 +7,7 @@ Release date:
 - Added cancel when loading a model
 - Refactored sidebar component
 - Remember last model option opened
+- Updated Chinese (Simplified) localization
 
 # 5.5.1
 Release date: July 14, 2025

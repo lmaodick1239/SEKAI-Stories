@@ -1,5 +1,5 @@
 {
-    "please-wait": "稍安勿躁...",
+    "please-wait": "稍安勿躁，正在加载...",
 
     "background": {
         "header": "背景",
@@ -8,8 +8,8 @@
         "split-location": "拆分位置",
         "upload-info": "为确保图像看起来是正确的，并且不会被拉伸或裁剪，请使用16:9的图片",
         "filters": "滤镜",
-        "flashback": "倒叙",
-        "sick": "镜头摇晃"
+        "flashback": "“过去”滤镜",
+        "sick": "“头晕眼花”滤镜"
     },
 
     "text": {
@@ -86,7 +86,7 @@
         "advanced": "高级"
     },
 
-    "visible": "可见",
+    "visible": "显示",
 
     "experimental": {
         "header": "实验性",
@@ -104,8 +104,8 @@
     "support": {
         "header": "支持作者",
         "details": "如果你非常非常喜欢SEKAI Stories，你可以通过以下方式之一支持作者：",
-        "ko-fi-details": "捐款是个很好的选择！我也会在捐款网站那里发布这个网站的更新",
-        "github-details": "这个项目是完全开源的！你可以报告问题或打开拉取请求来做出贡献！",
+        "ko-fi-details": "捐款是个很好的选择！我也会在捐款网站那里发布我这个网站的更新",
+        "github-details": "这个项目是完全开源的！你可以在Github上报告问题或打开拉取请求来做出贡献！",
         "special-thanks-header": "特别感谢",
         "special-thanks-description": "我要在这里感谢Sekai Viewer的所有者允许我访问他们的模型!"
     },
@@ -121,7 +121,7 @@
 
     "character": {
         "none": "无",
-        "custom": "自定义",
+        "custom": "自定义图片",
         "ichika": "星乃 一歌",
         "saki": "天马 咲希",
         "honami": "望月 穗波",
@@ -169,7 +169,7 @@
         "header": "设置",
         "language": "语言",
         "auto-save": "自动保存",
-        "auto-save-description": "你的画布每3分钟都会自动保存一次，如果自动保存出现问题，你可以把最新的备份下载为JSON格式的文件，注意哦，这个文件里不会包含你自定义的背景和图片",
+        "auto-save-description": "你的画布每3分钟都会自动保存一次，如果自动保存出现问题，你可以把最新的画布下载为JSON格式的文件，注意哦，这个JSON文件里不会包含你自定义的背景和图片",
         "auto-save-button": "获取最新的存档",
         "toggles": "更多设置",
         "audio": "打开声音",
@@ -189,23 +189,23 @@
     },
     "tutorial": {
         "initialSetup1": "调整位置，直到你看不到任何红色的地方",
-        "initialSetup2": "您始终可以在文本菜单上把文字改回原来的位置",
+        "initialSetup2": "你之后可以在文本菜单上把文字改回原来的位置",
         "welcomeHeader": "欢迎来到SEKAI Stories!",
-        "welcomeIntroHeader": "这个教程会教会你如何使用这个网站",
-        "welcomeIntroParagraph1": "如果你已经是个老手了，那么你可以直接关闭这个教程饿了",
+        "welcomeIntroHeader": "这个超级无敌、特别好用、翻译了很久的教程会教会你怎样使用这个网站",
+        "welcomeIntroParagraph1": "如果你已经是个老手了，那么你就可以直接关闭这个教程了",
         "welcomeIntroParagraph2": "不必担心你之后会找不到这个教程，你之后可以随时再设置里再次打开这个教程",
         "confirmFirstTime": "我第一次使用这个网站",
         "menuNavigationHeader": "这些会帮助不在菜单和菜单中间迷路",
         "backgroundMenuHeader": "背景菜单",
         "selectUploadHeader": "选择并上传",
-        "selectUploadParagraph": "从世界计划中选择背景或者上传你自己的背景",
+        "selectUploadParagraph": "从PJSK中选择背景或者上传你自己的背景",
         "splitLocationHeader": "拆分位置",
         "splitLocationParagraph": "你也可以使用“拆分位置”，在一个画布中显示两个不同的背景",
         "textMenuHeader": "文字菜单",
         "nameTagHeader": "名称标签",
         "nameTagParagraph": "这是你设置角色名称的地方",
         "easySwitchHeader": "快捷切换",
-        "easySwitchParagraph": "你可以使用“快捷切换”来在两个名称之间快速切换，而不需要你自己输入",
+        "easySwitchParagraph": "你可以使用“快捷切换”来在两个（或多个）名称之间快速切换，并且不需要你自己输入",
         "dialogueHeader": "对话",
         "dialogueParagraph": "你可以在这里输入角色之间的对话",
         "sceneTextHeader": "场景名称",
@@ -239,24 +239,24 @@
         "emotionCopyHeader": "复制神态",
         "emotionCopyParagraph": "复制你给这个角色设置的表情和姿势的Live2D参数，有这么方便的功能真是泰裤辣！",
         "saveHeader": "完成后，记得保存你的画布！不要怪我没提醒过你",
-        "sceneImportExportParagraph": "这这个功能可以让你把整个画布保存为可编辑的格式，然后在下一次重新加载",
+        "sceneImportExportParagraph": "这个功能可以让你把整个画布保存为可编辑的格式，然后在下一次打开时重新加载",
         "endHeader": "就是这样！",
         "endParagraph": "如果你想继续编辑这个画布，你可以在设置里重新加载它们"
     },
     "save": {
         "header": "保存",
-        "note-1-desktop": "如果下载还没有开始，你可以右键点击下面的图像并保存",
-        "note-1-phone": "如果下载尚未开始，你可以按住下面的图像并保存。",
-        "note-2": "你之后可以在设置里永久地关掉这个提示",
+        "note-1-desktop": "如果下载还没有开始，你可以右键点击下面的图片并保存",
+        "note-1-phone": "如果下载尚未开始，你可以按住下面的图片并保存。",
+        "note-2": "你之后可以在设置里永远关掉这个提示",
         "disable-dialog": "不要再显示这个提示"
     },
     "error": {
         "header": "错误",
-        "import-scene-fail": "画布已重置，啊哦",
+        "import-scene-fail": "画布已重置，这不就尴尬了嘛",
         "invalid-json": "JSON文件无效，检查后再上传吧",
         "no-autosave": "未找到自动保存数据，下次记得自己保存一遍再关掉",
-        "not-an-image": "这也不是个图片啊",
-        "default-scene-fail": "如果在加载默认场景时出错，\n请点击“清除”按钮、刷新浏览器或清除Cookies信息。\n如果问题仍然存在，请在我的GitHub仓库里报告这个问题，谢谢！",
+        "not-an-image": "这也不是图片啊",
+        "default-scene-fail": "如果在加载默认场景时出错。\n请点击“清除”按钮、刷新浏览器或清除网站Cookies信息。\n如果问题仍然存在，请在我的GitHub仓库里报告这个问题，谢谢！",
         "name-tag-inputs-limit": "名称输入的字数超过了限制",
         "background-bookmark": "你不能收藏你自己上传的背景",
         "hide-everything-warning": "在“场景名称”菜单下的“隐藏所有文字与人物模型”选项已经被打开了\n请先把这个选项关闭掉再进行操作"
