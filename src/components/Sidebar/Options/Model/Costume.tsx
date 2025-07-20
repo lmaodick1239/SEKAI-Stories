@@ -16,6 +16,7 @@ import * as PIXI from "pixi.js";
 import { Checkbox } from "../../../UI/Checkbox";
 import IModel from "../../../../types/IModel";
 import { GetCharacterDataFromSekai } from "../../../../utils/GetCharacterDataFromSekai";
+import Live2DIssue from "../../../Live2DIssue";
 
 interface StaticCharacterData {
     [key: string]: string[];
@@ -75,7 +76,6 @@ const Costume: React.FC<CostumeProps> = ({
         setIsLoading(true);
 
         const modelBase = value;
-
 
         try {
             let live2DModel: Live2DModel;
@@ -194,6 +194,7 @@ const Costume: React.FC<CostumeProps> = ({
                     handleVirtualEffect(value);
                 }}
             />
+            <Live2DIssue costume={currentModel.modelName} />
         </>
     );
 };

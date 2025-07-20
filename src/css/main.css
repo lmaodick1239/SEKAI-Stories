@@ -604,6 +604,10 @@ select:disabled {
   outline: 4px solid #77eedd;
 }
 
+.blue {
+  color: #ff77ac;
+}
+
 #content {
   padding: 25px;
   box-sizing: border-box;
