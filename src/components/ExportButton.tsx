@@ -304,25 +304,23 @@ const ExportButton: React.FC = () => {
             reader.onload = async (event) => {
                 const jsonString = event.target?.result;
                 if (typeof jsonString === "string") {
-                    const data = JSON.parse(jsonString);
-                    if (ValidateJsonSave(data)) {
-                        try {
+                    try {
+                        const data = JSON.parse(jsonString);
+                        if (ValidateJsonSave(data)) {
                             await loadScene(data);
                             setSceneJson(data);
-                        } catch (error) {
-                            setErrorInformation(
-                                `${String(error)}\n${t(
-                                    "error.import-scene-fail"
-                                )}`
-                            );
-                            console.error("Error loading scene:", error);
-                            setReset(reset + 1);
-                            setLoading(100);
-                            setLoadingMsg("");
+                        } else {
+                            setErrorInformation(t("error.invalid-json"));
+                            return;
                         }
-                    } else {
-                        setErrorInformation(t("error.invalid-json"));
-                        throw new Error("Invalid valid JSON");
+                    } catch (error) {
+                        setErrorInformation(
+                            `${String(error)}\n${t("error.import-scene-fail")}`
+                        );
+                        console.error("Error loading scene:", error);
+                        setReset(reset + 1);
+                        setLoading(100);
+                        setLoadingMsg("");
                     }
                 }
             };
@@ -371,9 +369,7 @@ const ExportButton: React.FC = () => {
                             name="json"
                             id="json"
                             value={
-                                sceneJson
-                                    ? JSON.stringify(sceneJson, null, 2)
-                                    : ""
+                                sceneJson && JSON.stringify(sceneJson, null, 2)
                             }
                             readOnly
                         />
