@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { SceneContext } from "../../contexts/SceneContext";
 import IModel from "../../types/IModel";
 import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
@@ -115,6 +121,58 @@ const ModelSidebar: React.FC = () => {
         }
     }, []);
 
+    const prepareModel = useCallback(
+        async (
+            character: string,
+            model: string | ILive2DModelList,
+            layerIndex: number
+        ): Promise<[Live2DModel, ILive2DModelData]> => {
+            if (!currentModel) throw new Error("No current model selected!");
+            setLoading(0);
+
+            abortController.current?.abort();
+            abortController.current = new AbortController();
+            const { signal } = abortController.current;
+
+            const modelName: string =
+                typeof model === "object" && "modelBase" in model
+                    ? model.modelBase
+                    : model;
+            const [live2DModel, modelData] = await loadModel(
+                modelName,
+                currentModel?.from,
+                character,
+                setLoadingMsg,
+                setErrorInformation,
+                setLoading,
+                (x) => {
+                    return x * 20;
+                },
+                signal
+            );
+
+            if (signal.aborted) throw new Error("Operation canceled.");
+
+            live2DModel.scale.set(
+                initialState ? 0.5 : currentModel?.modelScale
+            );
+            live2DModel.anchor.set(0.5, 0.5);
+            live2DModel.position.set(
+                initialState ? 640 : currentModel?.modelX,
+                initialState ? 870 : currentModel?.modelY
+            );
+            live2DModel.angle = currentModel?.modelRotation ?? 0;
+            currentModel?.model.destroy();
+            modelContainer?.addChildAt(live2DModel, layerIndex);
+
+            setLoading(100);
+            setLoadingMsg(``);
+
+            return [live2DModel, modelData];
+        },
+        [currentModel, currentKey, modelContainer]
+    );
+
     if (!models) return t("please-wait");
 
     const updateModelState = (updates: Partial<IModel>) => {
@@ -129,53 +187,6 @@ const ModelSidebar: React.FC = () => {
             ...prevModel!,
             ...updates,
         }));
-    };
-
-    const prepareModel = async (
-        character: string,
-        model: string | ILive2DModelList,
-        layerIndex: number
-    ): Promise<[Live2DModel, ILive2DModelData]> => {
-        if (!currentModel) throw new Error("No current model selected!");
-        setLoading(0);
-
-        abortController.current?.abort();
-        abortController.current = new AbortController();
-        const { signal } = abortController.current;
-
-        const modelName: string =
-            typeof model === "object" && "modelBase" in model
-                ? model.modelBase
-                : model;
-        const [live2DModel, modelData] = await loadModel(
-            modelName,
-            currentModel?.from,
-            character,
-            setLoadingMsg,
-            setErrorInformation,
-            setLoading,
-            (x) => {
-                return x * 20;
-            },
-            signal
-        );
-
-        if (signal.aborted) throw new Error("Operation canceled.");
-
-        live2DModel.scale.set(initialState ? 0.5 : currentModel?.modelScale);
-        live2DModel.anchor.set(0.5, 0.5);
-        live2DModel.position.set(
-            initialState ? 640 : currentModel?.modelX,
-            initialState ? 870 : currentModel?.modelY
-        );
-        live2DModel.angle = currentModel?.modelRotation ?? 0;
-        currentModel?.model.destroy();
-        modelContainer?.addChildAt(live2DModel, layerIndex);
-
-        setLoading(100);
-        setLoadingMsg(``);
-
-        return [live2DModel, modelData];
     };
 
     const handleLive2DChange = async (fn: () => void) => {
