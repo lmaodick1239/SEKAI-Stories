@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { SoftErrorContext } from "../../contexts/SoftErrorContext";
-import { useAudioManager } from "../../utils/useAudioManager";
+import { useAudioManager } from "../../hooks/useAudioManager";
 
 interface SoftErrorProps {
     message?: string;

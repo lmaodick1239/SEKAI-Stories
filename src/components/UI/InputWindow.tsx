@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useAudioManager } from "../../utils/useAudioManager";
+import { useAudioManager } from "../../hooks/useAudioManager";
 import { t } from "i18next";
 
 interface WindowProps {

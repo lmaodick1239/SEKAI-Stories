@@ -4,7 +4,7 @@ import Sidebar from "./components/Sidebar";
 import Announcements from "./components/UI/Announcements";
 import { useTranslation } from "react-i18next";
 import { SettingsContext } from "./contexts/SettingsContext";
-import { useAudioManager } from "./utils/useAudioManager";
+import { useAudioManager } from "./hooks/useAudioManager";
 import Loading from "./components/UI/Loading";
 
 function App() {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useAudioManager } from "../../utils/useAudioManager";
+import { useAudioManager } from "../../hooks/useAudioManager";
 
 interface WindowProps {
     show: React.Dispatch<React.SetStateAction<boolean>>;
