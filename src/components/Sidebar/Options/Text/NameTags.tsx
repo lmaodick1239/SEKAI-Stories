@@ -1,30 +1,30 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext, useMemo } from "react";
 import { SceneContext } from "../../../../contexts/SceneContext";
 import { SettingsContext } from "../../../../contexts/SettingsContext";
-import { useTranslation } from "react-i18next";
 import RadioButton from "../../../UI/RadioButton";
 import { SoftErrorContext } from "../../../../contexts/SoftErrorContext";
 import { Checkbox } from "../../../UI/Checkbox";
+import { useTranslation } from "react-i18next";
 
 interface NameTagsProps {
     easyNameTagSelected: string;
     setEasyNameTagSelected: Dispatch<SetStateAction<string>>;
 }
 
-const easyNameTagPlaceholders = [
-    "Miku",
-    "Rin",
-    "Len",
-    "Luka",
-    "MEIKO",
-    "KAITO",
-];
-
 const NameTags: React.FC<NameTagsProps> = ({
     easyNameTagSelected,
     setEasyNameTagSelected,
 }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+
+    const easyNameTagPlaceholders = useMemo(()=>[
+        t("character.miku"),
+        t("character.rin"),
+        t("character.len"),
+        t("character.luka"),
+        t("character.meiko"),
+        t("character.kaito"),
+    ], [i18n.language]);
 
     const scene = useContext(SceneContext);
     const settings = useContext(SettingsContext);
@@ -132,9 +132,7 @@ const NameTags: React.FC<NameTagsProps> = ({
                                         `nameTag${index + 1}`
                                     );
                                 }}
-                                placeholder={
-                                    easyNameTagPlaceholders[index] || ""
-                                }
+                                placeholder={easyNameTagPlaceholders[index]}
                             />
                         </div>
                     ))}
