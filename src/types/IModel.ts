@@ -1,4 +1,4 @@
-import { InternalModel, Live2DModel } from "pixi-live2d-display";
+import { InternalModel, Live2DModel } from "pixi-live2d-display-mulmotion";
 import * as PIXI from "pixi.js";
 import { ILive2DModelData } from "./ILive2DModelData";
 

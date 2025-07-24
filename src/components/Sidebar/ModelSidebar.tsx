@@ -7,7 +7,10 @@ import React, {
 } from "react";
 import { SceneContext } from "../../contexts/SceneContext";
 import IModel from "../../types/IModel";
-import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
+import {
+    Live2DModel,
+    Cubism4InternalModel,
+} from "pixi-live2d-display-mulmotion";
 import { ILive2DModelData } from "../../types/ILive2DModelData";
 import { ILive2DModelList } from "../../types/ILive2DModelList";
 import { useTranslation } from "react-i18next";

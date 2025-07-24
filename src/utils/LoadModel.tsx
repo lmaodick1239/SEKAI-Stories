@@ -4,7 +4,7 @@ import { GetCharacterFolder } from "./GetCharacterFolder";
 import { GetModelDataFromSekai, GetModelDataFromStatic } from "./GetModelData";
 import { t } from "i18next";
 import axios from "axios";
-import { Live2DModel } from "pixi-live2d-display";
+import { Live2DModel } from "pixi-live2d-display-mulmotion";
 import { GetCharacterDataFromSekai } from "./GetCharacterDataFromSekai";
 
 export const loadModel = async (
@@ -51,13 +51,12 @@ export const loadModel = async (
         signal: abort,
     });
 
-    
     setLoading(formula(4));
     setLoadingMsg(`${t("loading-7")}...`);
     const live2DModel = await Live2DModel.from(modelData, {
         autoInteract: false,
     });
-    
-    if (abort?.aborted) throw new Error("Operation aborted.")
+
+    if (abort?.aborted) throw new Error("Operation aborted.");
     return [live2DModel, modelData];
 };

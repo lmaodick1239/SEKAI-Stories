@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { Live2DModel } from "pixi-live2d-display";
+import { Live2DModel } from "pixi-live2d-display-mulmotion";
 import ISceneContextType from "../types/ISceneContextType";
 import { getBackground } from "./GetBackground";
 
@@ -12,14 +12,7 @@ export const refreshCanvas = async (context: ISceneContextType) => {
     )
         return;
 
-    const {
-        app,
-        setApp,
-        text,
-        filter,
-        sceneText,
-        guideline,
-    } = context;
+    const { app, setApp, text, filter, sceneText, guideline } = context;
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
     app.stop();

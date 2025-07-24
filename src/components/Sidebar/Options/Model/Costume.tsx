@@ -9,7 +9,7 @@ import {
     virtualEffectCRT,
     virtualEffectParticles,
 } from "../../../../utils/VirtualEffect";
-import { Live2DModel } from "pixi-live2d-display";
+import { Live2DModel } from "pixi-live2d-display-mulmotion";
 import { ILive2DModelList } from "../../../../types/ILive2DModelList";
 import { ILive2DModelData } from "../../../../types/ILive2DModelData";
 import * as PIXI from "pixi.js";

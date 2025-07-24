@@ -1,4 +1,4 @@
-import { Cubism4InternalModel } from "pixi-live2d-display";
+import { Cubism4InternalModel } from "pixi-live2d-display-mulmotion";
 import React from "react";
 import IModel from "../types/IModel";
 import { useTranslation } from "react-i18next";

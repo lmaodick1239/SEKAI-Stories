@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SceneContext } from "../../../../contexts/SceneContext";
-import { Live2DModel } from "pixi-live2d-display";
+import { Live2DModel } from "pixi-live2d-display-mulmotion";
 import IModel from "../../../../types/IModel";
 import IEmotionBookmark from "../../../../types/IEmotionBookmark";
 import { IEmotionName } from "../../../../types/IEmotionName";

@@ -5,7 +5,7 @@ import { SoftErrorContext } from "../../../../contexts/SoftErrorContext";
 import { useTranslation } from "react-i18next";
 import AddModelSelect from "../../../AddModelSelect";
 import UploadImageButton from "../../../UI/UploadButton";
-import { Cubism4InternalModel } from "pixi-live2d-display";
+import { Cubism4InternalModel } from "pixi-live2d-display-mulmotion";
 
 interface SelectedLayerProps {
     isLoading: boolean;

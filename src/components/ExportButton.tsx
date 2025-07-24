@@ -4,7 +4,7 @@ import { SceneContext } from "../contexts/SceneContext";
 import { IJsonSave } from "../types/IJsonSave";
 import { ValidateJsonSave } from "../utils/ValidateJsonSave";
 import { getBackground } from "../utils/GetBackground";
-import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display";
+import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display-mulmotion";
 import IModel from "../types/IModel";
 import Window from "./UI/Window";
 import { SettingsContext } from "../contexts/SettingsContext";

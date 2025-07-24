@@ -9,7 +9,10 @@ import { useTranslation } from "react-i18next";
 import { SceneContext } from "../../../../contexts/SceneContext";
 import IModel from "../../../../types/IModel";
 import Live2DInputSlider from "../../../Live2DInputSlider";
-import { Cubism4InternalModel, Live2DModel } from "pixi-live2d-display";
+import {
+    Cubism4InternalModel,
+    Live2DModel,
+} from "pixi-live2d-display-mulmotion";
 import { ILive2DParameterJsonSave } from "../../../../types/ILive2DParameterJsonSave";
 import { ValidateLive2DParameterJsonSave } from "../../../../utils/ValidateJsonSave";
 import { Checkbox } from "../../../UI/Checkbox";

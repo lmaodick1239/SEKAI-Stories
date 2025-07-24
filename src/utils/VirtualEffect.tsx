@@ -1,5 +1,5 @@
 import { AdjustmentFilter, CRTFilter } from "pixi-filters";
-import { InternalModel, Live2DModel } from "pixi-live2d-display";
+import { InternalModel, Live2DModel } from "pixi-live2d-display-mulmotion";
 import * as PIXI from "pixi.js";
 import { getBackground } from "./GetBackground";
 
