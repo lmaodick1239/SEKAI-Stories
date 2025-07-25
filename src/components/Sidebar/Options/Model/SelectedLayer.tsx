@@ -4,8 +4,8 @@ import { SceneContext } from "../../../../contexts/SceneContext";
 import { SoftErrorContext } from "../../../../contexts/SoftErrorContext";
 import { useTranslation } from "react-i18next";
 import AddModelSelect from "../../../AddModelSelect";
-import UploadImageButton from "../../../UI/UploadButton";
 import { Cubism4InternalModel } from "pixi-live2d-display-mulmotion";
+import IModel from "../../../../types/IModel";
 
 interface SelectedLayerProps {
     isLoading: boolean;
@@ -18,6 +18,7 @@ interface SelectedLayerProps {
     setCoreModel: Dispatch<
         SetStateAction<Cubism4InternalModel["coreModel"] | null>
     >;
+    updateModelState: (updates: Partial<IModel>) => void;
     handleLive2DChange?: (callback: () => void) => void;
 }
 
@@ -28,6 +29,7 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
     setLayerIndex,
     setSelectedParameter,
     setCoreModel,
+    updateModelState,
     handleLive2DChange = (callback) => callback(),
 }) => {
     const { t } = useTranslation();
@@ -56,7 +58,7 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
 
     const { setErrorInformation } = softError;
 
-    if (!models) return t("please-wait");
+    if (!models || !currentModel) return t("please-wait");
 
     const handleLayerChange = async (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -147,6 +149,16 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         setLayerIndex(layers);
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
+        setShowAddModelScreen(false);
+    };
+
+    const handleHideLayer = async () => {
+        const visible = currentModel?.visible;
+
+        if (currentModel?.model) {
+            currentModel.model.visible = !visible;
+        }
+        updateModelState({ visible: !visible });
     };
 
     const handleDeleteLayer = async () => {
@@ -193,15 +205,23 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
                     <AddModelSelect
                         addModel={handleAddLayer}
                         setShow={setShowAddModelScreen}
+                        uploadFunction={handleUploadImage}
                     />
                 )}
-                <UploadImageButton
-                    id="background-upload"
-                    uploadFunction={handleUploadImage}
-                    text={<i className="bi bi-upload"></i>}
-                    type="round"
+
+                <button
+                    className="btn-circle btn-white"
+                    onClick={() => {
+                        handleLive2DChange(handleHideLayer);
+                    }}
                     disabled={isLoading}
-                />
+                >
+                    {!currentModel?.visible ? (
+                        <i className="bi bi-eye-slash"></i>
+                    ) : (
+                        <i className="bi bi-eye"></i>
+                    )}
+                </button>
                 <button
                     className="btn-circle btn-white"
                     onClick={() => {

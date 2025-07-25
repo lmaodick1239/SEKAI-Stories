@@ -222,6 +222,7 @@ const ModelSidebar: React.FC = () => {
                     setCurrentSelectedCharacter={setCurrentSelectedCharacter}
                     setSelectedParameter={setSelectedParameter}
                     setCoreModel={setCoreModel}
+                    updateModelState={updateModelState}
                     handleLive2DChange={handleLive2DChange}
                 />
             </SidebarOption>

@@ -1,15 +1,18 @@
 import React, { SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import Window from "./UI/Window";
+import UploadImageButton from "./UI/UploadButton";
 
 interface AddModelSelectProps {
     addModel: (from: string) => void;
     setShow: React.Dispatch<SetStateAction<boolean>>;
+    uploadFunction: (f: File) => void;
 }
 
 const AddModelSelect: React.FC<AddModelSelectProps> = ({
     addModel,
     setShow,
+    uploadFunction,
 }) => {
     const { t } = useTranslation();
 
@@ -38,6 +41,16 @@ const AddModelSelect: React.FC<AddModelSelectProps> = ({
                     SEKAI Stories
                     <p>{t("model.add-model-static-description")}</p>
                 </button>
+                <UploadImageButton
+                    id="background-upload"
+                    uploadFunction={uploadFunction}
+                    text={
+                        <>
+                            {t("model.upload-image")}
+                            <p>{t("model.upload-image-description")}</p>
+                        </>
+                    }
+                />
             </div>
         </Window>
     );
