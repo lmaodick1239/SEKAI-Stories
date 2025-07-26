@@ -11,7 +11,6 @@ interface SelectedLayerProps {
     isLoading: boolean;
     setIsLoading: Dispatch<SetStateAction<boolean>>;
     setCurrentSelectedCharacter: Dispatch<SetStateAction<string>>;
-    setLayerIndex: Dispatch<SetStateAction<number>>;
     setSelectedParameter: Dispatch<
         SetStateAction<{ idx: number; param: string }>
     >;
@@ -26,7 +25,6 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
     isLoading,
     setIsLoading,
     setCurrentSelectedCharacter,
-    setLayerIndex,
     setSelectedParameter,
     setCoreModel,
     updateModelState,
@@ -44,7 +42,7 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
     const {
         models,
         setModels,
-        modelContainer,
+        modelWrapper,
         nextLayer,
         setNextLayer,
         layers,
@@ -64,11 +62,9 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         const key = event?.target.value;
-        const selectedIndex = event.target.selectedIndex;
         setCurrentKey(key);
         setCurrentModel(models[key]);
         setCurrentSelectedCharacter(models[key].character);
-        setLayerIndex(selectedIndex);
 
         setSelectedParameter({ idx: -1, param: "_" });
     };
@@ -79,10 +75,13 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
             "/img/Background_New_Layer.png"
         );
         const sprite = new PIXI.Sprite(texture);
-        modelContainer?.addChildAt(sprite, layers);
+        const modelContainer = new PIXI.Container();
+        modelContainer.addChildAt(sprite, 0);
+        modelWrapper?.addChildAt(modelContainer, layers);
         const newLayer = {
             [`character${nextLayer + 1}`]: {
                 character: "none",
+                root: modelContainer,
                 modelName: modelName,
                 model: sprite,
                 modelX: 640,
@@ -106,7 +105,6 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         setCurrentKey(`character${nextLayer + 1}`);
         setCurrentModel(newLayer[`character${nextLayer + 1}`]);
         setCurrentSelectedCharacter("none");
-        setLayerIndex(layers);
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
         setInitialState(false);
@@ -117,12 +115,18 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         const modelName = imgSrc;
         const texture = await PIXI.Texture.fromURL(modelName);
         const sprite = new PIXI.Sprite(texture);
-        sprite.anchor.set(0.5, 0.5);
-        sprite.position.set(960, 540);
-        modelContainer?.addChildAt(sprite, layers);
+        const modelContainer = new PIXI.Container();
+        modelContainer.addChildAt(sprite, 0);
+        modelWrapper?.addChildAt(modelContainer, layers);
+        modelContainer.pivot.set(
+            modelContainer.width / 2,
+            modelContainer.height / 2
+        );
+        modelContainer.position.set(960, 540);
         const newLayer = {
             [`character${nextLayer + 1}`]: {
                 character: "custom",
+                root: modelContainer,
                 modelName: modelName,
                 model: sprite,
                 modelX: 960,
@@ -146,7 +150,6 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         setCurrentKey(`character${nextLayer + 1}`);
         setCurrentModel(newLayer[`character${nextLayer + 1}`]);
         setCurrentSelectedCharacter("custom");
-        setLayerIndex(layers);
         setNextLayer(nextLayer + 1);
         setLayers(layers + 1);
         setShowAddModelScreen(false);
@@ -170,12 +173,12 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         setIsLoading(true);
         setCoreModel(null);
         currentModel?.model.destroy();
+        currentModel?.root.destroy()
         delete models[currentKey];
         const firstKey = Object.keys(models)[0];
         setCurrentKey(firstKey);
         setCurrentModel(models[firstKey]);
         setCurrentSelectedCharacter(models[firstKey].character);
-        setLayerIndex(0);
         setLayers(layers - 1);
         setIsLoading(false);
         setSelectedParameter({ idx: -1, param: "_" });

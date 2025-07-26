@@ -43,7 +43,7 @@ const ModelSidebar: React.FC = () => {
         models,
         text,
         setModels,
-        modelContainer,
+        modelWrapper,
         currentKey,
         currentModel,
         setCurrentModel,
@@ -56,7 +56,6 @@ const ModelSidebar: React.FC = () => {
 
     const [currentSelectedCharacter, setCurrentSelectedCharacter] =
         useState<string>("");
-    const [layerIndex, setLayerIndex] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [loadingMsg, setLoadingMsg] = useState<string>("");
 
@@ -83,10 +82,7 @@ const ModelSidebar: React.FC = () => {
 
     useEffect(() => {
         if (!models || !currentKey || !currentModel) return;
-        const modelKeys = Object.keys(models);
-        const currentKeyIndex = modelKeys.indexOf(currentKey);
         const model = models[currentKey];
-        setLayerIndex(currentKeyIndex);
         setCurrentModel(model);
         setCurrentSelectedCharacter(model?.character ?? "none");
     }, [models]);
@@ -127,8 +123,7 @@ const ModelSidebar: React.FC = () => {
     const prepareModel = useCallback(
         async (
             character: string,
-            model: string | ILive2DModelList,
-            layerIndex: number
+            model: string | ILive2DModelList
         ): Promise<[Live2DModel, ILive2DModelData]> => {
             if (!currentModel) throw new Error("No current model selected!");
             setLoading(0);
@@ -156,24 +151,27 @@ const ModelSidebar: React.FC = () => {
 
             if (signal.aborted) throw new Error("Operation canceled.");
 
-            live2DModel.scale.set(
+            live2DModel.angle = currentModel?.modelRotation ?? 0;
+            currentModel?.root.removeChildren();
+            currentModel?.root.addChildAt(live2DModel, 0);
+            currentModel?.root.pivot.set(
+                currentModel.root.width / 2,
+                currentModel.root.height / 2
+            );
+            currentModel.root.scale.set(
                 initialState ? 0.5 : currentModel?.modelScale
             );
-            live2DModel.anchor.set(0.5, 0.5);
-            live2DModel.position.set(
+            currentModel.root.position.set(
                 initialState ? 640 : currentModel?.modelX,
                 initialState ? 870 : currentModel?.modelY
             );
-            live2DModel.angle = currentModel?.modelRotation ?? 0;
-            currentModel?.model.destroy();
-            modelContainer?.addChildAt(live2DModel, layerIndex);
 
             setLoading(100);
             setLoadingMsg(``);
 
             return [live2DModel, modelData];
         },
-        [currentModel, currentKey, modelContainer]
+        [currentModel, currentKey, modelWrapper]
     );
 
     if (!models) return t("please-wait");
@@ -218,7 +216,6 @@ const ModelSidebar: React.FC = () => {
                 <SelectedLayer
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
-                    setLayerIndex={setLayerIndex}
                     setCurrentSelectedCharacter={setCurrentSelectedCharacter}
                     setSelectedParameter={setSelectedParameter}
                     setCoreModel={setCoreModel}
@@ -262,7 +259,6 @@ const ModelSidebar: React.FC = () => {
                     handleLive2DChange={handleLive2DChange}
                     prepareModel={prepareModel}
                     updateModelState={updateModelState}
-                    layerIndex={layerIndex}
                     setLoadingMsg={setLoadingMsg}
                     setSelectedParameter={setSelectedParameter}
                 />
@@ -281,7 +277,6 @@ const ModelSidebar: React.FC = () => {
                             isLoading={isLoading}
                             setIsLoading={setIsLoading}
                             currentSelectedCharacter={currentSelectedCharacter}
-                            layerIndex={layerIndex}
                             handleLive2DChange={handleLive2DChange}
                             prepareModel={prepareModel}
                             updateModelState={updateModelState}

@@ -34,7 +34,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     );
     const [layers, setLayers] = useState<number>(1);
     const [nextLayer, setNextLayer] = useState<number>(1);
-    const [modelContainer, setModelContainer] = useState<
+    const [modelWrapper, setModelWrapper] = useState<
         PIXI.Container | undefined
     >(undefined);
     const [currentModel, setCurrentModel] = useState<IModel | undefined>(
@@ -70,7 +70,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             model,
             currentKey,
             currentModel,
-            modelContainer,
+            modelWrapper,
             background,
             splitBackground,
             text,
@@ -90,7 +90,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
         setModels(model);
         setCurrentKey(currentKey);
         setCurrentModel(currentModel);
-        setModelContainer(modelContainer);
+        setModelWrapper(modelWrapper);
         setBackground(background);
         setSplitBackground(splitBackground);
         setText(text);
@@ -124,8 +124,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 setCurrentKey,
                 currentModel,
                 setCurrentModel,
-                modelContainer,
-                setModelContainer,
+                modelWrapper,
+                setModelWrapper,
                 background,
                 setBackground,
                 splitBackground,
@@ -211,8 +211,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
 // live2DModel.scale.set(0.5);
 // live2DModel.position.set(190, -280);
 
-// modelContainer.addChildAt(live2DModel, 0);
-// initApplication.stage.addChildAt(modelContainer, 2);
+// modelWrapper.addChildAt(live2DModel, 0);
+// initApplication.stage.addChildAt(modelWrapper, 2);
 // setStartingMessage("Adding pose and emotion...");
 // live2DModel.motion("Expression", 38);
 // await new Promise((resolve) => setTimeout(resolve, 2000));

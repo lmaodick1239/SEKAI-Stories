@@ -21,8 +21,8 @@ export default interface ISceneContextType {
     setCurrentKey: Dispatch<SetStateAction<string>>;
     currentModel: IModel | undefined;
     setCurrentModel: Dispatch<SetStateAction<IModel | undefined>>;
-    modelContainer: PIXI.Container | undefined;
-    setModelContainer: Dispatch<SetStateAction<PIXI.Container | undefined>>;
+    modelWrapper: PIXI.Container | undefined;
+    setModelWrapper: Dispatch<SetStateAction<PIXI.Container | undefined>>;
     background: IBackground | undefined;
     setBackground: Dispatch<SetStateAction<IBackground | undefined>>;
     splitBackground: ISplitBackground | undefined;

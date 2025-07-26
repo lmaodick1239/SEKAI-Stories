@@ -17,30 +17,24 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
     if (!scene) {
         throw new Error("Context not found");
     }
-    const { currentModel, modelContainer, layers } = scene;
+    const { currentModel, modelWrapper, layers } = scene;
     const [showTransformInput, setShowTransformInput] =
         useState<boolean>(false);
     const [transformType, setTransformType] = useState<string>("");
 
     if (!currentModel) return;
     const handleMoveLayer = async (type: string) => {
-        if (!modelContainer || !currentModel) return;
+        if (!modelWrapper || !currentModel) return;
 
-        const layerIndex = modelContainer.getChildIndex(currentModel.model);
+        const layerIndex = modelWrapper.getChildIndex(currentModel.model);
         switch (type) {
             case "forward":
                 if (layerIndex + 1 >= layers) return;
-                modelContainer.setChildIndex(
-                    currentModel.model,
-                    layerIndex + 1
-                );
+                modelWrapper.setChildIndex(currentModel.model, layerIndex + 1);
                 break;
             case "backward":
                 if (layerIndex - 1 < 0) return;
-                modelContainer.setChildIndex(
-                    currentModel.model,
-                    layerIndex - 1
-                );
+                modelWrapper.setChildIndex(currentModel.model, layerIndex - 1);
                 break;
         }
     };
@@ -55,7 +49,7 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
         } else if (x > 1280 - SNAP && x < 1280 + SNAP) {
             x = 1280;
         }
-        currentModel?.model.position.set(x, currentModel.modelY);
+        currentModel?.root.position.set(x, currentModel.modelY);
 
         updateModelState({ modelX: x });
     };
@@ -70,7 +64,7 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
             y = 865;
         }
 
-        currentModel?.model.position.set(currentModel.modelX, y);
+        currentModel?.root.position.set(currentModel.modelX, y);
         updateModelState({ modelY: y });
     };
 
@@ -78,7 +72,7 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         const scale = Number(event?.target.value);
-        currentModel?.model.scale.set(scale, scale);
+        currentModel?.root.scale.set(scale, scale);
         updateModelState({ modelScale: scale });
     };
 
@@ -87,7 +81,7 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
     ) => {
         const rotation = Number(event?.target.value);
         if (currentModel?.model) {
-            currentModel.model.angle = rotation;
+            currentModel.root.angle = rotation;
         }
         updateModelState({ modelRotation: rotation });
     };
@@ -95,7 +89,7 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
     const handleVisible = (event: React.ChangeEvent<HTMLInputElement>) => {
         const visible = Boolean(event?.target.checked);
         if (currentModel?.model) {
-            currentModel.model.visible = visible;
+            currentModel.root.visible = visible;
         }
         updateModelState({ visible: visible });
     };
@@ -107,22 +101,22 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
 
         switch (transformType) {
             case "x": {
-                currentModel?.model.position.set(toChange, currentModel.modelY);
+                currentModel?.root.position.set(toChange, currentModel.modelY);
                 updateModelState({ modelX: toChange });
                 break;
             }
             case "y": {
-                currentModel?.model.position.set(currentModel.modelX, toChange);
+                currentModel?.root.position.set(currentModel.modelX, toChange);
                 updateModelState({ modelY: toChange });
                 break;
             }
             case "scale": {
-                currentModel?.model.scale.set(toChange, toChange);
+                currentModel?.root.scale.set(toChange, toChange);
                 updateModelState({ modelScale: toChange });
                 break;
             }
             case "rotation": {
-                currentModel.model.angle = toChange;
+                currentModel.root.angle = toChange;
                 updateModelState({ modelRotation: toChange });
                 break;
             }

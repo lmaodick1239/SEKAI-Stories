@@ -228,25 +228,31 @@ const LoadModel = async (
     y: number
 ): Promise<{
     model: Record<string, IModel>;
-    modelContainer: PIXI.Container;
+    modelWrapper: PIXI.Container;
 }> => {
+    const modelWrapper = new PIXI.Container();
     const modelContainer = new PIXI.Container();
     const texture = await PIXI.Texture.fromURL(`/img/${file}.png`);
     const sprite = new PIXI.Sprite(texture);
     modelContainer.addChildAt(sprite, 0);
-    sprite.anchor.set(0.5, 0.5);
-    sprite.position.set(x, y);
+    modelWrapper.addChildAt(modelContainer, 0);
+    modelContainer.pivot.set(
+        modelContainer.width / 2,
+        modelContainer.height / 2
+    );
+    modelContainer.position.set(x, y);
 
-    container.addChildAt(modelContainer, childAt);
+    container.addChildAt(modelWrapper, childAt);
     return {
         model: {
             character1: {
                 character: character,
+                root: modelContainer,
                 model: sprite,
                 modelName: model,
-                modelX: sprite.x,
-                modelY: sprite.y,
-                modelScale: sprite.scale.x,
+                modelX: modelContainer.x,
+                modelY: modelContainer.y,
+                modelScale: modelContainer.scale.x,
                 modelRotation: 0,
                 modelData: undefined,
                 virtualEffect: false,
@@ -258,7 +264,7 @@ const LoadModel = async (
                 parametersChanged: {},
             },
         },
-        modelContainer: modelContainer,
+        modelWrapper: modelWrapper,
     };
 };
 
@@ -457,7 +463,7 @@ export const LoadScene = async ({
 
     setLoading(60);
     // Load Sample PNG Sprite
-    const { model, modelContainer } = await LoadModel(
+    const { model, modelWrapper } = await LoadModel(
         filterContainer,
         2,
         initialScene.pngName,
@@ -495,7 +501,7 @@ export const LoadScene = async ({
         model: model,
         currentKey: "character1",
         currentModel: model["character1"],
-        modelContainer: modelContainer,
+        modelWrapper: modelWrapper,
         background: background,
         splitBackground: splitBackground,
         text: text,

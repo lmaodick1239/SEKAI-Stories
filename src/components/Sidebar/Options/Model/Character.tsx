@@ -16,7 +16,6 @@ interface CharacterProps {
     setLoadingMsg: Dispatch<SetStateAction<string>>;
     currentSelectedCharacter: string;
     setCurrentSelectedCharacter: Dispatch<SetStateAction<string>>;
-    layerIndex: number;
     setSelectedParameter: Dispatch<
         SetStateAction<{ idx: number; param: string }>
     >;
@@ -24,7 +23,6 @@ interface CharacterProps {
     prepareModel: (
         character: string,
         model: string | ILive2DModelList,
-        layerIndex: number
     ) => Promise<[Live2DModel, ILive2DModelData]>;
     updateModelState: (updates: Partial<IModel>) => void;
 }
@@ -35,7 +33,6 @@ const Character: React.FC<CharacterProps> = ({
     setLoadingMsg,
     currentSelectedCharacter,
     setCurrentSelectedCharacter,
-    layerIndex,
     setSelectedParameter,
     handleLive2DChange,
     prepareModel,
@@ -84,7 +81,6 @@ const Character: React.FC<CharacterProps> = ({
             const [live2DModel, modelData] = await prepareModel(
                 character,
                 firstFile,
-                layerIndex
             );
 
             updateModelState({

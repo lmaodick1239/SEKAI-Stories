@@ -10,7 +10,7 @@ const SceneText: React.FC = () => {
     const scene = useContext(SceneContext);
     if (!scene) throw new Error("Context not loaded");
 
-    const { text, setText, sceneText, setSceneText, modelContainer } = scene;
+    const { text, setText, sceneText, setSceneText, modelWrapper } = scene;
 
     if (!text || !sceneText) return t("please-wait");
 
@@ -22,8 +22,8 @@ const SceneText: React.FC = () => {
             sceneText.sceneTextContainer.visible = visible;
         }
         if (!visible && text.hideEverything) {
-            if (modelContainer) {
-                modelContainer.visible = true;
+            if (modelWrapper) {
+                modelWrapper.visible = true;
             }
             text.textContainer.visible = true;
         }
@@ -40,12 +40,12 @@ const SceneText: React.FC = () => {
     const handleHideEverything = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        if (!modelContainer) {
+        if (!modelWrapper) {
             return;
         }
         const hide = Boolean(event?.target.checked);
 
-        modelContainer.visible = !hide;
+        modelWrapper.visible = !hide;
         text.textContainer.visible = !hide;
 
         setText({

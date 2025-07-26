@@ -35,7 +35,6 @@ interface CostumeProps {
     setLoadingMsg: Dispatch<SetStateAction<string>>;
     currentSelectedCharacter: string;
     setCurrentSelectedCharacter: Dispatch<SetStateAction<string>>;
-    layerIndex: number;
     setSelectedParameter: Dispatch<
         SetStateAction<{ idx: number; param: string }>
     >;
@@ -43,7 +42,6 @@ interface CostumeProps {
     prepareModel: (
         character: string,
         model: string | ILive2DModelList,
-        layerIndex: number
     ) => Promise<[Live2DModel, ILive2DModelData]>;
     updateModelState: (updates: Partial<IModel>) => void;
 }
@@ -53,7 +51,6 @@ const Costume: React.FC<CostumeProps> = ({
     setIsLoading,
     setLoadingMsg,
     currentSelectedCharacter,
-    layerIndex,
     setSelectedParameter,
     handleLive2DChange,
     prepareModel,
@@ -86,7 +83,6 @@ const Costume: React.FC<CostumeProps> = ({
                 [live2DModel, modelData] = await prepareModel(
                     currentModel.character,
                     modelBase,
-                    layerIndex
                 );
             } else {
                 const model = await GetCharacterDataFromSekai(
@@ -106,7 +102,6 @@ const Costume: React.FC<CostumeProps> = ({
                 [live2DModel, modelData] = await prepareModel(
                     currentModel.character,
                     model,
-                    layerIndex
                 );
             }
 

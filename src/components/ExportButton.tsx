@@ -13,6 +13,7 @@ import Window from "./UI/Window";
 import { SettingsContext } from "../contexts/SettingsContext";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
 import { loadModel } from "../utils/LoadModel";
+import * as PIXI from "pixi.js";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
@@ -31,7 +32,7 @@ const ExportButton: React.FC = () => {
         splitBackground,
         text,
         models,
-        modelContainer,
+        modelWrapper,
         reset,
         sceneJson,
         setBackground,
@@ -147,7 +148,7 @@ const ExportButton: React.FC = () => {
 
         let modelTextures: Record<string, IModel> = {};
 
-        modelContainer?.removeChildren();
+        modelWrapper?.removeChildren();
 
         for (const [idx, model] of modelJson.entries()) {
             const [live2DModel, modelData] = await loadModel(
@@ -164,14 +165,20 @@ const ExportButton: React.FC = () => {
                 }
             );
 
-            live2DModel.anchor.set(0.5, 0.5);
-            live2DModel.scale.set(model.modelTransform?.scale ?? 0.5);
-            live2DModel.position.set(
+            const modelContainer = new PIXI.Container();
+            modelContainer.addChildAt(live2DModel, 0);
+
+            modelContainer.pivot.set(
+                modelContainer.width / 2,
+                modelContainer.height / 2
+            );
+            modelContainer.scale.set(model.modelTransform?.scale ?? 0.5);
+            modelContainer.position.set(
                 model.modelTransform?.x ?? 640,
                 model.modelTransform?.y ?? 870
             );
-            live2DModel.angle = model.modelTransform?.rotation ?? 0;
-            modelContainer?.addChildAt(live2DModel, idx);
+            modelContainer.angle = model.modelTransform?.rotation ?? 0;
+            modelWrapper?.addChildAt(modelContainer, idx);
             if (model.modelExpression && model.modelExpression !== 99999) {
                 const manager =
                     live2DModel.internalModel.parallelMotionManager[0];
@@ -182,8 +189,6 @@ const ExportButton: React.FC = () => {
                     live2DModel.internalModel.parallelMotionManager[1];
                 manager.startMotion("Motion", model.modelPose);
             }
-
-            
 
             if (model?.modelParametersChanged) {
                 const coreModel = live2DModel.internalModel
@@ -212,12 +217,13 @@ const ExportButton: React.FC = () => {
                 ...modelTextures,
                 [`character${idx + 1}`]: {
                     character: model.character,
+                    root: modelContainer,
                     model: live2DModel,
                     modelName: model.modelName,
-                    modelX: live2DModel.x,
-                    modelY: live2DModel.y,
-                    modelScale: live2DModel.scale.x,
-                    modelRotation: live2DModel.angle,
+                    modelX: modelContainer.x,
+                    modelY: modelContainer.y,
+                    modelScale: modelContainer.scale.x,
+                    modelRotation: modelContainer.angle,
                     modelData: modelData,
                     virtualEffect: false,
                     expression: model.modelExpression ?? 99999,
