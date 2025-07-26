@@ -58,5 +58,7 @@ export const loadModel = async (
     });
 
     if (abort?.aborted) throw new Error("Operation aborted.");
+    live2DModel.internalModel.extendParallelMotionManager(2);
+
     return [live2DModel, modelData];
 };

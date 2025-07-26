@@ -4,7 +4,10 @@ import { SceneContext } from "../contexts/SceneContext";
 import { IJsonSave } from "../types/IJsonSave";
 import { ValidateJsonSave } from "../utils/ValidateJsonSave";
 import { getBackground } from "../utils/GetBackground";
-import { Live2DModel, Cubism4InternalModel } from "pixi-live2d-display-mulmotion";
+import {
+    Live2DModel,
+    Cubism4InternalModel,
+} from "pixi-live2d-display-mulmotion";
 import IModel from "../types/IModel";
 import Window from "./UI/Window";
 import { SettingsContext } from "../contexts/SettingsContext";
@@ -169,14 +172,18 @@ const ExportButton: React.FC = () => {
             );
             live2DModel.angle = model.modelTransform?.rotation ?? 0;
             modelContainer?.addChildAt(live2DModel, idx);
-            if (
-                model?.modelExpression !== 99999 ||
-                model?.modelExpression !== 99999
-            ) {
-                live2DModel.motion("Expression", model.modelExpression);
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-                live2DModel.motion("Motion", model.modelPose);
+            if (model.modelExpression && model.modelExpression !== 99999) {
+                const manager =
+                    live2DModel.internalModel.parallelMotionManager[0];
+                manager.startMotion("Expression", model.modelExpression);
             }
+            if (model.modelPose && model.modelPose !== 99999) {
+                const manager =
+                    live2DModel.internalModel.parallelMotionManager[1];
+                manager.startMotion("Motion", model.modelPose);
+            }
+
+            
 
             if (model?.modelParametersChanged) {
                 const coreModel = live2DModel.internalModel

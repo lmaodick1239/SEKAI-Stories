@@ -63,6 +63,21 @@ const Emotion: React.FC<EmotionProps> = ({
         }
     };
 
+    const handlePlayTogether = async () => {
+        const model = currentModel.model;
+
+        if (!(model instanceof Live2DModel)) return;
+
+        if (currentModel.expression && currentModel.expression !== 99999) {
+            const manager = model.internalModel.parallelMotionManager[0];
+            manager.startMotion("Expression", currentModel.expression);
+        }
+        if (currentModel.pose && currentModel.pose !== 99999) {
+            const manager = model.internalModel.parallelMotionManager[1];
+            manager.startMotion("Motion", currentModel.pose);
+        }
+    };
+
     const handleNameEmotion = async (name: string) => {
         const key =
             emotionType === "pose"
@@ -295,6 +310,12 @@ const Emotion: React.FC<EmotionProps> = ({
                         </button>
                     </div>
                 )}
+                
+            </div>
+            <div className="option__content">
+                <button className="btn-blue btn-regular btn-extend-width" onClick={handlePlayTogether}>
+                    Run Both
+                </button>
             </div>
             {showRenameEmotionInput && (
                 <InputWindow
