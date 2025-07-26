@@ -29,7 +29,7 @@ const DownloadClearButtons: React.FC = () => {
         setBlankCanvas,
     } = settings;
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (guideline) {
             guideline.container.visible = false;
             setGuideline({
@@ -39,13 +39,15 @@ const DownloadClearButtons: React.FC = () => {
         }
         const region = new PIXI.Rectangle(0, 0, 1920, 1080);
         const texture = app?.renderer.generateTexture(app.stage, { region });
-        const dataURL = app?.renderer.plugins.extract.image(texture).src;
-        setSaveData(dataURL);
+        const dataURL = await app?.renderer.extract
+            .image(texture)
+            .then((img: HTMLImageElement) => img.src);
+        setSaveData(dataURL!);
 
         if (showSaveDialog) setSaveWindowShow(true);
 
         const a = document.createElement("a");
-        a.href = dataURL;
+        a.href = dataURL!;
         a.download = "canvas.png";
         document.body.append(a);
         a.click();
