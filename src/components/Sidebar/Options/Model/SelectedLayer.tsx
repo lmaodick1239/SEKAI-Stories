@@ -159,7 +159,7 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         const visible = currentModel?.visible;
 
         if (currentModel?.model) {
-            currentModel.model.visible = !visible;
+            currentModel.root.visible = !visible;
         }
         updateModelState({ visible: !visible });
     };
@@ -173,7 +173,7 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         setIsLoading(true);
         setCoreModel(null);
         currentModel?.model.destroy();
-        currentModel?.root.destroy()
+        currentModel?.root.destroy();
         delete models[currentKey];
         const firstKey = Object.keys(models)[0];
         setCurrentKey(firstKey);
