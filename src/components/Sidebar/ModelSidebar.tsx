@@ -151,12 +151,13 @@ const ModelSidebar: React.FC = () => {
 
             if (signal.aborted) throw new Error("Operation canceled.");
 
-            live2DModel.angle = currentModel?.modelRotation ?? 0;
-            currentModel?.root.removeChildren();
-            currentModel?.root.addChildAt(live2DModel, 0);
-            currentModel?.root.pivot.set(
-                currentModel.root.width / 2,
-                currentModel.root.height / 2
+
+            const bounds = live2DModel.getLocalBounds()
+            currentModel.root.removeChildren();
+            currentModel.root.addChildAt(live2DModel, 0);
+            currentModel.root.pivot.set(
+                bounds.width / 2,
+                bounds.height / 2
             );
             currentModel.root.scale.set(
                 initialState ? 0.5 : currentModel?.modelScale
