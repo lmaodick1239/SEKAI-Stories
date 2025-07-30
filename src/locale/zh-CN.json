@@ -9,7 +9,8 @@
         "upload-info": "为确保图像看起来是正确的，并且不会被拉伸或裁剪，请使用16:9的图片",
         "filters": "滤镜",
         "flashback": "“过去”滤镜",
-        "sick": "“头晕眼花”滤镜"
+        "sick": "“头晕眼花”滤镜",
+        "drooping-lines": "“尴尬”滤镜"
     },
 
     "text": {
@@ -18,6 +19,7 @@
         "easy-switch": "使用快捷切换",
         "dialogue": "对话",
         "font-size": "文字大小",
+        "enter-font-size": "输入文字大小",
         "add-symbol": "添加",
         "scene-text": "场景名称",
         "scene-text-variant": "显示位置",
@@ -44,6 +46,7 @@
         "costume": "服装",
         "virtual": "虚拟",
         "emotion": "神态",
+        "rename-emotion": "给这种神态取个好听的名字，留空可以重置",
         "pose": "动作",
         "select-pose": "选择一个动作",
         "expression": "表情",
@@ -82,6 +85,7 @@
         "emotion-copy-confirm-header": "复制成功",
         "emotion-copy-confirm-description": "已复制神态信息",
         "long-wait": "如果模型的加载时间过长，那么你可以考虑使用SEKAI Stories获取模型",
+        "layering": "图层顺序",
 
         "advanced": "高级"
     },
@@ -99,7 +103,10 @@
     "start-blank": "下次从空白画布开始",
     "clear-ok": "清除",
     "continue-ok": "继续",
+    "cancel": "取消",
     "next": "下一个",
+    "input": "输入",
+    "enter-value": "输入数值",
 
     "support": {
         "header": "支持作者",
