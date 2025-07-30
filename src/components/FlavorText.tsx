@@ -37,7 +37,7 @@ const randomText = {
         "Won won!?",
         "WONDERHOY!",
         "Lovely, Fairy, Momoi Airi!",
-        "ユ！",
+        "恋をして",
         "Meet SEKAI Stories's cousin, SIFAS Dialogue Sandbox!",
         "Untitled.",
     ],
