@@ -10,12 +10,12 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("5.6.0-announcements");
+        const cookie = localStorage.getItem("5.7.0-announcements");
         if (!cookie) {
-            localStorage.setItem("5.6.0-announcements", "0");
+            localStorage.setItem("5.7.0-announcements", "0");
             return;
         }
-        localStorage.setItem("5.6.0-announcements", `${Number(cookie) + 1}`);
+        localStorage.setItem("5.7.0-announcements", `${Number(cookie) + 1}`);
     };
 
     return (
@@ -24,15 +24,17 @@ const Announcements: React.FC = () => {
             <p></p>
             <p>There are few new updates just added!</p>
             <ul>
-                <li> Implement layer reordering buttons </li>
-                <li> Implement renaming of emotions </li>
-                <li> Added droopling lines filter </li>
-                <li> Added cancel when loading a model </li>
-                <li> Removed generic input window </li>
-                <li> Remember last model option opened </li>
-                <li> Updated Chinese (Simplified) localization </li>
+                <li> Moved upload button on Add Model Screen </li>
+                <li> Added Visible button beside the delete button </li>
+                <li> Allow playing emotions simultaneously </li>
+                <li> Updated to PIXI.js 7 </li>
             </ul>
-            <p>I also want to congratulate Hina Kino (木野日菜) for her newborn baby!</p>
+            <p>
+                <a href="https://reddit.com/r/PJSKStories" target="_blank">
+                    r/PJSKStories
+                </a>{" "}
+                just reached 1k members!
+            </p>
             <p>Tap this section to close.</p>
         </div>
     );
