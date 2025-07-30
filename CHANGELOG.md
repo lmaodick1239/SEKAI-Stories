@@ -1,3 +1,12 @@
+# 5.7.0
+Release date: July 30, 2025
+- Updated to pixi.js 7
+- Updated to pixi-live2d-display-mulmotion to allow multiple motions
+- Moved Upload Button in Add Model Window
+- Added button to play emotion simultaneously
+- Added hidden button next to delete layer
+- Added opacity slider
+
 # 5.6.0
 Release date: 
 - Implement layer reordering buttons
