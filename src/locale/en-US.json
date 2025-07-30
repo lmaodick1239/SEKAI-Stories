@@ -40,6 +40,8 @@
         "add-model-sekai-description": "Get access to models provided by Sekai Viewer!",
         "add-model-static": "SEKAI Stories",
         "add-model-static-description": "Fallback option when Sekai Viewer is down.",
+        "upload-image": "Upload Image",
+        "upload-image-description": "Upload a custom sprite image of your own.",
         "delete-model-warn": "This is the only layer and cannot be deleted.",
         "character": "Character",
         "select-character": "Select a character",
