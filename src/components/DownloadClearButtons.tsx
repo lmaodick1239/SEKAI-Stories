@@ -2,14 +2,12 @@ import React, { useContext, useState } from "react";
 import { SceneContext } from "../contexts/SceneContext";
 import * as PIXI from "pixi.js";
 import { useTranslation } from "react-i18next";
-import ExportButton from "./ExportButton";
 import Window from "./UI/Window";
 import { SettingsContext } from "../contexts/SettingsContext";
 import { Checkbox } from "./UI/Checkbox";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
 
-const DownloadClearButtons: React.FC = () => {
-    const [resetShow, setResetShow] = useState(false);
+const DownloadButton: React.FC = () => {
     const [saveWindowShow, setSaveWindowShow] = useState(false);
     const [saveData, setSaveData] = useState<string>("");
     const { t } = useTranslation();
@@ -22,15 +20,9 @@ const DownloadClearButtons: React.FC = () => {
         return;
     }
 
-    const { app, reset, setReset, guideline, setGuideline } = scene;
-    const {
-        setAllowRefresh,
-        showSaveDialog,
-        setShowSaveDialog,
-        blankCanvas,
-        setBlankCanvas,
-        setLoading,
-    } = settings;
+    const { app, guideline, setGuideline } = scene;
+    const { setAllowRefresh, showSaveDialog, setShowSaveDialog, setLoading } =
+        settings;
     const { setErrorInformation } = error;
 
     const handleSave = async () => {
@@ -85,49 +77,13 @@ const DownloadClearButtons: React.FC = () => {
         setShowSaveDialog(!value);
     };
 
-    const handleBlankCanvas = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.checked;
-        localStorage.setItem("blankCanvas", String(value));
-        setBlankCanvas(value);
-    };
-
     return (
-        <div
-            className="absolute bottom-left flex-vertical"
-            id="download-clear-buttons"
-        >
-            <button className="btn-circle btn-blue" onClick={handleSave}>
-                <i className="bi bi-camera-fill sidebar__select"></i>
-            </button>
-            <ExportButton />
-            <button
-                className="btn-circle btn-white"
-                onClick={() => setResetShow(true)}
-            >
-                <i className="bi bi-trash-fill sidebar__select"></i>
-            </button>
-            {resetShow && (
-                <Window
-                    show={setResetShow}
-                    confirmFunction={() => setReset(reset + 1)}
-                    confirmLabel={t("clear-ok")}
-                    danger={true}
-                >
-                    <div className="window__content">
-                        <div className="window__divider center">
-                            <h3 className="text-center">{t("clear")}</h3>
-                        </div>
-                        <div className="windown__divider center">
-                            <Checkbox
-                                id="stop-show"
-                                label={t("start-blank")}
-                                checked={blankCanvas}
-                                onChange={handleBlankCanvas}
-                            />
-                        </div>
-                    </div>
-                </Window>
-            )}
+        <>
+            <div id="download">
+                <button className="btn-circle btn-blue" onClick={handleSave}>
+                    <i className="bi bi-camera-fill sidebar__select"></i>
+                </button>
+            </div>
             {saveWindowShow && (
                 <Window
                     show={setSaveWindowShow}
@@ -168,8 +124,8 @@ const DownloadClearButtons: React.FC = () => {
                     </div>
                 </Window>
             )}
-        </div>
+        </>
     );
 };
 
-export default DownloadClearButtons;
+export default DownloadButton;

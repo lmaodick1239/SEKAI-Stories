@@ -344,13 +344,15 @@ const ExportButton: React.FC = () => {
     };
 
     return (
-        <div id="export-button">
-            <button
-                className="btn-circle btn-white"
-                onClick={() => setShow(true)}
-            >
-                <i className="bi bi-braces sidebar__select"></i>
-            </button>
+        <>
+            <div id="export">
+                <button
+                    className="btn-circle btn-white"
+                    onClick={() => setShow(true)}
+                >
+                    <i className="bi bi-braces sidebar__select"></i>
+                </button>
+            </div>
             {show && (
                 <Window
                     id="export-screen"
@@ -389,7 +391,7 @@ const ExportButton: React.FC = () => {
                     </div>
                 </Window>
             )}
-        </div>
+        </>
     );
 };
 

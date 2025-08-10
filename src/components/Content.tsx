@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
 import Canvas from "./Canvas";
 import SidebarSelect from "./SidebarSelect";
-import DownloadClearButtons from "./DownloadClearButtons";
+import DownloadButton from "./DownloadClearButtons";
 import { SceneContext } from "../contexts/SceneContext";
 import FlavorText from "./FlavorText";
 import SettingsButton from "./SettingsButton";
@@ -9,6 +9,8 @@ import { SettingsContext } from "../contexts/SettingsContext";
 import Tutorial from "./Tutorial";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
 import SoftError from "./UI/SoftError";
+import ExportButton from "./ExportButton";
+import ClearButton from "./ClearButton";
 
 const Content: React.FC = () => {
     const contentBackground = useRef<HTMLDivElement | null>(null);
@@ -26,40 +28,26 @@ const Content: React.FC = () => {
         }
     }, [scene]);
 
-    window.addEventListener("scroll", function () {
+    window.addEventListener("scroll", () => {
         const scrollPosition = window.scrollY;
-        const tabs = document.getElementById("sidebar-select");
-        const save = document.getElementById("download-clear-buttons");
-        const locale = document.getElementById("settings");
-        const hideAtPosition = 100;
+        const hideAtPosition = 200;
+        const ids = [
+            "sidebar-select",
+            "download",
+            "export",
+            "clear",
+            "settings",
+        ];
+        const opacity = scrollPosition > hideAtPosition ? "0" : "1";
+        const pointer = scrollPosition > hideAtPosition ? "none" : "auto";
 
-        if (scrollPosition > hideAtPosition) {
-            if (tabs) {
-                tabs.style.opacity = "0";
-                tabs.style.pointerEvents = "none";
+        ids.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.style.opacity = opacity;
+                el.style.pointerEvents = pointer
             }
-            if (save) {
-                save.style.opacity = "0";
-                save.style.pointerEvents = "none";
-            }
-            if (locale) {
-                locale.style.opacity = "0";
-                locale.style.pointerEvents = "none";
-            }
-        } else {
-            if (tabs) {
-                tabs.style.opacity = "1.0";
-                tabs.style.pointerEvents = "auto";
-            }
-            if (save) {
-                save.style.opacity = "1.0";
-                save.style.pointerEvents = "auto";
-            }
-            if (locale) {
-                locale.style.opacity = "1.0";
-                locale.style.pointerEvents = "auto";
-            }
-        }
+        });
     });
 
     if (!scene || !settings || !softError) {
@@ -73,7 +61,12 @@ const Content: React.FC = () => {
             <div id="content-background" ref={contentBackground}></div>
             {showTutorial && <Tutorial show={setShowTutorial} />}
             {!hide && <SidebarSelect />}
-            <DownloadClearButtons />
+
+            <div className="absolute bottom-left flex-vertical">
+                <DownloadButton />
+                <ExportButton />
+                <ClearButton />
+            </div>
             <div className="absolute bottom-right" id="hide-sidebar">
                 <button
                     className={`btn-circle ${hide ? "btn-pink" : "btn-white"}`}
@@ -88,7 +81,7 @@ const Content: React.FC = () => {
                     )}
                 </button>
             </div>
-            <div className="absolute top-left" id="settings">
+            <div className="absolute top-left">
                 <SettingsButton />
             </div>
             {showErrorInformation && <SoftError />}

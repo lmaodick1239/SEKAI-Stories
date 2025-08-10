@@ -832,9 +832,12 @@ select:disabled {
 }
 
 @media (width <= 768px) {
-  #download-clear-buttons,
+  #download,
+  #export,
+  #clear,
   #settings {
     z-index: 999;
+    position: relative;
   }
 }
 

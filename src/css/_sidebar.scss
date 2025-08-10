@@ -163,10 +163,13 @@
     }
 }
 
-#download-clear-buttons,
+#download,
+#export,
+#clear,
 #settings {
     @media (width <= 768px) {
         z-index: 999;
+        position: relative;
     }
 }
 

@@ -103,15 +103,18 @@ const SettingsButton: React.FC = () => {
     };
 
     return (
-        <div id="support-button">
-            <button
-                className="btn-circle btn-white"
-                onClick={() => {
-                    setShow(true);
-                }}
-            >
-                <i className="bi bi-gear-fill sidebar__select"></i>
-            </button>
+        <>
+            <div id="settings">
+                <button
+                    
+                    className="btn-circle btn-white"
+                    onClick={() => {
+                        setShow(true);
+                    }}
+                >
+                    <i className="bi bi-gear-fill sidebar__select"></i>
+                </button>
+            </div>
             {show && (
                 <Window show={setShow}>
                     <div className="window__content">
@@ -208,7 +211,7 @@ const SettingsButton: React.FC = () => {
                     </div>
                 </Window>
             )}
-        </div>
+        </>
     );
 };
 
