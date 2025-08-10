@@ -1,3 +1,7 @@
+# 5.7.1
+Release date: August 10, 2025
+- Fixed issue on Sick Filter
+
 # 5.7.0
 Release date: July 30, 2025
 - Updated to pixi.js 7

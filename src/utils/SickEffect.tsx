@@ -13,9 +13,11 @@ export const sickEffect = async (
     const texture = app?.renderer.generateTexture(mainContainer, {
         region,
     });
-    const dataURL = app?.renderer.plugins.extract.image(texture).src;
+    const dataURL = await app?.renderer.extract
+        .image(texture)
+        .then((img: HTMLImageElement) => img.src);
 
-    const snapshot = await getBackground(dataURL);
+    const snapshot = await getBackground(dataURL!);
 
     sickContainer.addChildAt(snapshot, 0);
     sickContainer.addChildAt(vignette, 1);
