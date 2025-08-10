@@ -20,7 +20,7 @@ const DownloadButton: React.FC = () => {
         return;
     }
 
-    const { app, guideline, setGuideline } = scene;
+    const { app, guideline, setGuideline, sceneJson } = scene;
     const { setAllowRefresh, showSaveDialog, setShowSaveDialog, setLoading } =
         settings;
     const { setErrorInformation } = error;
@@ -47,10 +47,7 @@ const DownloadButton: React.FC = () => {
 
             if (showSaveDialog) setSaveWindowShow(true);
 
-            // Clean date string for filename
-            const date = new Date()
-                .toISOString() // 2025-08-10T07:32:00.000Z
-                .replace(/[:.]/g, "-"); // replace : and . with
+            const date = new Date().toISOString().replace(/[:.]/g, "-");
 
             const a = document.createElement("a");
             a.href = dataURL!;
@@ -60,6 +57,7 @@ const DownloadButton: React.FC = () => {
             a.remove();
 
             setLoading(100);
+            localStorage.setItem("autoSave", JSON.stringify(sceneJson));
             setAllowRefresh(true);
         } catch (err) {
             if (err instanceof Error) {

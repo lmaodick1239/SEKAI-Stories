@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
 import Canvas from "./Canvas";
 import SidebarSelect from "./SidebarSelect";
-import DownloadButton from "./DownloadClearButtons";
+import DownloadButton from "./DownloadButton";
 import { SceneContext } from "../contexts/SceneContext";
 import FlavorText from "./FlavorText";
 import SettingsButton from "./SettingsButton";
