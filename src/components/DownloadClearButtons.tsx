@@ -29,11 +29,13 @@ const DownloadClearButtons: React.FC = () => {
         setShowSaveDialog,
         blankCanvas,
         setBlankCanvas,
+        setLoading,
     } = settings;
     const { setErrorInformation } = error;
 
     const handleSave = async () => {
         try {
+            setLoading(0);
             if (guideline) {
                 guideline.container.visible = false;
                 setGuideline({
@@ -45,6 +47,7 @@ const DownloadClearButtons: React.FC = () => {
             const texture = app?.renderer.generateTexture(app.stage, {
                 region,
             });
+            setLoading(50);
             const dataURL = await app?.renderer.extract
                 .image(texture)
                 .then((img: HTMLImageElement) => img.src);
@@ -59,12 +62,14 @@ const DownloadClearButtons: React.FC = () => {
             a.click();
             a.remove();
 
+            setLoading(100);
             setAllowRefresh(true);
         } catch (err) {
             if (err instanceof Error) {
                 setErrorInformation(
                     `An error has occurred while trying to save your scene.\nError: ${err.message}\nIf this error persists, please report this on GitHub.`
                 );
+                setLoading(100);
             }
         }
     };
