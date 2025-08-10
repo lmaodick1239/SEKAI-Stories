@@ -129,7 +129,23 @@ const DownloadClearButtons: React.FC = () => {
                 </Window>
             )}
             {saveWindowShow && (
-                <Window show={setSaveWindowShow}>
+                <Window
+                    show={setSaveWindowShow}
+                    buttons={
+                        <>
+                            <button
+                                className="btn-regular btn-blue"
+                                onClick={() => {
+                                    if (saveData) {
+                                        window.open(saveData, "_blank");
+                                    }
+                                }}
+                            >
+                                {t("save.open")}
+                            </button>
+                        </>
+                    }
+                >
                     <div className="window__content">
                         <div className="window__divider">
                             <h1>{t("save.header")}</h1>
