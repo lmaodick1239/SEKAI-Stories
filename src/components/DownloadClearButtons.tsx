@@ -55,9 +55,14 @@ const DownloadClearButtons: React.FC = () => {
 
             if (showSaveDialog) setSaveWindowShow(true);
 
+            // Clean date string for filename
+            const date = new Date()
+                .toISOString() // 2025-08-10T07:32:00.000Z
+                .replace(/[:.]/g, "-"); // replace : and . with
+
             const a = document.createElement("a");
             a.href = dataURL!;
-            a.download = "canvas.png";
+            a.download = `canvas_${date}.png`;
             document.body.append(a);
             a.click();
             a.remove();
