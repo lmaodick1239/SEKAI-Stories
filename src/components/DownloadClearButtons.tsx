@@ -6,6 +6,7 @@ import ExportButton from "./ExportButton";
 import Window from "./UI/Window";
 import { SettingsContext } from "../contexts/SettingsContext";
 import { Checkbox } from "./UI/Checkbox";
+import { SoftErrorContext } from "../contexts/SoftErrorContext";
 
 const DownloadClearButtons: React.FC = () => {
     const [resetShow, setResetShow] = useState(false);
@@ -15,8 +16,9 @@ const DownloadClearButtons: React.FC = () => {
 
     const scene = useContext(SceneContext);
     const settings = useContext(SettingsContext);
+    const error = useContext(SoftErrorContext);
 
-    if (!scene || !settings) {
+    if (!scene || !settings || !error) {
         return;
     }
 
@@ -28,32 +30,43 @@ const DownloadClearButtons: React.FC = () => {
         blankCanvas,
         setBlankCanvas,
     } = settings;
+    const { setErrorInformation } = error;
 
     const handleSave = async () => {
-        if (guideline) {
-            guideline.container.visible = false;
-            setGuideline({
-                ...guideline,
-                visible: false,
+        try {
+            if (guideline) {
+                guideline.container.visible = false;
+                setGuideline({
+                    ...guideline,
+                    visible: false,
+                });
+            }
+            const region = new PIXI.Rectangle(0, 0, 1920, 1080);
+            const texture = app?.renderer.generateTexture(app.stage, {
+                region,
             });
+            const dataURL = await app?.renderer.extract
+                .image(texture)
+                .then((img: HTMLImageElement) => img.src);
+            setSaveData(dataURL!);
+
+            if (showSaveDialog) setSaveWindowShow(true);
+
+            const a = document.createElement("a");
+            a.href = dataURL!;
+            a.download = "canvas.png";
+            document.body.append(a);
+            a.click();
+            a.remove();
+
+            setAllowRefresh(true);
+        } catch (err) {
+            if (err instanceof Error) {
+                setErrorInformation(
+                    `An error has occurred while trying to save your scene.\nError: ${err.message}\nIf this error persists, please report this on GitHub.`
+                );
+            }
         }
-        const region = new PIXI.Rectangle(0, 0, 1920, 1080);
-        const texture = app?.renderer.generateTexture(app.stage, { region });
-        const dataURL = await app?.renderer.extract
-            .image(texture)
-            .then((img: HTMLImageElement) => img.src);
-        setSaveData(dataURL!);
-
-        if (showSaveDialog) setSaveWindowShow(true);
-
-        const a = document.createElement("a");
-        a.href = dataURL!;
-        a.download = "canvas.png";
-        document.body.append(a);
-        a.click();
-        a.remove();
-
-        setAllowRefresh(true);
     };
 
     const handleSaveDialog = (e: React.ChangeEvent<HTMLInputElement>) => {
