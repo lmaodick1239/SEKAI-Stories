@@ -72,7 +72,7 @@ const SettingsButton: React.FC = () => {
         if (
             value &&
             !confirm(
-                "This is only used for testing and other experimental features. Continue?"
+                "实验性功能只适用于开发者，你要打开吗？"
             )
         ) {
             return;
@@ -141,7 +141,7 @@ const SettingsButton: React.FC = () => {
                                 href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
                                 target="_blank"
                             >
-                                Contribute for translation!
+                                为本地化做出贡献！
                             </a>
                         </div>
                         <div className="window__divider">
