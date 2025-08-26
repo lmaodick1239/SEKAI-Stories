@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const randomText = {
-    zh: [
+    en: [
         "宁宁在玩乌蒙地插，铺面是系ぎて",
         "类带着他的Thinkpad笔电",
         "怪人一二的司君又双叒叕在神高走廊大笑了",
@@ -35,10 +35,11 @@ const randomText = {
         "ena：愛して！　愛して！　愛して！　もっともっと！！！（ena姐在25电台#38的solo）",
         "我们赢了吗？",
         "旺大吼！！",
-        "L！O！V！E！mnl！",
+        "L！O！V！E！mnr！",
         "恋をして",
         "来看看作者的偶像梦幻祭剧情生成器吧！",
         "Untitled.",
+        "我绘我名"
     ],
 };
 
