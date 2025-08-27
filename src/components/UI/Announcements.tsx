@@ -10,31 +10,24 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("5.7.0-announcements");
+        const cookie = localStorage.getItem("5.7.2-announcements");
         if (!cookie) {
-            localStorage.setItem("5.7.0-announcements", "0");
+            localStorage.setItem("5.7.2-announcements", "0");
             return;
         }
-        localStorage.setItem("5.7.0-announcements", `${Number(cookie) + 1}`);
+        localStorage.setItem("5.7.2-announcements", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
             <p></p>
-            <p>There are few new updates just added!</p>
-            <ul>
-                <li> Moved upload button on Add Model Screen </li>
-                <li> Added Visible button beside the delete button </li>
-                <li> Allow playing emotions simultaneously </li>
-                <li> Updated to PIXI.js 7 </li>
-            </ul>
             <p>
-                <a href="https://reddit.com/r/PJSKStories" target="_blank">
-                    r/PJSKStories
-                </a>{" "}
-                just reached 1k members!
+                just wanna say happy{" "}
+                {new Date() > new Date("2025-10-27") ? "(late)" : ""} birthday
+                to my sweetest and dearest mizuki.
             </p>
+            <p>(fixed the models disappearing bug, btw~)</p>
             <p>Tap this section to close.</p>
         </div>
     );
