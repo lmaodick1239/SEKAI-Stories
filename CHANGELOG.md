@@ -1,3 +1,7 @@
+# 5.7.2
+Release date: August 27, 2025
+- Fixed issue due to recent Live2D Cubism SDK Core update
+
 # 5.7.1
 Release date: August 10, 2025
 - Fixed issue on Sick Filter
