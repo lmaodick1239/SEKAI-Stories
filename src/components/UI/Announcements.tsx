@@ -21,13 +21,7 @@ const Announcements: React.FC = () => {
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p></p>
-            <p>
-                just wanna say happy{" "}
-                {new Date() > new Date("2025-10-27") ? "(late)" : ""} birthday
-                to my sweetest and dearest mizuki.
-            </p>
-            <p>(fixed the models disappearing bug, btw~)</p>
+            <p>Fixed the models disappearing bug</p>
             <p>Tap this section to close.</p>
         </div>
     );
