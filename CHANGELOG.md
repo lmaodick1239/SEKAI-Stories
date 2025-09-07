@@ -1,3 +1,8 @@
+# 5.8.0
+Release date: September 10, 2025
+- Allow changing of color tone of the foreground models
+- Added new models and backgrounds
+
 # 5.7.2
 Release date: August 27, 2025
 - Fixed issue due to recent Live2D Cubism SDK Core update
