@@ -10,6 +10,8 @@ import ISceneText from "../types/ISceneText";
 import IGuideline from "../types/IGuideline";
 import IModel from "../types/IModel";
 import { IFilter } from "../types/IFilter";
+import { AdjustmentFilter } from "pixi-filters";
+import { ILighting } from "../types/ILighting";
 
 interface GetDefaultSceneProps {
     app: PIXI.Application | undefined;
@@ -229,6 +231,7 @@ const LoadModel = async (
 ): Promise<{
     model: Record<string, IModel>;
     modelWrapper: PIXI.Container;
+    lighting: ILighting;
 }> => {
     const modelWrapper = new PIXI.Container();
     const modelContainer = new PIXI.Container();
@@ -241,6 +244,15 @@ const LoadModel = async (
         modelContainer.height / 2
     );
     modelContainer.position.set(x, y);
+    const lighting: ILighting = {
+        red: 1,
+        green: 1,
+        blue: 1,
+        saturation: 1,
+        brightness: 1,
+    };
+    const adjustmentFilter = new AdjustmentFilter(lighting);
+    modelWrapper.filters = [adjustmentFilter];
 
     container.addChildAt(modelWrapper, childAt);
     return {
@@ -265,6 +277,7 @@ const LoadModel = async (
             },
         },
         modelWrapper: modelWrapper,
+        lighting: lighting,
     };
 };
 
@@ -463,7 +476,7 @@ export const LoadScene = async ({
 
     setLoading(60);
     // Load Sample PNG Sprite
-    const { model, modelWrapper } = await LoadModel(
+    const { model, modelWrapper, lighting } = await LoadModel(
         filterContainer,
         2,
         initialScene.pngName,
@@ -502,6 +515,7 @@ export const LoadScene = async ({
         currentKey: "character1",
         currentModel: model["character1"],
         modelWrapper: modelWrapper,
+        lighting: lighting,
         background: background,
         splitBackground: splitBackground,
         text: text,

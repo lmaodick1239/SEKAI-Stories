@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import SidebarOption from "../UI/SidebarOption";
 import Select from "./Options/Background/Select";
 import Filter from "./Options/Background/Filter";
+import Lighting from "./Options/Background/Lighting";
 
 const BackgroundSidebar: React.FC = () => {
     const { t } = useTranslation();
@@ -26,6 +27,14 @@ const BackgroundSidebar: React.FC = () => {
                 optionName="select"
             >
                 <Select />
+            </SidebarOption>
+            <SidebarOption
+                header={t("background.lighting")}
+                option={openTab}
+                setOption={setOpenTab}
+                optionName="lighting"
+            >
+                <Lighting />
             </SidebarOption>
             <SidebarOption
                 header={t("background.filters")}

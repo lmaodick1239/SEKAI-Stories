@@ -14,6 +14,7 @@ import { SoftErrorContext } from "./SoftErrorContext";
 import { useTranslation } from "react-i18next";
 import { SettingsContext } from "./SettingsContext";
 import { IFilter } from "../types/IFilter";
+import { ILighting } from "../types/ILighting";
 
 interface SceneProviderProps {
     children: React.ReactNode;
@@ -61,6 +62,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
         undefined
     );
     const [initialState, setInitialState] = useState<boolean>(true);
+    const [lighting, setLighting] = useState<ILighting | undefined>(undefined);
 
     const runCanvas = async () => {
         const blankCanvasCookie = localStorage.getItem("blankCanvas");
@@ -71,6 +73,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             currentKey,
             currentModel,
             modelWrapper,
+            lighting,
             background,
             splitBackground,
             text,
@@ -98,6 +101,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
         setFilter(filter);
         setGuideline(guideline);
         setStartingMessage("");
+        setLighting(lighting);
         setLayers(1);
         setInitialState(true);
     };
@@ -128,6 +132,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
                 setModelWrapper,
                 background,
                 setBackground,
+                lighting,
+                setLighting,
                 splitBackground,
                 setSplitBackground,
                 text,
