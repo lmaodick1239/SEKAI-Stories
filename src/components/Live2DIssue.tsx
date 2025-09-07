@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React from "react";
 
 interface Live2DIssueProps {
@@ -27,14 +28,13 @@ const Live2DIssue: React.FC<Live2DIssueProps> = ({ costume }) => {
                 <div>
                     <p>
                         <i className="bi bi-exclamation-circle-fill blue" />{" "}
-                        This costume has parts that disappear after save or
-                        after applying the virtual effect.
+                        {t("model.live2d-issue")}
                     </p>
                     <a
                         href="https://github.com/lezzthanthree/SEKAI-Stories/issues/20"
                         target="_blank"
                     >
-                        <p>See issue here.</p>
+                        <p>{t("model.live2d-issue-github")}</p>
                     </a>
                 </div>
             )}

@@ -60,6 +60,8 @@
         "character": "Character",
         "select-character": "Select a character",
         "costume": "Costume",
+        "live2d-issue": "This costume may be missing some parts.",
+        "live2d-issue-github": "See issue here.",
         "virtual": "Virtual Effect",
         "emotion": "Emotion",
         "rename-emotion": "Enter a nice name for this emotion. Leave blank to reset.",
