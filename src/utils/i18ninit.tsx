@@ -11,8 +11,8 @@ export const languageNames = {
     es: "Español",
     zh: "简体中文",
     fil: "Filipino",
+    ms: "Bahasa Melayu",
     pl: "Polski (incomplete)",
-    ms: "Bahasa Melayu"
 };
 
 export const handleChangeLanguage = async (
