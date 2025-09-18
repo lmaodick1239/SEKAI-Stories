@@ -20,6 +20,7 @@ def main():
         "./es-ES.json", 
         "./fil-PH.json",
         "./pl-PL.json",
+        "./ms-MY.json",
         "./zh-CN.json"
     ]
 

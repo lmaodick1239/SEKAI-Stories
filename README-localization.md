@@ -38,6 +38,7 @@ For creativity, you can translate the flavor texts or add your own at [`src/comp
 | Polish     | pl-PL       | counter185             | Mostly incomplete |
 | Spanish    | es-ES       | GatoMago               | Some are missing  |
 | S. Chinese | zh-CN       | MiddleRed, SteveLF     | Some are missing  |
+| Malay      | ms-MY       | fab144                 | Some are missing  | 
 | Filipino   | tl-PH       | lezzthanthree          | Complete          | 
 
 ## About fonts

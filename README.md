@@ -17,6 +17,8 @@ A huge thanks to our translators!
 [<img src="https://avatars.githubusercontent.com/u/33550839?v=4" width="50">](https://github.com/counter185)
 [<img src="https://avatars.githubusercontent.com/u/98752512?v=4" width="50">](https://github.com/MiddleRed)
 [<img src="https://yt3.googleusercontent.com/bXEX1lrt2hFwcGYSGUuWDDYSd2VtHMJ-_-FnJMWzVRjcpQZMlpYeWe7MSCI9kszUAbydBSN5=s120-c-k-c0x00ffffff-no-rj" width="50">](https://www.youtube.com/@GatoMagoMusic)
+[<img src="https://avatars.githubusercontent.com/u/182323592?v=4" width="50">](https://github.com/SteveLF-bili)
+[<img src="https://avatars.githubusercontent.com/u/58261459?v=4" width="50">](https://github.com/fab144)
 
 
 ## Features
