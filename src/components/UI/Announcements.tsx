@@ -21,14 +21,27 @@ const Announcements: React.FC = () => {
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>Just got back from the dead~ I'm now free~</p>
             <p>There are some few updates just added:</p>
             <ul>
-                <li>Added foreground lighting adjustment to fit with the background's mood</li>
+                <li>
+                    Added foreground lighting adjustment to fit with the
+                    background's mood
+                </li>
                 <li>Added new models and background</li>
                 <li>Fixed issue on layer ordering</li>
-                {/* <li>Malay translation is now available! (Thanks to <a></a> for their contribution!)</li> */}
+                <li>
+                    Malay translation is now available! (Thanks to{" "}
+                    <a
+                        href="https://github.com/fab144"
+                        target="_blank"
+                        className=""
+                    >
+                        lzington
+                    </a>{" "}
+                    for their contribution!)
+                </li>
             </ul>
+            <p>Tap this section to close.</p>
         </div>
     );
 };
