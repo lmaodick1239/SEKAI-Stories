@@ -2,6 +2,7 @@
 Release date: September 10, 2025
 - Allow changing of color tone of the foreground models
 - Added new models and backgrounds
+- Fixed issue on layer ordering buttons
 
 # 5.7.2
 Release date: August 27, 2025
