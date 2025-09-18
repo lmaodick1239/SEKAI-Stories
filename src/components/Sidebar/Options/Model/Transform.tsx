@@ -24,17 +24,17 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
 
     if (!currentModel) return;
     const handleMoveLayer = async (type: string) => {
-        if (!modelWrapper || !currentModel) return;
+        if (!modelWrapper) return;
 
-        const layerIndex = modelWrapper.getChildIndex(currentModel.model);
+        const layerIndex = modelWrapper.getChildIndex(currentModel.root);
         switch (type) {
             case "forward":
                 if (layerIndex + 1 >= layers) return;
-                modelWrapper.setChildIndex(currentModel.model, layerIndex + 1);
+                modelWrapper.setChildIndex(currentModel.root, layerIndex + 1);
                 break;
             case "backward":
                 if (layerIndex - 1 < 0) return;
-                modelWrapper.setChildIndex(currentModel.model, layerIndex - 1);
+                modelWrapper.setChildIndex(currentModel.root, layerIndex - 1);
                 break;
         }
     };
