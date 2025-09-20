@@ -1,7 +1,7 @@
 # 5.8.0
 Release date: September 20, 2025
 - Allow changing of color tone of the foreground models
-- Added new models and backgrounds
+- Added new models
 - Fixed issue on layer ordering buttons
 - Added Malay Translation
 

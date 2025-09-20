@@ -27,14 +27,14 @@ const Announcements: React.FC = () => {
                     Added foreground lighting adjustment to fit with the
                     background's mood
                 </li>
-                <li>Added new models and background</li>
+                <li>Added new models</li>
                 <li>Fixed issue on layer ordering</li>
                 <li>
                     Malay translation is now available! (Thanks to{" "}
                     <a
                         href="https://github.com/fab144"
                         target="_blank"
-                        className=""
+                        className="blue"
                     >
                         lzington
                     </a>{" "}
