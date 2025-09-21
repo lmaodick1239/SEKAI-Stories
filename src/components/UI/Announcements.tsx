@@ -27,6 +27,9 @@ const Announcements: React.FC = () => {
                     Added foreground lighting adjustment to fit with the
                     background's mood
                 </li>
+                <li>
+                    Added three custom preset for lighting
+                </li>
                 <li>Added new models</li>
                 <li>Fixed issue on layer ordering</li>
                 <li>
