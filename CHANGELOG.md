@@ -1,3 +1,7 @@
+# 5.8.1
+Release date: September 21, 2025
+- Added three custom presets for color tone
+
 # 5.8.0
 Release date: September 20, 2025
 - Allow changing of color tone of the foreground models
