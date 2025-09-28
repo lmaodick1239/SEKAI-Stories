@@ -11,12 +11,12 @@ import th from '../locale/th-TH.json';
 export const languageNames = {
     en: "English",
     es: "Español",
+    fr: "Français",
     zh: "简体中文",
     fil: "Filipino",
     ms: "Bahasa Melayu",
-    pl: "Polski (incomplete)",
-    fr: "Français",
     th: "ไทย",
+    pl: "Polski (incomplete)",
 };
 
 export const handleChangeLanguage = async (
