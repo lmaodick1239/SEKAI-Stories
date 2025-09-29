@@ -7,6 +7,8 @@ import fil from "../locale/fil-PH.json";
 import ms from '../locale/ms-MY.json';
 import fr from '../locale/fr-FR.json';
 import th from '../locale/th-TH.json';
+import zhHK from '../locale/zh-HK.json';
+import zhTW from '../locale/zh-TW.json';
 
 export const languageNames = {
     en: "English",
@@ -17,6 +19,8 @@ export const languageNames = {
     ms: "Bahasa Melayu",
     th: "ไทย",
     pl: "Polski (incomplete)",
+    zhTW: "繁體中文",
+    zhHK: "港式粵語",
 };
 
 export const handleChangeLanguage = async (
@@ -41,6 +45,8 @@ const i18nInit = () => {
             ms: { translation: ms },
             fr: { translation: fr },
             th: { translation: th },
+            zhTW: { translation: zhTW },
+            zhHK: { translation: zhHK },
         },
         fallbackLng: "en",
     });

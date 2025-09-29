@@ -80,6 +80,50 @@ const randomText = {
         "Untitled.",
         "我绘我名",
     ],
+    zhTW: ["寧寧在打mai，鋪面是系ぎて",
+        "類帶著他的Thinkpad筆電",
+        "怪人一二的司君又雙叒叕在神高走廊大笑了",
+        '笑夢醬打破了第四面牆，對著你說：“旺大吼！！！”',
+        "一歌依然是第一Miku推",
+        "Saki醬發燒了",
+        "有一個人帶著超多的蘋果派走了，會是誰呢？好難猜啊",
+        "Shiho又和蕾歐妮的幾人吵架了，想組建一個新樂隊",
+        "szk在十字路口迷路了！豆腐人們快扣1幫她找到路吧！x",
+        "在平行宇宙裡，實乃理是ASRUN的人",
+        "辛苦了前人",
+        "愛莉失去了偶像工作",
+        "setsuna已經被叫成knd1888次了",
+        "mzk已經離她家18公里遠了，據說ena在追",
+        "Mafuyu嚇唬Emu，讓她停止打破第四堵牆",
+        "東雲姐弟打起來了！",
+        "誒那姐：杜絕AI繪圖從你我做起",
+        "toya和tks在看舞臺劇",
+        "心羽被她的寵物蛇咬傷了",
+        "an早上起床就開始練習英語，讓我們為她的好學點贊（）",
+        "初音未來的消失 - 高難度譜面",
+        "你能聽到tks的叫聲嗎？",
+        "攜帶戀話",
+        "你知道嗎？簡體中文漢化者SteveLF是個25推",
+        "只有莫妮卡。",
+        "如果初音未來突然出現在我的螢幕上怎麼辦？",
+        "我是雨！",
+        "ena：愛して！　愛して！　愛して！　もっともっと！！！（ena姐在25電臺#38的solo）",
+        "我們贏了嗎？",
+        "旺大吼！！",
+        "L！O！V！E！MINORI！",
+        "戀をして",
+        "來看看作者的偶像夢幻祭劇情生成器吧！",
+        "無題.",
+        "我繪我名",
+        "你能聽到那令人不安的鐘聲嗎？",
+    ],
+    zhHK: ['點解有啲雜音係我部電話彈出嚟嘅？',
+        'Nene打緊mai，鋪面係系ぎて',
+        '類帶住佢嘅Thinkpad手提電腦',
+        '怪人一二嘅司又雙叒叕喺神高走廊高歌大笑',
+        '我繪我名',
+        '睇下作者嘅偶像夢幻祭劇情生成器啦！',
+    ]
 };
 
 const FlavorText: React.FC = () => {
@@ -97,7 +141,15 @@ const FlavorText: React.FC = () => {
             daysLeft === 1 ? "day remains" : "days remain"
         }...`
     );
-
+    randomText.zh.push(
+        `尚余 ${daysLeft < 0 ? 0 : daysLeft} 天...`
+    );
+    randomText.zhTW.push(
+        `尚餘 ${daysLeft < 0 ? 0 : daysLeft} 天...`
+    );
+    randomText.zhHK.push(
+        `剩返 ${daysLeft < 0 ? 0 : daysLeft} 日...`
+    );
     useEffect(() => {
         const languageRandomText = randomText[lng]
             ? [...randomText.en, ...randomText[lng]]

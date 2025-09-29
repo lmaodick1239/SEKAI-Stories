@@ -23,7 +23,9 @@ def main():
         "./ms-MY.json",
         "./pl-PL.json",
         "./th-TH.json",
-        "./zh-CN.json"
+        "./zh-CN.json",
+        "./zh-HK.json",
+        "./zh-TW.json"
     ]
 
     for locale in json_locales:

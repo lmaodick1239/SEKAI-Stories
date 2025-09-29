@@ -51,6 +51,18 @@ const Translators: React.FC<TranslatorsProps> = ({ lng }) => {
                 img: "https://avatars.githubusercontent.com/u/59890180?v=4",
                 link: "https://github.com/39Choko"
             }
+        ],
+        zhTW: [
+            {
+                img: "example.com",
+                link: "example.com"
+            }
+        ],
+        zhHK: [
+            {
+                img: "example.com",
+                link: "example.com"
+            }
         ]
     };
 
