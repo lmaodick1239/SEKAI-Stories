@@ -10,40 +10,36 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("5.8.0-announcements");
+        const cookie = localStorage.getItem("5.8.2-announcements");
         if (!cookie) {
-            localStorage.setItem("5.8.0-announcements", "0");
+            localStorage.setItem("5.8.2-announcements", "0");
             return;
         }
-        localStorage.setItem("5.8.0-announcements", `${Number(cookie) + 1}`);
+        localStorage.setItem("5.8.2-announcements", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>There are some few updates just added:</p>
-            <ul>
-                <li>
-                    Added foreground lighting adjustment to fit with the
-                    background's mood
-                </li>
-                <li>
-                    Added three custom preset for lighting
-                </li>
-                <li>Added new models</li>
-                <li>Fixed issue on layer ordering</li>
-                <li>
-                    Malay translation is now available! (Thanks to{" "}
-                    <a
-                        href="https://github.com/fab144"
-                        target="_blank"
-                        className="blue"
-                    >
-                        lzington
-                    </a>{" "}
-                    for their contribution!)
-                </li>
-            </ul>
+            <p>
+                New translations have been added! Thanks to{" "}
+                <a href="https://github.com/aungpaos">@aungpaos</a> for the Thai
+                translation and{" "}
+                <a href="https://github.com/39Choko">@39Choko</a> for the French
+                translation!
+            </p>
+            <p>
+                Localization contributions are welcome! You can check this
+                information on{" "}
+                <a
+                    href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
+                    className="text-orange"
+                    target="_blank"
+                >
+                    GitHub
+                </a>
+                .
+            </p>
             <p>Tap this section to close.</p>
         </div>
     );

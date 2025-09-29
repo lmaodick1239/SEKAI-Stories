@@ -19,8 +19,10 @@ def main():
     json_locales = [
         "./es-ES.json", 
         "./fil-PH.json",
-        "./pl-PL.json",
+        "./fr-FR.json",
         "./ms-MY.json",
+        "./pl-PL.json",
+        "./th-TH.json",
         "./zh-CN.json"
     ]
 

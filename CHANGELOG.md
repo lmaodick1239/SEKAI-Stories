@@ -1,3 +1,9 @@
+# 5.8.2
+Release date: September 29, 2025
+- Updated Spanish Translation
+- Added Thai Translation
+- Added French Translation
+
 # 5.8.1
 Release date: September 21, 2025
 - Added three custom presets for color tone

@@ -35,11 +35,13 @@ For creativity, you can translate the flavor texts or add your own at [`src/comp
 ## List of languages translated
 | Language   | Locale Code | Translator/s           | Status            |
 |------------|-------------|------------------------|-------------------|
-| Polish     | pl-PL       | counter185             | Mostly incomplete |
-| Spanish    | es-ES       | GatoMago               | Some are missing  |
-| S. Chinese | zh-CN       | MiddleRed, SteveLF     | Some are missing  |
+| Spanish    | es-ES       | GatoMago               | Complete          |
+| Filipino   | fil-PH      | lezzthanthree          | Complete          | 
+| French     | fr-FR       | 39Choko                | Complete          | 
 | Malay      | ms-MY       | fab144                 | Some are missing  | 
-| Filipino   | tl-PH       | lezzthanthree          | Complete          | 
+| Polish     | pl-PL       | counter185             | Mostly incomplete |
+| Thai       | th-TH       | aungpaos               | Complete          |
+| S. Chinese | zh-CN       | MiddleRed, SteveLF     | Some are missing  |
 
 ## About fonts
 Currently, the project uses Noto Sans via Google Fonts.

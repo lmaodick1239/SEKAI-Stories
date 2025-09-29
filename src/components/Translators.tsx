@@ -24,7 +24,7 @@ const Translators: React.FC<TranslatorsProps> = ({ lng }) => {
         ],
         fil: [
             {
-                img: "https://github.com/lezzthanthree",
+                img: "https://avatars.githubusercontent.com/u/63889032?v=4",
                 link: "https://github.com/lezzthanthree",
             },
         ],
