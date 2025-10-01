@@ -1,3 +1,8 @@
+# 5.8.3
+Release date: October 1, 2025
+- Changed "Withered This Path Of Thorns" date
+- Removed Flavor Texts
+
 # 5.8.2
 Release date: September 29, 2025
 - Updated Spanish Translation
