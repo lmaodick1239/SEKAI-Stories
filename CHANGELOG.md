@@ -2,6 +2,7 @@
 Release date: October 1, 2025
 - Changed "Withered This Path Of Thorns" date
 - Removed Flavor Texts
+- Removed October default scene
 
 # 5.8.2
 Release date: September 29, 2025

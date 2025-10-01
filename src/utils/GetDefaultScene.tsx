@@ -90,9 +90,6 @@ const randomInitialScene: InitialScene[] = [
 ];
 
 const LoadInitialScene = (scene?: string): InitialScene => {
-    const date = new Date();
-    const month = date.getMonth() + 1;
-
     if (scene === "blank") {
         return {
             background: "/background_compressed/bg00026.jpg",
@@ -104,20 +101,6 @@ const LoadInitialScene = (scene?: string): InitialScene => {
             modelY: 550,
             pngName: "blank",
             sceneText: "<white>",
-        };
-    }
-
-    if (month == 10) {
-        return {
-            background: "/background_special/Background_Cheat_to_Happiness.jpg",
-            model: "18mafuyu_cloth001",
-            text: "→↓↑→→↓→→↑↑↓↓←→←→",
-            nameTag: "Mafuyu",
-            character: "mafuyu",
-            modelX: 960,
-            modelY: 545,
-            pngName: "mafuyu",
-            sceneText: "Mafuyu's Room",
         };
     }
 
