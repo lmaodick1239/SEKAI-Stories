@@ -89,6 +89,119 @@ const randomInitialScene: InitialScene[] = [
     },
 ];
 
+const randomOctoberScene: InitialScene[] = [
+    {
+        background: "/background_special/Background_Cheat_to_Happiness.jpg",
+        model: "18mafuyu_cloth001",
+        text: "→↓↑→→↓→→↑↑↓↓←→←→",
+        nameTag: "Mafuyu",
+        character: "mafuyu",
+        modelX: 960,
+        modelY: 545,
+        pngName: "mafuyu_oct",
+        sceneText: "Mafuyu's Room",
+    },
+    {
+        background: "/background_special/Background_Cheat_to_Happiness_2.png",
+        model: "18mafuyu_cloth001",
+        text: "If you've entered the secret code properly up to this point, perhaps you'll take on a happier form?",
+        nameTag: "(Translation)",
+        character: "custom",
+        modelX: 960,
+        modelY: 545,
+        pngName: "transparent",
+        sceneText: "???",
+    },
+    {
+        background: "/background_special/Background_BIRDBRAIN.jpg",
+        model: "20mizuki_normal",
+        text: "#$%@!",
+        nameTag: "Mizuki",
+        character: "mizuki",
+        modelX: 960,
+        modelY: 540,
+        pngName: "mizuki_birdbrain",
+        sceneText: "???",
+    },
+    {
+        background: "/background_special/Background_Kisaragi.png",
+        model: "20mizuki_normal",
+        text: "",
+        nameTag: "",
+        character: "blank",
+        modelX: 1000,
+        modelY: 640,
+        pngName: "mizuki_kisaragi",
+        sceneText: "",
+    },
+    {
+        background: "/background_special/Background_Nemui.png",
+        model: "19ena_jc",
+        text: "Let's take some medicine and go to bed!",
+        nameTag: "Ena",
+        character: "ena",
+        modelX: 960,
+        modelY: 540,
+        pngName: "ena_nemui",
+        sceneText: "???",
+    },
+    {
+        background: "/background_special/Background_Ame.jpg",
+        model: "19ena_cloth001",
+        text: "... where the hell am I?!",
+        nameTag: "Ena",
+        character: "ena",
+        modelX: 960,
+        modelY: 605,
+        pngName: "ena_kangel",
+        sceneText: "???",
+    },
+    {
+        background: "/background_special/Background_Exit8.png",
+        model: "v2_17kanade_casual",
+        text: "...!",
+        nameTag: "Kanade",
+        character: "custom",
+        modelX: 960,
+        modelY: 540,
+        pngName: "k_parents",
+        sceneText: "???",
+    },
+    {
+        background: "/background_compressed/bg_a002301.jpg",
+        model: "01ichika_cloth001",
+        text: "Ah, wrong series!",
+        nameTag: "???",
+        character: "custom",
+        modelX: 960,
+        modelY: 570,
+        pngName: "setsuna",
+        sceneText: "Scramble Crossing",
+    },
+    {
+        background: "/background_special/Background_Perfect.jpg",
+        model: "v2_05minori_unit",
+        text: "(Everything that I can say is spoken for me.)",
+        nameTag: "Minori",
+        character: "minori",
+        modelX: 960,
+        modelY: 545,
+        pngName: "minori_spoken_for",
+        sceneText: "Stage",
+    },
+    {
+        background: "/background_compressed/bg_a003003.jpg",
+        model: "14emu_cloth001",
+        text: "Jumpscare Wonderhoy!",
+        nameTag: "Emu",
+        character: "emu",
+        modelX: 960,
+        modelY: 540,
+        pngName: "emu_jumpscare",
+        sceneText: "Emu's Room",
+    },
+];
+
 const LoadInitialScene = (scene?: string): InitialScene => {
     if (scene === "blank") {
         return {
@@ -102,6 +215,26 @@ const LoadInitialScene = (scene?: string): InitialScene => {
             pngName: "blank",
             sceneText: "<white>",
         };
+    }
+
+    if (scene === "blankoctober") {
+        return {
+            background: "/background_compressed/bg00026.jpg",
+            model: "01ichika_cloth001",
+            text: "<oooo spooky month>",
+            nameTag: "<name>",
+            character: "custom",
+            modelX: 960,
+            modelY: 550,
+            pngName: "blankoctober",
+            sceneText: "<white>",
+        };
+    }
+
+    if (scene === "october") {
+        return randomOctoberScene[
+            Math.floor(Math.random() * randomOctoberScene.length)
+        ];
     }
 
     if (scene === "junes") {

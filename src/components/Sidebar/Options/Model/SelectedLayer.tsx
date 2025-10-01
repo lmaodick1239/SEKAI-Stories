@@ -166,10 +166,15 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
 
     const handleDeleteLayer = async () => {
         const modelsObjects = Object.entries(scene.models ?? {});
-        if (modelsObjects.length == 1) {
-            setErrorInformation(t("model.delete-model-warn"));
+        if (modelsObjects.length === 1) {
+            if (currentModel.character === "blank") {
+                setErrorInformation(" ");
+            } else {
+                setErrorInformation(t("model.delete-model-warn"));
+            }
             return;
         }
+
         setIsLoading(true);
         setCoreModel(null);
         currentModel?.model.destroy();

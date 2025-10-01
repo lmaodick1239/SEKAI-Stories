@@ -22,7 +22,7 @@ interface CharacterProps {
     handleLive2DChange: (callback: () => void) => void;
     prepareModel: (
         character: string,
-        model: string | ILive2DModelList,
+        model: string | ILive2DModelList
     ) => Promise<[Live2DModel, ILive2DModelData]>;
     updateModelState: (updates: Partial<IModel>) => void;
 }
@@ -80,7 +80,7 @@ const Character: React.FC<CharacterProps> = ({
 
             const [live2DModel, modelData] = await prepareModel(
                 character,
-                firstFile,
+                firstFile
             );
 
             updateModelState({
@@ -133,15 +133,21 @@ const Character: React.FC<CharacterProps> = ({
                         {t("character.custom")}
                     </option>
                 )}
-                {Object.keys(
-                    currentModel?.from === "static"
-                        ? staticCharacterData
-                        : sekaiCharacterData
-                ).map((character) => (
-                    <option key={character} value={character}>
-                        {t(`character.${character}`)}
+                {currentSelectedCharacter === "blank" && (
+                    <option value="blank" disabled>
+                        {t("character.blank")}
                     </option>
-                ))}
+                )}
+                {currentModel?.character !== "blank" &&
+                    Object.keys(
+                        currentModel?.from === "static"
+                            ? staticCharacterData
+                            : sekaiCharacterData
+                    ).map((character) => (
+                        <option key={character} value={character}>
+                            {t(`character.${character}`)}
+                        </option>
+                    ))}
             </select>
         </>
     );

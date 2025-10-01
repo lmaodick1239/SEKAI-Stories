@@ -11,6 +11,8 @@ import packageJson from "../../package.json";
 import Translators from "./Translators";
 
 const SettingsButton: React.FC = () => {
+    const month = new Date().getMonth() + 1;
+    const [triggerWarning, showTriggerWarning] = useState<boolean>(false);
     const { t, i18n } = useTranslation();
     const lng = i18n.language;
     const [show, setShow] = useState<boolean>(false);
@@ -101,12 +103,15 @@ const SettingsButton: React.FC = () => {
         localStorage.setItem("blankCanvas", String(value));
         setBlankCanvas(value);
     };
+    const handleBlankCanvasOctober = (value: boolean) => {
+        localStorage.setItem("blankCanvasOctober", String(value));
+        setBlankCanvas(value);
+    };
 
     return (
         <>
             <div id="settings">
                 <button
-                    
                     className="btn-circle btn-white"
                     onClick={() => {
                         setShow(true);
@@ -184,7 +189,20 @@ const SettingsButton: React.FC = () => {
                                 id="blankCanvas"
                                 label={t("settings.blankCanvas")}
                                 checked={blankCanvas}
-                                onChange={handleBlankCanvas}
+                                onChange={
+                                    month === 10
+                                        ? (e) => {
+                                              const value = e.target.checked;
+                                              if (value) {
+                                                  handleBlankCanvasOctober(
+                                                      value
+                                                  );
+                                                  return;
+                                              }
+                                              showTriggerWarning(true);
+                                          }
+                                        : handleBlankCanvas
+                                }
                             />
                             <Checkbox
                                 id="expand"
@@ -207,6 +225,29 @@ const SettingsButton: React.FC = () => {
                         </div>
                         <div className="window__divider center">
                             <p>{"v" + packageJson.version}</p>
+                        </div>
+                    </div>
+                </Window>
+            )}
+            {triggerWarning && (
+                <Window
+                    show={showTriggerWarning}
+                    confirmFunction={() => {
+                        handleBlankCanvasOctober(false);
+                    }}
+                    confirmLabel="Disable"
+                >
+                    <div className="window__content">
+                        <div className="window__divider">
+                            <h1>Trigger Warning</h1>
+                            <p>Happy Spooky Season!</p>
+                            <p>Blank canvas is enabled by default.</p>
+                            <p>
+                                By disabling this, you will receive random
+                                scenes that may include VOCALOID and other song
+                                references containing sensitive topics.
+                            </p>
+                            <p>Do you wish to continue?</p>
                         </div>
                     </div>
                 </Window>
