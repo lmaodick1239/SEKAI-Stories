@@ -1,3 +1,9 @@
+# 5.8.4
+Release date: October 3, 2025
+- Added random October default scene
+- Enable blank canvas option by default on October
+- Added trigger warning when disabling blank canvas option on October
+
 # 5.8.3
 Release date: October 1, 2025
 - Changed "Withered This Path Of Thorns" date
