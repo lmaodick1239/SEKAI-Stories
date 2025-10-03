@@ -10,36 +10,23 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("5.8.2-announcements");
+        const cookie = localStorage.getItem("5.8.4-announcements");
         if (!cookie) {
-            localStorage.setItem("5.8.2-announcements", "0");
+            localStorage.setItem("5.8.4-announcements", "0");
             return;
         }
-        localStorage.setItem("5.8.2-announcements", `${Number(cookie) + 1}`);
+        localStorage.setItem("5.8.4-announcements", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
+            <p>oooo, spooky month</p>
             <p>
-                New translations have been added! Thanks to{" "}
-                <a href="https://github.com/aungpaos">@aungpaos</a> for the Thai
-                translation and{" "}
-                <a href="https://github.com/39Choko">@39Choko</a> for the French
-                translation!
+                Blank canvas is enabled by default. There are new random default
+                scenes you can get this October～
             </p>
-            <p>
-                Localization contributions are welcome! You can check this
-                information on{" "}
-                <a
-                    href="https://github.com/lezzthanthree/SEKAI-Stories/blob/master/README-localization.md"
-                    className="text-orange"
-                    target="_blank"
-                >
-                    GitHub
-                </a>
-                .
-            </p>
+            <p>You can disable this option on Settings.</p>
             <p>Tap this section to close.</p>
         </div>
     );
