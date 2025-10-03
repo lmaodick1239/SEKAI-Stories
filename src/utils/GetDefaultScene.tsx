@@ -195,10 +195,21 @@ const randomOctoberScene: InitialScene[] = [
         text: "Jumpscare Wonderhoy!",
         nameTag: "Emu",
         character: "emu",
-        modelX: 960,
+        modelX: 885,
         modelY: 540,
         pngName: "emu_jumpscare",
         sceneText: "Emu's Room",
+    },
+    {
+        background: "/background_special/Background_Akarin.jpg",
+        model: "14emu_normal",
+        text: "Haiii～!",
+        nameTag: "Emu",
+        character: "emu",
+        modelX: 960,
+        modelY: 540,
+        pngName: "emu_channnnn",
+        sceneText: "???",
     },
 ];
 
