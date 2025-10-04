@@ -1,3 +1,8 @@
+# 5.8.5
+Release date: October 4, 2025
+- Show guideline when clicking on the canvas
+- Show system information on error fallback screen
+
 # 5.8.4
 Release date: October 3, 2025
 - Added random October default scene
