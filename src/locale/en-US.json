@@ -147,6 +147,7 @@
 
     "character": {
         "none": "None",
+        "blank": "",
         "custom": "Custom",
         "ichika": "Ichika",
         "saki": "Saki",

@@ -1,3 +1,20 @@
+# 5.8.5
+Release date: October 4, 2025
+- Show guideline when clicking on the canvas
+- Show system information on error fallback screen
+
+# 5.8.4
+Release date: October 3, 2025
+- Added random October default scene
+- Enable blank canvas option by default on October
+- Added trigger warning when disabling blank canvas option on October
+
+# 5.8.3
+Release date: October 1, 2025
+- Changed "Withered This Path Of Thorns" date
+- Removed Flavor Texts
+- Removed October default scene
+
 # 5.8.2
 Release date: September 29, 2025
 - Updated Spanish Translation

@@ -99,9 +99,11 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
         if (!background) return;
 
         if (!background.filename.startsWith("/background_compressed/")) {
-            setErrorInformation(
-                t("error.background-bookmark")
-            );
+            if (background?.filename.includes("Kisaragi")) {
+                setErrorInformation(" ");
+            } else {
+                setErrorInformation(t("error.background-bookmark"));
+            }
             return;
         }
 
@@ -132,7 +134,11 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
                 key={type}
             >
                 <div className="width-100 center text-center">
-                    <h1 className="white">{t(`group.${type}`)}</h1>
+                    <h1 className="white">
+                        {background?.filename.includes("Kisaragi")
+                            ? ""
+                            : t(`group.${type}`)}
+                    </h1>
                 </div>
                 <div className="flex-wrap center width-100">
                     {type === "bookmarks"
@@ -161,7 +167,11 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
                                           ? "picker-item-selected"
                                           : ""
                                   }`}
-                                  src={`/background_low_jpg/${bg}.jpg`}
+                                  src={
+                                      background?.filename.includes("Kisaragi")
+                                          ? `/img/transparent.png`
+                                          : `/background_low_jpg/${bg}.jpg`
+                                  }
                                   onClick={async () => {
                                       handleChangeBackground(bg);
                                       setShow(false);
@@ -195,11 +205,17 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
                         }}
                         value={filterValue}
                     >
-                        <option value="all">{t("group.all")}</option>
+                        <option value="all">
+                            {background?.filename.includes("Kisaragi")
+                                ? ""
+                                : t("group.all")}
+                        </option>
                         {Object.keys(backgroundList.background).map((type) => {
                             return (
                                 <option key={type} value={type}>
-                                    {t(`group.${type}`)}
+                                    {background?.filename.includes("Kisaragi")
+                                        ? ""
+                                        : t(`group.${type}`)}
                                 </option>
                             );
                         })}

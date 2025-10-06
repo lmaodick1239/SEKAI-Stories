@@ -72,6 +72,22 @@ const ExportButton: React.FC = () => {
             .map((model) => {
                 if (model.from === "upload") return undefined;
                 if (model.character === "none") return undefined;
+                if (model.character === "blank")
+                    return {
+                        from: "/ / // / /",
+                        character: "",
+                        modelName: "",
+                        modelTransform: {
+                            x: 0,
+                            y: 0,
+                            scale: 0,
+                            rotation: 0,
+                        },
+                        modelExpression: 0,
+                        modelPose: 0,
+                        modelParametersChanged: {},
+                        modelIdle: false,
+                    };
                 return {
                     from: model.from,
                     character: model.character,

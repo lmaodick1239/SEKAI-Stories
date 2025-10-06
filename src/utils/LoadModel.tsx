@@ -29,6 +29,9 @@ export const loadModel = async (
         const characterData = await GetCharacterDataFromSekai(character, model);
         modelData = await GetModelDataFromSekai(characterData);
     }
+    if (from === "/ / // / /") {
+        throw new Error("I want to get out of here.");
+    }
 
     if (!modelData) {
         setErrorInformation("Model data is undefined");

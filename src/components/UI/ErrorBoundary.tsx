@@ -31,6 +31,19 @@ export function ErrorFallback({ error }: { error: Error }) {
         a.click();
         a.remove();
     };
+    const message = `
+    System Information:
+    User Agent: ${navigator.userAgent}
+    Platform: ${navigator.platform}
+
+    Traceback:
+    ${error.stack}
+
+    Message:
+    ${error.message}
+    `
+        .trim()
+        .replace(/^ {4}/gm, "");
 
     return (
         <div className="app-en center flex-vertical full-screen padding-20">
@@ -41,7 +54,7 @@ export function ErrorFallback({ error }: { error: Error }) {
                 We're really sorry for the inconvenience.
             </p>
             <p className="text-center">
-                Please refresh the page and try again.
+                Please clear the cookies, refresh the page, and try again.
             </p>
             <p className="text-center">
                 If the problem persists, please report this issue on GitHub.
@@ -50,17 +63,11 @@ export function ErrorFallback({ error }: { error: Error }) {
             <p className="text-center link" onClick={handleAutoSaveData}>
                 Save it as soon as possible.
             </p>
-            <textarea
-                readOnly
-                value={`Traceback: \n${error.stack} \n\n${error.message}`}
-                id="error-traceback"
-            ></textarea>
+            <textarea readOnly value={message} id="error-traceback"></textarea>
             <button
                 className="btn-blue btn-regular"
                 onClick={() => {
-                    navigator.clipboard.writeText(
-                        `Traceback: \n${error.stack} \n\n${error.message}`
-                    );
+                    navigator.clipboard.writeText(message);
                     alert("Copied to clipboard!");
                 }}
             >

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { refreshCanvas } from "../../utils/RefreshCanvas";
 import { SceneContext } from "../../contexts/SceneContext";
 import Crash from "../Crash";
 import { SoftErrorContext } from "../../contexts/SoftErrorContext";
@@ -17,26 +16,13 @@ const Experimental: React.FC = () => {
     const { setErrorInformation } = softError;
     const { loading, setLoading } = settings;
 
-    const handleRefresh = () => {
-        refreshCanvas(scene);
-    };
+    
     return (
         <div className="option">
             <h1>{t("experimental.header")}</h1>
             <p>This experimental section is only used for testing.</p>
             <p>You can disable this on Settings.</p>
-            <div className="option">
-                <h2>Refresh</h2>
-                <div className="option__content">
-                    <button
-                        className="btn-regular btn-blue btn-100"
-                        onClick={handleRefresh}
-                    >
-                        {t("experimental.refresh")}
-                    </button>
-                    <p>{t("experimental.details")}</p>
-                </div>
-            </div>
+            
             <div className="option">
                 <h2>Language</h2>
                 <div className="option__content">
