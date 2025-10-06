@@ -115,9 +115,6 @@ const randomText = {
         "無題.",
         "我繪我名",
         "你能聽到那令人不安的鐘聲嗎？",
-    ],
-    zhHK: ['點解有啲雜音係我部電話彈出嚟嘅？',
-        'Nene打緊mai，鋪面係系ぎて'
     ]
 };
 
@@ -141,9 +138,6 @@ const FlavorText: React.FC = () => {
     );
     randomText.zhTW.push(
         `尚餘 ${daysLeft < 0 ? 0 : daysLeft} 天...`
-    );
-    randomText.zhHK.push(
-        `剩返 ${daysLeft < 0 ? 0 : daysLeft} 日...`
     );
     useEffect(() => {
         const languageRandomText = randomText[lng]
