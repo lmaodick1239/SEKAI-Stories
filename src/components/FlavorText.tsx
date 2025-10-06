@@ -127,24 +127,21 @@ const FlavorText: React.FC = () => {
             new Date().getTime()) /
             (1000 * 60 * 60 * 24)
     );
-
-    randomText.en.push(
-        `About ${daysLeft < 0 ? 0 : daysLeft} ${
-            daysLeft === 1 ? "day remains" : "days remain"
-        }...`
-    );
-    randomText.zh.push(
-        `尚余 ${daysLeft < 0 ? 0 : daysLeft} 天...`
-    );
-    randomText.zhTW.push(
-        `尚餘 ${daysLeft < 0 ? 0 : daysLeft} 天...`
-    );
     
     const quote =
         daysLeft < 0
             ? "...gomen..."
             : `${daysLeft} ${daysLeft === 1 ? "day remains" : "days remain"}.`;
     randomText.en.push(quote);
+
+    randomText.zh.push(
+        daysLeft < 0?`尚余 ${daysLeft < 0 ? 0 : daysLeft} 天...`:`...抱歉...`
+    );
+    randomText.zhTW.push(
+        daysLeft < 0?`尚餘 ${daysLeft < 0 ? 0 : daysLeft} 天...`:`...抱歉...`
+    );
+    
+
 
     useEffect(() => {
         const languageRandomText = randomText[lng]
