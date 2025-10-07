@@ -8,15 +8,15 @@
         "split-location": "拆分位置",
         "upload-info": "為確保影像完整性，不會被拉伸或裁剪，請使用16:9的圖片",
         "filters": "濾鏡",
-        "flashback": "“回憶”濾鏡",
-        "sick": "“頭暈眼花”濾鏡",
-        "drooping-lines": "“尷尬”濾鏡"
+        "flashback": "「回憶」濾鏡",
+        "sick": "「頭暈眼花」濾鏡",
+        "drooping-lines": "「尷尬」濾鏡"
     },
 
     "text": {
         "header": "文字",
         "name-tag": "名稱標籤",
-        "easy-switch": "使用快捷切換",
+        "easy-switch": "使用快速切換",
         "dialogue": "對話",
         "font-size": "文字大小",
         "enter-font-size": "輸入文字大小",
@@ -26,7 +26,7 @@
         "scene-text-middle": "中間",
         "scene-text-top-left": "頂部左側",
         "y-offset": "Y軸偏移",
-        "y-offset-details": "如果中文字的位置不正確，那麼你可能需要調整這個選項",
+        "y-offset-details": "如果文字的位置不正確，那麼你可能需要調整這個選項",
         "hide-everything": "隱藏所有文字與人物模型",
         "toggles": "切換"
     },
@@ -79,7 +79,7 @@
         "copy": "複製",
         "live2d-import-export-description": "你可以儲存對這個模型所做的調整，並把這些調整載入到其他的模型上",
         "live2d-tooltip": "你可以使用方向鍵來選擇或調整參數",
-        "live2d-changed-warn": "已自定義Live2D的參數。如果繼續將會丟棄它們",
+        "live2d-changed-warn": "已自定義Live2D的參數。如果繼續將會重置參數。確定要繼續嗎？",
         "emotion-copy": "複製表情",
         "emotion-copy-description": "你可以儲存對這個模型的表情所做的調整，並把這些調整載入到其他的模型上",
         "emotion-copy-confirm-header": "複製成功",
@@ -198,8 +198,8 @@
         "initialSetup1": "調整位置，直到你看不到任何紅色的地方",
         "initialSetup2": "你之後可以在文字選單上把文字改回原來的位置",
         "welcomeHeader": "歡迎來到《世界計劃》故事生成器!",
-        "welcomeIntroHeader": "這個超級無敵、特別好用、翻譯了很久的教程會教會你怎樣使用這個網站",
-        "welcomeIntroParagraph1": "如果你已經是用過了，那麼你就可以直接關閉這個教程了",
+        "welcomeIntroHeader": "這個超級無敵、特別好用、的教程會教會你怎樣使用這個網站",
+        "welcomeIntroParagraph1": "如果你已經用過了，那麼你就可以直接關閉這個教程了",
         "welcomeIntroParagraph2": "不必擔心之後會找不到這個教程，你之後可以隨時再設定裡再次開啟這個教程",
         "confirmFirstTime": "我第一次使用這個網站",
         "menuNavigationHeader": "這些會幫助不在選單和選單中間迷路",
@@ -207,12 +207,12 @@
         "selectUploadHeader": "選擇並上傳",
         "selectUploadParagraph": "選擇世界計劃中的背景，或上傳你自己的背景",
         "splitLocationHeader": "拆分位置",
-        "splitLocationParagraph": "你也可以使用“拆分位置”，在一個專案中顯示兩個不同的背景",
+        "splitLocationParagraph": "你也可以使用「拆分位置」，在一個專案中顯示兩個不同的背景",
         "textMenuHeader": "文字選單",
         "nameTagHeader": "名稱標籤",
         "nameTagParagraph": "這是你設定角色名稱的地方",
         "easySwitchHeader": "快捷切換",
-        "easySwitchParagraph": "你可以使用“快捷切換”在兩個（或多個）名稱之間快速切換，並且不需要自己輸入",
+        "easySwitchParagraph": "你可以使用「快速切換」在兩個（或多個）名稱之間快速切換，並且不需要自己輸入",
         "dialogueHeader": "對話",
         "dialogueParagraph": "你可以在這裡輸入角色之間的對話",
         "sceneTextHeader": "場景名稱",
@@ -266,6 +266,6 @@
         "default-scene-fail": "如果在載入預設場景時出錯。\n請點選“清除”按鈕、重新整理瀏覽器或清除網站Cookies資訊。\n如果問題仍然存在，請在我的GitHub裡報告這個問題，謝謝！",
         "name-tag-inputs-limit": "名稱字數超出限制",
         "background-bookmark": "你不能收藏你自己上傳的背景",
-        "hide-everything-warning": "在“場景名稱”選單下的“隱藏所有文字與人物模型”選項已經被打開\n請先把這個選項關閉掉再進行操作"
+        "hide-everything-warning": "在「場景名稱」選單下的「隱藏所有文字與人物模型」選項已經被打開\n請先把這個選項關閉掉再進行操作"
     }
 }
