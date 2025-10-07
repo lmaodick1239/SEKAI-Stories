@@ -26,7 +26,7 @@
         "scene-text-middle": "中間",
         "scene-text-top-left": "頂部左側",
         "y-offset": "Y軸偏移",
-        "y-offset-details": "如果畫布中文字的位置不正確，那麼你可能需要調整這個選項",
+        "y-offset-details": "如果中文字的位置不正確，那麼你可能需要調整這個選項",
         "hide-everything": "隱藏所有文字與人物模型",
         "toggles": "切換"
     },
@@ -94,7 +94,7 @@
 
     "experimental": {
         "header": "實驗性",
-        "details": "如果你還沒有看到任何更改，你可以重新整理一下畫布。",
+        "details": "如果你還沒有看到任何更改，你可以重新整理。",
         "refresh": "重新整理"
     },
 
@@ -186,7 +186,7 @@
         "tutorial": "教程",
         "show-tutorial": "再次顯示",
         "saveDialog": "顯示儲存選單",
-        "blankCanvas": "從空白畫布開始"
+        "blankCanvas": "從空白開始"
     },
     "import-export": {
         "header": "匯入/匯出",
@@ -245,10 +245,10 @@
         "importExportParagraph": "你可以儲存對這個模型所做的調整，並把這些調整載入到其他的模型上",
         "emotionCopyHeader": "複製表情",
         "emotionCopyParagraph": "複製你給這個角色設定的表情和姿勢的Live2D參數，有這麼方便的功能真是泰褲辣！",
-        "saveHeader": "完成後，記得儲存你的畫布！不要怪我沒提醒過你",
-        "sceneImportExportParagraph": "這個功能可以讓你把整個畫布儲存為可編輯的格式，然後在下一次開啟時重新載入",
+        "saveHeader": "完成後，記得儲存你的專案！不要怪我沒提醒過你",
+        "sceneImportExportParagraph": "這個功能可以讓你把整個專案儲存為可編輯的格式，然後在下一次開啟時重新載入",
         "endHeader": "就是這樣！",
-        "endParagraph": "如果你想繼續編輯這個畫布，你可以在設定裡重新載入它們"
+        "endParagraph": "如果你想繼續編輯這個專案，你可以在設定裡重新載入它們"
     },
     "save": {
         "header": "儲存",
@@ -259,10 +259,10 @@
     },
     "error": {
         "header": "錯誤",
-        "import-scene-fail": "畫布已重置，這不就尷尬了嘛",
+        "import-scene-fail": "專案匯入失敗，畫布已重置",
         "invalid-json": "JSON檔案無效，檢查後再上傳吧",
         "no-autosave": "未找到自動儲存資料，下次記得自己儲存一遍再關掉",
-        "not-an-image": "這也不是圖片啊",
+        "not-an-image": "檔案不是圖片",
         "default-scene-fail": "如果在載入預設場景時出錯。\n請點選“清除”按鈕、重新整理瀏覽器或清除網站Cookies資訊。\n如果問題仍然存在，請在我的GitHub裡報告這個問題，謝謝！",
         "name-tag-inputs-limit": "名稱字數超出限制",
         "background-bookmark": "你不能收藏你自己上傳的背景",

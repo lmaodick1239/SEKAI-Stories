@@ -136,10 +136,10 @@ const FlavorText: React.FC = () => {
     randomText.en.push(quote);
 
     randomText.zh.push(
-        daysLeft < 0?`尚余 ${daysLeft < 0 ? 0 : daysLeft} 天...`:`...抱歉...`
+        daysLeft < 0?`尚余 ${daysLeft} 天...`:`...抱歉...`
     );
     randomText.zhTW.push(
-        daysLeft < 0?`尚餘 ${daysLeft < 0 ? 0 : daysLeft} 天...`:`...抱歉...`
+        daysLeft < 0?`尚餘 ${daysLeft} 天...`:`...抱歉...`
     );
     
 
