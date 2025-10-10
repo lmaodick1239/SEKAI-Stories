@@ -14,11 +14,11 @@ export const languageNames = {
     es: "Español",
     fr: "Français",
     zh: "简体中文",
+    zhTW: "繁體中文",
     fil: "Filipino",
     ms: "Bahasa Melayu",
     th: "ไทย",
     pl: "Polski (incomplete)",
-    zhTW: "繁體中文",
 };
 
 export const handleChangeLanguage = async (
