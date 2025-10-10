@@ -116,7 +116,7 @@ const randomText = {
         // "無題.",
         // "我繪我名",
         "你能聽到那令人不安的鐘聲嗎？",
-    ]
+    ],
 };
 
 const FlavorText: React.FC = () => {
@@ -128,25 +128,21 @@ const FlavorText: React.FC = () => {
             new Date().getTime()) /
             (1000 * 60 * 60 * 24)
     );
-    
+
     const quote =
         daysLeft < 0
             ? "...gomen..."
             : `${daysLeft} ${daysLeft === 1 ? "day remains" : "days remain"}.`;
     randomText.en.push(quote);
 
-    randomText.zh.push(
-        daysLeft < 0?`尚余 ${daysLeft} 天...`:`...抱歉...`
-    );
+    randomText.zh.push(daysLeft < 0 ? `...抱歉...` : `尚余 ${daysLeft} 天...`);
     randomText.zhTW.push(
-        daysLeft < 0?`尚餘 ${daysLeft} 天...`:`...抱歉...`
+        daysLeft < 0 ? `...抱歉...` : `尚餘 ${daysLeft} 天...`
     );
-    
-
 
     useEffect(() => {
         const languageRandomText = randomText[lng]
-            ? [...randomText.en, ...randomText[lng]]
+            ? [...randomText[lng]]
             : randomText.en;
         setText(
             languageRandomText[
