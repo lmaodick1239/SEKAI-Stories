@@ -195,8 +195,8 @@ const randomOctoberScene: InitialScene[] = [
         text: "Jumpscare Wonderhoy!",
         nameTag: "Emu",
         character: "emu",
-        modelX: 885,
-        modelY: 540,
+        modelX: 960,
+        modelY: 545,
         pngName: "emu_jumpscare",
         sceneText: "Emu's Room",
     },
@@ -210,6 +210,31 @@ const randomOctoberScene: InitialScene[] = [
         modelY: 540,
         pngName: "emu_channnnn",
         sceneText: "???",
+    },
+];
+
+const personaScenes: InitialScene[] = [
+    {
+        background: "/background_special/Background_Other_Kamiyama.png",
+        model: "20mizuki_normal",
+        text: "I am a shadow of your true inner self.",
+        nameTag: "Mizuki?",
+        character: "custom",
+        modelX: 960,
+        modelY: 545,
+        pngName: "mizuki_shadow",
+        sceneText: "Kamiyama High School Rooftop?",
+    },
+    {
+        background: "/background_special/Background_Mizuki's_Room_(Abyss).png",
+        model: "20mizuki_normal",
+        text: "Hmm... MiraMagi just hit me so hard...",
+        nameTag: "Mizuki",
+        character: "custom",
+        modelX: 960,
+        modelY: 545,
+        pngName: "mizuki_p3",
+        sceneText: "Mizuki's Room",
     },
 ];
 
@@ -248,18 +273,8 @@ const LoadInitialScene = (scene?: string): InitialScene => {
         ];
     }
 
-    if (scene === "junes") {
-        return {
-            background: "/background_special/Background_Dojima.png",
-            model: "14emu_cloth001",
-            text: "Every day's great at your Junes!",
-            nameTag: "Emu",
-            character: "emu",
-            modelX: 960,
-            modelY: 660,
-            pngName: "emu",
-            sceneText: "Dojima Residence",
-        };
+    if (scene === "pmizu5") {
+        return personaScenes[Math.floor(Math.random() * personaScenes.length)];
     }
 
     return randomInitialScene[

@@ -21,7 +21,7 @@ interface SceneProviderProps {
 }
 
 export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
-    const month = new Date().getMonth() + 1;
+    const month = new Date().getMonth() * -1 + 1;
     const softError = useContext(SoftErrorContext);
     const settings = useContext(SettingsContext);
     const { t } = useTranslation();
@@ -86,8 +86,8 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             app,
             setStartingMessage,
             setLoading,
-            ...(blankCanvasCookie === "false"
-                ? { scene: month === 10 ? "october" : "none" }
+            ...(blankCanvasCookie === "false" || !blankCanvas
+                ? { scene: month === 10 ? "october" : "pmizu5" }
                 : (blankCanvasCookie === "true" || blankCanvas) && {
                       scene: month === 10 ? "blankoctober" : "blank",
                   }),
