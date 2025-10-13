@@ -34,4 +34,5 @@ export default interface ISettingsContextType {
     setAudio: Dispatch<SetStateAction<boolean>>;
     loading: number;
     setLoading: Dispatch<SetStateAction<number>>;
+    settingsLoaded: boolean;
 }

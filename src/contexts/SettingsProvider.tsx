@@ -14,9 +14,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
     const [showTutorial, setShowTutorial] = useState<boolean>(false);
     const [showSaveDialog, setShowSaveDialog] = useState<boolean>(false);
-    const [blankCanvas, setBlankCanvas] = useState<boolean>(
-        month === 10 ? true : false
-    );
+    const [blankCanvas, setBlankCanvas] = useState<boolean>(month === 10);
     const [showExperimental, setShowExperimental] = useState<boolean>(false);
     const [openAll, setOpenAll] = useState<boolean>(false);
     const [openTextOption, setOpenTextOption] = useState<string>("name-tag");
@@ -28,6 +26,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [allowRefresh, setAllowRefresh] = useState<boolean>(false);
     const [audio, setAudio] = useState<boolean>(false);
     const [loading, setLoading] = useState<number>(0);
+    const [settingsLoaded, setSettingsLoaded] = useState<boolean>(false);
 
     useEffect(() => {
         const announcementCookie = localStorage.getItem("5.8.4-announcements");
@@ -76,6 +75,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
         if (storedNameTagInputs) {
             setNameTagInputs(Number(storedNameTagInputs));
         }
+        setSettingsLoaded(true);
     }, []);
 
     useEffect(() => {
@@ -117,6 +117,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
                 setAudio,
                 loading,
                 setLoading,
+                settingsLoaded,
             }}
         >
             {children}
