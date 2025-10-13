@@ -1,3 +1,9 @@
+# 5.8.7
+Release date: October 18, 2025
+- Bring back flavor texts
+- Changed countdown to Ena5
+- Fixed settings logic
+
 # 5.8.6
 Release date: October 11, 2025
 - Changed "Withered This Path Of Thorns" date to October 12
