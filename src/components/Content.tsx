@@ -11,6 +11,7 @@ import { SoftErrorContext } from "../contexts/SoftErrorContext";
 import SoftError from "./UI/SoftError";
 import ExportButton from "./ExportButton";
 import ClearButton from "./ClearButton";
+import Window from "./UI/Window";
 
 const Content: React.FC = () => {
     const contentBackground = useRef<HTMLDivElement | null>(null);
@@ -45,7 +46,7 @@ const Content: React.FC = () => {
             const el = document.getElementById(id);
             if (el) {
                 el.style.opacity = opacity;
-                el.style.pointerEvents = pointer
+                el.style.pointerEvents = pointer;
             }
         });
     });
@@ -53,12 +54,28 @@ const Content: React.FC = () => {
     if (!scene || !settings || !softError) {
         throw new Error("Context is not loaded properly.");
     }
-    const { hide, setHide, showTutorial, setShowTutorial } = settings;
+    const {
+        hide,
+        setHide,
+        showTutorial,
+        setShowTutorial,
+        mizuBells,
+        setMizuBells,
+    } = settings;
     const { showErrorInformation } = softError;
 
     return (
         <div id="content" className="center" style={{ position: "relative" }}>
             <div id="content-background" ref={contentBackground}></div>
+            {mizuBells && (
+                <Window show={setMizuBells}>
+                    <div className="window__content center">
+                        <video controls>
+                            <source src="/video/persona3.mp4" type="video/mp4"/>
+                        </video>
+                    </div>
+                </Window>
+            )}
             {showTutorial && <Tutorial show={setShowTutorial} />}
             {!hide && <SidebarSelect />}
 

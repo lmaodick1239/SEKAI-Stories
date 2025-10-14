@@ -34,4 +34,7 @@ export default interface ISettingsContextType {
     setAudio: Dispatch<SetStateAction<boolean>>;
     loading: number;
     setLoading: Dispatch<SetStateAction<number>>;
+    settingsLoaded: boolean;
+    mizuBells: boolean;
+    setMizuBells: Dispatch<SetStateAction<boolean>>;
 }

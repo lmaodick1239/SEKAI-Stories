@@ -1091,6 +1091,10 @@ img {
   object-fit: cover;
 }
 
+video {
+  width: 100%;
+}
+
 #canvas {
   width: 90%;
   font-family: "FOT-RodinNTLGPro-DB", "FOT-RodinNTLGPro-EB";

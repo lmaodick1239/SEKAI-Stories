@@ -21,7 +21,7 @@ interface SceneProviderProps {
 }
 
 export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
-    const month = new Date().getMonth() + 1;
+    const month = new Date().getMonth() * -1 + 1;
     const softError = useContext(SoftErrorContext);
     const settings = useContext(SettingsContext);
     const { t } = useTranslation();
@@ -29,7 +29,7 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     if (!softError || !settings) throw new Error("Context not loaded");
 
     const { setErrorInformation } = softError;
-    const { blankCanvas, setLoading } = settings;
+    const { blankCanvas, setLoading, settingsLoaded } = settings;
     const [app, setApp] = useState<PIXI.Application | undefined>(undefined);
     const [models, setModels] = useState<Record<string, IModel> | undefined>(
         undefined
@@ -66,9 +66,6 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     const [lighting, setLighting] = useState<ILighting | undefined>(undefined);
 
     const runCanvas = async () => {
-        const blankCanvasCookie = localStorage.getItem(
-            month === 10 ? "blankCanvasOctober" : "blankCanvas"
-        );
         const {
             app: initApplication,
             model,
@@ -86,9 +83,9 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
             app,
             setStartingMessage,
             setLoading,
-            ...(blankCanvasCookie === "false"
-                ? { scene: month === 10 ? "october" : "none" }
-                : (blankCanvasCookie === "true" || blankCanvas) && {
+            ...(!blankCanvas
+                ? { scene: month === 10 ? "october" : "pmizu5" }
+                : {
                       scene: month === 10 ? "blankoctober" : "blank",
                   }),
         });
@@ -111,11 +108,15 @@ export const SceneProvider: React.FC<SceneProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
+        if (!settingsLoaded) {
+            setLoading(0);
+            return;
+        }
         runCanvas().catch((error) => {
             setErrorInformation(t("error.default-scene-fail"));
             console.error(error);
         });
-    }, [reset]);
+    }, [reset, settingsLoaded]);
 
     return (
         <SceneContext.Provider

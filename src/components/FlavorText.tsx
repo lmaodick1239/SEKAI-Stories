@@ -4,42 +4,45 @@ import { useTranslation } from "react-i18next";
 const randomText = {
     en: [
         "Can you hear the ominous bells tolling?",
-        // "Nene is playing maimai. The map is Tsunagite.",
-        // "Rui with his ThinkPad laptop.",
-        // "Tsukasa is laughing in the hallway like a kid again.",
-        // 'Emu breaks the fourth wall, staring at you and says "Wonderhoy!"',
-        // "Ichika is fangirling over Miku. Again.",
-        // "Saki. Saki on fire?",
-        // "Honami and her thousand apple pies.",
-        // "Shiho is forming a new band with her little Phennies.",
-        // "Shizuku is lost again together with Karin Asaka.",
-        // "In a parallel universe, where Minori is the leader of ASRUN.",
-        // "Haruka becomes the wife of Minori.",
-        // "Airi lost her fang.",
-        // "Setsuna has been mistakenly called Kanade for the 1888th time.",
-        // "Mizuki is 18 kilometers away from your house.",
-        // "Mafuyu scares Emu to make her stop breaking the fourth wall.",
-        // "Ena threw a large basin at Akito.",
-        // "Ena fights against AI Art.",
-        // "Toya is enjoying Tsukasa's loud laugh.",
-        // "Kohane has been bitten by her pet snake.",
-        // "An woke up and started speaking in English.",
-        // "ABSOLUTE CINEMA",
-        // "The Disapperance of Hatsune Miku",
-        // "Listening to Forward (Synthion Remix)",
-        // "Do not overdose yourself with shipping~",
-        // "Please take only the recommended shipping dosage.",
-        // "Just Monika.",
-        // "What if Movie Miku appeared on my screen all of the sudden?",
-        // "私は雨。(turns into ame-chan)",
-        // "MinoHaru is canon.",
-        // "AnHane is canon.",
-        // "Won won!?",
-        // "WONDERHOY!",
-        // "Lovely, Fairy, Momoi Airi!",
-        // "恋をして",
-        // "Meet SEKAI Stories's cousin, SIFAS Dialogue Sandbox!",
-        // "Untitled.",
+        "Nene is playing maimai. The map is Xaleid◆scopiX.",
+        "Rui with his ThinkPad laptop.",
+        "Tsukasa is laughing in the hallway like a kid again.",
+        'Emu breaks the fourth wall, staring at you and says "Wonderhoy!"',
+        "Ichika is fangirling over Miku. Again.",
+        "Saki. Saki on fire?",
+        "Honami and her thousand apple pies.",
+        "Shiho is forming a new band with her little Phennies.",
+        "Shizuku is giving Shiho some make up.",
+        "In a parallel universe, where Minori is the leader of ASRUN.",
+        "Haruka becomes the wife of Minori.",
+        "Airi lost her fang.",
+        "Setsuna has been mistakenly called Kanade for the 1888th time.",
+        "Mizuki is not happy right now.", // Change this after Nov 30, 2025
+        "Mafuyu is just eating.", // Change this after Nov 30, 2025
+        "Ena is looking for Mizuki.", // Change this after Nov 30, 2025
+        "Ena fights against AI Art.",
+        "Toya is enjoying Tsukasa's loud laugh.",
+        "Kohane has been bitten by her pet snake.",
+        "An woke up and started speaking in English.",
+        "Akito is wondering why Ena is sad right now.", // Change this after Nov 30, 2025
+        "ABSOLUTE CINEMA",
+        "The Disapperance of Hatsune Miku",
+        "Listening to / / // / /",
+        "Do not overdose yourself with shipping~",
+        "Please take only the recommended shipping dosage.",
+        "Just Monika.",
+        "What if Movie Miku appeared on my screen all of the sudden?",
+        "私は雨。(turns into ame-chan)",
+        "MinoHaru is canon.",
+        "AnHane is canon.",
+        "MizuEna is canon.",
+        "Won won!?",
+        "WONDERHOY!",
+        "Lovely, Fairy, Momoi Airi!",
+        "恋をして",
+        "Meet SEKAI Stories's cousin, SIFAS Dialogue Sandbox!",
+        "It's pronounced as 'DEKO-NINA'.",
+        "Untitled.",
     ],
     zh: [
         "宁宁在玩乌蒙地插，铺面是系ぎて",
@@ -81,42 +84,42 @@ const randomText = {
         "我绘我名",
     ],
     zhTW: [
-        // "寧寧在打mai，鋪面是系ぎて",
-        // "類帶著他的Thinkpad筆電",
-        // "怪人一二的司君又雙叒叕在神高走廊大笑了",
-        // '笑夢醬打破了第四面牆，對著你說：“旺大吼！！！”',
-        // "一歌依然是第一Miku推",
-        // "Saki醬發燒了",
-        // "有一個人帶著超多的蘋果派走了，會是誰呢？好難猜啊",
-        // "Shiho又和蕾歐妮的幾人吵架了，想組建一個新樂隊",
-        // "szk在十字路口迷路了！豆腐人們快扣1幫她找到路吧！x",
-        // "在平行宇宙裡，實乃理是ASRUN的人",
-        // "辛苦了前人",
-        // "愛莉失去了偶像工作",
-        // "setsuna已經被叫成knd1888次了",
-        // "mzk已經離她家18公里遠了，據說ena在追",
-        // "Mafuyu嚇唬Emu，讓她停止打破第四堵牆",
-        // "東雲姐弟打起來了！",
-        // "誒那姐：杜絕AI繪圖從你我做起",
-        // "toya和tks在看舞臺劇",
-        // "心羽被她的寵物蛇咬傷了",
-        // "an早上起床就開始練習英語，讓我們為她的好學點贊（）",
-        // "初音未來的消失 - 高難度譜面",
-        // "你能聽到tks的叫聲嗎？",
-        // "攜帶戀話",
-        // "你知道嗎？簡體中文漢化者SteveLF是個25推",
-        // "只有莫妮卡。",
-        // "如果初音未來突然出現在我的螢幕上怎麼辦？",
-        // "我是雨！",
-        // "我們贏了嗎？",
-        // "旺大吼！！",
-        // "L！O！V！E！MINORI！",
-        // "戀をして",
-        // "來看看作者的偶像夢幻祭劇情生成器吧！",
-        // "無題.",
-        // "我繪我名",
+        "寧寧在打mai，鋪面是系ぎて",
+        "類帶著他的Thinkpad筆電",
+        "怪人一二的司君又雙叒叕在神高走廊大笑了",
+        "笑夢醬打破了第四面牆，對著你說：“旺大吼！！！”",
+        "一歌依然是第一Miku推",
+        "Saki醬發燒了",
+        "有一個人帶著超多的蘋果派走了，會是誰呢？好難猜啊",
+        "Shiho又和蕾歐妮的幾人吵架了，想組建一個新樂隊",
+        "szk在十字路口迷路了！豆腐人們快扣1幫她找到路吧！x",
+        "在平行宇宙裡，實乃理是ASRUN的人",
+        "辛苦了前人",
+        "愛莉失去了偶像工作",
+        "setsuna已經被叫成knd1888次了",
+        "mzk已經離她家18公里遠了，據說ena在追",
+        "Mafuyu嚇唬Emu，讓她停止打破第四堵牆",
+        "東雲姐弟打起來了！",
+        "誒那姐：杜絕AI繪圖從你我做起",
+        "toya和tks在看舞臺劇",
+        "心羽被她的寵物蛇咬傷了",
+        "an早上起床就開始練習英語，讓我們為她的好學點贊（）",
+        "初音未來的消失 - 高難度譜面",
+        "你能聽到tks的叫聲嗎？",
+        "攜帶戀話",
+        "你知道嗎？簡體中文漢化者SteveLF是個25推",
+        "只有莫妮卡。",
+        "如果初音未來突然出現在我的螢幕上怎麼辦？",
+        "我是雨！",
+        "我們贏了嗎？",
+        "旺大吼！！",
+        "L！O！V！E！MINORI！",
+        "戀をして",
+        "來看看作者的偶像夢幻祭劇情生成器吧！",
+        "無題.",
+        "我繪我名",
         "你能聽到那令人不安的鐘聲嗎？",
-    ]
+    ],
 };
 
 const FlavorText: React.FC = () => {
@@ -124,29 +127,22 @@ const FlavorText: React.FC = () => {
     const { i18n } = useTranslation();
     const lng = i18n.language as keyof typeof randomText;
     const daysLeft = Math.ceil(
-        (new Date("October 11, 2025 22:00:00 UTC").getTime() -
+        (new Date("November 30, 2025 22:00:00 UTC").getTime() -
             new Date().getTime()) /
             (1000 * 60 * 60 * 24)
-    );
-    
+    ); // <---- ena5
+
     const quote =
         daysLeft < 0
-            ? "...gomen..."
-            : `${daysLeft} ${daysLeft === 1 ? "day remains" : "days remain"}.`;
+            ? "Thank you, Mizuki~"
+            : `About ${daysLeft} ${
+                  daysLeft === 1 ? "day remains" : "days remain"
+              }.`;
     randomText.en.push(quote);
-
-    randomText.zh.push(
-        daysLeft < 0?`尚余 ${daysLeft} 天...`:`...抱歉...`
-    );
-    randomText.zhTW.push(
-        daysLeft < 0?`尚餘 ${daysLeft} 天...`:`...抱歉...`
-    );
-    
-
 
     useEffect(() => {
         const languageRandomText = randomText[lng]
-            ? [...randomText.en, ...randomText[lng]]
+            ? [...randomText[lng]]
             : randomText.en;
         setText(
             languageRandomText[
