@@ -40,7 +40,7 @@ const Dialogue: React.FC<DialogueProps> = ({
     const { text, setText } = scene;
     const [showFontSizeInput, setShowFontSizeInput] = useState<boolean>(false);
 
-    if (!text) return t("please-wait");
+    if (!text) return <p>{t("please-wait")}</p>;
 
     const handleDialogueBoxVisible = (
         event: React.ChangeEvent<HTMLInputElement>

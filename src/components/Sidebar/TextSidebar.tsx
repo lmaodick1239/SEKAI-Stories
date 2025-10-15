@@ -29,7 +29,7 @@ const TextSidebar: React.FC = () => {
     const { text, sceneText } = scene;
     const { openTextOption, setOpenTextOption } = settings;
 
-    if (!text || !sceneText) return t("please-wait");
+    if (!text || !sceneText) return <p>{t("please-wait")}</p>;
 
     return (
         <div>

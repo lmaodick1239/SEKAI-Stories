@@ -12,7 +12,7 @@ const SceneText: React.FC = () => {
 
     const { text, setText, sceneText, setSceneText, modelWrapper } = scene;
 
-    if (!text || !sceneText) return t("please-wait");
+    if (!text || !sceneText) return <p>{t("please-wait")}</p>;
 
     const handleSceneTextVisible = (
         event: React.ChangeEvent<HTMLInputElement>
