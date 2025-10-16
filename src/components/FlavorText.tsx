@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+/* 
+    For reference of the jokes in English flavor text, scroll below
+*/
+
 const randomText = {
     en: [
         "Can you hear the ominous bells tolling?",
         "Nene is playing maimai. The map is Xaleid◆scopiX.",
-        "Rui with his ThinkPad laptop.",
+        "Rui messaged someone. He didn't get any response.", // Change this after Nov 30, 2025. Original: Rui with his ThinkPad laptop.
         "Tsukasa is laughing in the hallway like a kid again.",
         'Emu breaks the fourth wall, staring at you and says "Wonderhoy!"',
         "Ichika is fangirling over Miku. Again.",
         "Saki. Saki on fire?",
-        "Honami and her thousand apple pies.",
+        "Honami is driving without her driver license.",
         "Shiho is forming a new band with her little Phennies.",
         "Shizuku is giving Shiho some make up.",
         "In a parallel universe, where Minori is the leader of ASRUN.",
         "Haruka becomes the wife of Minori.",
         "Airi lost her fang.",
         "Setsuna has been mistakenly called Kanade for the 1888th time.",
-        "Mizuki is not happy right now.", // Change this after Nov 30, 2025
-        "Mafuyu is just eating.", // Change this after Nov 30, 2025
-        "Ena is looking for Mizuki.", // Change this after Nov 30, 2025
+        "ReferenceError: mizuki is not defined", // Change this after Nov 30, 2025. Original: Mizuki is 18 kilometers away from your house
+        "Mafuyu is just eating some squid.", // Change this after Nov 30, 2025. Original: Mafuyu scares Emu from breaking the fourth wall.
+        "Ena is looking for someone.", // Change this after Nov 30, 2025. Original: Ena throw a large basin on Akito.
         "Ena fights against AI Art.",
         "Toya is enjoying Tsukasa's loud laugh.",
         "Kohane has been bitten by her pet snake.",
@@ -35,13 +39,13 @@ const randomText = {
         "私は雨。(turns into ame-chan)",
         "MinoHaru is canon.",
         "AnHane is canon.",
-        "MizuEna is canon.",
+        // "MizuEna is canon.", // Uncomment after Nov 30, 2025
         "Won won!?",
         "WONDERHOY!",
         "Lovely, Fairy, Momoi Airi!",
         "恋をして",
         "Meet SEKAI Stories's cousin, SIFAS Dialogue Sandbox!",
-        "It's pronounced as 'DEKO-NINA'.",
+        "It's pronounced 'DEKO-NINA'.",
         "Untitled.",
     ],
     zh: [
@@ -135,7 +139,6 @@ const FlavorText: React.FC = () => {
             new Date().getTime()) /
             (1000 * 60 * 60 * 24)
     ); // <---- ena5
-
     const quote =
         daysLeft < 0
             ? "Thank you, Mizuki~"
@@ -158,7 +161,7 @@ const FlavorText: React.FC = () => {
     randomText.zhHK.push(...(randomText.zhTW));
     useEffect(() => {
         const languageRandomText = randomText[lng]
-            ? [...randomText[lng]]
+            ? randomText[lng]
             : randomText.en;
         setText(
             languageRandomText[
@@ -170,3 +173,48 @@ const FlavorText: React.FC = () => {
 };
 
 export default FlavorText;
+
+/* 
+    LAST UPDATE: 10/16/2025
+    Will not list the obvious PJSK references.
+    Placed here for people who needs explaination when translating.
+
+    "Can you hear the ominous bells tolling?"
+        -> Mizu5 Joke
+    "Nene is playing maimai. The map is Xaleid◆scopiX."
+        -> maimai is SEGA's arcade game. 
+        -> Xaleid◆scopiX is currently the hardest chart.
+    "Rui with his ThinkPad laptop."
+        -> ThinkPads are usually associated with engineers and programmers.
+        -> can also be a programming socks humor (iykwim)
+    "Saki. Saki on fire?"
+        -> A viral TikTok of someone accidentally burning one of her Saki plush.
+        -> https://www.tiktok.com/@liloubow/video/7464075124753370398
+    "Honami is driving without her driver license."
+        -> A reoccuring joke of someone having a dream of Honami running over Tsukasa with a car.
+    "Setsuna has been mistakenly called Kanade for the 1888th time."
+        -> Setsuna is a character from O.N.G.E.K.I., a SEGA Arcade Game.
+        -> She's is the character on the Don't Fight The Music's jacket.
+        -> People mistakenly thought it was Kanade on the said jacket.
+        -> 1888 is the maximum Master combo on the said chart.
+    "Listening to / / // / /"
+        -> x0o0x's song about Kisaragi Station
+    "Do not overdose yourself with shipping~"
+        -> Needy Streamer Overload reference.
+    "Please take only the recommended shipping dosage."
+        -> Needy Streamer Overload reference.
+    "Just Monika."
+        -> Doki Doki Literature Club reference
+    "私は雨。(turns into ame-chan)"
+        -> (watashi wa ame)
+        -> Needy Streamer Overload reference.
+    "恋をして"
+        -> (koi o shite)
+        -> "Song of a Eared Robot"
+        -> "Machine Love"
+    "Meet SEKAI Stories's cousin SIFAS Dialogue Sandbox!"
+        -> lezzthanthree's Love Live! SIFAS Story Generator
+    "It's pronounced 'DEKO-NINA'."
+        -> DECO*27
+
+*/

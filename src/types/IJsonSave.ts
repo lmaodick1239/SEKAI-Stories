@@ -1,3 +1,5 @@
+import { ILighting } from "./ILighting";
+
 export interface IJsonSave {
     lastModified: string;
     background: string;
@@ -5,6 +7,7 @@ export interface IJsonSave {
         first: string;
         second: string;
     };
+    lighting: ILighting;
     text: {
         nameTag: string;
         dialogue: string;

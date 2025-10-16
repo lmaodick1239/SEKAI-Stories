@@ -14,12 +14,14 @@ import { SettingsContext } from "../contexts/SettingsContext";
 import { SoftErrorContext } from "../contexts/SoftErrorContext";
 import { loadModel } from "../utils/LoadModel";
 import * as PIXI from "pixi.js";
+import { AdjustmentFilter } from "pixi-filters";
 
 const ExportButton: React.FC = () => {
     const [loadingMsg, setLoadingMsg] = useState<string>("");
     const scene = useContext(SceneContext);
     const settings = useContext(SettingsContext);
     const softError = useContext(SoftErrorContext);
+    const [validModelCount, setValidModelCount] = useState<number>(0);
 
     const { t } = useTranslation();
 
@@ -30,6 +32,7 @@ const ExportButton: React.FC = () => {
     const {
         background,
         splitBackground,
+        lighting,
         text,
         models,
         modelWrapper,
@@ -37,6 +40,7 @@ const ExportButton: React.FC = () => {
         sceneJson,
         setBackground,
         setSplitBackground,
+        setLighting,
         setText,
         setModels,
         setLayers,
@@ -64,6 +68,15 @@ const ExportButton: React.FC = () => {
             first: splitBackground.first.filename,
             second: splitBackground.second.filename,
         };
+        const currentLighting = lighting
+            ? lighting
+            : {
+                  red: 1,
+                  green: 1,
+                  blue: 1,
+                  brightness: 1,
+                  saturation: 1,
+              };
         const currentText = {
             nameTag: text?.nameTagString,
             dialogue: text?.dialogueString,
@@ -71,7 +84,8 @@ const ExportButton: React.FC = () => {
         const currentModels = Object.values(models)
             .map((model) => {
                 if (model.from === "upload") return undefined;
-                if (model.character === "none") return undefined;
+                if (model.character === "none" || model.character === "custom")
+                    return undefined;
                 if (model.character === "blank")
                     return {
                         from: "/ / // / /",
@@ -105,16 +119,18 @@ const ExportButton: React.FC = () => {
                 };
             })
             .filter((model) => model !== undefined);
+        setValidModelCount(currentModels.length);
 
         setSceneJson({
             lastModified: modifiedDateStamp,
             background: currentBackground,
             splitBackground: currentSplitBackground,
+            lighting: currentLighting,
             text: currentText,
             models: currentModels,
         });
         setAllowRefresh(false);
-    }, [background, splitBackground, text, models]);
+    }, [background, splitBackground, text, models, lighting]);
 
     useEffect(() => {
         jsonRef.current = sceneJson;
@@ -151,6 +167,16 @@ const ExportButton: React.FC = () => {
                 "Error from background. Could be that the background does not exist."
             );
         }
+
+        const lightingData = data.lighting
+            ? data.lighting
+            : {
+                  red: 1,
+                  green: 1,
+                  blue: 1,
+                  brightness: 1,
+                  saturation: 1,
+              };
 
         setLoading(20);
         setLoadingMsg("Fetching text...");
@@ -288,6 +314,36 @@ const ExportButton: React.FC = () => {
             });
         }
 
+        if (lighting) {
+            if (!modelWrapper?.filters) return;
+            const lightingFilter = modelWrapper?.filters[0] as AdjustmentFilter;
+            Object.entries(lightingData).forEach(([key, value]) => {
+                switch (key) {
+                    case "red":
+                        lightingFilter.red = value;
+                        break;
+                    case "green":
+                        lightingFilter.green = value;
+                        break;
+                    case "blue":
+                        lightingFilter.blue = value;
+                        break;
+                    case "brightness":
+                        lightingFilter.brightness = value;
+                        break;
+                    case "saturation":
+                        lightingFilter.saturation = value;
+                        break;
+                    default:
+                        break;
+                }
+            });
+            const newLighting = {
+                ...lightingData,
+            };
+            setLighting(newLighting);
+        }
+
         if (text && text.nameTag && text.dialogue) {
             text.nameTag.text = textNameTag;
             text.nameTag.updateText(true);
@@ -308,6 +364,10 @@ const ExportButton: React.FC = () => {
     };
 
     const handleExport = () => {
+        if (validModelCount <= 0) {
+            setErrorInformation(t("error.no-valid-models"));
+            return;
+        }
         const jsonString = JSON.stringify(sceneJson, null, 2);
         const blob = new Blob([jsonString], {
             type: "application/json",

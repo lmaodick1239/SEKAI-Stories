@@ -1,5 +1,11 @@
+# 5.8.8
+Release date: October 16, 2o25
+- FIxed the unknown error when starting the application
+  - This was caused by Chrome's auto-translation feature.
+- Added edit icons to lightings
+
 # 5.8.7
-Release date: October 18, 2025
+Release date: October 13, 2025
 - Bring back flavor texts
 - Changed countdown to Ena5
 - Fixed settings logic

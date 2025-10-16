@@ -10,7 +10,7 @@ const YOffset: React.FC = () => {
 
     const { text, setText } = scene;
 
-    if (!text) return t("please-wait");
+    if (!text) return <p>{t("please-wait")}</p>;
 
     const handleYOffset = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(event.target.value);

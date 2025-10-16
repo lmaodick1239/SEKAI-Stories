@@ -56,7 +56,7 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
 
     const { setErrorInformation } = softError;
 
-    if (!models || !currentModel) return t("please-wait");
+    if (!models || !currentModel) return <p>{t("please-wait")}</p>;
 
     const handleLayerChange = async (
         event: React.ChangeEvent<HTMLSelectElement>

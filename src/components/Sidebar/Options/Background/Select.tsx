@@ -13,7 +13,8 @@ const Select: React.FC = () => {
 
     const { background, setBackground, splitBackground, setSplitBackground } =
         scene;
-    if (!background || !background.backgroundContainer) return t("please-wait");
+    if (!background || !background.backgroundContainer)
+        return <p>{t("please-wait")}</p>;
     const handleUploadImage = async (file: File) => {
         const imgSrc = URL.createObjectURL(file);
         const backgroundImage = await getBackground(imgSrc).catch();

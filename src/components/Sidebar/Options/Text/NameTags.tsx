@@ -17,14 +17,17 @@ const NameTags: React.FC<NameTagsProps> = ({
 }) => {
     const { t, i18n } = useTranslation();
 
-    const easyNameTagPlaceholders = useMemo(()=>[
-        t("character.miku"),
-        t("character.rin"),
-        t("character.len"),
-        t("character.luka"),
-        t("character.meiko"),
-        t("character.kaito"),
-    ], [i18n.language]);
+    const easyNameTagPlaceholders = useMemo(
+        () => [
+            t("character.miku"),
+            t("character.rin"),
+            t("character.len"),
+            t("character.luka"),
+            t("character.meiko"),
+            t("character.kaito"),
+        ],
+        [i18n.language]
+    );
 
     const scene = useContext(SceneContext);
     const settings = useContext(SettingsContext);
@@ -42,7 +45,7 @@ const NameTags: React.FC<NameTagsProps> = ({
     } = settings;
     const { setErrorInformation } = error;
 
-    if (!text) return t("please-wait");
+    if (!text) return <p>{t("please-wait")}</p>;
 
     const handleNameTagChange = async (changedNameTag: string) => {
         text.nameTag.text = changedNameTag;

@@ -347,10 +347,10 @@ const Tutorial: React.FC<TutorialProps> = ({ show }) => {
                             </h3>
                             <p>{t("tutorial.addModelParagraph")}</p>
                             <h3>
-                                <i className="bi bi-upload" />{" "}
-                                {t("tutorial.uploadSpriteHeader")}
+                                <i className="bi bi-eye" />{" "}
+                                {t("tutorial.hideLayerHeader")}
                             </h3>
-                            <p>{t("tutorial.uploadSpriteParagraph")}</p>
+                            <p>{t("tutorial.hideLayerParagraph")}</p>
                             <h3>
                                 <i className="bi bi-x-circle" />{" "}
                                 {t("tutorial.removeLayerHeader")}
