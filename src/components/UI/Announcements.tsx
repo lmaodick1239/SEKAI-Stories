@@ -10,23 +10,36 @@ const Announcements: React.FC = () => {
 
     const handleAnnouncements = () => {
         setHideAnnouncements(true);
-        const cookie = localStorage.getItem("5.8.4-announcements");
+        const cookie = localStorage.getItem("5.8.8-announcements");
         if (!cookie) {
-            localStorage.setItem("5.8.4-announcements", "0");
+            localStorage.setItem("5.8.8-announcements", "0");
             return;
         }
-        localStorage.setItem("5.8.4-announcements", `${Number(cookie) + 1}`);
+        localStorage.setItem("5.8.8-announcements", `${Number(cookie) + 1}`);
     };
 
     return (
         <div id="announcements" onClick={handleAnnouncements}>
             <h2>Notice</h2>
-            <p>oooo, spooky month</p>
             <p>
-                Blank canvas is enabled by default. There are new random default
-                scenes you can get this October～
+                The unexpected bug that caused the application to crash has just
+                been fixed.
             </p>
-            <p>You can disable this option on Settings.</p>
+            <p>
+                The issue was caused by the auto-translate feature in Chrome or other
+                browser.
+            </p>
+            <p>
+                For more details, you can view this{" "}
+                <a
+                    href="https://github.com/lezzthanthree/SEKAI-Stories/issues/25"
+                    target="_blank"
+                >
+                    GitHub issue
+                </a>
+                .
+            </p>
+
             <p>Tap this section to close.</p>
         </div>
     );

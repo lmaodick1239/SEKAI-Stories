@@ -151,14 +151,10 @@ const ModelSidebar: React.FC = () => {
 
             if (signal.aborted) throw new Error("Operation canceled.");
 
-
-            const bounds = live2DModel.getLocalBounds()
+            const bounds = live2DModel.getLocalBounds();
             currentModel.root.removeChildren();
             currentModel.root.addChildAt(live2DModel, 0);
-            currentModel.root.pivot.set(
-                bounds.width / 2,
-                bounds.height / 2
-            );
+            currentModel.root.pivot.set(bounds.width / 2, bounds.height / 2);
             currentModel.root.scale.set(
                 initialState ? 0.5 : currentModel?.modelScale
             );
@@ -175,7 +171,7 @@ const ModelSidebar: React.FC = () => {
         [currentModel, currentKey, modelWrapper]
     );
 
-    if (!models) return t("please-wait");
+    if (!models) return <p>{t("please-wait")}</p>;
 
     const updateModelState = (updates: Partial<IModel>) => {
         setModels((prevModels) => ({

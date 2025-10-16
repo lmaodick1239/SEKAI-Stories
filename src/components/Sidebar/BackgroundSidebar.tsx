@@ -15,7 +15,8 @@ const BackgroundSidebar: React.FC = () => {
 
     const { background } = scene;
 
-    if (!background || !background.backgroundContainer) return t("please-wait");
+    if (!background || !background.backgroundContainer)
+        return <p>{t("please-wait")}</p>;
 
     return (
         <div>
