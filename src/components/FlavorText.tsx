@@ -90,7 +90,7 @@ const randomText = {
     zhTW: [
         "寧寧在打maimai，鋪面是Xaleid◆scopiX",
         "你能聽到那個不祥的鐘聲嗎？",
-        "類帶著他的Thinkpad筆電",
+        "神代類給某人發送了一個信息。 他並沒有得到回覆。",// 類帶著他的Thinkpad筆電
         "司君像個孩子般又在神高走廊大笑了",
         "笑夢醬打破了第四面牆，對著你說：“旺大吼！！！”",
         "一歌依然是第一Miku推",
@@ -103,8 +103,9 @@ const randomText = {
         "愛莉掉了她的牙齒",
         "setsuna已經被叫成kanade1888次了",
         "瑞希看起來毫無精神呢。", // Change this after Nov 30, 2025
-        "真冬只顧著吃東西。", // Change this after Nov 30, 2025
-        "繪名在找瑞希。", // Change this after Nov 30, 2025
+        "ReferenceError: mizuki 未下定義", // Change this after Nov 30, 2025. Original: 瑞希離你家18公里遠了
+        "真冬只顧著吃魷魚。", // Change this after Nov 30, 2025
+        "繪名在找某人。", // Change this after Nov 30, 2025
         "ena姐：杜絕AIGC從你我做起",
         "toya和tks在看舞台劇",
         "心羽被她的寵物蛇咬傷了",
@@ -124,7 +125,8 @@ const randomText = {
         "無題.",
         "我繪我名",
         "是唸「デコ　ニナ」啦！",
-        "拜託，瑞希是個明顯不是男的，好嗎？", // #SHEHERFORMIZUKI related, remove if needed
+        // "瑞繪99", // Uncomment after Nov 30, 2025
+        // "瑞希就是跨女！可愛就是正義！", // #SHEHERFORMIZUKI related, remove if needed
     ],
 	
 	zhHK:[] as string[],
