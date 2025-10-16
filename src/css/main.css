@@ -867,15 +867,19 @@ select:disabled {
   }
 }
 
-#announcements > p,
-#announcements > h2,
-#announcements > ul {
+#announcements p,
+#announcements h2,
+#announcements ul {
   color: #ffffff;
 }
 
-#announcements > p > a {
+#announcements a {
   color: #77eedd;
   font-weight: 800;
+}
+
+#announcements p {
+  padding-top: 0.5em;
 }
 
 @media (width <= 768px) {

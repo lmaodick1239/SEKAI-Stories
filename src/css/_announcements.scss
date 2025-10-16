@@ -11,13 +11,17 @@
     }
 }
 
-#announcements > p,
-#announcements > h2,
-#announcements > ul {
+#announcements p,
+#announcements h2,
+#announcements ul {
     color: $white;
 }
 
-#announcements > p > a {
+#announcements a {
     color: $light-miku;
     font-weight: 800;
+}
+
+#announcements p {
+    padding-top: 0.5em;
 }
