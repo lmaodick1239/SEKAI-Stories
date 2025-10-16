@@ -21,6 +21,7 @@ const ExportButton: React.FC = () => {
     const scene = useContext(SceneContext);
     const settings = useContext(SettingsContext);
     const softError = useContext(SoftErrorContext);
+    const [validModelCount, setValidModelCount] = useState<number>(0);
 
     const { t } = useTranslation();
 
@@ -363,6 +364,10 @@ const ExportButton: React.FC = () => {
     };
 
     const handleExport = () => {
+        if (validModelCount <= 0) {
+            setErrorInformation(t("error.no-valid-models"));
+            return;
+        }
         const jsonString = JSON.stringify(sceneJson, null, 2);
         const blob = new Blob([jsonString], {
             type: "application/json",

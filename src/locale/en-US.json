@@ -282,6 +282,7 @@
         "import-scene-fail": "The canvas has been reset.",
         "invalid-json": "Invalid JSON format",
         "no-autosave": "No auto-save data found.",
+        "no-valid-models": "Add a new Live2D character model first.",
         "not-an-image": "This is not an image.",
         "default-scene-fail": "An error has occurred while loading the default scene.\nPlease use the clear button, refresh your browser, or clear your cookies.\nIf the problem persists, please report this bug on GitHub.",
         "name-tag-inputs-limit": "The limit is 2 to 6 inputs for name tag.",
