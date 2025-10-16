@@ -3,6 +3,7 @@ import { SceneContext } from "../../../../contexts/SceneContext";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "../../../UI/Checkbox";
 import InputWindow from "../../../UI/InputWindow";
+import { SoftErrorContext } from "../../../../contexts/SoftErrorContext";
 
 const symbols = {
     star: "☆",
@@ -36,8 +37,10 @@ const Dialogue: React.FC<DialogueProps> = ({
     const { t } = useTranslation();
 
     const scene = useContext(SceneContext);
-    if (!scene) throw new Error("Context not loaded");
+    const error = useContext(SoftErrorContext);
+    if (!scene || !error) throw new Error("Context not loaded");
     const { text, setText } = scene;
+    const { setErrorInformation } = error;
     const [showFontSizeInput, setShowFontSizeInput] = useState<boolean>(false);
 
     if (!text) return <p>{t("please-wait")}</p>;
@@ -70,7 +73,7 @@ const Dialogue: React.FC<DialogueProps> = ({
             !bell
         ) {
             window.open("https://ominous-bells.vercel.app/");
-            alert("Let Mizuki rest.");
+            setErrorInformation("Let Mizuki rest. She's happy now.");
             setBell(true);
         }
 
