@@ -88,42 +88,48 @@ const randomText = {
         "我绘我名",
     ],
     zhTW: [
-        "寧寧在打mai，鋪面是系ぎて",
-        "類帶著他的Thinkpad筆電",
-        "怪人一二的司君又雙叒叕在神高走廊大笑了",
+        "寧寧在打maimai，鋪面是Xaleid◆scopiX",
+        "你能聽到那個不祥的鐘聲嗎？",
+        "神代類給某人發送了一個信息。 他並沒有得到回覆。",// 類帶著他的Thinkpad筆電
+        "司君像個孩子般又在神高走廊大笑了",
         "笑夢醬打破了第四面牆，對著你說：“旺大吼！！！”",
         "一歌依然是第一Miku推",
-        "Saki醬發燒了",
+        "Saki.Saki着火了？",
         "有一個人帶著超多的蘋果派走了，會是誰呢？好難猜啊",
-        "Shiho又和蕾歐妮的幾人吵架了，想組建一個新樂隊",
+        "Shiho想和她的范尼們組建一個新樂隊",
         "szk在十字路口迷路了！豆腐人們快扣1幫她找到路吧！x",
         "在平行宇宙裡，實乃理是ASRUN的人",
-        "辛苦了前人",
-        "愛莉失去了偶像工作",
-        "setsuna已經被叫成knd1888次了",
-        "mzk已經離她家18公里遠了，據說ena在追",
-        "Mafuyu嚇唬Emu，讓她停止打破第四堵牆",
-        "東雲姐弟打起來了！",
-        "誒那姐：杜絕AI繪圖從你我做起",
-        "toya和tks在看舞臺劇",
+        "遥成了實乃理的妻子",
+        "愛莉掉了她的牙齒",
+        "setsuna已經被叫成kanade1888次了",
+        "瑞希看起來毫無精神呢。", // Change this after Nov 30, 2025
+        "ReferenceError: mizuki 未下定義", // Change this after Nov 30, 2025. Original: 瑞希離你家18公里遠了
+        "真冬只顧著吃魷魚。", // Change this after Nov 30, 2025
+        "繪名在找某人。", // Change this after Nov 30, 2025
+        "ena姐：杜絕AIGC從你我做起",
+        "toya和tks在看舞台劇",
         "心羽被她的寵物蛇咬傷了",
-        "an早上起床就開始練習英語，讓我們為她的好學點贊（）",
-        "初音未來的消失 - 高難度譜面",
-        "你能聽到tks的叫聲嗎？",
-        "攜帶戀話",
-        "你知道嗎？簡體中文漢化者SteveLF是個25推",
+        "an早上起床就開始練習英語，讓我們為她的好學點讚（）",
+        "彰人在想為什麼繪名現在看起來很難過。", // Change this after Nov 30, 2025
+        "絕對電影。",
+        "初音未來的消失",
+        "聽著 / / // / /",
         "只有莫妮卡。",
-        "如果初音未來突然出現在我的螢幕上怎麼辦？",
-        "我是雨！",
-        "我們贏了嗎？",
+        "如果無法歌唱的初音突然出現在我的屏幕上怎麼辦？",
+        "私は雨。(變成糖糖了)",
+        "WON WON!?",
         "旺大吼！！",
-        "L！O！V！E！MINORI！",
+        "L！O！V！E！mnr！",
         "戀をして",
         "來看看作者的偶像夢幻祭劇情生成器吧！",
         "無題.",
         "我繪我名",
-        "你能聽到那令人不安的鐘聲嗎？",
+        "是唸「デコ　ニナ」啦！",
+        // "瑞繪99", // Uncomment after Nov 30, 2025
+        // "瑞希就是跨女！可愛就是正義！", // #SHEHERFORMIZUKI related, remove if needed
     ],
+	
+	zhHK:[] as string[],
 };
 
 const FlavorText: React.FC = () => {
@@ -142,7 +148,19 @@ const FlavorText: React.FC = () => {
                   daysLeft === 1 ? "day remains" : "days remain"
               }.`;
     randomText.en.push(quote);
+	
+    const quote_zh =
+        daysLeft < 0
+            ? "我們在一起吧，瑞希"
+            : `还有大约${daysLeft}天。`;
 
+    const quote_zhTW =
+        daysLeft < 0
+            ? "我們在一起吧，瑞希"
+            : `還有大約${daysLeft}天。`;
+    randomText.zh.push(quote_zh);
+    randomText.zhTW.push(quote_zhTW);
+    randomText.zhHK.push(...(randomText.zhTW));
     useEffect(() => {
         const languageRandomText = randomText[lng]
             ? randomText[lng]
