@@ -53,7 +53,7 @@ const SettingsButton: React.FC = () => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "autoSave.json";
+        a.download = "autoSave.sekaiscene";
         a.click();
         a.remove();
     };
