@@ -19,7 +19,7 @@
         "off": "Patay na ilaw",
         "bright": "Maliwanag",
         "silhoutte": "Silweta",
-        "custom-preset":"Kustom na Preset",
+        "custom-preset": "Kustom na Preset",
         "upload-info": "Upang masigurong tama ang hitsura ng larawan, gumamit ng larawang may 16:9 na laki.",
         "split-location": "Split Location",
         "filters": "Mga Filter",
@@ -125,6 +125,7 @@
     "continue-ok": "Ipagpatuloy",
     "next": "Sunod",
     "input": "Input",
+    "adjust": "I-adjust",
     "enter-value": "Maglagay ng value",
 
     "support": {
@@ -239,11 +240,12 @@
         "modelMenuHeader": "Modelo & Sprites Menu",
         "selectedLayerHeader": "Napiling Layer",
         "selectedLayerParagraph": "Makikita rito ang lahat ng modelong nasa gawa mo. Puwede mo silang piliin at baguhin.",
-
         "addModelHeader": "Bagong Modelo",
         "addModelParagraph": "Magdagdag ng bagong Live2D na karakter.",
         "uploadSpriteHeader": "Mag-upload ng PNG Sprite",
         "uploadSpriteParagraph": "Mag-upload ng sarili mong PNG sprite gamit ang button.",
+        "hideLayerHeader": "Ipakita",
+        "hideLayerParagraph": "I-toggle kung makikita o hindi ang layer.",
         "removeLayerHeader": "Tanggalin ang Layer",
         "removeLayerParagraph": "Tatanggalin ang napiling layer.",
         "transformHeader": "Pagbago",
@@ -282,6 +284,7 @@
         "import-scene-fail": "The canvas has been reset.",
         "invalid-json": "Invalid JSON format",
         "no-autosave": "Walang auto-save data ang nakita.",
+        "no-valid-models": "Maglagay muna ng isang Live2D Model.",
         "not-an-image": "Hindi ito image.",
         "default-scene-fail": "Nagkaroon ng error habang inaayos ang default scene.\nPaki click ang clear button, i-refresh ang browser, o i-clear ang cookies.\nKung ang problema ay hindi naresolba, paki-report ito sa GitHub..",
         "name-tag-inputs-limit": "Ang limit ay 2 to 6 na pangalan.",
