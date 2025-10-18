@@ -251,7 +251,8 @@ const Live2D: React.FC<Live2DProps> = ({
         <>
             <h3>{t("model.parameters")}</h3>
             {window.matchMedia &&
-                window.matchMedia("(pointer: fine)").matches && (
+                window.matchMedia("(pointer: fine)").matches &&
+                selectedParameter.idx === -1 && (
                     <div>
                         <p>{t("model.live2d-tooltip")}</p>
                     </div>
