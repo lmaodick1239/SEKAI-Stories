@@ -90,6 +90,9 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
             setFunction(`/background_compressed/${bg}.jpg`);
 
             setFilterValue("all");
+            if (bg.includes("bg_s000362")) {
+                setErrorInformation("Give her a break. She's happy now.");
+            }
         } catch (error) {
             setErrorInformation(String(error));
             console.error(error);
