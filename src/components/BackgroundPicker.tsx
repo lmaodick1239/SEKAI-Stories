@@ -17,6 +17,7 @@ import { IBackgroundBookmark } from "../types/IBackgroundBookmark";
 // import { fuzzy } from "fast-fuzzy";
 
 interface IBackgroundList {
+    update: string;
     background: {
         [key: string]: string[];
     };
@@ -134,11 +135,7 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
                 key={type}
             >
                 <div className="width-100 center text-center">
-                    <h1 className="white">
-                        {background?.filename.includes("Kisaragi")
-                            ? ""
-                            : t(`group.${type}`)}
-                    </h1>
+                    <h1 className="white">{t(`group.${type}`)}</h1>
                 </div>
                 <div className="flex-wrap center width-100">
                     {type === "bookmarks"
@@ -167,11 +164,7 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
                                           ? "picker-item-selected"
                                           : ""
                                   }`}
-                                  src={
-                                      background?.filename.includes("Kisaragi")
-                                          ? `/img/transparent.png`
-                                          : `/background_low_jpg/${bg}.jpg`
-                                  }
+                                  src={`/background_low_jpg/${bg}.jpg`}
                                   onClick={async () => {
                                       handleChangeBackground(bg);
                                       setShow(false);
@@ -205,17 +198,15 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
                         }}
                         value={filterValue}
                     >
-                        <option value="all">
-                            {background?.filename.includes("Kisaragi")
-                                ? ""
-                                : t("group.all")}
-                        </option>
+                        <option value="all">{t("group.all")}</option>
                         {Object.keys(backgroundList.background).map((type) => {
                             return (
                                 <option key={type} value={type}>
-                                    {background?.filename.includes("Kisaragi")
-                                        ? ""
-                                        : t(`group.${type}`)}
+                                    {`${t(`group.${type}`)} ${
+                                        type === "cards"
+                                            ? `(${backgroundList.update})`
+                                            : ""
+                                    }`}
                                 </option>
                             );
                         })}
