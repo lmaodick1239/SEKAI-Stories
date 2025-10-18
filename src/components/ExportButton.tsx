@@ -375,7 +375,7 @@ const ExportButton: React.FC = () => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "export.json";
+        a.download = "export.sekaiscene";
         a.click();
         a.remove();
 
@@ -385,7 +385,7 @@ const ExportButton: React.FC = () => {
     const handleImport = async () => {
         const input = document.createElement("input");
         input.type = "file";
-        input.accept = ".json";
+        input.accept = ".json, .sekaiscene";
         input.onchange = (e) => {
             const file = (e.target as HTMLInputElement).files?.[0];
             if (!file) return;
