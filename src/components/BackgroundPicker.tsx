@@ -128,6 +128,7 @@ const BackgroundPicker: React.FC<BackgroundPickerProps> = ({
 
     const renderBackgroundType = (type: string) => {
         if (type === "bookmarks" && backgroundBookmarks.length === 0) return;
+        if (filterValue === "all" && type === "cards") return;
 
         return (
             <div
