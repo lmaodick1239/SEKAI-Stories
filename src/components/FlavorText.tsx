@@ -46,6 +46,7 @@ const randomText = {
         "恋をして",
         "Meet SEKAI Stories's cousin, SIFAS Dialogue Sandbox!",
         "It's pronounced 'DEKO-NINA'.",
+        "saa anyo anyo kocchi oide",
         "Untitled.",
     ],
     zh: [
