@@ -159,6 +159,10 @@ const SelectedLayer: React.FC<SelectedLayerProps> = ({
         const visible = currentModel?.visible;
 
         if (currentModel?.model) {
+            if (currentModel.character == "blank") {
+                setErrorInformation(" ")
+                return
+            };
             currentModel.root.visible = !visible;
         }
         updateModelState({ visible: !visible });

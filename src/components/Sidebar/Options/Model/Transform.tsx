@@ -23,6 +23,9 @@ const Transform: React.FC<TransformProps> = ({ updateModelState }) => {
     const [transformType, setTransformType] = useState<string>("");
 
     if (!currentModel) return;
+    if (currentModel.character == "blank") {
+        return;
+    }
     const handleMoveLayer = async (type: string) => {
         if (!modelWrapper) return;
 
