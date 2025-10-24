@@ -1,3 +1,11 @@
+# 5.8.9
+Release date: October 20, 2025
+- Bring back default scenes
+- Added Chinese (Hong Kong) Translation
+- Removed Live2D Parameter tip when selecting a parameter
+- Changed JSON save extensions from .json to .sekaiscene and .sekai2d
+- Use initial Y-offset setup as primary setup on Y-Offset under Text Menu
+
 # 5.8.8
 Release date: October 16, 2o25
 - FIxed the unknown error when starting the application

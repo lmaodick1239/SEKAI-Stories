@@ -5,7 +5,7 @@
     background-color: #000000cc;
     width: 100dvw;
     padding: 16px;
-
+    z-index: 999;
     @media (width <= 768px) {
         position: sticky;
     }

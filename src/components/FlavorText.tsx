@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 const randomText = {
     en: [
         "Can you hear the ominous bells tolling?",
+        "If you re-read \"Kamiyama High Festival\" story after Mizu5, it'll hit you even hard.",
         "Nene is playing maimai. The map is Xaleid◆scopiX.",
         "Rui messaged someone. He didn't get any response.", // Change this after Nov 30, 2025. Original: Rui with his ThinkPad laptop.
         "Tsukasa is laughing in the hallway like a kid again.",
@@ -46,6 +47,7 @@ const randomText = {
         "恋をして",
         "Meet SEKAI Stories's cousin, SIFAS Dialogue Sandbox!",
         "It's pronounced 'DEKO-NINA'.",
+        "saa anyo anyo kocchi oide",
         "Untitled.",
     ],
     zh: [

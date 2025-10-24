@@ -195,7 +195,7 @@ const Live2D: React.FC<Live2DProps> = ({
     const handleImportLive2DParams = () => {
         const input = document.createElement("input");
         input.type = "file";
-        input.accept = ".json";
+        input.accept = ".json, .sekai2d";
         input.onchange = (e) => {
             const file = (e.target as HTMLInputElement).files?.[0];
             if (!file) return;
@@ -242,7 +242,7 @@ const Live2D: React.FC<Live2DProps> = ({
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `${currentModel?.character ?? "character"}_live2d.json`;
+        a.download = `${currentModel?.character ?? "character"}_live2d.sekai2d`;
         a.click();
         a.remove();
     };
@@ -251,7 +251,8 @@ const Live2D: React.FC<Live2DProps> = ({
         <>
             <h3>{t("model.parameters")}</h3>
             {window.matchMedia &&
-                window.matchMedia("(pointer: fine)").matches && (
+                window.matchMedia("(pointer: fine)").matches &&
+                selectedParameter.idx === -1 && (
                     <div>
                         <p>{t("model.live2d-tooltip")}</p>
                     </div>

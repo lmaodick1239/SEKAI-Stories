@@ -8,7 +8,7 @@ interface SidebarProviderProps {
 export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     children,
 }) => {
-    const month = new Date().getMonth() * -1 + 1;
+    const month = new Date().getMonth() + 1;
     const [openedSidebar, setOpenedSidebar] = useState<string>("text");
     const [hide, setHide] = useState<boolean>(false);
     const [hideAnnouncements, setHideAnnouncements] = useState<boolean>(true);
@@ -30,7 +30,7 @@ export const SettingsProvider: React.FC<SidebarProviderProps> = ({
     const [settingsLoaded, setSettingsLoaded] = useState<boolean>(false);
 
     useEffect(() => {
-        const announcementCookie = localStorage.getItem("5.8.8-announcements");
+        const announcementCookie = localStorage.getItem("5.8.9-announcements");
         if (Number(announcementCookie) < 1) {
             setHideAnnouncements(false);
         }

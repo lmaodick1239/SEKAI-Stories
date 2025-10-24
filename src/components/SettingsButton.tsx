@@ -11,7 +11,7 @@ import packageJson from "../../package.json";
 import Translators from "./Translators";
 
 const SettingsButton: React.FC = () => {
-    const month = new Date().getMonth() * -1 + 1;
+    const month = new Date().getMonth() + 1;
     const [triggerWarning, showTriggerWarning] = useState<boolean>(false);
     const { t, i18n } = useTranslation();
     const lng = i18n.language;
@@ -53,7 +53,7 @@ const SettingsButton: React.FC = () => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "autoSave.json";
+        a.download = "autoSave.sekaiscene";
         a.click();
         a.remove();
     };

@@ -125,6 +125,7 @@
     "cancel": "Cancel",
     "next": "Next",
     "input": "Input",
+    "adjust": "Adjust",
     "enter-value": "Enter a value.",
 
     "support": {
@@ -189,14 +190,15 @@
         "ln": "Leo/need",
         "vs": "VIRTUAL SINGER",
         "split": "Split Locations",
-        "temp": "Others"
+        "temp": "Others",
+        "cards": "Cards"
     },
 
     "settings": {
         "header": "Settings",
         "language": "Language",
         "auto-save": "Auto-save",
-        "auto-save-description": "Your work is automatically saved every 3 minutes. If something goes wrong, you can download the latest backup as a JSON file.",
+        "auto-save-description": "Your work is automatically saved every 3 minutes. If something goes wrong, you can download the latest backup as a SEKAISCENE file.",
         "auto-save-button": "Get last save",
         "toggles": "Toggles",
         "audio": "Enable audio",
@@ -210,7 +212,7 @@
     },
     "import-export": {
         "header": "Import/Export",
-        "description": "Custom backgrounds and sprites are not included in this JSON file.",
+        "description": "Custom backgrounds and sprites are not included in this SEKAISCENE file.",
         "import": "Import",
         "export": "Export"
     },
